@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     uploaders/default/imguruploader.cpp \
     io/ioutils.cpp \
     settings.cpp \
-    uploaders/default/clipboarduploader.cpp
+    uploaders/default/clipboarduploader.cpp \
+    formatter.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -47,7 +48,8 @@ HEADERS  += mainwindow.hpp \
     uploaders/default/imguruploader.hpp \
     io/ioutils.hpp \
     settings.hpp \
-    uploaders/default/clipboarduploader.hpp
+    uploaders/default/clipboarduploader.hpp \
+    formatter.hpp
 
 FORMS    += mainwindow.ui
 

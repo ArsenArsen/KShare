@@ -45,4 +45,6 @@ KShare
 
 *.Debug
 
+vgcore.*
+
 *.Release

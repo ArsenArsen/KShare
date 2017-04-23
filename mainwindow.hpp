@@ -20,10 +20,13 @@ class MainWindow : public QMainWindow
     void on_actionFullscreen_triggered();
     void on_actionArea_triggered();
     void on_uploaderList_clicked(const QModelIndex &);
+    void on_nameScheme_textEdited(const QString &arg1);
 
     public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void setScheme(QString scheme);
 
     private:
     Ui::MainWindow *ui;

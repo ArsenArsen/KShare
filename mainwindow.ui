@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>262</width>
-    <height>239</height>
+    <width>256</width>
+    <height>286</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>241</width>
+      <width>181</width>
       <height>19</height>
      </rect>
     </property>
@@ -42,9 +42,38 @@
      <rect>
       <x>0</x>
       <y>20</y>
-      <width>256</width>
+      <width>251</width>
       <height>192</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="nameScheme">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>230</y>
+      <width>251</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>http://doc.qt.io/qt-5/qdatetime.html#toString</string>
+    </property>
+    <property name="text">
+     <string>Screenshot %(yyyy-MM-dd HH:mm:ss)date</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>210</y>
+      <width>141</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>File name scheme:</string>
     </property>
    </widget>
   </widget>
@@ -53,7 +82,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>262</width>
+     <width>256</width>
      <height>24</height>
     </rect>
    </property>

@@ -3,6 +3,7 @@
 #include "default/imguruploader.hpp"
 #include <QDir>
 #include <QStandardPaths>
+#include <formatter.hpp>
 #include <settings.hpp>
 
 UploaderSingleton::UploaderSingleton()
@@ -40,6 +41,15 @@ void UploaderSingleton::registerUploader(Uploader *uploader)
 
 void UploaderSingleton::upload(QPixmap *pixmap)
 {
+    if (settings::settings().contains("fileFormat"))
+    {
+        QString format = settings::settings().value("fileFormat").toString();
+        if (!format.isEmpty())
+        {
+            pixmap->save(QDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)).absoluteFilePath(formatter::format(format) + ".png"),
+                         "PNG");
+        }
+    }
     uploaders.value(uploader)->doUpload(pixmap);
 }
 

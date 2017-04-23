@@ -10,6 +10,7 @@
 #include <QSystemTrayIcon>
 #include <QTimer>
 #include <QUrl>
+#include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -41,15 +42,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     {
         QListWidgetItem *item = new QListWidgetItem(u->name());
         item->setToolTip(u->description());
-        // ui->uploaderList->setCurrentIndex(ui->uploaderList->model()->index(++i, 0))
         ui->uploaderList->addItem(item);
         if (u->name() == UploaderSingleton::inst().selectedUploader()) item->setSelected(true);
     }
+
+    // Set filename scheme
+    if ((settings::settings().contains("fileFormat")))
+        setScheme(settings::settings().value("fileFormat").toString());
+    else
+        setScheme("Screenshot %(yyyy-MM-dd HH:mm:ss)date");
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::setScheme(QString scheme)
+{
+    ui->nameScheme->setText(scheme);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -90,4 +101,9 @@ void MainWindow::on_uploaderList_clicked(const QModelIndex &)
     {
         UploaderSingleton::inst().set(index.at(0)->text());
     }
+}
+
+void MainWindow::on_nameScheme_textEdited(const QString &arg1)
+{
+    settings::settings().setValue("fileFormat", arg1);
 }
