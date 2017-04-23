@@ -5,8 +5,8 @@
 
 namespace screenshotutil
 {
-QPixmap fullscreen();
-QPixmap window(long wid);
+QPixmap *fullscreen();
+QPixmap *window(long wid);
 void toClipboard(QString value);
 }
 
