@@ -1,0 +1,93 @@
+#include "mainwindow.hpp"
+#include "screenshotter.hpp"
+#include "screenshotutil.hpp"
+#include "ui_mainwindow.h"
+#include <QAction>
+#include <QCloseEvent>
+#include <QCoreApplication>
+#include <QListWidgetItem>
+#include <QMenu>
+#include <QSystemTrayIcon>
+#include <QTimer>
+#include <QUrl>
+#include <uploaders/uploadersingleton.hpp>
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    setWindowIcon(QIcon(":/icons/icon.jpg"));
+    tray = new QSystemTrayIcon(windowIcon(), this);
+    tray->setToolTip("KShare");
+    tray->setVisible(true);
+    QMenu *menu = new QMenu(this);
+    QAction *quit = new QAction("Quit", this);
+    QAction *shtoggle = new QAction("Show/Hide", this);
+    QAction *fullscreen = new QAction("Take fullscreen shot", this);
+    QAction *area = new QAction("Take area shot", this);
+    menu->addActions({ quit, shtoggle });
+    menu->addSeparator();
+    menu->addActions({ fullscreen, area });
+    connect(quit, &QAction::triggered, this, &MainWindow::quit);
+    connect(shtoggle, &QAction::triggered, this, &MainWindow::toggleVisible);
+    connect(fullscreen, &QAction::triggered, this, &MainWindow::on_actionFullscreen_triggered);
+    connect(area, &QAction::triggered, this, &MainWindow::on_actionArea_triggered);
+    tray->setContextMenu(menu);
+
+    ui->uploaderList->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->uploaderList->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    // Add items to uploader selection
+    for (Uploader *u : UploaderSingleton::inst().uploaderList())
+    {
+        QListWidgetItem *item = new QListWidgetItem(u->name());
+        item->setToolTip(u->description());
+        // ui->uploaderList->setCurrentIndex(ui->uploaderList->model()->index(++i, 0))
+        ui->uploaderList->addItem(item);
+        if (u->name() == UploaderSingleton::inst().selectedUploader()) item->setSelected(true);
+    }
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    event->ignore();
+    QTimer::singleShot(0, this, &MainWindow::hide);
+}
+
+void MainWindow::quit()
+{
+    QCoreApplication::quit();
+}
+
+void MainWindow::toggleVisible()
+{
+    this->setVisible(!this->isVisible());
+}
+
+void MainWindow::on_actionQuit_triggered()
+{
+    quit();
+}
+
+void MainWindow::on_actionFullscreen_triggered()
+{
+    QTimer::singleShot(0, &screenshotter::fullscreen);
+}
+
+void MainWindow::on_actionArea_triggered()
+{
+    QTimer::singleShot(0, &screenshotter::area);
+}
+
+void MainWindow::on_uploaderList_clicked(const QModelIndex &)
+{
+    QList<QListWidgetItem *> index = ui->uploaderList->selectedItems();
+    if (index.size() == 1)
+    {
+        UploaderSingleton::inst().set(index.at(0)->text());
+    }
+}
