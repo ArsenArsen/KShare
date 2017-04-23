@@ -3,6 +3,13 @@ A [ShareX](https://github.com/ShareX/) clone written in Qt. Should be cross plat
 
 **Note:** Windows users, stick to ShareX.
 
+## Dependencies
+* Qt 5 Widgets
+* Qt 5 GUI
+* Qt 5 Network
+
+Despite the name implying so, this project does not depend on the KDE API at all.
+
 ## Goals
 * Same support for Windows, Linux and Mac (if I ever get testers)
 * Screenshotting:
