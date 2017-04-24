@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     io/ioutils.cpp \
     settings.cpp \
     uploaders/default/clipboarduploader.cpp \
-    formatter.cpp
+    formatter.cpp \
+    uploaders/customuploader.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -49,7 +50,8 @@ HEADERS  += mainwindow.hpp \
     io/ioutils.hpp \
     settings.hpp \
     uploaders/default/clipboarduploader.hpp \
-    formatter.hpp
+    formatter.hpp \
+    uploaders/customuploader.hpp
 
 FORMS    += mainwindow.ui
 

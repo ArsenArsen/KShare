@@ -1,6 +1,8 @@
 #include "uploadersingleton.hpp"
+#include "customuploader.hpp"
 #include "default/clipboarduploader.hpp"
 #include "default/imguruploader.hpp"
+#include <QDebug>
 #include <QDir>
 #include <QStandardPaths>
 #include <formatter.hpp>
@@ -8,15 +10,21 @@
 
 UploaderSingleton::UploaderSingleton()
 {
-    //    QDir
-    //    configDir(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation));
-    //    configDir.mkpath("KShare/uploaders");
-    //    configDir.cd("KShare/uploaders");
-    //    configDir.setNameFilters({"*.uploader"});
-    //    for (QString file : configDir.entryList()) {
-    //        registerUploader(new CustomUploader(file));
-    //    }
-    // TODO
+    QDir configDir(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation));
+    configDir.mkpath("KShare/uploaders");
+    configDir.cd("KShare/uploaders");
+    configDir.setNameFilters({ "*.uploader" });
+    for (QString file : configDir.entryList())
+    {
+        try
+        {
+            registerUploader(new CustomUploader(configDir.absoluteFilePath(file)));
+        }
+        catch (std::runtime_error e)
+        {
+            qWarning() << e.what(); // u wot m8
+        }
+    }
 
     // UPLOADERS
     registerUploader(new ImgurUploader);

@@ -13,10 +13,9 @@ void ImgurUploader::doUpload(QPixmap *pixmap)
     pixmap->save(&buffer, "PNG");
     ioutils::postJson(QUrl("https://api.imgur.com/3/image"),
                       QList<QPair<QString, QString>>()
-                      << QPair<QString, QString>("Content-Type",
-                                                 "application/x-www-form-urlencoded")
+                      << QPair<QString, QString>("Content-Type", "application/x-www-form-urlencoded")
                       << QPair<QString, QString>("Authorization", "Client-ID 8a98f183fc895da"),
-                      byteArray, [](QJsonDocument res) {
+                      byteArray, [](QJsonDocument res, QNetworkReply *) {
                           screenshotutil::toClipboard(res.object()["data"].toObject()["link"].toString());
                       });
 }
