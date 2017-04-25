@@ -4,8 +4,9 @@
 #include "uploader.hpp"
 #include <QMap>
 
-class UploaderSingleton
+class UploaderSingleton : public QObject
 {
+    Q_OBJECT
     public:
     static UploaderSingleton &inst()
     {
@@ -18,6 +19,8 @@ class UploaderSingleton
     void set(QString uploader);
     QString selectedUploader();
     QList<std::runtime_error> errors();
+    signals:
+    void newUploader(Uploader *u);
 
     private:
     UploaderSingleton();

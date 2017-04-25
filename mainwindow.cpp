@@ -38,13 +38,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->uploaderList->setSelectionMode(QAbstractItemView::SingleSelection);
 
     // Add items to uploader selection
-    for (Uploader *u : UploaderSingleton::inst().uploaderList())
-    {
-        QListWidgetItem *item = new QListWidgetItem(u->name());
-        item->setToolTip(u->description());
-        ui->uploaderList->addItem(item);
-        if (u->name() == UploaderSingleton::inst().selectedUploader()) item->setSelected(true);
-    }
+    for (Uploader *u : UploaderSingleton::inst().uploaderList()) newUploader(u);
+    connect(&UploaderSingleton::inst(), &UploaderSingleton::newUploader, this, &MainWindow::newUploader);
 
     // Set filename scheme
     if ((settings::settings().contains("fileFormat")))
@@ -83,6 +78,14 @@ void MainWindow::quit()
 void MainWindow::toggleVisible()
 {
     this->setVisible(!this->isVisible());
+}
+
+void MainWindow::newUploader(Uploader *u)
+{
+    QListWidgetItem *item = new QListWidgetItem(u->name());
+    item->setToolTip(u->description());
+    ui->uploaderList->addItem(item);
+    if (u->name() == UploaderSingleton::inst().selectedUploader()) item->setSelected(true);
 }
 
 void MainWindow::on_actionQuit_triggered()

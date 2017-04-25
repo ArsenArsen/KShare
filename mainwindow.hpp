@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 
+#include <uploaders/uploader.hpp>
+
 namespace Ui
 {
 class MainWindow;
@@ -15,6 +17,7 @@ class MainWindow : public QMainWindow
     private slots:
     void quit();
     void toggleVisible();
+    void newUploader(Uploader *u);
 
     void on_actionQuit_triggered();
     void on_actionFullscreen_triggered();

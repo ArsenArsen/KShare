@@ -8,7 +8,7 @@
 #include <formatter.hpp>
 #include <settings.hpp>
 
-UploaderSingleton::UploaderSingleton()
+UploaderSingleton::UploaderSingleton() : QObject()
 {
     QDir configDir(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation));
     configDir.mkpath("KShare/uploaders");
@@ -46,6 +46,7 @@ UploaderSingleton::UploaderSingleton()
 void UploaderSingleton::registerUploader(Uploader *uploader)
 {
     uploaders.insert(uploader->name(), uploader);
+    emit newUploader(uploader);
 }
 
 void UploaderSingleton::upload(QPixmap *pixmap)
