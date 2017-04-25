@@ -22,7 +22,8 @@ UploaderSingleton::UploaderSingleton()
         }
         catch (std::runtime_error e)
         {
-            qWarning() << e.what(); // u wot m8
+            qWarning() << e.what();
+            errs << e;
         }
     }
 
@@ -78,4 +79,9 @@ void UploaderSingleton::set(QString uploader)
 QString UploaderSingleton::selectedUploader()
 {
     return uploader;
+}
+
+QList<std::runtime_error> UploaderSingleton::errors()
+{
+    return errs;
 }

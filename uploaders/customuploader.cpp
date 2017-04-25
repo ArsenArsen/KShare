@@ -11,6 +11,11 @@
 
 using std::runtime_error;
 
+void error(QString absFilePath, QString err)
+{
+    throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": " + err).toStdString());
+}
+
 CustomUploader::CustomUploader(QString absFilePath)
 {
     types.insert("PNG", "image/png"); // Is a list of supported formats, too
@@ -21,21 +26,21 @@ CustomUploader::CustomUploader(QString absFilePath)
     types.insert("WEBM", "video/mp4");
     // Let's go
     QFile file(absFilePath);
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) error(absFilePath, file.errorString());
     QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
     if (!doc.isObject())
     {
-        throw runtime_error(QString("Invalid file: ").append(absFilePath).toStdString());
+        error(absFilePath, "Root not an object");
     }
     QJsonObject obj = doc.object();
     if (!obj["name"].isString())
-        throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": name is not a string").toStdString());
+        error(absFilePath, "name is not a string");
     else
         uName = obj["name"].toString();
     if (!obj.contains("desc"))
     {
         if (!obj["desc"].isString())
-            throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": desc not a string, or nonexisting").toStdString());
+            /*t*/ error(absFilePath, "desc not a string");
         else
             desc = obj["desc"].toString();
     }
@@ -44,22 +49,20 @@ CustomUploader::CustomUploader(QString absFilePath)
     QJsonValue m = obj["method"];
     if (!m.isUndefined() && !m.isNull())
     {
-        if (!m.isString())
-            throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": method not string").toStdString());
+        if (!m.isString()) error(absFilePath, "method not a string");
         QString toCheck = m.toString().toLower();
         if (toCheck == "post")
             method = HttpMethod::POST;
         else
-            throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": Bad method").toStdString());
+            error(absFilePath, "method invalid");
     }
     QJsonValue url = obj["target"];
     if (!url.isString())
     {
-        throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": target missing").toStdString());
+        error(absFilePath, "target missing");
     }
     QUrl target(url.toString());
-    if (!target.isValid())
-        throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": target not URL").toStdString());
+    if (!target.isValid()) error(absFilePath, "target not URL");
     this->target = target;
     QJsonValue formatValue = obj["format"];
     if (!formatValue.isUndefined() && !formatValue.isNull())
@@ -74,15 +77,15 @@ CustomUploader::CustomUploader(QString absFilePath)
             else if (formatString == "plain")
                 format = RequestFormat::PLAIN;
             else
-                throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": format invalid").toStdString());
+                error(absFilePath, "format invalid");
         }
     }
     else
-        throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": format provided but not string").toStdString());
+        error(absFilePath, "format provided but not string");
     QJsonValue imageValue = obj["imageformat"];
     if (!imageValue.isString())
     {
-        throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": imageformat invalid/missing").toStdString());
+        error(absFilePath, "imageformat not string");
     }
     QString imageFormat = imageValue.toString();
     if (imageFormat == "base64" || QRegExp("base64\\([^+]+\\+[^+]+)").exactMatch(imageFormat)
@@ -91,16 +94,15 @@ CustomUploader::CustomUploader(QString absFilePath)
         this->iFormat = imageFormat;
     }
     else
-        throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": imageformat bad").toStdString());
+        error(absFilePath, "imageformat invalid");
     QJsonValue bodyValue = obj["body"];
     if (format != RequestFormat::PLAIN)
     {
-        if (bodyValue.isUndefined())
-            throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": body unset").toStdString());
+        if (bodyValue.isUndefined()) error(absFilePath, "body not set");
         if (bodyValue.isObject())
             body = bodyValue;
         else
-            throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": body must be object").toStdString());
+            error(absFilePath, "body not object");
     }
     else
     {
@@ -109,13 +111,12 @@ CustomUploader::CustomUploader(QString absFilePath)
             body = bodyValue;
         }
         else
-            throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": body must be string (due to PLAIN)").toStdString());
+            error(absFilePath, "body not string (reason: format: PLAIN)");
     }
     QJsonValue headerVal = obj["headers"];
     if (!(headerVal.isUndefined() || headerVal.isNull()))
     {
-        if (!headerVal.isObject())
-            throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": headers must be object").toStdString());
+        if (!headerVal.isObject()) error(absFilePath, "headers must be object");
         headers = headerVal.toObject();
     }
     else
@@ -126,7 +127,7 @@ CustomUploader::CustomUploader(QString absFilePath)
         returnPathspec = returnPsVal.toString();
     }
     else
-        throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": return invalid").toStdString());
+        error(absFilePath, "return invalid");
 }
 
 QString CustomUploader::name()

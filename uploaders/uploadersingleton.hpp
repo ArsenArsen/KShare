@@ -17,11 +17,13 @@ class UploaderSingleton
     QList<Uploader *> uploaderList();
     void set(QString uploader);
     QString selectedUploader();
+    QList<std::runtime_error> errors();
 
     private:
     UploaderSingleton();
     QMap<QString, Uploader *> uploaders;
     QString uploader = "imgur";
+    QList<std::runtime_error> errs;
 };
 
 #endif // UPLOADERSINGLETON_HPP

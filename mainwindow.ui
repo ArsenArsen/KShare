@@ -79,6 +79,7 @@
    <addaction name="menuFile"/>
    <addaction name="menuScreenshot"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>

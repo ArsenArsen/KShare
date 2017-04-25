@@ -7,9 +7,9 @@
 #include <QCoreApplication>
 #include <QListWidgetItem>
 #include <QMenu>
+#include <QStatusBar>
 #include <QSystemTrayIcon>
 #include <QTimer>
-#include <QUrl>
 #include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
 
@@ -51,6 +51,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         setScheme(settings::settings().value("fileFormat").toString());
     else
         setScheme("Screenshot %(yyyy-MM-dd HH:mm:ss)date");
+
+    auto errors = UploaderSingleton::inst().errors();
+    if (errors.length() == 1)
+        statusBar()->showMessage(errors.at(0).what());
+    else
+        statusBar()->showMessage(QString("Errors visible in console. Count: " + errors.size()));
 }
 
 MainWindow::~MainWindow()
