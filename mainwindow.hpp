@@ -29,11 +29,14 @@ class MainWindow : public QMainWindow
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    QSystemTrayIcon *tray;
     void setScheme(QString scheme);
+
+    static MainWindow *inst();
 
     private:
     Ui::MainWindow *ui;
-    QSystemTrayIcon *tray;
+    static MainWindow *instance;
 
     protected:
     void closeEvent(QCloseEvent *event);

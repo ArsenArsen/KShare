@@ -13,8 +13,11 @@
 #include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
 
+MainWindow *MainWindow::instance;
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
+    instance = this;
     ui->setupUi(this);
     setWindowIcon(QIcon(":/icons/icon.jpg"));
     tray = new QSystemTrayIcon(windowIcon(), this);
@@ -51,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     if (errors.length() == 1)
         statusBar()->showMessage(errors.at(0).what());
     else
-        statusBar()->showMessage(QString("Errors visible in console. Count: " + errors.size()));
+        statusBar()->showMessage(QString("Errors visible in console (if present). Count: " + QString::number(errors.size())));
 }
 
 MainWindow::~MainWindow()
@@ -62,6 +65,11 @@ MainWindow::~MainWindow()
 void MainWindow::setScheme(QString scheme)
 {
     ui->nameScheme->setText(scheme);
+}
+
+MainWindow *MainWindow::inst()
+{
+    return instance;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

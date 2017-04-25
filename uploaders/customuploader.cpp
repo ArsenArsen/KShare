@@ -8,6 +8,7 @@
 #include <QJsonDocument>
 #include <QNetworkReply>
 #include <io/ioutils.hpp>
+#include <notifications.hpp>
 
 using std::runtime_error;
 
@@ -257,6 +258,21 @@ QString parsePathspec(QJsonDocument &response, QString &pathspec)
     return "";
 }
 
+void parseResult(QJsonDocument result, QString returnPathspec, QString name)
+{
+    if (result.isObject())
+    {
+        QString url = parsePathspec(result, returnPathspec);
+        if (!url.isEmpty())
+        {
+            QApplication::clipboard()->setText(url);
+            notifications::notify("KShare Custom Uploader " + name, "Copied upload link to clipboard!");
+        }
+        else
+            notifications::notify("KShare Custom Uploader " + name, "Upload done, but result empty!");
+    }
+}
+
 void CustomUploader::doUpload(QPixmap *pixmap)
 {
     auto h = getHeaders(headers, getFormatString(false), types, this->format);
@@ -329,16 +345,13 @@ void CustomUploader::doUpload(QPixmap *pixmap)
         {
             ioutils::postData(target, h, data, [&](QByteArray result, QNetworkReply *) {
                 QApplication::clipboard()->setText(QString::fromUtf8(result));
+                notifications::notify("KShare Custom Uploader " + name(), "Copied upload result to clipboard!");
             });
         }
         else
         {
-            ioutils::postJson(target, h, data, [&](QJsonDocument result, QNetworkReply *) {
-                if (result.isObject())
-                {
-                    QApplication::clipboard()->setText(parsePathspec(result, returnPathspec));
-                }
-            });
+            ioutils::postJson(target, h, data,
+                              [&](QJsonDocument result, QNetworkReply *) { parseResult(result, returnPathspec, name()); });
         }
         break;
     }
