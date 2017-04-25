@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
+#include <QDoubleSpinBox>
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 
@@ -25,12 +26,15 @@ class MainWindow : public QMainWindow
     void on_uploaderList_clicked(const QModelIndex &);
     void on_nameScheme_textEdited(const QString &arg1);
 
+    void on_delay_valueChanged(double arg1);
+
     public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
     QSystemTrayIcon *tray;
     void setScheme(QString scheme);
+    QDoubleSpinBox *delay();
 
     static MainWindow *inst();
 

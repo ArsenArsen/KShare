@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
+    <width>471</width>
     <height>315</height>
    </rect>
   </property>
@@ -24,25 +24,49 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <widget class="QLabel" name="label">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Uploader selection:</string>
+       <string>Delay before taking a screenshot</string>
       </property>
      </widget>
     </item>
-    <item>
-     <widget class="QListWidget" name="uploaderList"/>
-    </item>
-    <item>
+    <item row="2" column="0">
      <widget class="QLabel" name="label_2">
       <property name="text">
        <string>File name scheme:</string>
       </property>
      </widget>
     </item>
-    <item>
+    <item row="5" column="0">
+     <widget class="QDoubleSpinBox" name="delay">
+      <property name="toolTip">
+       <string>In seconds</string>
+      </property>
+      <property name="whatsThis">
+       <string>A delay before taking a screenshot, in seconds</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Uploader selection:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>s</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QListWidget" name="uploaderList"/>
+    </item>
+    <item row="3" column="0">
      <widget class="QLineEdit" name="nameScheme">
       <property name="toolTip">
        <string>http://doc.qt.io/qt-5/qdatetime.html#toString</string>
@@ -59,7 +83,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>470</width>
+     <width>471</width>
      <height>24</height>
     </rect>
    </property>

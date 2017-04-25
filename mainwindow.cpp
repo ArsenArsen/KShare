@@ -5,6 +5,7 @@
 #include <QAction>
 #include <QCloseEvent>
 #include <QCoreApplication>
+#include <QDoubleSpinBox>
 #include <QListWidgetItem>
 #include <QMenu>
 #include <QStatusBar>
@@ -55,6 +56,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         statusBar()->showMessage(errors.at(0).what());
     else
         statusBar()->showMessage(QString("Errors visible in console (if present). Count: " + QString::number(errors.size())));
+
+    // Set delay
+    if ((settings::settings().contains("delay")))
+        ui->delay->setValue(settings::settings().value("delay").toDouble());
+    else
+        ui->delay->setValue(0.25);
 }
 
 MainWindow::~MainWindow()
@@ -65,6 +72,11 @@ MainWindow::~MainWindow()
 void MainWindow::setScheme(QString scheme)
 {
     ui->nameScheme->setText(scheme);
+}
+
+QDoubleSpinBox *MainWindow::delay()
+{
+    return ui->delay;
 }
 
 MainWindow *MainWindow::inst()
@@ -103,12 +115,12 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionFullscreen_triggered()
 {
-    QTimer::singleShot(0, &screenshotter::fullscreen);
+    screenshotter::fullscreenDelayed();
 }
 
 void MainWindow::on_actionArea_triggered()
 {
-    QTimer::singleShot(0, &screenshotter::area);
+    screenshotter::areaDelayed();
 }
 
 void MainWindow::on_uploaderList_clicked(const QModelIndex &)
@@ -123,4 +135,9 @@ void MainWindow::on_uploaderList_clicked(const QModelIndex &)
 void MainWindow::on_nameScheme_textEdited(const QString &arg1)
 {
     settings::settings().setValue("fileFormat", arg1);
+}
+
+void MainWindow::on_delay_valueChanged(double arg1)
+{
+    settings::settings().setValue("delay", arg1);
 }
