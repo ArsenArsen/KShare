@@ -3,7 +3,9 @@
 
 #include <QDoubleSpinBox>
 #include <QMainWindow>
+#include <QMap>
 #include <QSystemTrayIcon>
+#include <functional>
 
 #include <uploaders/uploader.hpp>
 
@@ -28,18 +30,21 @@ class MainWindow : public QMainWindow
 
     void on_delay_valueChanged(double arg1);
 
+    void on_hotkeys_doubleClicked(const QModelIndex &index);
+
     public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    Ui::MainWindow *ui;
 
     QSystemTrayIcon *tray;
     void setScheme(QString scheme);
     QDoubleSpinBox *delay();
 
     static MainWindow *inst();
+    QMap<QString, std::function<void()> *> fncs;
 
     private:
-    Ui::MainWindow *ui;
     static MainWindow *instance;
 
     protected:

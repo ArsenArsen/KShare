@@ -37,7 +37,9 @@ SOURCES += main.cpp\
     uploaders/default/clipboarduploader.cpp \
     formatter.cpp \
     uploaders/customuploader.cpp \
-    notifications.cpp
+    notifications.cpp \
+    hotkeying.cpp \
+    sequencedialog.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -53,7 +55,9 @@ HEADERS  += mainwindow.hpp \
     uploaders/default/clipboarduploader.hpp \
     formatter.hpp \
     uploaders/customuploader.hpp \
-    notifications.hpp
+    notifications.hpp \
+    hotkeying.hpp \
+    sequencedialog.hpp
 
 FORMS    += mainwindow.ui
 
@@ -68,3 +72,5 @@ ICON = icons/favicon.ico
 
 # Enable debug symbols
 QMAKE_CFLAGS_DEBUG += -g
+
+include(QHotkey/qhotkey.pri)

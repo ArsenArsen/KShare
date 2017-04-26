@@ -27,6 +27,7 @@ class CropScene : public QGraphicsScene
     QFlags<Qt::MouseButton> prevButtons;
     QGraphicsRectItem *rect = nullptr;
     QPointF initPos;
+    QGraphicsPolygonItem *polyItem = nullptr;
 };
 
 #endif // CROPSCENE_HPP

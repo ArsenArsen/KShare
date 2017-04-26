@@ -1,9 +1,22 @@
 #include "cropscene.hpp"
 #include <QDebug>
+#include <QGraphicsPolygonItem>
 #include <QGraphicsView>
+#include <QTimer>
 
 CropScene::CropScene(QObject *parent) : QGraphicsScene(parent), prevButtons(Qt::NoButton)
 {
+    QTimer::singleShot(0, [&] {
+        QPolygonF poly;
+        poly.append(sceneRect().topLeft());
+        poly.append(sceneRect().topRight());
+        poly.append(sceneRect().bottomRight());
+        poly.append(sceneRect().bottomLeft());
+        polyItem = new QGraphicsPolygonItem(poly);
+        polyItem->setBrush(QBrush(QColor(0, 0, 0, 191)));
+        polyItem->setPen(QPen(Qt::NoPen));
+        addItem(polyItem);
+    });
 }
 
 CropScene::~CropScene()
@@ -35,10 +48,26 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             }
             else
             {
-                rect->setRect(QRect(qMin(initPos.x(), p.x()), qMin(initPos.y(), p.y()),
-                                    qAbs(initPos.x() - p.x()), qAbs(initPos.y() - p.y())));
+                rect->setRect(QRect(qMin(initPos.x(), p.x()), qMin(initPos.y(), p.y()), qAbs(initPos.x() - p.x()),
+                                    qAbs(initPos.y() - p.y())));
             }
         }
+        QPolygonF poly;
+        QPointF theMagicWikipediaPoint(rect->rect().right(), sceneRect().bottom());
+        poly << sceneRect().topLeft();
+        poly << sceneRect().topRight();
+        poly << sceneRect().bottomRight();
+        poly << theMagicWikipediaPoint;
+        poly << rect->rect().bottomRight();
+        poly << rect->rect().topRight();
+        poly << rect->rect().topLeft();
+        poly << rect->rect().bottomLeft();
+        poly << rect->rect().bottomRight();
+        poly << theMagicWikipediaPoint;
+        poly << sceneRect().bottomLeft();
+        poly << sceneRect().topLeft();
+
+        this->polyItem->setPolygon(poly);
         e->accept();
     }
     else

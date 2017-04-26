@@ -11,10 +11,22 @@
 #include <QStatusBar>
 #include <QSystemTrayIcon>
 #include <QTimer>
+#include <functional>
+#include <hotkeying.hpp>
+#include <sequencedialog.hpp>
 #include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
 
 MainWindow *MainWindow::instance;
+
+void addHotkeyItem(QString text, QString name, std::function<void()> *func)
+{
+    QListWidgetItem *item = new QListWidgetItem(text, MainWindow::inst()->ui->hotkeys);
+    item->setData(Qt::UserRole + 1, name);
+    MainWindow::inst()->fncs.insert(name, func);
+    hotkeying::load(name, *func);
+}
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -62,6 +74,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         ui->delay->setValue(settings::settings().value("delay").toDouble());
     else
         ui->delay->setValue(0.25);
+
+    // keys are hot, wait what
+    hotkeying::load("fullscreen", [this] { on_actionFullscreen_triggered(); });
+    hotkeying::load("area", [this] { on_actionArea_triggered(); });
+
+    ui->hotkeys->setSelectionMode(QListWidget::SingleSelection);
+
+    addHotkeyItem("Fullscreen image", "fullscreen", new std::function<void()>([&] { on_actionFullscreen_triggered(); }));
+    addHotkeyItem("Area image", "area", new std::function<void()>([&] { on_actionArea_triggered(); }));
 }
 
 MainWindow::~MainWindow()
@@ -140,4 +161,16 @@ void MainWindow::on_nameScheme_textEdited(const QString &arg1)
 void MainWindow::on_delay_valueChanged(double arg1)
 {
     settings::settings().setValue("delay", arg1);
+}
+
+void MainWindow::on_hotkeys_doubleClicked(const QModelIndex &)
+{
+    if (ui->hotkeys->selectedItems().length() == 1)
+    {
+        QListWidgetItem *i = ui->hotkeys->selectedItems().at(0);
+        QString str = i->data(Qt::UserRole + 1).toString();
+        QString seq = QInputDialog::getText(ui->centralWidget, "Hotkey Input", "Insert hotkey:", QLineEdit::Normal,
+                                            hotkeying::sequence(str));
+        if (hotkeying::valid(seq)) hotkeying::hotkey(str, QKeySequence(seq), *fncs.value(str));
+    }
 }
