@@ -7,23 +7,23 @@ A [ShareX](https://github.com/ShareX/) clone written in Qt. Should be cross plat
 * Qt 5 Widgets
 * Qt 5 GUI
 * Qt 5 Network
-* (QHotkey)[https://github.com/Skycoder42/QHotkey]
+* [QHotkey](https://github.com/Skycoder42/QHotkey)
 
 Despite the name implying so, this project does not depend on the KDE API at all.
 
 ## Goals
 * Same support for Windows, Linux and Mac (if I ever get testers)
-* Screenshotting:
+* Screenshotting: [done]
 * 1. Fullscreen, [target: 1.0] [done]
 * 2. Area; [target: 1.0] [done]
-* Screen recording, same options as above:
+* Screen recording, same options as above: [target: 2.0]
 * 1. WebM
-* 2. GIF (nopls)
+* 2. GIF (nopls) 
 * Custom uploader support [target: 1.0] [done]
 * Default uploaders, including:
 * 1. imgur [target: 1.0] [done]
 * 2. Clipboard (not an uploader) [target: 1.0] [done]
-* 3. (S)FTP
+* 3. (S)FTP [target: 2.0]
 * Oh, and a good icon. [looks good to me, but to noone else]
 
 ## Wayland Support
