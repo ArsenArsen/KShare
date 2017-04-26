@@ -38,8 +38,7 @@ SOURCES += main.cpp\
     formatter.cpp \
     uploaders/customuploader.cpp \
     notifications.cpp \
-    hotkeying.cpp \
-    sequencedialog.cpp
+    hotkeying.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -56,8 +55,7 @@ HEADERS  += mainwindow.hpp \
     formatter.hpp \
     uploaders/customuploader.hpp \
     notifications.hpp \
-    hotkeying.hpp \
-    sequencedialog.hpp
+    hotkeying.hpp
 
 FORMS    += mainwindow.ui
 
