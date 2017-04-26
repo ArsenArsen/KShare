@@ -7,7 +7,7 @@ A [ShareX](https://github.com/ShareX/) clone written in Qt. Should be cross plat
 * Qt 5 Widgets
 * Qt 5 GUI
 * Qt 5 Network
-* (QHotkey)[https://github.com/Skycoder42/QHotkey]
+* [QHotkey](https://github.com/Skycoder42/QHotkey)
 
 Despite the name implying so, this project does not depend on the KDE API at all.
 
