@@ -13,7 +13,6 @@
 #include <QTimer>
 #include <functional>
 #include <hotkeying.hpp>
-#include <sequencedialog.hpp>
 #include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
 
