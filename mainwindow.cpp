@@ -6,6 +6,7 @@
 #include <QCloseEvent>
 #include <QCoreApplication>
 #include <QDoubleSpinBox>
+#include <QInputDialog>
 #include <QListWidgetItem>
 #include <QMenu>
 #include <QStatusBar>
