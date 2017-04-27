@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     instance = this;
     ui->setupUi(this);
-    setWindowIcon(QIcon(":/icons/icon.jpg"));
+    setWindowIcon(QIcon(":/icons/icon.png"));
     tray = new QSystemTrayIcon(windowIcon(), this);
     tray->setToolTip("KShare");
     tray->setVisible(true);
