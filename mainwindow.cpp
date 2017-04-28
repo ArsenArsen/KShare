@@ -79,10 +79,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     else
         ui->delay->setValue(0.25);
 
-    // keys are hot, wait what
-    hotkeying::load("fullscreen", [this] { on_actionFullscreen_triggered(); });
-    hotkeying::load("area", [this] { on_actionArea_triggered(); });
-
     ui->hotkeys->setSelectionMode(QListWidget::SingleSelection);
 
     addHotkeyItem("Fullscreen image", "fullscreen", new std::function<void()>([&] { on_actionFullscreen_triggered(); }));

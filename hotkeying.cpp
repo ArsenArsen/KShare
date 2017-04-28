@@ -1,5 +1,6 @@
 #include "hotkeying.hpp"
 
+#include <QDebug>
 #include <QHotkey>
 #include <QMap>
 #include <settings.hpp>
@@ -25,7 +26,7 @@ void hotkeying::load(QString seqName, std::function<void()> func)
 {
     QHotkey *h;
     if (settings::settings().contains(seqName.prepend("hotkey_")))
-        h = new QHotkey(QKeySequence(settings::settings().value(seqName.prepend("hotkey_")).toString()), true);
+        h = new QHotkey(QKeySequence(settings::settings().value(seqName).toString()), true);
     else
         h = new QHotkey;
     QObject::connect(h, &QHotkey::activated, func);
@@ -39,5 +40,5 @@ bool hotkeying::valid(QString seq)
 
 QString hotkeying::sequence(QString seqName)
 {
-    return hotkeys.contains(seqName) ? hotkeys.value(seqName)->shortcut().toString() : "";
+    return hotkeys.contains(seqName.prepend("hotkey_")) ? hotkeys.value(seqName)->shortcut().toString() : "";
 }
