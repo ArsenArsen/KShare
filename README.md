@@ -3,7 +3,7 @@ A [ShareX](https://getsharex.com/) inspired cross platform utility written with 
 
 ## Screenshot
 Made with KShare itself, of course :)  
-![](https://i.arsenarsen.com/xj47r9rfzw.png)
+![](https://i.arsenarsen.com/2iphpxpah8.png)
 
 ## Dependencies
 * Qt 5 Widgets
