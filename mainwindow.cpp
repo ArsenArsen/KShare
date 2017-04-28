@@ -46,6 +46,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     menu->addActions({ fullscreen, area });
     connect(quit, &QAction::triggered, this, &MainWindow::quit);
     connect(shtoggle, &QAction::triggered, this, &MainWindow::toggleVisible);
+    connect(tray, &QSystemTrayIcon::messageClicked, this, &MainWindow::toggleVisible);
+    connect(tray, &QSystemTrayIcon::activated, this, [this](QSystemTrayIcon::ActivationReason reason) {
+        if (reason == QSystemTrayIcon::DoubleClick) toggleVisible();
+    });
     connect(fullscreen, &QAction::triggered, this, &MainWindow::on_actionFullscreen_triggered);
     connect(area, &QAction::triggered, this, &MainWindow::on_actionArea_triggered);
     tray->setContextMenu(menu);
