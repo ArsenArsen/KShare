@@ -10,19 +10,7 @@ A [ShareX](https://getsharex.com/) inspired cross platform utility written with 
 Despite the name implying so, this project does not depend on the KDE API at all.
 
 ## Goals
-* Same support for Windows, Linux and Mac (if I ever get testers)
-* Screenshotting: [done]
-* 1. Fullscreen, [target: 1.0] [done]
-* 2. Area; [target: 1.0] [done]
-* Screen recording, same options as above: [target: 2.0]
-* 1. WebM
-* 2. GIF (nopls) 
-* Custom uploader support [target: 1.0] [done]
-* Default uploaders, including:
-* 1. imgur [target: 1.0] [done]
-* 2. Clipboard (not an uploader) [target: 1.0] [done]
-* 3. (S)FTP [target: 2.0]
-* Oh, and a good icon. [@BriannaFoxwell made one <3]
+See the [projects](https://github.com/ArsenArsen/KShare/projects)
 
 ## Wayland Support
 If it's requested enough, I will make a pull request towards QHotkey to support Wayland. Or open an issue, depending on my mood. But Qt _should_ still work on Wayland.
