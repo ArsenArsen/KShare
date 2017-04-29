@@ -29,7 +29,7 @@ CropEditor::~CropEditor()
 
 void CropEditor::crop(QRect rect)
 {
-    QPixmap map = QPixmap::grabWidget(view, rect);
+    QPixmap map = view->grab(rect);
     QPixmap *cropp = new QPixmap;
     map.swap(*cropp);
     delete view;

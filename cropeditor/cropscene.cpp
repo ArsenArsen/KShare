@@ -91,8 +91,6 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             e->accept();
         }
     }
-    else
-        QGraphicsScene::mouseMoveEvent(e);
     prevButtons = buttons;
 }
 
@@ -104,7 +102,6 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
         drawingSelection = nullptr;
     }
     prevButtons = Qt::NoButton;
-    QGraphicsScene::mouseReleaseEvent(e);
 }
 
 void CropScene::keyReleaseEvent(QKeyEvent *event)
@@ -140,10 +137,9 @@ void CropScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *e)
     e->accept();
 }
 
-void CropScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
+void CropScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *)
 {
     done();
-    QGraphicsScene::mouseDoubleClickEvent(e);
 }
 
 void CropScene::done()
