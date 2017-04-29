@@ -39,7 +39,9 @@ SOURCES += main.cpp\
     uploaders/customuploader.cpp \
     notifications.cpp \
     hotkeying.cpp \
-    cropeditor/drawing/dotitem.cpp
+    cropeditor/drawing/dotitem.cpp \
+    cropeditor/drawing/lineitem.cpp \
+    cropeditor/settings/brushpenselection.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -58,9 +60,12 @@ HEADERS  += mainwindow.hpp \
     notifications.hpp \
     hotkeying.hpp \
     cropeditor/drawing/drawitem.hpp \
-    cropeditor/drawing/dotitem.hpp
+    cropeditor/drawing/dotitem.hpp \
+    cropeditor/drawing/lineitem.hpp \
+    cropeditor/settings/brushpenselection.hpp
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    cropeditor/settings/brushpenselection.ui
 
 DISTFILES += \
     README.md \

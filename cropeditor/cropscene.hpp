@@ -16,8 +16,8 @@ class CropScene : public QGraphicsScene
     Q_OBJECT
     public:
     CropScene(QObject *parent);
-    QPen pen();
-    QBrush brush();
+    QPen &pen();
+    QBrush &brush();
     void setDrawingSelection(DrawItem *drawAction);
 
     signals:

@@ -37,7 +37,7 @@ void hotkeying::load(QString seqName, std::function<void()> func)
 
 bool hotkeying::valid(QString seq)
 {
-    return !QKeySequence(seq).toString().isEmpty();
+    return seq.isEmpty() || !QKeySequence(seq).toString().isEmpty();
 }
 
 QString hotkeying::sequence(QString seqName)

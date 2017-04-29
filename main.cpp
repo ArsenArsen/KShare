@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
     verbose = parser.isSet(v);
 
     MainWindow w;
-    if (!parser.isSet(h)) w.show();
+    w.show();
+    if (parser.isSet(h)) w.hide();
     return a.exec();
 }

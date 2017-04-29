@@ -7,6 +7,8 @@
 #include <QMenu>
 #include <QTimer>
 #include <cropeditor/drawing/dotitem.hpp>
+#include <cropeditor/drawing/lineitem.hpp>
+#include <cropeditor/settings/brushpenselection.hpp>
 
 CropScene::CropScene(QObject *parent) : QGraphicsScene(parent), prevButtons(Qt::NoButton)
 {
@@ -23,12 +25,12 @@ CropScene::CropScene(QObject *parent) : QGraphicsScene(parent), prevButtons(Qt::
     });
 }
 
-QPen CropScene::pen()
+QPen &CropScene::pen()
 {
     return _pen;
 }
 
-QBrush CropScene::brush()
+QBrush &CropScene::brush()
 {
     return _brush;
 }
@@ -99,6 +101,7 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     if (drawingSelection != nullptr)
     {
         drawingSelection->mouseDragEndEvent(e, this);
+        delete drawingSelection;
         drawingSelection = nullptr;
     }
     prevButtons = Qt::NoButton;
@@ -113,27 +116,24 @@ void CropScene::addDrawingAction(QMenu &menu, DrawItem *item)
 {
     QAction *action = new QAction;
     action->setText(item->name());
-    QObject::connect(action, &QAction::triggered,
-                     [&](bool) { QTimer::singleShot(0, [&] { setDrawingSelection(item); }); });
+    QObject::connect(action, &QAction::triggered, [this, item](bool) { setDrawingSelection(item); });
     menu.addAction(action);
 }
 
 void CropScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *e)
 {
-    //    QMenu menu(e->widget());
+    QMenu menu(e->widget());
 
-    //    addDrawingAction(menu, new DotItem);
+    addDrawingAction(menu, new DotItem);
+    addDrawingAction(menu, new LineItem);
 
-    //    menu.addSeparator();
-    //    QAction *bColorAction = new QAction;
-    //    bColorAction->setText("Select brush color");
-    //    connect(bColorAction, &QAction::triggered, [&] { _brush.setColor(QColorDialog::getColor(_brush.color())); });
-    //    QAction *pColorAction = new QAction;
-    //    pColorAction->setText("Select pen color");
-    //    connect(pColorAction, &QAction::triggered, [&] { _pen.setColor(QColorDialog::getColor(_pen.color())); });
-    //    menu.addActions({ pColorAction, bColorAction });
+    menu.addSeparator();
+    QAction *settings = new QAction;
+    settings->setText("Settings");
+    connect(settings, &QAction::triggered, [&] { BrushPenSelection(this).exec(); });
+    menu.addAction(settings);
 
-    //    menu.exec(e->screenPos());
+    menu.exec(e->screenPos());
     e->accept();
 }
 
