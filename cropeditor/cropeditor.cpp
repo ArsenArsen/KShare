@@ -26,7 +26,6 @@ CropEditor::~CropEditor()
 {
     delete scene;
     delete view;
-    delete pixmap;
     delete pixmapItem;
 }
 

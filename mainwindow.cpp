@@ -50,8 +50,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(tray, &QSystemTrayIcon::activated, this, [this](QSystemTrayIcon::ActivationReason reason) {
         if (reason == QSystemTrayIcon::DoubleClick) toggleVisible();
     });
-    connect(fullscreen, &QAction::triggered, this, &MainWindow::on_actionFullscreen_triggered);
-    connect(area, &QAction::triggered, this, &MainWindow::on_actionArea_triggered);
+    connect(fullscreen, &QAction::triggered, this, [] { screenshotter::area(); });
+    connect(area, &QAction::triggered, this, [] { screenshotter::area(); });
     tray->setContextMenu(menu);
 
     ui->uploaderList->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -81,8 +81,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->hotkeys->setSelectionMode(QListWidget::SingleSelection);
 
-    addHotkeyItem("Fullscreen image", "fullscreen", new std::function<void()>([&] { on_actionFullscreen_triggered(); }));
-    addHotkeyItem("Area image", "area", new std::function<void()>([&] { on_actionArea_triggered(); }));
+    addHotkeyItem("Fullscreen image", "fullscreen", new std::function<void()>([] { screenshotter::fullscreen(); }));
+    addHotkeyItem("Area image", "area", new std::function<void()>([] { screenshotter::area(); }));
 }
 
 MainWindow::~MainWindow()

@@ -61,6 +61,7 @@ void UploaderSingleton::upload(QPixmap *pixmap)
         }
     }
     uploaders.value(uploader)->doUpload(pixmap);
+    delete pixmap;
 }
 
 QList<Uploader *> UploaderSingleton::uploaderList()
