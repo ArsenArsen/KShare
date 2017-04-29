@@ -8,14 +8,13 @@
 
 CropEditor::CropEditor(QPixmap *image, QObject *parent) : QObject(parent)
 {
-    pixmap = image;
     scene = new CropScene(parent);
     view = new CropView(scene);
 
-    pixmapItem = new QGraphicsPixmapItem(*pixmap);
+    pixmapItem = new QGraphicsPixmapItem(*image);
     pixmapItem->setZValue(-1);
     scene->addItem(pixmapItem);
-    scene->setSceneRect(pixmap->rect());
+    scene->setSceneRect(image->rect());
 
     QTimer::singleShot(0, [&] { view->showFullScreen(); });
 
@@ -29,8 +28,9 @@ CropEditor::~CropEditor()
 
 void CropEditor::crop(QRect rect)
 {
-    QPixmap crop = pixmap->copy(rect);
+    QPixmap map = QPixmap::grabWidget(view, rect);
     QPixmap *cropp = new QPixmap;
-    crop.swap(*cropp);
+    map.swap(*cropp);
+    delete view;
     emit cropped(cropp);
 }

@@ -19,7 +19,6 @@ class CropEditor : public QObject
 
     private:
     void crop(QRect rect);
-    QPixmap *pixmap = nullptr;
     CropScene *scene = nullptr;
     CropView *view = nullptr;
     QGraphicsPixmapItem *pixmapItem = nullptr;

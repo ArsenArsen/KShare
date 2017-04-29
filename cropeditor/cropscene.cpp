@@ -1,7 +1,9 @@
 #include "cropscene.hpp"
 #include <QDebug>
 #include <QGraphicsPolygonItem>
+#include <QGraphicsSceneContextMenuEvent>
 #include <QGraphicsView>
+#include <QMenu>
 #include <QTimer>
 
 CropScene::CropScene(QObject *parent) : QGraphicsScene(parent), prevButtons(Qt::NoButton)
@@ -81,6 +83,14 @@ void CropScene::keyReleaseEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) done();
 }
 
+void CropScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *e)
+{
+    QMenu menu(e->widget());
+
+    menu.exec(e->screenPos());
+    e->accept();
+}
+
 void CropScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
 {
     done();
@@ -89,6 +99,5 @@ void CropScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
 
 void CropScene::done()
 {
-    for (QGraphicsView *v : views()) v->close();
-    emit closedWithRect(rect != nullptr ? rect->rect().toRect() : QRect());
+    if (rect) emit closedWithRect(rect->rect().toRect());
 }

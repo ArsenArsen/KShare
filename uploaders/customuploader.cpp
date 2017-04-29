@@ -262,6 +262,7 @@ void parseResult(QJsonDocument result, QString returnPathspec, QString name)
 {
     if (result.isObject())
     {
+        qDebug() << result.object()[".url"];
         QString url = parsePathspec(result, returnPathspec);
         if (!url.isEmpty())
         {
@@ -271,6 +272,8 @@ void parseResult(QJsonDocument result, QString returnPathspec, QString name)
         else
             notifications::notify("KShare Custom Uploader " + name, "Upload done, but result empty!");
     }
+    else
+        notifications::notify("KShare Custom Uploader " + name, "Upload done, but result is not JSON Object!");
 }
 
 void CustomUploader::doUpload(QPixmap *pixmap)

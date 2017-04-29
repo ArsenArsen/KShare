@@ -3,6 +3,7 @@
 
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
+#include <QGraphicsSceneContextMenuEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
 
@@ -18,6 +19,7 @@ class CropScene : public QGraphicsScene
     void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *e) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e) override;
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *e) override;
 
     void keyReleaseEvent(QKeyEvent *e) override;
 

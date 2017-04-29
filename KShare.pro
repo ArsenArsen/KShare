@@ -55,7 +55,8 @@ HEADERS  += mainwindow.hpp \
     formatter.hpp \
     uploaders/customuploader.hpp \
     notifications.hpp \
-    hotkeying.hpp
+    hotkeying.hpp \
+    cropeditor/drawing/drawitem.hpp
 
 FORMS    += mainwindow.ui
 
