@@ -1,11 +1,16 @@
 # KShare
 A [ShareX](https://getsharex.com/) inspired cross platform utility written with Qt.
 
+## Screenshot
+Made with KShare itself, of course :)  
+![](https://i.arsenarsen.com/2iphpxpah8.png)
+
 ## Dependencies
 * Qt 5 Widgets
 * Qt 5 GUI
 * Qt 5 Network
 * [QHotkey](https://github.com/Skycoder42/QHotkey)
+* From the above, we are required to have Qt 5 x11extras on Linux.
 
 Despite the name implying so, this project does not depend on the KDE API at all.
 
