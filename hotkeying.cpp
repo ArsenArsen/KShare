@@ -25,8 +25,10 @@ void hotkeying::hotkey(QString seqName, QKeySequence seq, std::function<void()> 
 void hotkeying::load(QString seqName, std::function<void()> func)
 {
     QHotkey *h;
-    if (settings::settings().contains(seqName.prepend("hotkey_")))
-        h = new QHotkey(QKeySequence(settings::settings().value(seqName).toString()), true);
+    QString name = seqName;
+    name.prepend("hotkey_");
+    if (settings::settings().contains(name))
+        h = new QHotkey(QKeySequence(settings::settings().value(name).toString()), true);
     else
         h = new QHotkey;
     QObject::connect(h, &QHotkey::activated, func);
@@ -40,5 +42,5 @@ bool hotkeying::valid(QString seq)
 
 QString hotkeying::sequence(QString seqName)
 {
-    return hotkeys.contains(seqName.prepend("hotkey_")) ? hotkeys.value(seqName)->shortcut().toString() : "";
+    return hotkeys.contains(seqName) ? hotkeys.value(seqName)->shortcut().toString() : "";
 }

@@ -20,13 +20,13 @@ void handler(QtMsgType type, const QMessageLogContext &context, const QString &m
         fprintf(stdout, "INFO %s:%s(%d): %s\n", context.file, context.function, context.line, localMsg.constData());
         break;
     case QtWarningMsg:
-        fprintf(stderr, "WARN %s:%s(%d): %s\n", context.file, context.function, context.line, localMsg.constData());
+        fprintf(stdout, "WARN %s:%s(%d): %s\n", context.file, context.function, context.line, localMsg.constData());
         break;
     case QtCriticalMsg:
-        fprintf(stderr, "CRIT %s:%s(%d): %s\n", context.file, context.function, context.line, localMsg.constData());
+        fprintf(stdout, "CRIT %s:%s(%d): %s\n", context.file, context.function, context.line, localMsg.constData());
         break;
     case QtFatalMsg:
-        fprintf(stderr, "FATAL %s:%s(%d): %s\n", context.file, context.function, context.line, localMsg.constData());
+        fprintf(stdout, "FATAL %s:%s(%d): %s\n", context.file, context.function, context.line, localMsg.constData());
         break;
     }
 }
