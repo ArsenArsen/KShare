@@ -9,10 +9,7 @@
 void screenshotter::area()
 {
     CropEditor *editor = new CropEditor(screenshotutil::fullscreen());
-    QObject::connect(editor, &CropEditor::cropped, [&](QPixmap *pixmap) {
-        UploaderSingleton::inst().upload(pixmap);
-        delete editor;
-    });
+    QObject::connect(editor, &CropEditor::cropped, [&](QPixmap *pixmap) { UploaderSingleton::inst().upload(pixmap); });
 }
 
 void screenshotter::fullscreen()

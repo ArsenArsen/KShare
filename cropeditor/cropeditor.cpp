@@ -25,8 +25,6 @@ CropEditor::CropEditor(QPixmap *image, QObject *parent) : QObject(parent)
 CropEditor::~CropEditor()
 {
     delete scene;
-    delete view;
-    delete pixmapItem;
 }
 
 void CropEditor::crop(QRect rect)

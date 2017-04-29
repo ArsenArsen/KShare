@@ -11,7 +11,6 @@ class CropScene : public QGraphicsScene
     Q_OBJECT
     public:
     CropScene(QObject *parent);
-    virtual ~CropScene();
     signals:
     void closedWithRect(QRect rect);
 

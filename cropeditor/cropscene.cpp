@@ -19,11 +19,6 @@ CropScene::CropScene(QObject *parent) : QGraphicsScene(parent), prevButtons(Qt::
     });
 }
 
-CropScene::~CropScene()
-{
-    delete rect;
-}
-
 void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
     auto buttons = e->buttons();
