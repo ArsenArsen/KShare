@@ -74,7 +74,7 @@ DISTFILES += \
 RESOURCES += \
     icon.qrc
 
-ICON = icons/favicon.ico
+ICON = icons/icon.ico
 
 # Enable debug symbols
 QMAKE_CFLAGS_DEBUG += -g
