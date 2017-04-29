@@ -1,5 +1,6 @@
 #include "cropeditor.hpp"
 
+#include "cropscene.hpp"
 #include "cropview.hpp"
 #include <QDebug>
 #include <QGraphicsPixmapItem>

@@ -7,10 +7,12 @@
 class DrawItem
 {
     public:
+    virtual ~DrawItem()
+    {
+    }
     virtual QString name() = 0;
-    virtual void render(QPixmap *pixmap) = 0;
-    virtual void makeItem(CropScene *scene) = 0;
-    virtual void mouseDragEvent(QGraphicsSceneMoveEvent *e, CropScene *scene) = 0;
+    virtual void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) = 0;
+    virtual void mouseDragEndEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) = 0;
 };
 
 #endif // DRAWITEM_HPP

@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     formatter.cpp \
     uploaders/customuploader.cpp \
     notifications.cpp \
-    hotkeying.cpp
+    hotkeying.cpp \
+    cropeditor/drawing/dotitem.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -56,7 +57,8 @@ HEADERS  += mainwindow.hpp \
     uploaders/customuploader.hpp \
     notifications.hpp \
     hotkeying.hpp \
-    cropeditor/drawing/drawitem.hpp
+    cropeditor/drawing/drawitem.hpp \
+    cropeditor/drawing/dotitem.hpp
 
 FORMS    += mainwindow.ui
 

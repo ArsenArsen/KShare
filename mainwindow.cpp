@@ -50,8 +50,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(tray, &QSystemTrayIcon::activated, this, [this](QSystemTrayIcon::ActivationReason reason) {
         if (reason == QSystemTrayIcon::DoubleClick) toggleVisible();
     });
-    connect(fullscreen, &QAction::triggered, this, [] { screenshotter::area(); });
-    connect(area, &QAction::triggered, this, [] { screenshotter::area(); });
+    connect(fullscreen, &QAction::triggered, this, [] { screenshotter::fullscreenDelayed(); });
+    connect(area, &QAction::triggered, this, [] { screenshotter::areaDelayed(); });
     tray->setContextMenu(menu);
 
     ui->uploaderList->setSelectionBehavior(QAbstractItemView::SelectRows);

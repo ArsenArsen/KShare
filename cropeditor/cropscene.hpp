@@ -7,11 +7,19 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
 
+class CropScene;
+
+#include <cropeditor/drawing/drawitem.hpp>
+
 class CropScene : public QGraphicsScene
 {
     Q_OBJECT
     public:
     CropScene(QObject *parent);
+    QPen pen();
+    QBrush brush();
+    void setDrawingSelection(DrawItem *drawAction);
+
     signals:
     void closedWithRect(QRect rect);
 
@@ -24,11 +32,15 @@ class CropScene : public QGraphicsScene
     void keyReleaseEvent(QKeyEvent *e) override;
 
     private:
+    void addDrawingAction(QMenu &menu, DrawItem *item);
     void done();
     QFlags<Qt::MouseButton> prevButtons;
     QGraphicsRectItem *rect = nullptr;
     QPointF initPos;
+    QPen _pen;
+    QBrush _brush;
     QGraphicsPolygonItem *polyItem = nullptr;
+    DrawItem *drawingSelection = nullptr;
 };
 
 #endif // CROPSCENE_HPP
