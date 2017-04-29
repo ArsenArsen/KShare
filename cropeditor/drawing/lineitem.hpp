@@ -18,6 +18,7 @@ class LineItem : public DrawItem
 
     private:
     QPainterPath *path = nullptr;
+    QGraphicsPathItem *pathItem = nullptr;
 };
 
 #endif // LINEITEM_HPP

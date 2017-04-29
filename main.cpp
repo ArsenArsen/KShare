@@ -1,7 +1,7 @@
 #include "mainwindow.hpp"
 #include <QApplication>
 #include <QCommandLineParser>
-#include <QDebug>
+#include <QTimer>
 #include <QtGlobal>
 #include <stdio.h>
 
@@ -51,6 +51,8 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.show();
-    if (parser.isSet(h)) w.hide();
+    QTimer::singleShot(0, [&] {
+        if (parser.isSet(h)) w.hide();
+    });
     return a.exec();
 }
