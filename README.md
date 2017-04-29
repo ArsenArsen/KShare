@@ -5,6 +5,9 @@ A [ShareX](https://getsharex.com/) inspired cross platform utility written with 
 Made with KShare itself, of course :)  
 ![](https://i.arsenarsen.com/2iphpxpah8.png)
 
+## Usage
+See the [wiki](https://github.com/ArsenArsen/KShare/wiki).
+
 ## Dependencies
 * Qt 5 Widgets
 * Qt 5 GUI
