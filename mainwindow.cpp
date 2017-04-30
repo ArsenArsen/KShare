@@ -119,6 +119,10 @@ void MainWindow::quit()
 void MainWindow::toggleVisible()
 {
     this->setVisible(!this->isVisible());
+    if (this->isVisible())
+    {
+        this->raise();
+    }
 }
 
 void MainWindow::newUploader(Uploader *u)
