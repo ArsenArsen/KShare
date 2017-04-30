@@ -19,12 +19,12 @@ void error(QString absFilePath, QString err)
 
 CustomUploader::CustomUploader(QString absFilePath)
 {
-    types.insert("PNG", "image/png"); // Is a list of supported formats, too
+    types.insert("PNG", "image/png"); // This is a list of supported formats, too
     types.insert("GIF", "image/gif");
     types.insert("JPG", "image/jpeg");
     types.insert("JPEG", "image/jpeg");
     types.insert("WEBM", "video/webm");
-    types.insert("WEBM", "video/mp4");
+    types.insert("MP4", "video/mp4");
     // Let's go
     QFile file(absFilePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) error(absFilePath, file.errorString());
