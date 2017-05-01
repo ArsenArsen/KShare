@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>512</width>
-    <height>353</height>
+    <height>304</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>KShare</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="icon.qrc">
+   <iconset>
     <normaloff>:/icons/icon.jpg</normaloff>:/icons/icon.jpg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -25,10 +25,28 @@
     </sizepolicy>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_3">
+    <item row="6" column="0" colspan="2">
+     <widget class="QLabel" name="label_6">
       <property name="text">
-       <string>Delay before taking a screenshot</string>
+       <string>&lt;a href=&quot;https://github.com/ArsenArsen/KShare&quot;&gt;Source code available free for everyone. Forever.&lt;/a&gt;
+
+</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" rowspan="5">
+     <widget class="QListWidget" name="hotkeys"/>
+    </item>
+    <item row="5" column="0">
+     <widget class="QDoubleSpinBox" name="delay">
+      <property name="toolTip">
+       <string>In seconds</string>
+      </property>
+      <property name="whatsThis">
+       <string>A delay before taking a screenshot, in seconds</string>
+      </property>
+      <property name="suffix">
+       <string>s</string>
       </property>
      </widget>
     </item>
@@ -39,20 +57,24 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="0">
-     <widget class="QDoubleSpinBox" name="delay">
-      <property name="toolTip">
-       <string>In seconds</string>
-      </property>
-      <property name="whatsThis">
-       <string>A delay before taking a screenshot, in seconds</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
        <string>Uploader selection:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Delay before taking a screenshot</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Hotkeys</string>
       </property>
      </widget>
     </item>
@@ -68,36 +90,6 @@
        <string>Screenshot %(yyyy-MM-dd HH:mm:ss)date</string>
       </property>
      </widget>
-    </item>
-    <item row="1" column="1">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>s</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Hotkeys</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="2" rowspan="5">
-     <widget class="QListWidget" name="hotkeys"/>
     </item>
    </layout>
   </widget>
@@ -118,7 +110,7 @@
    </widget>
    <widget class="QMenu" name="menuScreenshot">
     <property name="title">
-     <string>Scree&amp;nshot</string>
+     <string>S&amp;creenshot</string>
     </property>
     <addaction name="actionFullscreen"/>
     <addaction name="actionArea"/>
@@ -144,8 +136,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="icon.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
