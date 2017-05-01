@@ -7,26 +7,25 @@
 
 bool verbose = false;
 
-void handler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void handler(QtMsgType type, const QMessageLogContext &, const QString &msg)
 {
     QByteArray localMsg = msg.toLocal8Bit();
     switch (type)
     {
     case QtDebugMsg:
-        if (verbose)
-            fprintf(stdout, "DEBUG %s:%s(%d): %s\n", context.file, context.function, context.line, localMsg.constData());
+        if (verbose) fprintf(stderr, "DEBUG: %s\n", localMsg.constData());
         break;
     case QtInfoMsg:
-        fprintf(stdout, "INFO %s:%s(%d): %s\n", context.file, context.function, context.line, localMsg.constData());
+        fprintf(stderr, "INFO: %s\n", localMsg.constData());
         break;
     case QtWarningMsg:
-        fprintf(stdout, "WARN %s:%s(%d): %s\n", context.file, context.function, context.line, localMsg.constData());
+        fprintf(stderr, "WARN: %s\n", localMsg.constData());
         break;
     case QtCriticalMsg:
-        fprintf(stdout, "CRIT %s:%s(%d): %s\n", context.file, context.function, context.line, localMsg.constData());
+        fprintf(stderr, "CRIT: %s\n", localMsg.constData());
         break;
     case QtFatalMsg:
-        fprintf(stdout, "FATAL %s:%s(%d): %s\n", context.file, context.function, context.line, localMsg.constData());
+        fprintf(stderr, "FATAL: %s\n", localMsg.constData());
         break;
     }
 }

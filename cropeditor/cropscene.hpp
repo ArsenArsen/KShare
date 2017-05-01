@@ -15,10 +15,14 @@ class CropScene : public QGraphicsScene
 {
     Q_OBJECT
     public:
-    CropScene(QObject *parent);
+    CropScene(QObject *parent, QPixmap *pixmap);
     QPen &pen();
     QBrush &brush();
     void setDrawingSelection(DrawItem *drawAction);
+    QPixmap *pixmap()
+    {
+        return _pixmap;
+    }
 
     signals:
     void closedWithRect(QRect rect);
@@ -34,6 +38,7 @@ class CropScene : public QGraphicsScene
     private:
     void addDrawingAction(QMenu &menu, DrawItem *item);
     void done();
+    QPixmap *_pixmap;
     QFlags<Qt::MouseButton> prevButtons;
     QGraphicsRectItem *rect = nullptr;
     QPointF initPos;

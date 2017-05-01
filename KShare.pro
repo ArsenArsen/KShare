@@ -41,7 +41,10 @@ SOURCES += main.cpp\
     hotkeying.cpp \
     cropeditor/drawing/dotitem.cpp \
     cropeditor/drawing/lineitem.cpp \
-    cropeditor/settings/brushpenselection.cpp
+    cropeditor/settings/brushpenselection.cpp \
+    effects.cpp \
+    cropeditor/drawing/bluritem.cpp \
+    cropeditor/settings/blurdialog.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -62,10 +65,14 @@ HEADERS  += mainwindow.hpp \
     cropeditor/drawing/drawitem.hpp \
     cropeditor/drawing/dotitem.hpp \
     cropeditor/drawing/lineitem.hpp \
-    cropeditor/settings/brushpenselection.hpp
+    cropeditor/settings/brushpenselection.hpp \
+    effects.hpp \
+    cropeditor/drawing/bluritem.hpp \
+    cropeditor/settings/blurdialog.hpp
 
 FORMS    += mainwindow.ui \
-    cropeditor/settings/brushpenselection.ui
+    cropeditor/settings/brushpenselection.ui \
+    cropeditor/settings/blurdialog.ui
 
 DISTFILES += \
     README.md \

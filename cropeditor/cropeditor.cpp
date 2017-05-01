@@ -9,7 +9,7 @@
 
 CropEditor::CropEditor(QPixmap *image, QObject *parent) : QObject(parent)
 {
-    scene = new CropScene(parent);
+    scene = new CropScene(parent, image);
     view = new CropView(scene);
 
     pixmapItem = new QGraphicsPixmapItem(*image);

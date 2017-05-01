@@ -18,7 +18,7 @@ void LineItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene)
     }
     else
     {
-        path->lineTo(e->scenePos());
+        path->quadTo(path->currentPosition(), e->scenePos());
         pathItem->setPath(*path);
     }
 }

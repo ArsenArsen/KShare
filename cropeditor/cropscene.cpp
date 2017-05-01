@@ -6,12 +6,14 @@
 #include <QGraphicsView>
 #include <QMenu>
 #include <QTimer>
+#include <cropeditor/drawing/bluritem.hpp>
 #include <cropeditor/drawing/dotitem.hpp>
 #include <cropeditor/drawing/lineitem.hpp>
 #include <cropeditor/settings/brushpenselection.hpp>
 
-CropScene::CropScene(QObject *parent) : QGraphicsScene(parent), prevButtons(Qt::NoButton)
+CropScene::CropScene(QObject *parent, QPixmap *pixmap) : QGraphicsScene(parent), prevButtons(Qt::NoButton)
 {
+    _pixmap = pixmap;
     QTimer::singleShot(0, [&] {
         QPolygonF poly;
         poly.append(sceneRect().topLeft());
@@ -38,6 +40,7 @@ QBrush &CropScene::brush()
 void CropScene::setDrawingSelection(DrawItem *drawAction)
 {
     drawingSelection = drawAction;
+    drawAction->init(this);
 }
 
 void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
@@ -116,7 +119,7 @@ void CropScene::addDrawingAction(QMenu &menu, DrawItem *item)
 {
     QAction *action = new QAction;
     action->setText(item->name());
-    QObject::connect(action, &QAction::triggered, [this, item](bool) { setDrawingSelection(item); });
+    connect(action, &QAction::triggered, [this, item](bool) { setDrawingSelection(item); });
     menu.addAction(action);
 }
 
@@ -126,6 +129,7 @@ void CropScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *e)
 
     addDrawingAction(menu, new DotItem);
     addDrawingAction(menu, new LineItem);
+    addDrawingAction(menu, new BlurItem);
 
     menu.addSeparator();
     QAction *settings = new QAction;
