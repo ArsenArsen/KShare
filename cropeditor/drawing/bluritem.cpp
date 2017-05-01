@@ -2,7 +2,6 @@
 
 #include <QDebug>
 #include <cropeditor/settings/blurdialog.hpp>
-#include <effects.hpp>
 
 void BlurItem::init(CropScene *)
 {

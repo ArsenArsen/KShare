@@ -42,7 +42,6 @@ SOURCES += main.cpp\
     cropeditor/drawing/dotitem.cpp \
     cropeditor/drawing/lineitem.cpp \
     cropeditor/settings/brushpenselection.cpp \
-    effects.cpp \
     cropeditor/drawing/bluritem.cpp \
     cropeditor/settings/blurdialog.cpp
 
@@ -66,7 +65,6 @@ HEADERS  += mainwindow.hpp \
     cropeditor/drawing/dotitem.hpp \
     cropeditor/drawing/lineitem.hpp \
     cropeditor/settings/brushpenselection.hpp \
-    effects.hpp \
     cropeditor/drawing/bluritem.hpp \
     cropeditor/settings/blurdialog.hpp
 
