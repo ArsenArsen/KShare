@@ -110,11 +110,6 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     prevButtons = Qt::NoButton;
 }
 
-void CropScene::keyReleaseEvent(QKeyEvent *event)
-{
-    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) done();
-}
-
 void CropScene::addDrawingAction(QMenu &menu, DrawItem *item)
 {
     QAction *action = new QAction;
@@ -141,9 +136,9 @@ void CropScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *e)
     e->accept();
 }
 
-void CropScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *)
+void CropScene::keyReleaseEvent(QKeyEvent *event)
 {
-    done();
+    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) done(); // Segfault
 }
 
 void CropScene::done()

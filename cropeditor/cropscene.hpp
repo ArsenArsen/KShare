@@ -30,7 +30,6 @@ class CropScene : public QGraphicsScene
     protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *e) override;
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e) override;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *e) override;
 
     void keyReleaseEvent(QKeyEvent *e) override;
