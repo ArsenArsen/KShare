@@ -40,10 +40,11 @@ SOURCES += main.cpp\
     notifications.cpp \
     hotkeying.cpp \
     cropeditor/drawing/dotitem.cpp \
-    cropeditor/drawing/lineitem.cpp \
     cropeditor/settings/brushpenselection.cpp \
     cropeditor/drawing/bluritem.cpp \
-    cropeditor/settings/blurdialog.cpp
+    cropeditor/settings/blurdialog.cpp \
+    cropeditor/drawing/pathitem.cpp \
+    cropeditor/drawing/lineitem.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -63,10 +64,11 @@ HEADERS  += mainwindow.hpp \
     hotkeying.hpp \
     cropeditor/drawing/drawitem.hpp \
     cropeditor/drawing/dotitem.hpp \
-    cropeditor/drawing/lineitem.hpp \
     cropeditor/settings/brushpenselection.hpp \
     cropeditor/drawing/bluritem.hpp \
-    cropeditor/settings/blurdialog.hpp
+    cropeditor/settings/blurdialog.hpp \
+    cropeditor/drawing/pathitem.hpp \
+    cropeditor/drawing/lineitem.hpp
 
 FORMS    += mainwindow.ui \
     cropeditor/settings/brushpenselection.ui \

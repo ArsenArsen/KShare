@@ -4,22 +4,16 @@ LineItem::LineItem()
 {
 }
 
-LineItem::~LineItem()
-{
-    delete path;
-}
-
 void LineItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene)
 {
-    if (path == nullptr)
+    if (init.isNull())
     {
-        path = new QPainterPath(e->scenePos());
-        pathItem = scene->addPath(*path, scene->pen(), scene->brush());
+        init = e->scenePos();
+        line = scene->addLine(QLineF(init, init), scene->pen());
     }
     else
     {
-        path->quadTo(path->currentPosition(), e->scenePos());
-        pathItem->setPath(*path);
+        line->setLine(QLineF(init, e->scenePos()));
     }
 }
 

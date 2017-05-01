@@ -24,7 +24,7 @@ BlurDialog::BlurDialog(QGraphicsBlurEffect *e, QWidget *parent) : QDialog(parent
         effect->setBlurRadius(ui->radSpinner->value());
         close();
     });
-    connect(ui->buttonBox, &QDialogButtonBox::accepted, [&] { close(); });
+    connect(ui->buttonBox, &QDialogButtonBox::rejected, [&] { close(); });
 }
 
 BlurDialog::~BlurDialog()

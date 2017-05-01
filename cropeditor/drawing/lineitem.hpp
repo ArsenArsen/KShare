@@ -1,24 +1,22 @@
 #ifndef LINEITEM_HPP
 #define LINEITEM_HPP
 
-#include "../cropscene.hpp"
 #include "drawitem.hpp"
 
 class LineItem : public DrawItem
 {
     public:
     LineItem();
-    ~LineItem();
-    QString name()
+    QString name() override
     {
-        return "Line";
+        return "Straight line";
     }
-    void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene);
-    void mouseDragEndEvent(QGraphicsSceneMouseEvent *e, CropScene *scene);
+    void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) override;
+    void mouseDragEndEvent(QGraphicsSceneMouseEvent *, CropScene *) override;
 
     private:
-    QPainterPath *path = nullptr;
-    QGraphicsPathItem *pathItem = nullptr;
+    QPointF init;
+    QGraphicsLineItem *line;
 };
 
 #endif // LINEITEM_HPP

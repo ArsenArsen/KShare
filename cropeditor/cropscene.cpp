@@ -9,6 +9,7 @@
 #include <cropeditor/drawing/bluritem.hpp>
 #include <cropeditor/drawing/dotitem.hpp>
 #include <cropeditor/drawing/lineitem.hpp>
+#include <cropeditor/drawing/pathitem.hpp>
 #include <cropeditor/settings/brushpenselection.hpp>
 
 CropScene::CropScene(QObject *parent, QPixmap *pixmap) : QGraphicsScene(parent), prevButtons(Qt::NoButton)
@@ -123,8 +124,9 @@ void CropScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *e)
     QMenu menu(e->widget());
 
     addDrawingAction(menu, new DotItem);
-    addDrawingAction(menu, new LineItem);
+    addDrawingAction(menu, new PathItem);
     addDrawingAction(menu, new BlurItem);
+    addDrawingAction(menu, new LineItem);
 
     menu.addSeparator();
     QAction *settings = new QAction;
