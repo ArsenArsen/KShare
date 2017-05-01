@@ -7,6 +7,7 @@ CropView::CropView(QGraphicsScene *scene) : QGraphicsView(scene)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
+    setCursor(QCursor(Qt::CrossCursor));
 }
 
 void CropView::keyPressEvent(QKeyEvent *e)
