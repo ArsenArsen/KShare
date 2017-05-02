@@ -7,6 +7,7 @@
 #include <QInputDialog>
 #include <QSlider>
 #include <cropeditor/cropview.hpp>
+#include <settings.hpp>
 
 BrushPenSelection::BrushPenSelection(CropScene *scene) : QDialog(), ui(new Ui::BrushPenSelection)
 {
@@ -40,6 +41,10 @@ void BrushPenSelection::on_buttonBox_accepted()
     scene->pen().setCosmetic(ui->cosmetic->isChecked());
     scene->pen().setWidthF(ui->widthSpinner->value());
     scene->brush().setColor(brush);
+    settings::settings().setValue("penColor", scene->pen().color());
+    settings::settings().setValue("penCosmetic", scene->pen().isCosmetic());
+    settings::settings().setValue("penWidth", scene->pen().widthF());
+    settings::settings().setValue("brushColor", scene->brush().color());
     close();
 }
 

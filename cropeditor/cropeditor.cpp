@@ -6,6 +6,7 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
 #include <QTimer>
+#include <settings.hpp>
 
 CropEditor::CropEditor(QPixmap *image, QObject *parent) : QObject(parent)
 {

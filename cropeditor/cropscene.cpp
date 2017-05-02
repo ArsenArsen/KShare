@@ -11,9 +11,15 @@
 #include <cropeditor/drawing/lineitem.hpp>
 #include <cropeditor/drawing/pathitem.hpp>
 #include <cropeditor/settings/brushpenselection.hpp>
+#include <settings.hpp>
 
 CropScene::CropScene(QObject *parent, QPixmap *pixmap) : QGraphicsScene(parent), prevButtons(Qt::NoButton)
 {
+    pen().setColor(settings::settings().value("penColor", pen().color()).value<QColor>());
+    pen().setCosmetic(settings::settings().value("penCosmetic", pen().isCosmetic()).toBool());
+    pen().setWidthF(settings::settings().value("penWidth", pen().widthF()).toFloat());
+    brush().setColor(settings::settings().value("brushColor", brush().color()).value<QColor>());
+
     _pixmap = pixmap;
     QTimer::singleShot(0, [&] {
         QPolygonF poly;
