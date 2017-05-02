@@ -45,6 +45,10 @@ UploaderSingleton::UploaderSingleton() : QObject()
 
 void UploaderSingleton::registerUploader(Uploader *uploader)
 {
+    if (uploaders.contains(uploader->name()))
+    {
+        throw std::runtime_error(("Ambigious uploader " + uploader->name()).toStdString());
+    }
     uploaders.insert(uploader->name(), uploader);
     emit newUploader(uploader);
 }
