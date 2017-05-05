@@ -1,6 +1,7 @@
 #include "cropscene.hpp"
 #include <QColorDialog>
 #include <QDebug>
+#include <QFontDialog>
 #include <QGraphicsPolygonItem>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QGraphicsView>
@@ -10,13 +11,14 @@
 #include <cropeditor/drawing/dotitem.hpp>
 #include <cropeditor/drawing/lineitem.hpp>
 #include <cropeditor/drawing/pathitem.hpp>
+#include <cropeditor/drawing/textitem.hpp>
 #include <cropeditor/settings/brushpenselection.hpp>
 #include <functional>
 #include <settings.hpp>
 
 CropScene::CropScene(QObject *parent, QPixmap *pixmap)
-: QGraphicsScene(parent), prevButtons(Qt::NoButton), drawingSelectionMaker([] { return nullptr; })
-{
+: QGraphicsScene(parent), prevButtons(Qt::NoButton), drawingSelectionMaker([] { return nullptr; }),
+  _font(settings::settings().value("font", QFont()).value<QFont>()) {
     pen().setColor(settings::settings().value("penColor", pen().color()).value<QColor>());
     pen().setCosmetic(settings::settings().value("penCosmetic", pen().isCosmetic()).toBool());
     pen().setWidthF(settings::settings().value("penWidth", pen().widthF()).toFloat());
@@ -26,6 +28,7 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
     addDrawingAction(menu, "Path", [] { return new PathItem; });
     addDrawingAction(menu, "Blur", [] { return new BlurItem; });
     addDrawingAction(menu, "Straight line", [] { return new LineItem; });
+    addDrawingAction(menu, "Text", [] { return new TextItem; });
 
     QAction *reset = menu.addAction("Reset");
     connect(reset, &QAction::triggered, [&] { setDrawingSelection("None", [] { return nullptr; }); });
@@ -38,6 +41,8 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
     display->setDisabled(true);
     connect(settings, &QAction::triggered, [&] { BrushPenSelection(this).exec(); });
     menu.addAction(settings);
+
+    connect(menu.addAction("Set Font"), &QAction::triggered, this, &CropScene::fontAsk);
 
     _pixmap = pixmap;
     QTimer::singleShot(0, [&] {
@@ -53,59 +58,54 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
     });
 }
 
-CropScene::~CropScene()
-{
+CropScene::~CropScene() {
     delete drawingSelection;
 }
 
-QPen &CropScene::pen()
-{
+QPen &CropScene::pen() {
     return _pen;
 }
 
-QBrush &CropScene::brush()
-{
+QBrush &CropScene::brush() {
     return _brush;
 }
 
-void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> drawAction)
-{
+QFont &CropScene::font() {
+    return _font;
+}
+
+void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> drawAction) {
     drawingSelectionMaker = drawAction;
     drawingSelection = drawAction();
     drawingName = name;
     if (drawingSelection) drawingSelection->init(this);
 }
 
-void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
-{
+void CropScene::fontAsk() {
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, this->font(), nullptr, "Font to use");
+    if (ok) _font = font;
+}
+
+void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
     auto buttons = e->buttons();
-    if (buttons == Qt::LeftButton || prevButtons == Qt::NoButton)
-    {
-        if (drawingSelection)
-        {
+    if (buttons == Qt::LeftButton || prevButtons == Qt::NoButton) {
+        if (drawingSelection) {
             drawingSelection->mouseDragEvent(e, this);
-        }
-        else
-        {
+        } else {
             QPointF p = e->scenePos();
-            if (rect == nullptr)
-            {
+            if (rect == nullptr) {
                 rect = new QGraphicsRectItem(p.x(), p.y(), 1, 1);
                 initPos = p;
                 QPen pen(Qt::NoBrush, 1);
                 pen.setColor(Qt::cyan);
                 rect->setPen(pen);
                 addItem(rect);
-            }
-            else
-            {
-                if (prevButtons == Qt::NoButton)
-                {
+            } else {
+                if (prevButtons == Qt::NoButton) {
                     initPos = p;
                     rect->setRect(p.x(), p.y(), 1, 1);
-                }
-                else
-                {
+                } else {
                     rect->setRect(QRect(qMin(initPos.x(), p.x()), qMin(initPos.y(), p.y()), qAbs(initPos.x() - p.x()),
                                         qAbs(initPos.y() - p.y())));
                 }
@@ -132,11 +132,9 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
     prevButtons = buttons;
 }
 
-void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
-{
+void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
     qDebug() << "release";
-    if (drawingSelection)
-    {
+    if (drawingSelection) {
         drawingSelection->mouseDragEndEvent(e, this);
         delete drawingSelection;
         drawingSelection = drawingSelectionMaker();
@@ -145,30 +143,25 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     prevButtons = Qt::NoButton;
 }
 
-void CropScene::addDrawingAction(QMenu &menu, QString name, std::function<DrawItem *()> item)
-{
+void CropScene::addDrawingAction(QMenu &menu, QString name, std::function<DrawItem *()> item) {
     QAction *action = new QAction;
     action->setText(name);
     connect(action, &QAction::triggered, [this, item, name](bool) { setDrawingSelection(name, item); });
     menu.addAction(action);
 }
 
-void CropScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *e)
-{
+void CropScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *e) {
     display->setText(drawingName);
     menu.exec(e->screenPos());
     e->accept();
 }
 
-void CropScene::keyReleaseEvent(QKeyEvent *event)
-{
+void CropScene::keyReleaseEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) done(); // Segfault
 }
 
-void CropScene::done()
-{
-    if (rect)
-    {
+void CropScene::done() {
+    if (rect) {
         rect->setPen(QPen(Qt::NoPen));
         emit closedWithRect(rect->rect().toRect());
     }

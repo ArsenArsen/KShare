@@ -1,6 +1,7 @@
 #ifndef CROPSCENE_HPP
 #define CROPSCENE_HPP
 
+#include <QFont>
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -12,19 +13,21 @@ class CropScene;
 
 #include <cropeditor/drawing/drawitem.hpp>
 
-class CropScene : public QGraphicsScene
-{
+class CropScene : public QGraphicsScene {
     Q_OBJECT
     public:
     CropScene(QObject *parent, QPixmap *pixmap);
     ~CropScene();
     QPen &pen();
     QBrush &brush();
+    QFont &font();
     void setDrawingSelection(QString name, std::function<DrawItem *()> drawAction);
-    QPixmap *pixmap()
-    {
+    QPixmap *pixmap() {
         return _pixmap;
     }
+
+    public slots:
+    void fontAsk();
 
     signals:
     void closedWithRect(QRect rect);
@@ -39,14 +42,15 @@ class CropScene : public QGraphicsScene
     private:
     void addDrawingAction(QMenu &menu, QString name, std::function<DrawItem *()> item);
     void done();
-    QPixmap *_pixmap;
+    std::function<DrawItem *()> drawingSelectionMaker;
     QFlags<Qt::MouseButton> prevButtons;
+    QPixmap *_pixmap;
     QGraphicsRectItem *rect = nullptr;
     QPointF initPos;
     QPen _pen;
     QBrush _brush;
+    QFont _font;
     QGraphicsPolygonItem *polyItem = nullptr;
-    std::function<DrawItem *()> drawingSelectionMaker;
     DrawItem *drawingSelection = nullptr;
     QMenu menu;
     QString drawingName = "None";

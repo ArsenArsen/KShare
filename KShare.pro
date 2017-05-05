@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     cropeditor/drawing/bluritem.cpp \
     cropeditor/settings/blurdialog.cpp \
     cropeditor/drawing/pathitem.cpp \
-    cropeditor/drawing/lineitem.cpp
+    cropeditor/drawing/lineitem.cpp \
+    cropeditor/drawing/textitem.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -68,7 +69,8 @@ HEADERS  += mainwindow.hpp \
     cropeditor/drawing/bluritem.hpp \
     cropeditor/settings/blurdialog.hpp \
     cropeditor/drawing/pathitem.hpp \
-    cropeditor/drawing/lineitem.hpp
+    cropeditor/drawing/lineitem.hpp \
+    cropeditor/drawing/textitem.hpp
 
 FORMS    += mainwindow.ui \
     cropeditor/settings/brushpenselection.ui \
