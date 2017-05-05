@@ -1,5 +1,4 @@
 #include "textitem.hpp"
-#include <QDebug>
 #include <QInputDialog>
 #include <QtMath>
 
@@ -17,7 +16,6 @@ void TextItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) {
         auto ee
         = 180 + qRadiansToDegrees(qAtan2((textItem->pos().y() - e->scenePos().y()), (textItem->pos().x() - e->scenePos().x())));
         textItem->setRotation(ee);
-        qDebug() << ee;
     }
 }
 
