@@ -3,8 +3,7 @@
 
 #include <QPixmap>
 
-namespace screenshotutil
-{
+namespace screenshotutil {
 QPixmap *fullscreen();
 QPixmap *window(long wid);
 void toClipboard(QString value);

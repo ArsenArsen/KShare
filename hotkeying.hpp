@@ -5,8 +5,7 @@
 #include <QString>
 #include <functional>
 
-namespace hotkeying
-{
+namespace hotkeying {
 void hotkey(QString seqName, QKeySequence seq, std::function<void()> func);
 bool valid(QString seq);
 void load(QString seqName, std::function<void()> func);

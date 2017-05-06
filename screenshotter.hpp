@@ -1,8 +1,7 @@
 #ifndef SCREENSHOTTER_HPP
 #define SCREENSHOTTER_HPP
 
-namespace screenshotter
-{
+namespace screenshotter {
 void fullscreen();
 void area();
 void fullscreenDelayed();

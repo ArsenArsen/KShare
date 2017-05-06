@@ -4,21 +4,17 @@
 #include "../cropscene.hpp"
 #include "drawitem.hpp"
 
-class PathItem : public DrawItem
-{
-    public:
-    PathItem();
-    ~PathItem();
-    QString name()
-    {
-        return "Path";
-    }
-    void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene);
-    void mouseDragEndEvent(QGraphicsSceneMouseEvent *e, CropScene *scene);
+class PathItem : public DrawItem {
+public:
+  PathItem();
+  ~PathItem();
+  QString name() { return "Path"; }
+  void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene);
+  void mouseDragEndEvent(QGraphicsSceneMouseEvent *e, CropScene *scene);
 
-    private:
-    QPainterPath *path = nullptr;
-    QGraphicsPathItem *pathItem = nullptr;
+private:
+  QPainterPath *path = nullptr;
+  QGraphicsPathItem *pathItem = nullptr;
 };
 
 #endif // PATHITEM_HPP

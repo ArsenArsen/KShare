@@ -4,8 +4,7 @@
 #include <QDir>
 #include <QSettings>
 
-namespace settings
-{
+namespace settings {
 QSettings &settings();
 }
 

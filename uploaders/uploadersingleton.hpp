@@ -4,29 +4,27 @@
 #include "uploader.hpp"
 #include <QMap>
 
-class UploaderSingleton : public QObject
-{
-    Q_OBJECT
-    public:
-    static UploaderSingleton &inst()
-    {
-        static UploaderSingleton inst;
-        return inst;
-    }
-    void registerUploader(Uploader *uploader);
-    void upload(QPixmap *pixmap);
-    QList<Uploader *> uploaderList();
-    void set(QString uploader);
-    QString selectedUploader();
-    QList<std::runtime_error> errors();
-    signals:
-    void newUploader(Uploader *u);
+class UploaderSingleton : public QObject {
+  Q_OBJECT
+public:
+  static UploaderSingleton &inst() {
+    static UploaderSingleton inst;
+    return inst;
+  }
+  void registerUploader(Uploader *uploader);
+  void upload(QPixmap *pixmap);
+  QList<Uploader *> uploaderList();
+  void set(QString uploader);
+  QString selectedUploader();
+  QList<std::runtime_error> errors();
+signals:
+  void newUploader(Uploader *u);
 
-    private:
-    UploaderSingleton();
-    QMap<QString, Uploader *> uploaders;
-    QString uploader = "imgur";
-    QList<std::runtime_error> errs;
+private:
+  UploaderSingleton();
+  QMap<QString, Uploader *> uploaders;
+  QString uploader = "imgur";
+  QList<std::runtime_error> errs;
 };
 
 #endif // UPLOADERSINGLETON_HPP

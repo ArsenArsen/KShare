@@ -4,8 +4,7 @@
 #include <QRegExp>
 #include <QString>
 
-namespace formatter
-{
+namespace formatter {
 QString format(QString toFormat);
 }
 
