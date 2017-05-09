@@ -4,10 +4,14 @@
 #include "../uploader.hpp"
 
 class ImgurUploader : public Uploader {
-public:
-  QString name() { return "imgur"; }
-  QString description() { return "imgur.com uploader"; }
-  void doUpload(QPixmap *pixmap);
+    public:
+    QString name() {
+        return "imgur";
+    }
+    QString description() {
+        return "imgur.com uploader";
+    }
+    void doUpload(QPixmap *pixmap);
 };
 
 #endif // IMGURUPLOADER_HPP

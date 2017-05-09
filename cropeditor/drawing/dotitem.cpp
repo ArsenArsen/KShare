@@ -1,14 +1,14 @@
 #include "dotitem.hpp"
 
-DotItem::DotItem() {}
-
-DotItem::~DotItem() {}
-
-void DotItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) {
-  scene
-      ->addEllipse(e->pos().x() - 1.5, e->pos().y() - 1.5, 3, 3, scene->pen(),
-                   scene->brush())
-      ->setPos(e->scenePos());
+DotItem::DotItem() {
 }
 
-void DotItem::mouseDragEndEvent(QGraphicsSceneMouseEvent *, CropScene *) {}
+DotItem::~DotItem() {
+}
+
+void DotItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) {
+    scene->addEllipse(e->pos().x() - 1.5, e->pos().y() - 1.5, 3, 3, scene->pen(), scene->brush())->setPos(e->scenePos());
+}
+
+void DotItem::mouseDragEndEvent(QGraphicsSceneMouseEvent *, CropScene *) {
+}
