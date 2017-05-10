@@ -1,7 +1,6 @@
 # KShare
 A [ShareX](https://getsharex.com/) inspired cross platform utility written with Qt.
-[![Build Status](https://nativeci.arsenarsen.com/buildStatus/icon?job=KShare)](https://nativeci.arsenarsen.com/job/KShare/)
-
+[![Build Status](https://nativeci.arsenarsen.com/buildStatus/icon?job=KShare)](https://nativeci.arsenarsen.com/job/KShare)
 ## Screenshot
 Made with KShare itself, of course :)  
 ![](https://i.arsenarsen.com/2iphpxpah8.png)
