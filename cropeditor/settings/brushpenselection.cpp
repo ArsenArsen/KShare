@@ -14,6 +14,7 @@ BrushPenSelection::BrushPenSelection(CropScene *scene) : QDialog(), ui(new Ui::B
     ui->cosmetic->setChecked(scene->pen().isCosmetic());
     ui->widthSlider->setValue(scene->pen().width());
     ui->widthSpinner->setValue(scene->pen().widthF());
+    this->setFocus();
     pen = scene->pen().color();
     brush = scene->brush().color();
     this->scene = scene;

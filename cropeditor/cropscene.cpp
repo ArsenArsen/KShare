@@ -75,6 +75,7 @@ QFont &CropScene::font() {
 }
 
 void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> drawAction) {
+    this->setFocus();
     drawingSelectionMaker = drawAction;
     drawingSelection = drawAction();
     drawingName = name;

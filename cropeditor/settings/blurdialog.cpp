@@ -14,6 +14,7 @@ BlurDialog::BlurDialog(QGraphicsBlurEffect *e, QWidget *parent) : QDialog(parent
     ui->quality->setChecked(effect->blurHints().testFlag(QGraphicsBlurEffect::QualityHint));
     ui->radSlider->setValue(effect->blurRadius() * 100);
     ui->radSpinner->setValue(effect->blurRadius());
+    this->setFocus();
     connect(ui->buttonBox, &QDialogButtonBox::accepted, [&] {
         QFlags<QGraphicsBlurEffect::BlurHint> hints;
         hints.setFlag(QGraphicsBlurEffect::AnimationHint, ui->animated->isChecked());

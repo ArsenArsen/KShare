@@ -10,6 +10,9 @@
     <height>262</height>
    </rect>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::StrongFocus</enum>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
