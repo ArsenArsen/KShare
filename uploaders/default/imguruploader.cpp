@@ -19,6 +19,6 @@ void ImgurUploader::doUpload(QPixmap *pixmap) {
                           QString result = res.object()["data"].toObject()["link"].toString();
                           screenshotutil::toClipboard(result);
                           notifications::notify("KShare imgur Uploader ",
-                                                result.isEmpty() ? "Failed upload!" : "Upload done, but result empty!");
+                                                result.isEmpty() ? "Failed upload!" : "Uploaded to imgur!");
                       });
 }
