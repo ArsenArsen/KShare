@@ -3,6 +3,7 @@
 #include <QCommandLineParser>
 #include <QTimer>
 #include <QtGlobal>
+#include <platformbackend.hpp>
 #include <stdio.h>
 
 bool verbose = false;
@@ -44,6 +45,7 @@ int main(int argc, char *argv[]) {
     parser.addOption(v);
     parser.process(a);
     verbose = parser.isSet(v);
+    PlatformBackend::inst().getCursor().save("test.png", "PNG");
 
     MainWindow w;
     w.show();

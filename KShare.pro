@@ -70,7 +70,25 @@ HEADERS  += mainwindow.hpp \
     cropeditor/settings/blurdialog.hpp \
     cropeditor/drawing/pathitem.hpp \
     cropeditor/drawing/lineitem.hpp \
-    cropeditor/drawing/textitem.hpp
+    cropeditor/drawing/textitem.hpp \
+    platformbackend.hpp
+mac {
+        SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp
+        HEADERS += $$PWD/platformspecifics/mac/macbackend.hpp
+        LIBS += -framework Carbon
+} else:win32 {
+        SOURCES += $$PWD/platformspecifics/u32/u32backend.cpp
+        HEADERS += $$PWD/platformspecifics/u32/u32backend.hpp
+        LIBS += -luser32
+        QT += winextras
+} else:unix {
+        SOURCES += $$PWD/platformspecifics/x11/x11backend.cpp
+        HEADERS += $$PWD/platformspecifics/x11/x11backend.hpp
+        QT += x11extras
+        LIBS += -lxcb-cursor -lxcb-xfixes
+} else {
+        error(Unsupported platform);
+}
 
 FORMS    += mainwindow.ui \
     cropeditor/settings/brushpenselection.ui \
