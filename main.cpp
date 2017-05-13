@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     a.setApplicationName("KShare");
     a.setOrganizationName("ArsenArsen");
-    a.setApplicationVersion("2.1");
+    a.setApplicationVersion("3.0");
 
     QCommandLineParser parser;
     parser.addHelpOption();
