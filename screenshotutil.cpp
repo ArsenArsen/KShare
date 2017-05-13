@@ -10,10 +10,11 @@
 QPixmap *screenshotutil::fullscreen() {
     QPixmap *noCursor = window(0);
     QScopedPointer<QPixmap> p(noCursor);
-    QPixmap *withCursor = new QPixmap(noCursor->size());
+    QPixmap *withCursor = new QPixmap(*noCursor);
     QPainter painter(withCursor);
     auto cursorData = PlatformBackend::inst().getCursor();
-    painter.drawPixmap(std::get<0>(cursorData), std::get<1>(cursorData));
+    painter.drawPixmap(QCursor::pos() - std::get<0>(cursorData), std::get<1>(cursorData));
+    painter.end();
     return withCursor;
 }
 
