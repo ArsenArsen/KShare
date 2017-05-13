@@ -13,7 +13,7 @@ CropEditor::CropEditor(QPixmap *image, QObject *parent) : QObject(parent) {
     view = new CropView(scene);
     QPixmap *scaled = new QPixmap();
     image->scaled(view->width(), view->height()).swap(*scaled);
-    pixmapItem = new QGraphicsPixmapItem(*image);
+    pixmapItem = new QGraphicsPixmapItem(*scaled);
     pixmapItem->setZValue(-1);
     scene->addItem(pixmapItem);
     scene->setSceneRect(image->rect());
