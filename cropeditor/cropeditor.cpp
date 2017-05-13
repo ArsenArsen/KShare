@@ -2,22 +2,22 @@
 
 #include "cropscene.hpp"
 #include "cropview.hpp"
+#include <QApplication>
 #include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
+#include <QScreen>
 #include <QTimer>
 #include <settings.hpp>
 
 CropEditor::CropEditor(QPixmap *image, QObject *parent) : QObject(parent) {
     scene = new CropScene(parent, image);
     view = new CropView(scene);
-    QPixmap *scaled = new QPixmap();
-    image->scaled(view->width(), view->height()).swap(*scaled);
-    pixmapItem = new QGraphicsPixmapItem(*scaled);
+    qreal ratio = QApplication::primaryScreen()->devicePixelRatio();
+    pixmapItem = new QGraphicsPixmapItem(image->scaled(image->width() / ratio, image->height() / ratio));
     pixmapItem->setZValue(-1);
     scene->addItem(pixmapItem);
     scene->setSceneRect(image->rect());
-    view->setGeometry(0, 0, image->width(), image->height());
     view->showFullScreen();
 
     QTimer::singleShot(0, [&] { view->showFullScreen(); });
