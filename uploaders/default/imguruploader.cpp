@@ -15,7 +15,7 @@ void ImgurUploader::doUpload(QPixmap *pixmap) {
                       QList<QPair<QString, QString>>()
                       << QPair<QString, QString>("Content-Type", "application/x-www-form-urlencoded")
                       << QPair<QString, QString>("Authorization", "Client-ID 8a98f183fc895da"),
-                      byteArray, [](QJsonDocument res, QNetworkReply *) {
+                      byteArray, [](QJsonDocument res, QByteArray, QNetworkReply *) {
                           QString result = res.object()["data"].toObject()["link"].toString();
                           screenshotutil::toClipboard(result);
                           notifications::notify("KShare imgur Uploader ",

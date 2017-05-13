@@ -114,7 +114,9 @@ void MainWindow::quit() {
 void MainWindow::toggleVisible() {
     this->setVisible(!this->isVisible());
     if (this->isVisible()) {
-        this->raise();
+        this->raise();                          // that didn't work
+        this->setWindowState(Qt::WindowActive); // maybe that works
+        this->activateWindow();                 // maybe that works
     }
 }
 

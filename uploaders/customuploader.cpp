@@ -284,8 +284,9 @@ void CustomUploader::doUpload(QPixmap *pixmap) {
                 notifications::notify("KShare Custom Uploader " + name(), "Copied upload result to clipboard!");
             });
         } else {
-            ioutils::postJson(target, h, data,
-                              [&](QJsonDocument result, QNetworkReply *) { parseResult(result, returnPathspec, name()); });
+            ioutils::postJson(target, h, data, [&](QJsonDocument result, QByteArray, QNetworkReply *) {
+                parseResult(result, returnPathspec, name());
+            });
         }
         break;
     }
