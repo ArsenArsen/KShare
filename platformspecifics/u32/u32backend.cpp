@@ -4,18 +4,18 @@
 #include <QtWin>
 #include <windows.h>
 
-QPixmap PlatformBackend::getCursor() {
+std::tuple<QPoint, QPixmap> getCursor() {
     CURSORINFO cursorInfo;
     cursorInfo.cbSize = sizeof(cursorInfo);
     if (GetCursorInfo(&cursorInfo)) {
         if (cursorInfo.flags == CURSOR_SHOWING) {
             ICONINFO info; // It took me 5 hours to get to here
             if (GetIconInfo(cursorInfo.hCursor, &info)) {
-                return QtWin::fromHBITMAP(info.hbmColor);
+                return std::tuple<QPoint, QPixmap>(QPoint(info.xHotspot, info.yHotspot), QtWin::fromHBITMAP(info.hbmColor));
             } else
-                return QPixmap();
+                return std::tuple<QPoint, QPixmap>(QPoint(0, 0), QPixmap());
         } else
-            return QPixmap();
+            return std::tuple<QPoint, QPixmap>(QPoint(0, 0), QPixmap());
     } else
-        return QPixmap();
+        return std::tuple<QPoint, QPixmap>(QPoint(0, 0), QPixmap());
 }

@@ -5,7 +5,7 @@
 
 class PlatformBackend {
     public:
-    QPixmap getCursor();
+    std::tuple<QPoint, QPixmap> getCursor();
     static PlatformBackend &inst() {
         static PlatformBackend inst;
         return inst;

@@ -2,11 +2,19 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QPainter>
 #include <QPixmap>
 #include <QScreen>
+#include <platformbackend.hpp>
 
 QPixmap *screenshotutil::fullscreen() {
-    return window(0);
+    QPixmap *noCursor = window(0);
+    QScopedPointer<QPixmap> p(noCursor);
+    QPixmap *withCursor = new QPixmap(noCursor->size());
+    QPainter painter(withCursor);
+    auto cursorData = PlatformBackend::inst().getCursor();
+    painter.drawPixmap(std::get<0>(cursorData), std::get<1>(cursorData));
+    return withCursor;
 }
 
 QPixmap *screenshotutil::window(long wid) {
