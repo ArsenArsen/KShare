@@ -216,7 +216,7 @@ QString parsePathspec(QJsonDocument &response, QString &pathspec) {
     return "";
 }
 
-void parseResult(QJsonDocument result, QString returnPathspec, QString name) {
+void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, QString name) {
     if (result.isObject()) {
         qDebug() << result.object()[".url"];
         QString url = parsePathspec(result, returnPathspec);
@@ -225,8 +225,11 @@ void parseResult(QJsonDocument result, QString returnPathspec, QString name) {
             notifications::notify("KShare Custom Uploader " + name, "Copied upload link to clipboard!");
         } else
             notifications::notify("KShare Custom Uploader " + name, "Upload done, but result empty!");
-    } else
-        notifications::notify("KShare Custom Uploader " + name, "Upload done, but result is not JSON Object!");
+    } else {
+        notifications::notify("KShare Custom Uploader " + name,
+                              "Upload done, but result is not JSON Object! Result in clipboard.");
+        QApplication::clipboard()->setText(data);
+    }
 }
 
 void CustomUploader::doUpload(QPixmap *pixmap) {
@@ -284,8 +287,8 @@ void CustomUploader::doUpload(QPixmap *pixmap) {
                 notifications::notify("KShare Custom Uploader " + name(), "Copied upload result to clipboard!");
             });
         } else {
-            ioutils::postJson(target, h, data, [&](QJsonDocument result, QByteArray, QNetworkReply *) {
-                parseResult(result, returnPathspec, name());
+            ioutils::postJson(target, h, data, [&](QJsonDocument result, QByteArray data, QNetworkReply *) {
+                parseResult(result, data, returnPathspec, name());
             });
         }
         break;
