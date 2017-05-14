@@ -46,9 +46,6 @@ int main(int argc, char *argv[]) {
     verbose = parser.isSet(v);
 
     MainWindow w;
-    w.show();
-    QTimer::singleShot(0, [&] {
-        if (parser.isSet(h)) w.hide();
-    });
+    if (!parser.isSet(h)) w.show();
     return a.exec();
 }
