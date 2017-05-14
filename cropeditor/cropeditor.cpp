@@ -14,8 +14,9 @@ CropEditor::CropEditor(QPixmap *image, QObject *parent) : QObject(parent) {
     scene = new CropScene(parent, image);
     view = new CropView(scene);
     qreal ratio = QApplication::primaryScreen()->devicePixelRatio();
-    pixmapItem = new QGraphicsPixmapItem(image->scaled(image->width() / ratio, image->height() / ratio));
+    pixmapItem = new QGraphicsPixmapItem(*image);
     pixmapItem->setZValue(-1);
+    pixmapItem->setScale(1 / ratio);
     scene->addItem(pixmapItem);
     scene->setSceneRect(image->rect());
     view->showFullScreen();
