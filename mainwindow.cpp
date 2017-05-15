@@ -84,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     addHotkeyItem("Area image", "area", new std::function<void()>([] { screenshotter::area(); }));
 
     ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());
+    ui->captureCursor->setChecked(settings::settings().value("captureCursor", true).toBool());
 }
 
 MainWindow::~MainWindow() {
@@ -171,4 +172,8 @@ void MainWindow::on_settingsButton_clicked() {
 
 void MainWindow::on_quickMode_clicked(bool checked) {
     settings::settings().setValue("quickMode", checked);
+}
+
+void MainWindow::on_captureCursor_clicked(bool checked) {
+    settings::settings().setValue("captureCursor", checked);
 }

@@ -7,15 +7,18 @@
 #include <QScreen>
 #include <platformbackend.hpp>
 
-QPixmap *screenshotutil::fullscreen() {
-    QPixmap *noCursor = window(0);
-    QScopedPointer<QPixmap> p(noCursor);
-    QPixmap *withCursor = new QPixmap(*noCursor);
-    QPainter painter(withCursor);
-    auto cursorData = PlatformBackend::inst().getCursor();
-    painter.drawPixmap(QCursor::pos() - std::get<0>(cursorData), std::get<1>(cursorData));
-    painter.end();
-    return withCursor;
+QPixmap *screenshotutil::fullscreen(bool cursor) {
+    if (cursor) {
+        QPixmap *noCursor = window(0);
+        QScopedPointer<QPixmap> p(noCursor);
+        QPixmap *withCursor = new QPixmap(*noCursor);
+        QPainter painter(withCursor);
+        auto cursorData = PlatformBackend::inst().getCursor();
+        painter.drawPixmap(QCursor::pos() - std::get<0>(cursorData), std::get<1>(cursorData));
+        painter.end();
+        return withCursor;
+    }
+    return window(0);
 }
 
 QPixmap *screenshotutil::window(long wid) {

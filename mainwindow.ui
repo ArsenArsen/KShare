@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>512</width>
-    <height>337</height>
+    <width>483</width>
+    <height>368</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,17 @@
     </sizepolicy>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="7" column="0" colspan="2">
+    <item row="3" column="0">
+     <widget class="QLineEdit" name="nameScheme">
+      <property name="toolTip">
+       <string>http://doc.qt.io/qt-5/qdatetime.html#toString</string>
+      </property>
+      <property name="text">
+       <string>Screenshot %(yyyy-MM-dd HH:mm:ss)date</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0" colspan="2">
      <widget class="QLabel" name="label_6">
       <property name="text">
        <string>&lt;a href=&quot;https://github.com/ArsenArsen/KShare&quot;&gt;Source code available free for everyone. Forever.&lt;/a&gt;
@@ -36,6 +46,13 @@
     </item>
     <item row="1" column="1" rowspan="5">
      <widget class="QListWidget" name="hotkeys"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Delay before taking a screenshot</string>
+      </property>
+     </widget>
     </item>
     <item row="5" column="0">
      <widget class="QDoubleSpinBox" name="delay">
@@ -50,24 +67,10 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_2">
+    <item row="6" column="1">
+     <widget class="QPushButton" name="settingsButton">
       <property name="text">
-       <string>File name scheme:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Uploader selection:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Delay before taking a screenshot</string>
+       <string>Open settings directory</string>
       </property>
      </widget>
     </item>
@@ -78,18 +81,15 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QListWidget" name="uploaderList"/>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLineEdit" name="nameScheme">
-      <property name="toolTip">
-       <string>http://doc.qt.io/qt-5/qdatetime.html#toString</string>
-      </property>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>Screenshot %(yyyy-MM-dd HH:mm:ss)date</string>
+       <string>File name scheme:</string>
       </property>
      </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QListWidget" name="uploaderList"/>
     </item>
     <item row="6" column="0">
      <widget class="QCheckBox" name="quickMode">
@@ -98,10 +98,17 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="1">
-     <widget class="QPushButton" name="settingsButton">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
       <property name="text">
-       <string>Open settings directory</string>
+       <string>Uploader selection:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0" colspan="2">
+     <widget class="QCheckBox" name="captureCursor">
+      <property name="text">
+       <string>Capture cursor</string>
       </property>
      </widget>
     </item>
@@ -112,7 +119,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>512</width>
+     <width>483</width>
      <height>24</height>
     </rect>
    </property>

@@ -25,14 +25,11 @@ class MainWindow : public QMainWindow {
     void on_actionArea_triggered();
     void on_uploaderList_clicked(const QModelIndex &);
     void on_nameScheme_textEdited(const QString &arg1);
-
     void on_delay_valueChanged(double arg1);
-
     void on_hotkeys_doubleClicked(const QModelIndex &index);
-
     void on_settingsButton_clicked();
-
     void on_quickMode_clicked(bool checked);
+    void on_captureCursor_clicked(bool checked);
 
     public:
     explicit MainWindow(QWidget *parent = 0);
