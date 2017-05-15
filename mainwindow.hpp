@@ -34,6 +34,8 @@ class MainWindow : public QMainWindow {
 
     void on_quickMode_clicked(bool checked);
 
+    void on_hideToTray_clicked(bool checked);
+
     public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();

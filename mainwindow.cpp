@@ -3,6 +3,7 @@
 #include "screenshotutil.hpp"
 #include "ui_mainwindow.h"
 #include <QAction>
+#include <QApplication>
 #include <QCheckBox>
 #include <QCloseEvent>
 #include <QCoreApplication>
@@ -84,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     addHotkeyItem("Area image", "area", new std::function<void()>([] { screenshotter::area(); }));
 
     ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());
+    ui->hideToTray->setChecked(settings::settings().value("hideOnClose", true).toBool());
 }
 
 MainWindow::~MainWindow() {
@@ -103,8 +105,11 @@ MainWindow *MainWindow::inst() {
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
-    event->ignore();
-    QTimer::singleShot(0, this, &MainWindow::hide);
+    if (settings::settings().value("hideOnClose", true).toBool()) {
+        event->ignore();
+        QTimer::singleShot(0, this, &MainWindow::hide);
+    } else
+        QApplication::exit(0);
 }
 
 void MainWindow::quit() {
@@ -171,4 +176,8 @@ void MainWindow::on_settingsButton_clicked() {
 
 void MainWindow::on_quickMode_clicked(bool checked) {
     settings::settings().setValue("quickMode", checked);
+}
+
+void MainWindow::on_hideToTray_clicked(bool checked) {
+    settings::settings().setValue("hideOnClose", checked);
 }
