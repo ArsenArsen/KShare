@@ -142,7 +142,8 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
         drawingSelection = drawingSelectionMaker();
         if (drawingSelection)
             if (!drawingSelection->init(this)) setDrawingSelection("None", [] { return nullptr; });
-    }
+    } else if (settings::settings().value("quickMode", false).toBool())
+        done();
     prevButtons = Qt::NoButton;
 }
 

@@ -30,6 +30,10 @@ class MainWindow : public QMainWindow {
 
     void on_hotkeys_doubleClicked(const QModelIndex &index);
 
+    void on_settingsButton_clicked();
+
+    void on_quickMode_clicked(bool checked);
+
     public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();

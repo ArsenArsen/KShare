@@ -3,8 +3,10 @@
 #include "screenshotutil.hpp"
 #include "ui_mainwindow.h"
 #include <QAction>
+#include <QCheckBox>
 #include <QCloseEvent>
 #include <QCoreApplication>
+#include <QDesktopServices>
 #include <QDoubleSpinBox>
 #include <QInputDialog>
 #include <QListWidgetItem>
@@ -80,6 +82,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     addHotkeyItem("Fullscreen image", "fullscreen", new std::function<void()>([] { screenshotter::fullscreen(); }));
     addHotkeyItem("Area image", "area", new std::function<void()>([] { screenshotter::area(); }));
+
+    ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());
 }
 
 MainWindow::~MainWindow() {
@@ -110,7 +114,9 @@ void MainWindow::quit() {
 void MainWindow::toggleVisible() {
     this->setVisible(!this->isVisible());
     if (this->isVisible()) {
-        this->raise();
+        this->raise();                          // that didn't work
+        this->setWindowState(Qt::WindowActive); // maybe that works
+        this->activateWindow();                 // maybe that works
     }
 }
 
@@ -152,8 +158,17 @@ void MainWindow::on_hotkeys_doubleClicked(const QModelIndex &) {
     if (ui->hotkeys->selectedItems().length() == 1) {
         QListWidgetItem *i = ui->hotkeys->selectedItems().at(0);
         QString str = i->data(Qt::UserRole + 1).toString();
+        bool ok;
         QString seq = QInputDialog::getText(ui->centralWidget, "Hotkey Input", "Insert hotkey:", QLineEdit::Normal,
-                                            hotkeying::sequence(str));
-        if (hotkeying::valid(seq)) hotkeying::hotkey(str, QKeySequence(seq), *fncs.value(str));
+                                            hotkeying::sequence(str), &ok);
+        if (ok && hotkeying::valid(seq)) hotkeying::hotkey(str, QKeySequence(seq), *fncs.value(str));
     }
+}
+
+void MainWindow::on_settingsButton_clicked() {
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/KShare"));
+}
+
+void MainWindow::on_quickMode_clicked(bool checked) {
+    settings::settings().setValue("quickMode", checked);
 }

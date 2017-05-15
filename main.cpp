@@ -33,16 +33,24 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     a.setApplicationName("KShare");
     a.setOrganizationName("ArsenArsen");
-    a.setApplicationVersion("1.1");
+    a.setApplicationVersion("3.0");
 
     QCommandLineParser parser;
     parser.addHelpOption();
 
     QCommandLineOption h({ "b", "background" }, "Does not show the main window, starts in tray.");
     QCommandLineOption v({ "v", "verbose" }, "Enables QtDebugMsg outputs");
+    QCommandLineOption ver({ "ver", "version" }, "Prints KShare version");
     parser.addOption(h);
     parser.addOption(v);
+    parser.addOption(ver);
     parser.process(a);
+
+    if (parser.isSet(ver)) {
+        printf("%s %s\n", a.applicationName().toLocal8Bit().constData(), a.applicationVersion().toLocal8Bit().constData());
+        return 0;
+    }
+
     verbose = parser.isSet(v);
 
     MainWindow w;
