@@ -4,7 +4,7 @@
 #include <QtWin>
 #include <windows.h>
 
-std::tuple<QPoint, QPixmap> getCursor() {
+std::tuple<QPoint, QPixmap> PlatformBackend::getCursor() {
     CURSORINFO cursorInfo;
     cursorInfo.cbSize = sizeof(cursorInfo);
     if (GetCursorInfo(&cursorInfo)) {
