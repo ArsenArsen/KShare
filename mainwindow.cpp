@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     menu->addActions({ fullscreen, area });
     connect(quit, &QAction::triggered, this, &MainWindow::quit);
     connect(shtoggle, &QAction::triggered, this, &MainWindow::toggleVisible);
-    connect(shtoggle, &QAction::triggered, [] { ColorPickerScene::showPicker(); });
+    connect(picker, &QAction::triggered, [] { ColorPickerScene::showPicker(); });
     connect(tray, &QSystemTrayIcon::messageClicked, this, &MainWindow::toggleVisible);
     connect(tray, &QSystemTrayIcon::activated, this, [this](QSystemTrayIcon::ActivationReason reason) {
         if (reason == QSystemTrayIcon::DoubleClick) toggleVisible();
