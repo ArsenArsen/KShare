@@ -3,6 +3,8 @@
 #include <QCommandLineParser>
 #include <QTimer>
 #include <QtGlobal>
+#include <colorpicker/colorpickerscene.hpp>
+#include <screenshotutil.hpp>
 #include <stdio.h>
 
 bool verbose = false;

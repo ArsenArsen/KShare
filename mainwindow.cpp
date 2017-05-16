@@ -15,6 +15,7 @@
 #include <QStatusBar>
 #include <QSystemTrayIcon>
 #include <QTimer>
+#include <colorpicker/colorpickerscene.hpp>
 #include <functional>
 #include <hotkeying.hpp>
 #include <settings.hpp>
@@ -41,11 +42,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QAction *shtoggle = new QAction("Show/Hide", this);
     QAction *fullscreen = new QAction("Take fullscreen shot", this);
     QAction *area = new QAction("Take area shot", this);
-    menu->addActions({ quit, shtoggle });
+    QAction *picker = new QAction("Show color picker", this);
+    menu->addActions({ quit, shtoggle, picker });
     menu->addSeparator();
     menu->addActions({ fullscreen, area });
     connect(quit, &QAction::triggered, this, &MainWindow::quit);
     connect(shtoggle, &QAction::triggered, this, &MainWindow::toggleVisible);
+    connect(shtoggle, &QAction::triggered, [] { ColorPickerScene::showPicker(); });
     connect(tray, &QSystemTrayIcon::messageClicked, this, &MainWindow::toggleVisible);
     connect(tray, &QSystemTrayIcon::activated, this, [this](QSystemTrayIcon::ActivationReason reason) {
         if (reason == QSystemTrayIcon::DoubleClick) toggleVisible();
@@ -83,6 +86,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     addHotkeyItem("Fullscreen image", "fullscreen", new std::function<void()>([] { screenshotter::fullscreen(); }));
     addHotkeyItem("Area image", "area", new std::function<void()>([] { screenshotter::area(); }));
+    addHotkeyItem("Color picker", "picker", new std::function<void()>([] { ColorPickerScene::showPicker(); }));
 
     ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());
     ui->hideToTray->setChecked(settings::settings().value("hideOnClose", true).toBool());
@@ -180,4 +184,8 @@ void MainWindow::on_quickMode_clicked(bool checked) {
 
 void MainWindow::on_hideToTray_clicked(bool checked) {
     settings::settings().setValue("hideOnClose", checked);
+}
+
+void MainWindow::on_actionColor_Picker_triggered() {
+    ColorPickerScene::showPicker();
 }

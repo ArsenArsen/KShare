@@ -136,8 +136,15 @@
     <addaction name="actionFullscreen"/>
     <addaction name="actionArea"/>
    </widget>
+   <widget class="QMenu" name="menuUtilities">
+    <property name="title">
+     <string>&amp;Utilities</string>
+    </property>
+    <addaction name="actionColor_Picker"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuScreenshot"/>
+   <addaction name="menuUtilities"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionQuit">
@@ -153,6 +160,11 @@
   <action name="actionArea">
    <property name="text">
     <string>&amp;Area</string>
+   </property>
+  </action>
+  <action name="actionColor_Picker">
+   <property name="text">
+    <string>Color Picker</string>
    </property>
   </action>
  </widget>
