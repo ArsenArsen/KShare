@@ -22,12 +22,13 @@ BlurDialog::BlurDialog(QGraphicsBlurEffect *e, QWidget *parent) : QDialog(parent
         hints.setFlag(QGraphicsBlurEffect::QualityHint, ui->quality->isChecked());
         effect->setBlurHints(hints);
         effect->setBlurRadius(ui->radSpinner->value());
-        setResult(QDialog::Accepted);
+        accept();
         close();
     });
     connect(ui->buttonBox, &QDialogButtonBox::rejected, [&] {
-        setResult(QDialog::Rejected);
+        reject();
         close();
+        emit finished(result());
     });
 }
 
