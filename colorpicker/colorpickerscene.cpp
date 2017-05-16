@@ -32,12 +32,33 @@ ColorPickerScene::ColorPickerScene(QPixmap *pixmap, QWidget *parentWidget)
 }
 
 void ColorPickerScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-    ellipse->setRect(QRectF(event->scenePos(), QSize(20, 20)));
     color = pItem->pixmap().toImage().pixelColor(event->scenePos().toPoint());
-    text->setPos(QCursor::pos() + QPoint(25, 0));
     text->setPlainText(color.name());
-    textBackground->setPos(text->pos());
     ellipse->setBrush(color);
+
+    qreal bottom = rect().bottom(); // max y
+    qreal right = rect().right();   // max x
+    qreal width = text->boundingRect().width();
+    qreal height = text->boundingRect().height();
+
+    QPointF origPoint = event->scenePos() + QPoint(25, 0);
+    QPointF scopePoint = event->scenePos();
+    QPointF resPoint = origPoint;
+    if (origPoint.x() + width > right) {
+        scopePoint -= QPoint(20, 0);
+        resPoint -= QPoint(50 + width, 0);
+    }
+    if (origPoint.y() + height > bottom) {
+        scopePoint -= QPoint(0, 20);
+        resPoint -= QPoint(0, height);
+    }
+
+    ellipse->setRect(QRectF(scopePoint, QSize(20, 20)));
+    text->setPos(resPoint);
+    textBackground->setPos(text->pos());
+    // How does this work? I have no clue....
+    // I mean.. It kinda makes sense when you look through it carefully
+    // But it's still a mess.
 }
 
 void ColorPickerScene::keyPressEvent(QKeyEvent *event) {
