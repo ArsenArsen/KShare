@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>512</width>
-    <height>368</height>
+    <height>399</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,33 +25,13 @@
     </sizepolicy>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Uploader selection:</string>
+    <item row="3" column="0">
+     <widget class="QLineEdit" name="nameScheme">
+      <property name="toolTip">
+       <string>http://doc.qt.io/qt-5/qdatetime.html#toString</string>
       </property>
-     </widget>
-    </item>
-    <item row="8" column="0" colspan="2">
-     <widget class="QLabel" name="label_6">
       <property name="text">
-       <string>&lt;a href=&quot;https://github.com/ArsenArsen/KShare&quot;&gt;Source code available free for everyone. Forever.&lt;/a&gt;
-
-</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Delay before taking a screenshot</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Hotkeys</string>
+       <string>Screenshot %(yyyy-MM-dd HH:mm:ss)date</string>
       </property>
      </widget>
     </item>
@@ -62,6 +42,13 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Uploader selection:</string>
+      </property>
+     </widget>
+    </item>
     <item row="6" column="1">
      <widget class="QPushButton" name="settingsButton">
       <property name="text">
@@ -69,13 +56,19 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
-     <widget class="QLineEdit" name="nameScheme">
-      <property name="toolTip">
-       <string>http://doc.qt.io/qt-5/qdatetime.html#toString</string>
-      </property>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Screenshot %(yyyy-MM-dd HH:mm:ss)date</string>
+       <string>Delay before taking a screenshot</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0" colspan="2">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>&lt;a href=&quot;https://github.com/ArsenArsen/KShare&quot;&gt;Source code available free for everyone. Forever.&lt;/a&gt;
+
+</string>
       </property>
      </widget>
     </item>
@@ -92,6 +85,20 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Hotkeys</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0" colspan="2">
+     <widget class="QCheckBox" name="hideToTray">
+      <property name="text">
+       <string>Pressing &lt;X&gt; hides to tray</string>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="1" rowspan="5">
      <widget class="QListWidget" name="hotkeys"/>
     </item>
@@ -105,10 +112,10 @@
     <item row="1" column="0">
      <widget class="QListWidget" name="uploaderList"/>
     </item>
-    <item row="7" column="0" colspan="2">
-     <widget class="QCheckBox" name="hideToTray">
+    <item row="8" column="0">
+     <widget class="QCheckBox" name="captureCursor">
       <property name="text">
-       <string>Pressing &lt;X&gt; hides to tray</string>
+       <string>Capture cursor</string>
       </property>
      </widget>
     </item>
@@ -131,7 +138,7 @@
    </widget>
    <widget class="QMenu" name="menuScreenshot">
     <property name="title">
-     <string>S&amp;creenshot</string>
+     <string>Scree&amp;nshot</string>
     </property>
     <addaction name="actionFullscreen"/>
     <addaction name="actionArea"/>
@@ -164,7 +171,7 @@
   </action>
   <action name="actionColor_Picker">
    <property name="text">
-    <string>Color Picker</string>
+    <string>&amp;Color Picker</string>
    </property>
   </action>
  </widget>
