@@ -107,6 +107,11 @@ CustomUploader::CustomUploader(QString absFilePath) {
         returnPathspec = returnPsVal.toString();
     } else
         error(absFilePath, "return invalid");
+    QJsonValue fileLimit = obj["fileLimit"];
+    if (!fileLimit.isNull() && !fileLimit.isUndefined()) {
+        if (!fileLimit.isDouble()) error(absFilePath, "fileLimit not double");
+        limit = fileLimit.toDouble();
+    }
 }
 
 QString CustomUploader::name() {
@@ -278,6 +283,10 @@ void CustomUploader::doUpload(QPixmap *pixmap) {
             }
         }
     } break;
+    }
+    if (limit != -1 && data.size() > limit) {
+        notifications::notify("KShare Custom Uploader " + name(), "File limit exceeded!");
+        return;
     }
     switch (method) {
     case HttpMethod::POST:

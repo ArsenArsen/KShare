@@ -11,6 +11,10 @@ void ImgurUploader::doUpload(QPixmap *pixmap) {
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     pixmap->save(&buffer, "PNG");
+    if (buffer.size() > 1e+7) {
+        notifications::notify("KShare imgur Uploader ", "Failed upload! Image too big");
+        return;
+    }
     ioutils::postJson(QUrl("https://api.imgur.com/3/image"),
                       QList<QPair<QString, QString>>()
                       << QPair<QString, QString>("Content-Type", "application/x-www-form-urlencoded")
