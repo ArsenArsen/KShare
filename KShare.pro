@@ -91,7 +91,6 @@ mac {
 } else {
         error(Unsupported platform);
 }
->>>>>>> feature/platformbackends
 
 FORMS    += mainwindow.ui \
     cropeditor/settings/brushpenselection.ui \
