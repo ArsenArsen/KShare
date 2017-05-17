@@ -4,7 +4,7 @@
 #include <QPixmap>
 
 namespace screenshotutil {
-QPixmap *fullscreen();
+QPixmap *fullscreen(bool cursor = true);
 QPixmap *window(long wid);
 void toClipboard(QString value);
 }

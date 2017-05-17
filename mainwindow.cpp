@@ -90,6 +90,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());
     ui->hideToTray->setChecked(settings::settings().value("hideOnClose", true).toBool());
+    ui->captureCursor->setChecked(settings::settings().value("captureCursor", true).toBool());
 }
 
 MainWindow::~MainWindow() {
@@ -188,4 +189,8 @@ void MainWindow::on_hideToTray_clicked(bool checked) {
 
 void MainWindow::on_actionColor_Picker_triggered() {
     ColorPickerScene::showPicker();
+}
+
+void MainWindow::on_captureCursor_clicked(bool checked) {
+    settings::settings().setValue("captureCursor", checked);
 }

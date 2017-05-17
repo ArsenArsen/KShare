@@ -30,8 +30,8 @@ class MainWindow : public QMainWindow {
     void on_settingsButton_clicked();
     void on_quickMode_clicked(bool checked);
     void on_hideToTray_clicked(bool checked);
-
     void on_actionColor_Picker_triggered();
+    void on_captureCursor_clicked(bool checked);
 
     public:
     explicit MainWindow(QWidget *parent = 0);

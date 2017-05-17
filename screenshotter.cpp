@@ -5,6 +5,7 @@
 #include "uploaders/uploadersingleton.hpp"
 #include <QDoubleSpinBox>
 #include <QTimer>
+#include <settings.hpp>
 
 void screenshotter::area() {
     CropEditor *editor = new CropEditor(screenshotutil::fullscreen());
@@ -15,7 +16,7 @@ void screenshotter::area() {
 }
 
 void screenshotter::fullscreen() {
-    UploaderSingleton::inst().upload(screenshotutil::fullscreen());
+    UploaderSingleton::inst().upload(screenshotutil::fullscreen(settings::settings().value("captureCursor", true).toBool()));
 }
 
 void screenshotter::areaDelayed() {
