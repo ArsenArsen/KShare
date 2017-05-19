@@ -1,3 +1,6 @@
 [submodule "QHotkey"]
 	path = QHotkey
 	url = https://github.com/Skycoder42/QHotkey.git
+[submodule "gif-h"]
+	path = gif-h
+	url = https://github.com/ginsweater/gif-h.git
