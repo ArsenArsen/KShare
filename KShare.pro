@@ -73,7 +73,9 @@ HEADERS  += mainwindow.hpp \
     cropeditor/drawing/lineitem.hpp \
     cropeditor/drawing/textitem.hpp \
     colorpicker/colorpickerscene.hpp \
-    platformbackend.hpp
+    platformbackend.hpp \
+    gif-h/gif.h
+
 mac {
         SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp
         HEADERS += $$PWD/platformspecifics/mac/macbackend.hpp

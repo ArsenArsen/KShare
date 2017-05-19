@@ -1,10 +1,7 @@
 #include "mainwindow.hpp"
 #include <QApplication>
 #include <QCommandLineParser>
-#include <QTimer>
 #include <QtGlobal>
-#include <colorpicker/colorpickerscene.hpp>
-#include <screenshotutil.hpp>
 #include <stdio.h>
 
 bool verbose = false;
@@ -13,10 +10,10 @@ void handler(QtMsgType type, const QMessageLogContext &, const QString &msg) {
     QByteArray localMsg = msg.toLocal8Bit();
     switch (type) {
     case QtDebugMsg:
-        if (verbose) fprintf(stderr, "DEBUG: %s\n", localMsg.constData());
+        if (verbose) fprintf(stdout, "DEBUG: %s\n", localMsg.constData());
         break;
     case QtInfoMsg:
-        fprintf(stderr, "INFO: %s\n", localMsg.constData());
+        fprintf(stdout, "INFO: %s\n", localMsg.constData());
         break;
     case QtWarningMsg:
         fprintf(stderr, "WARN: %s\n", localMsg.constData());
