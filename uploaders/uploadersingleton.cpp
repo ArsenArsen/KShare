@@ -8,7 +8,14 @@
 #include <formatter.hpp>
 #include <settings.hpp>
 
-UploaderSingleton::UploaderSingleton() : QObject() {
+UploaderSingleton::UploaderSingleton()
+: QObject(), saveDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
+    if (QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).isEmpty()) {
+        qFatal() << "Cannot determine location for pictures";
+    }
+    if (!saveDir.exists()) {
+        saveDir.mkpath(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
+    }
     QDir configDir(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation));
     configDir.mkpath("KShare/uploaders");
     configDir.cd("KShare/uploaders");
@@ -49,8 +56,7 @@ void UploaderSingleton::upload(QPixmap *pixmap) {
     if (settings::settings().contains("fileFormat")) {
         QString format = settings::settings().value("fileFormat").toString();
         if (!format.isEmpty()) {
-            pixmap->save(QDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)).absoluteFilePath(formatter::format(format) + ".png"),
-                         "PNG");
+            pixmap->save(saveDir.absoluteFilePath(formatter::format(format) + ".png"), "PNG");
         }
     }
     uploaders.value(uploader)->doUpload(pixmap);
