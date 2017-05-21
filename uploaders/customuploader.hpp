@@ -20,7 +20,7 @@ class CustomUploader : public Uploader {
     QMap<QString, QString> types;
 
     private:
-    double limit;
+    double limit = -1;
     QString desc;
     QString uName;
     RequestFormat format = RequestFormat::JSON;

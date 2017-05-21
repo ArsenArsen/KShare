@@ -284,7 +284,7 @@ void CustomUploader::doUpload(QPixmap *pixmap) {
         }
     } break;
     }
-    if (limit != -1 && data.size() > limit) {
+    if (limit > 0 && data.size() > limit) {
         notifications::notify("KShare Custom Uploader " + name(), "File limit exceeded!");
         return;
     }
