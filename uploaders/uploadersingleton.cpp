@@ -15,7 +15,7 @@ UploaderSingleton::UploaderSingleton()
     }
     if (!saveDir.exists()) {
         if (!saveDir.mkpath(".")) {
-            qFatal("Could not create the path %s to store images in!", saveDir.absoluteFilePath(".").toLocal8Bit().constData());
+            qFatal("Could not create the path %s to store images in!", saveDir.absolutePath().toLocal8Bit().constData());
         }
     }
     QDir configDir(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation));
