@@ -108,8 +108,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
                     initPos = p;
                     rect->setRect(p.x(), p.y(), 1, 1);
                 } else {
-                    rect->setRect(QRect(qMin(initPos.x(), p.x()), qMin(initPos.y(), p.y()), qAbs(initPos.x() - p.x()),
-                                        qAbs(initPos.y() - p.y())));
+                    rect->setRect(QRect(qMin(initPos.x(), p.x()), qMin(initPos.y(), p.y()), qAbs(initPos.x() - p.x()), qAbs(initPos.y() - p.y())));
                 }
             }
             QPolygonF poly;

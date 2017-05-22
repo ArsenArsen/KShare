@@ -8,8 +8,7 @@
 #include <formatter.hpp>
 #include <settings.hpp>
 
-UploaderSingleton::UploaderSingleton()
-: QObject(), saveDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
+UploaderSingleton::UploaderSingleton() : QObject(), saveDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
     if (QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).isEmpty()) {
         qFatal("Cannot determine location for pictures");
     }

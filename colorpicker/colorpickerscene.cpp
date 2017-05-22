@@ -6,8 +6,7 @@
 #include <QGraphicsTextItem>
 #include <QTimer>
 
-ColorPickerScene::ColorPickerScene(QPixmap *pixmap, QWidget *parentWidget)
-: QGraphicsScene(), QGraphicsView(this, parentWidget) {
+ColorPickerScene::ColorPickerScene(QPixmap *pixmap, QWidget *parentWidget) : QGraphicsScene(), QGraphicsView(this, parentWidget) {
     setFrameShape(QFrame::NoFrame); // Time taken to solve: A george99g and 38 minutes.
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

@@ -78,8 +78,7 @@ CustomUploader::CustomUploader(QString absFilePath) {
         error(absFilePath, "imageformat not string");
     }
     QString imageFormat = imageValue.toString();
-    if (imageFormat == "base64" || QRegExp("base64\\([^+]+\\+[^+]+)").exactMatch(imageFormat)
-        || QRegExp("[^+]+\\+[^+]+").exactMatch(imageFormat)) {
+    if (imageFormat == "base64" || QRegExp("base64\\([^+]+\\+[^+]+)").exactMatch(imageFormat) || QRegExp("[^+]+\\+[^+]+").exactMatch(imageFormat)) {
         this->iFormat = imageFormat;
     } else
         error(absFilePath, "imageformat invalid");
@@ -231,8 +230,7 @@ void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, 
         } else
             notifications::notify("KShare Custom Uploader " + name, "Upload done, but result empty!");
     } else {
-        notifications::notify("KShare Custom Uploader " + name,
-                              "Upload done, but result is not JSON Object! Result in clipboard.");
+        notifications::notify("KShare Custom Uploader " + name, "Upload done, but result is not JSON Object! Result in clipboard.");
         QApplication::clipboard()->setText(data);
     }
 }
