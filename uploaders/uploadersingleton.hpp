@@ -2,6 +2,7 @@
 #define UPLOADERSINGLETON_HPP
 
 #include "uploader.hpp"
+#include <QDir>
 #include <QMap>
 
 class UploaderSingleton : public QObject {
@@ -21,6 +22,7 @@ class UploaderSingleton : public QObject {
     void newUploader(Uploader *u);
 
     private:
+    QDir saveDir;
     UploaderSingleton();
     QMap<QString, Uploader *> uploaders;
     QString uploader = "imgur";

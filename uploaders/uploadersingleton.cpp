@@ -11,10 +11,12 @@
 UploaderSingleton::UploaderSingleton()
 : QObject(), saveDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
     if (QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).isEmpty()) {
-        qFatal() << "Cannot determine location for pictures";
+        qFatal("Cannot determine location for pictures");
     }
     if (!saveDir.exists()) {
-        saveDir.mkpath(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
+        if (!saveDir.mkpath(".")) {
+            qFatal("Could not create the path %s to store images in!", saveDir.absoluteFilePath(".").toLocal8Bit().constData());
+        }
     }
     QDir configDir(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation));
     configDir.mkpath("KShare/uploaders");

@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QtGlobal>
+#include <notifications.hpp>
 #include <stdio.h>
 
 bool verbose = false;
@@ -23,6 +24,7 @@ void handler(QtMsgType type, const QMessageLogContext &, const QString &msg) {
         break;
     case QtFatalMsg:
         fprintf(stderr, "FATAL: %s\n", localMsg.constData());
+        notifications::notify("KShare Fatal Error", msg, QSystemTrayIcon::Critical);
         break;
     }
 }
