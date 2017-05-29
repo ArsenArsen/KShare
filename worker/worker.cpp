@@ -7,6 +7,7 @@ QMutex Worker::workerLock;
 
 void Worker::queue(WorkerContext *context) {
     QMutexLocker ml(&lock);
+    context->pixmap = context->pixmap.copy();
     qqueue.enqueue(context);
 }
 
