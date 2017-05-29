@@ -5,10 +5,16 @@
 Worker *Worker::inst = 0;
 QMutex Worker::workerLock;
 
+// QPixmaps don't like existing on non GUI threads.
+// Because of this we have to:
+// 1. Convert to image on the GUI thread
+// 2. Queue onto the worker, where:
+//  1. Convert the image to the right format
+//  2. Consume the image.
 void Worker::queue(WorkerContext *context) {
     QMutexLocker ml(&lock);
     _WorkerContext *c = new _WorkerContext;
-    c->image = context->pixmap.toImage().convertToFormat(context->targetFormat);
+    c->image = context->pixmap.toImage();
     c->consumer = context->consumer;
     qqueue.enqueue(c);
 }
@@ -48,7 +54,7 @@ void Worker::process() {
         lock.lock();
         if (!qqueue.isEmpty()) {
             _WorkerContext *c = qqueue.dequeue();
-            c->consumer(c->image);
+            c->consumer(c->image.convertToFormat(context->targetFormat));
         }
         lock.unlock();
         std::this_thread::sleep_for(std::chrono::milliseconds(100)); // STL likes it's scopes
