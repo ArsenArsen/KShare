@@ -3,28 +3,30 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QtGlobal>
+#include <iostream>
 #include <notifications.hpp>
 #include <stdio.h>
+#include <worker/worker.hpp>
 
 bool verbose = false;
 
 void handler(QtMsgType type, const QMessageLogContext &, const QString &msg) {
-    QByteArray localMsg = msg.toLocal8Bit();
+    std::string stdMsg = msg.toStdString();
     switch (type) {
     case QtDebugMsg:
-        if (verbose) fprintf(stdout, "DEBUG: %s\n", localMsg.constData());
+        if (verbose) std::cout << "DEBUG: " << stdMsg << "\n";
         break;
     case QtInfoMsg:
-        fprintf(stdout, "INFO: %s\n", localMsg.constData());
+        std::cout << "INFO: " << stdMsg << "\n";
         break;
     case QtWarningMsg:
-        fprintf(stderr, "WARN: %s\n", localMsg.constData());
+        std::cerr << "WARN: " << stdMsg << "\n";
         break;
     case QtCriticalMsg:
-        fprintf(stderr, "CRIT: %s\n", localMsg.constData());
+        std::cerr << "CRIT: " << stdMsg << "\n";
         break;
     case QtFatalMsg:
-        fprintf(stderr, "FATAL: %s\n", localMsg.constData());
+        std::cerr << "FATAL: " << stdMsg << "\n";
         notifications::notify("KShare Fatal Error", msg, QSystemTrayIcon::Critical);
         break;
     }
@@ -57,6 +59,7 @@ int main(int argc, char *argv[]) {
     verbose = parser.isSet(v);
 
     MainWindow w;
+    Worker::init();
     if (!parser.isSet(h)) w.show();
     return a.exec();
 }

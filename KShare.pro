@@ -46,7 +46,8 @@ SOURCES += main.cpp\
     cropeditor/drawing/pathitem.cpp \
     cropeditor/drawing/lineitem.cpp \
     cropeditor/drawing/textitem.cpp \
-    colorpicker/colorpickerscene.cpp
+    colorpicker/colorpickerscene.cpp \
+    worker/worker.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -74,7 +75,8 @@ HEADERS  += mainwindow.hpp \
     cropeditor/drawing/textitem.hpp \
     colorpicker/colorpickerscene.hpp \
     platformbackend.hpp \
-    gif-h/gif.h
+    gif-h/gif.h \
+    worker/worker.hpp
 
 mac {
         SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp
