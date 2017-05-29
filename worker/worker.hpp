@@ -15,6 +15,11 @@ struct WorkerContext {
     std::function<void(QImage)> consumer;
 };
 
+struct _WorkerContext {
+    QImage image;
+    std::function<void(QImage)> consumer;
+};
+
 class Worker : public QObject {
     Q_OBJECT
 public:
@@ -27,7 +32,7 @@ private:
     QMutex lock;
     QMutex endLock;
     QThread *thr;
-    QQueue<WorkerContext *> qqueue; // Say that ten times as fast
+    QQueue<_WorkerContext *> qqueue; // Say that ten times as fast
     bool _ended;
 
     void _queue(WorkerContext *context);

@@ -7,8 +7,10 @@ QMutex Worker::workerLock;
 
 void Worker::queue(WorkerContext *context) {
     QMutexLocker ml(&lock);
-    context->pixmap = context->pixmap.copy();
-    qqueue.enqueue(context);
+    _WorkerContext *c = new _WorkerContext;
+    c->image = context->pixmap.toImage().convertToFormat(context->targetFormat);
+    c->consumer = context->consumer;
+    qqueue.enqueue(c);
 }
 
 void Worker::init() {
@@ -45,8 +47,8 @@ void Worker::process() {
     while (!ended()) {
         lock.lock();
         if (!qqueue.isEmpty()) {
-            WorkerContext *c = qqueue.dequeue();
-            c->consumer(c->pixmap.toImage().convertToFormat(c->targetFormat));
+            _WorkerContext *c = qqueue.dequeue();
+            c->consumer(c->image);
         }
         lock.unlock();
         std::this_thread::sleep_for(std::chrono::milliseconds(100)); // STL likes it's scopes
