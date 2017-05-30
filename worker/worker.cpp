@@ -16,6 +16,7 @@ void Worker::queue(WorkerContext *context) {
     _WorkerContext *c = new _WorkerContext;
     c->image = context->pixmap.toImage();
     c->consumer = context->consumer;
+    c->targetFormat = context->targetFormat;
     qqueue.enqueue(c);
 }
 
@@ -37,6 +38,7 @@ Worker::Worker() : QObject() {
 
 Worker::~Worker() {
     end();
+    thread()->wait();
 }
 
 void Worker::end() {
@@ -54,7 +56,7 @@ void Worker::process() {
         lock.lock();
         if (!qqueue.isEmpty()) {
             _WorkerContext *c = qqueue.dequeue();
-            c->consumer(c->image.convertToFormat(context->targetFormat));
+            c->consumer(c->image.convertToFormat(c->targetFormat));
         }
         lock.unlock();
         std::this_thread::sleep_for(std::chrono::milliseconds(100)); // STL likes it's scopes

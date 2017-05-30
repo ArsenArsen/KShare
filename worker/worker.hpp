@@ -17,6 +17,7 @@ struct WorkerContext {
 
 struct _WorkerContext {
     QImage image;
+    QImage::Format targetFormat;
     std::function<void(QImage)> consumer;
 };
 
