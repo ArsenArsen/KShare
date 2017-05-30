@@ -60,6 +60,7 @@ int main(int argc, char *argv[]) {
 
     MainWindow w;
     Worker::init();
+    a.connect(&a, &QApplication::aboutToQuit, Worker::end);
     if (!parser.isSet(h)) w.show();
     return a.exec();
 }

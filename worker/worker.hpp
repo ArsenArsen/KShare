@@ -35,9 +35,9 @@ private:
     QThread *thr;
     QQueue<_WorkerContext *> qqueue; // Say that ten times as fast
     bool _ended;
+    void _end();
 
     void _queue(WorkerContext *context);
-    void end();
     bool ended();
 
     static Worker *inst;
@@ -48,6 +48,7 @@ signals:
 
 public slots:
     void process();
+    static void end();
 };
 
 #endif // WORKER_HPP

@@ -30,18 +30,20 @@ Worker::Worker() : QObject() {
     moveToThread(thr);
     connect(thr, &QThread::started, this, &Worker::process);
     connect(thr, &QThread::finished, thr, &QThread::deleteLater);
-    connect(this, &Worker::finished, thr, &QThread::quit);
     connect(this, &Worker::finished, this, &Worker::deleteLater);
     connect(thr, &QThread::finished, thr, &QThread::deleteLater);
     thr->start();
 }
 
 Worker::~Worker() {
-    end();
-    thread()->wait();
+    _end();
 }
 
 void Worker::end() {
+    inst->_end();
+}
+
+void Worker::_end() {
     QMutexLocker ml(&endLock);
     _ended = true;
 }
@@ -59,7 +61,7 @@ void Worker::process() {
             c->consumer(c->image.convertToFormat(c->targetFormat));
         }
         lock.unlock();
-        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // STL likes it's scopes
+        std::this_thread::sleep_for(std::chrono::milliseconds(10)); // STL likes it's scopes
     }
     emit finished();
 }
