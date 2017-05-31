@@ -1,13 +1,15 @@
 #include "screenareaselector.hpp"
 #include <QCloseEvent>
+#include <QLabel>
 #include <QPalette>
+#include <QStackedLayout>
 #include <QTimer>
 #include <settings.hpp>
 
 ScreenAreaSelector::ScreenAreaSelector() {
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_DeleteOnClose);
-    setStyleSheet("background:transparent;");
+    setStyleSheet("background-color: rgba(0, 0, 0, 0.5);");
     setWindowTitle("KShare: Select Area (By resizig this window)");
     QTimer::singleShot(0, [&] {
         QVariant val = settings::settings().value("screenareaselector/rect");
@@ -16,10 +18,16 @@ ScreenAreaSelector::ScreenAreaSelector() {
             resize(rect.size());
             move(rect.topLeft());
         }
+        hintLabel->setText(QString::number(width()) + "x" + QString::number(height()));
     });
+    setLayout(new QStackedLayout());
+    hintLabel = new QLabel();
+    hintLabel->setAlignment(Qt::AlignCenter);
+    layout()->addWidget(hintLabel);
 }
 
 ScreenAreaSelector::~ScreenAreaSelector() {
+    delete hintLabel;
 }
 
 void ScreenAreaSelector::keyPressEvent(QKeyEvent *event) {
@@ -30,6 +38,10 @@ void ScreenAreaSelector::keyPressEvent(QKeyEvent *event) {
         close();
     } else if (event->key() == Qt::Key_Escape)
         close();
+}
+
+void ScreenAreaSelector::resizeEvent(QResizeEvent *) {
+    hintLabel->setText(QString::number(width()) + "x" + QString::number(height()));
 }
 
 void ScreenAreaSelector::closeEvent(QCloseEvent *) {
