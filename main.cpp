@@ -5,6 +5,7 @@
 #include <QtGlobal>
 #include <iostream>
 #include <notifications.hpp>
+#include <screenareaselector/screenareaselector.hpp>
 #include <stdio.h>
 #include <worker/worker.hpp>
 
@@ -62,5 +63,6 @@ int main(int argc, char *argv[]) {
     Worker::init();
     a.connect(&a, &QApplication::aboutToQuit, Worker::end);
     if (!parser.isSet(h)) w.show();
+    (new ScreenAreaSelector())->show();
     return a.exec();
 }

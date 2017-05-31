@@ -47,7 +47,8 @@ SOURCES += main.cpp\
     cropeditor/drawing/lineitem.cpp \
     cropeditor/drawing/textitem.cpp \
     colorpicker/colorpickerscene.cpp \
-    worker/worker.cpp
+    worker/worker.cpp \
+    screenareaselector/screenareaselector.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -76,7 +77,8 @@ HEADERS  += mainwindow.hpp \
     colorpicker/colorpickerscene.hpp \
     platformbackend.hpp \
     gif-h/gif.h \
-    worker/worker.hpp
+    worker/worker.hpp \
+    screenareaselector/screenareaselector.hpp
 
 mac {
         SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp
