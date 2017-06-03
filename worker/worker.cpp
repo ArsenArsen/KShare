@@ -4,6 +4,7 @@
 
 Worker *Worker::inst = 0;
 QMutex Worker::workerLock;
+QMutex Worker::lock;
 
 // QPixmaps don't like existing on non GUI threads.
 // Because of this we have to:
@@ -17,7 +18,7 @@ void Worker::queue(WorkerContext *context) {
     c->image = context->pixmap.toImage();
     c->consumer = context->consumer;
     c->targetFormat = context->targetFormat;
-    qqueue.enqueue(c);
+    inst->qqueue.enqueue(c);
 }
 
 void Worker::init() {

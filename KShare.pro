@@ -48,7 +48,9 @@ SOURCES += main.cpp\
     cropeditor/drawing/textitem.cpp \
     colorpicker/colorpickerscene.cpp \
     worker/worker.cpp \
-    screenareaselector/screenareaselector.cpp
+    screenareaselector/screenareaselector.cpp \
+    recording/recordingpreview.cpp \
+    recording/recordingcontroller.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -78,7 +80,9 @@ HEADERS  += mainwindow.hpp \
     platformbackend.hpp \
     gif-h/gif.h \
     worker/worker.hpp \
-    screenareaselector/screenareaselector.hpp
+    screenareaselector/screenareaselector.hpp \
+    recording/recordingpreview.hpp \
+    recording/recordingcontroller.hpp
 
 mac {
         SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp

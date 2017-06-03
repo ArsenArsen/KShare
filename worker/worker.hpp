@@ -24,13 +24,13 @@ struct _WorkerContext {
 class Worker : public QObject {
     Q_OBJECT
 public:
-    void queue(WorkerContext *context);
+    static void queue(WorkerContext *context);
     static void init();
 
 private:
     Worker();
     ~Worker();
-    QMutex lock;
+    static QMutex lock;
     QMutex endLock;
     QThread *thr;
     QQueue<_WorkerContext *> qqueue; // Say that ten times as fast

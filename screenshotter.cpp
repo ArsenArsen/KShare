@@ -8,7 +8,7 @@
 #include <settings.hpp>
 
 void screenshotter::area() {
-    CropEditor *editor = new CropEditor(screenshotutil::fullscreen());
+    CropEditor *editor = new CropEditor(screenshotutil::fullscreen(settings::settings().value("captureCursor", true).toBool()));
     QObject::connect(editor, &CropEditor::cropped, [&](QPixmap *pixmap) {
         UploaderSingleton::inst().upload(pixmap);
         QScopedPointer<CropEditor>(editor);

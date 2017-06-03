@@ -7,6 +7,7 @@
 #include <QSystemTrayIcon>
 #include <functional>
 
+#include <recording/recordingcontroller.hpp>
 #include <uploaders/uploader.hpp>
 
 namespace Ui {
@@ -15,7 +16,7 @@ class MainWindow;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
-    private slots:
+private slots:
     void quit();
     void toggleVisible();
     void newUploader(Uploader *u);
@@ -33,7 +34,7 @@ class MainWindow : public QMainWindow {
     void on_actionColor_Picker_triggered();
     void on_captureCursor_clicked(bool checked);
 
-    public:
+public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     Ui::MainWindow *ui;
@@ -43,12 +44,13 @@ class MainWindow : public QMainWindow {
     QDoubleSpinBox *delay();
 
     static MainWindow *inst();
-    QMap<QString, std::function<void()> *> fncs;
+    QMap<QString, std::function<void()>> fncs;
 
-    private:
+private:
     static MainWindow *instance;
+    RecordingController *controller = new RecordingController;
 
-    protected:
+protected:
     void closeEvent(QCloseEvent *event);
 };
 

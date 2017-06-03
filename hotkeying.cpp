@@ -20,14 +20,14 @@ void hotkeying::hotkey(QString seqName, QKeySequence seq, std::function<void()> 
 }
 
 // forces the hotkey from settings
-void hotkeying::load(QString seqName, std::function<void()> func) {
+void hotkeying::load(QString seqName, std::function<void()> func, QString def) {
     QHotkey *h;
     QString name = seqName;
     name.prepend("hotkey_");
     if (settings::settings().contains(name))
         h = new QHotkey(QKeySequence(settings::settings().value(name).toString()), true);
     else
-        h = new QHotkey;
+        h = new QHotkey(def.isNull() ? "" : def, true);
     QObject::connect(h, &QHotkey::activated, func);
     hotkeys.insert(seqName, h);
 }

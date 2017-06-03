@@ -4,7 +4,7 @@
 
 QSettings &settings::settings() {
     static QDir configDir(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation));
-    if (configDir.path() == QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation)) {
+    if (configDir.dirName() != "KShare") {
         configDir.mkdir("KShare");
         configDir.cd("KShare");
     }

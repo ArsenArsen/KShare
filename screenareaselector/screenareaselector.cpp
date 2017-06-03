@@ -19,6 +19,7 @@ ScreenAreaSelector::ScreenAreaSelector() {
             move(rect.topLeft());
         }
         hintLabel->setText(QString::number(width()) + "x" + QString::number(height()));
+        show();
     });
     setLayout(new QStackedLayout());
     hintLabel = new QLabel();

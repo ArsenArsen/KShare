@@ -23,11 +23,11 @@
 
 MainWindow *MainWindow::instance;
 
-void addHotkeyItem(QString text, QString name, std::function<void()> *func) {
+void addHotkeyItem(QString text, QString name, std::function<void()> func, QString def = QString()) {
     QListWidgetItem *item = new QListWidgetItem(text, MainWindow::inst()->ui->hotkeys);
     item->setData(Qt::UserRole + 1, name);
     MainWindow::inst()->fncs.insert(name, func);
-    hotkeying::load(name, *func);
+    hotkeying::load(name, func, def);
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -84,9 +84,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->hotkeys->setSelectionMode(QListWidget::SingleSelection);
 
-    addHotkeyItem("Fullscreen image", "fullscreen", new std::function<void()>([] { screenshotter::fullscreen(); }));
-    addHotkeyItem("Area image", "area", new std::function<void()>([] { screenshotter::area(); }));
-    addHotkeyItem("Color picker", "picker", new std::function<void()>([] { ColorPickerScene::showPicker(); }));
+    addHotkeyItem("Fullscreen image", "fullscreen", [] { screenshotter::fullscreen(); });
+    addHotkeyItem("Area image", "area", [] { screenshotter::area(); });
+    addHotkeyItem("Color picker", "picker", [] { ColorPickerScene::showPicker(); });
+    addHotkeyItem("Stop Recording", "recordingstop", [&] { controller->end(); });
 
     ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());
     ui->hideToTray->setChecked(settings::settings().value("hideOnClose", true).toBool());
@@ -169,8 +170,9 @@ void MainWindow::on_hotkeys_doubleClicked(const QModelIndex &) {
         QListWidgetItem *i = ui->hotkeys->selectedItems().at(0);
         QString str = i->data(Qt::UserRole + 1).toString();
         bool ok;
-        QString seq = QInputDialog::getText(ui->centralWidget, "Hotkey Input", "Insert hotkey:", QLineEdit::Normal, hotkeying::sequence(str), &ok);
-        if (ok && hotkeying::valid(seq)) hotkeying::hotkey(str, QKeySequence(seq), *fncs.value(str));
+        QString seq = QInputDialog::getText(ui->centralWidget, "Hotkey Input", "Insert hotkey:", QLineEdit::Normal,
+                                            hotkeying::sequence(str), &ok);
+        if (ok && hotkeying::valid(seq)) hotkeying::hotkey(str, QKeySequence(seq), fncs.value(str));
     }
 }
 
