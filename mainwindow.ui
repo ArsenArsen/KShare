@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>512</width>
-    <height>399</height>
+    <height>410</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,6 +25,18 @@
     </sizepolicy>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <item row="9" column="1">
+     <widget class="QComboBox" name="comboBox">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <item>
+       <property name="text">
+        <string>Recording disabled</string>
+       </property>
+      </item>
+     </widget>
+    </item>
     <item row="3" column="0">
      <widget class="QLineEdit" name="nameScheme">
       <property name="toolTip">
@@ -63,7 +75,7 @@
       </property>
      </widget>
     </item>
-    <item row="9" column="0" colspan="2">
+    <item row="11" column="0" colspan="2">
      <widget class="QLabel" name="label_6">
       <property name="text">
        <string>&lt;a href=&quot;https://github.com/ArsenArsen/KShare&quot;&gt;Source code available free for everyone. Forever.&lt;/a&gt;
@@ -92,13 +104,6 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="0" colspan="2">
-     <widget class="QCheckBox" name="hideToTray">
-      <property name="text">
-       <string>Pressing &lt;X&gt; hides to tray</string>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="1" rowspan="5">
      <widget class="QListWidget" name="hotkeys"/>
     </item>
@@ -112,10 +117,24 @@
     <item row="1" column="0">
      <widget class="QListWidget" name="uploaderList"/>
     </item>
-    <item row="8" column="0">
+    <item row="9" column="0">
      <widget class="QCheckBox" name="captureCursor">
       <property name="text">
        <string>Capture cursor</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QCheckBox" name="hideToTray">
+      <property name="text">
+       <string>Pressing &lt;X&gt; hides to tray</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1" rowspan="2">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Recording format</string>
       </property>
      </widget>
     </item>
@@ -127,7 +146,7 @@
      <x>0</x>
      <y>0</y>
      <width>512</width>
-     <height>24</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

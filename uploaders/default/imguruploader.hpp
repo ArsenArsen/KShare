@@ -4,14 +4,17 @@
 #include "../uploader.hpp"
 
 class ImgurUploader : public Uploader {
-    public:
+public:
     QString name() {
         return "imgur";
     }
     QString description() {
         return "imgur.com uploader";
     }
-    void doUpload(QPixmap *pixmap);
+    std::tuple<QString, QString> format() {
+        return std::tuple<QString, QString>("PNG", "MP4");
+    }
+    void doUpload(QByteArray byteArray);
 };
 
 #endif // IMGURUPLOADER_HPP

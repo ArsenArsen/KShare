@@ -2,13 +2,15 @@
 #include "customuploader.hpp"
 #include "default/clipboarduploader.hpp"
 #include "default/imguruploader.hpp"
+#include <QBuffer>
 #include <QDebug>
 #include <QDir>
 #include <QStandardPaths>
 #include <formatter.hpp>
 #include <settings.hpp>
 
-UploaderSingleton::UploaderSingleton() : QObject(), saveDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
+UploaderSingleton::UploaderSingleton()
+: QObject(), saveDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
     if (QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).isEmpty()) {
         qFatal("Cannot determine location for pictures");
     }
@@ -54,14 +56,28 @@ void UploaderSingleton::registerUploader(Uploader *uploader) {
 }
 
 void UploaderSingleton::upload(QPixmap *pixmap) {
-    if (settings::settings().contains("fileFormat")) {
-        QString format = settings::settings().value("fileFormat").toString();
-        if (!format.isEmpty()) {
-            pixmap->save(saveDir.absoluteFilePath(formatter::format(format) + ".png"), "PNG");
-        }
-    }
-    uploaders.value(uploader)->doUpload(pixmap);
+    auto u = uploaders.value(uploader);
+    QByteArray arr;
+    QBuffer data(&arr);
+    pixmap->save(&data, std::get<0>(u->format()).toLocal8Bit().constData());
+    u->doUpload(arr);
+    data.close();
     delete pixmap;
+}
+
+void UploaderSingleton::upload(QByteArray img) {
+    uploaders.value(uploader)->doUpload(img);
+}
+
+void UploaderSingleton::upload(QFile img) {
+    if (img.open(QIODevice::ReadOnly)) {
+        uploaders.value(uploader)->doUpload(img.readAll());
+        img.close();
+    }
+}
+
+std::tuple<QString, QString> UploaderSingleton::format() {
+    return uploaders.value(uploader)->format();
 }
 
 QList<Uploader *> UploaderSingleton::uploaderList() {

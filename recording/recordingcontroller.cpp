@@ -8,6 +8,7 @@
 #include <screenshotutil.hpp>
 #include <settings.hpp>
 #include <stdio.h>
+#include <uploaders/uploadersingleton.hpp>
 #include <worker/worker.hpp>
 
 RecordingController::RecordingController() : timer(this) {
@@ -33,7 +34,7 @@ bool RecordingController::end() {
     area = QRect();
     preview->close();
     preview = 0;
-    _context->finalizer();
+    UploaderSingleton::inst().upload(_context->finalizer());
     frame = 0;
     time = 0;
     return true;

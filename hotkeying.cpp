@@ -37,5 +37,7 @@ bool hotkeying::valid(QString seq) {
 }
 
 QString hotkeying::sequence(QString seqName) {
-    return hotkeys.contains(seqName) ? hotkeys.value(seqName)->shortcut().toString() : "";
+    return hotkeys.contains(seqName) ?
+           hotkeys.value(seqName)->isRegistered() ? hotkeys.value(seqName)->shortcut().toString() : "" :
+           "";
 }

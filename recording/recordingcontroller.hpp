@@ -3,6 +3,7 @@
 
 #include "recordingpreview.hpp"
 
+#include <QFile>
 #include <QImage>
 #include <QRect>
 #include <QTimer>
@@ -13,7 +14,7 @@ class RecordingContext {
 public:
     QImage::Format format;
     std::function<void(QImage)> consumer;
-    std::function<void()> finalizer;
+    std::function<QFile()> finalizer;
 };
 
 class RecordingController : public QObject {

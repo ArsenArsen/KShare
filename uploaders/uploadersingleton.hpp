@@ -7,21 +7,24 @@
 
 class UploaderSingleton : public QObject {
     Q_OBJECT
-    public:
+public:
     static UploaderSingleton &inst() {
         static UploaderSingleton inst;
         return inst;
     }
     void registerUploader(Uploader *uploader);
     void upload(QPixmap *pixmap);
+    void upload(QByteArray img);
+    void upload(QFile img);
+    virtual std::tuple<QString, QString> format();
     QList<Uploader *> uploaderList();
     void set(QString uploader);
     QString selectedUploader();
     QList<std::runtime_error> errors();
-    signals:
+signals:
     void newUploader(Uploader *u);
 
-    private:
+private:
     QDir saveDir;
     UploaderSingleton();
     QMap<QString, Uploader *> uploaders;

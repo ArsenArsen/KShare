@@ -64,11 +64,11 @@ CustomUploader::CustomUploader(QString absFilePath) {
         if (formatValue.isString()) {
             QString formatString = formatValue.toString().toLower();
             if (formatString == "x-www-form-urlencoded")
-                format = RequestFormat::X_WWW_FORM_URLENCODED;
+                rFormat = RequestFormat::X_WWW_FORM_URLENCODED;
             else if (formatString == "json")
-                format = RequestFormat::JSON;
+                rFormat = RequestFormat::JSON;
             else if (formatString == "plain")
-                format = RequestFormat::PLAIN;
+                rFormat = RequestFormat::PLAIN;
             else
                 error(absFilePath, "format invalid");
         }
@@ -85,7 +85,7 @@ CustomUploader::CustomUploader(QString absFilePath) {
     } else
         error(absFilePath, "imageformat invalid");
     QJsonValue bodyValue = obj["body"];
-    if (format != RequestFormat::PLAIN) {
+    if (rFormat != RequestFormat::PLAIN) {
         if (bodyValue.isUndefined()) error(absFilePath, "body not set");
         if (bodyValue.isObject())
             body = bodyValue;
@@ -123,6 +123,10 @@ QString CustomUploader::description() {
     return desc;
 }
 
+std::tuple<QString, QString> CustomUploader::format() {
+    return std::tuple<QString, QString>(getFormatString(false), getFormatString(true));
+}
+
 QString getCType(RequestFormat format, QString plainType) {
     switch (format) {
     case RequestFormat::X_WWW_FORM_URLENCODED:
@@ -147,14 +151,6 @@ QList<QPair<QString, QString>> getHeaders(QJsonObject h, QString imageFormat, QM
     }
     headers << QPair<QString, QString>("Content-Type", getCType(format, types.value(imageFormat)));
     return headers;
-}
-
-QByteArray imageBytes(QPixmap *pixmap, QString format) {
-    QByteArray returnVal;
-    QBuffer buff(&returnVal);
-    buff.open(QIODevice::WriteOnly);
-    pixmap->save(&buff, format.toUpper().toLocal8Bit().constData());
-    return returnVal;
 }
 
 QString CustomUploader::getFormatString(bool animated) {
@@ -238,13 +234,12 @@ void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, 
     }
 }
 
-void CustomUploader::doUpload(QPixmap *pixmap) {
-    auto h = getHeaders(headers, getFormatString(false), types, this->format);
+void CustomUploader::doUpload(QByteArray imgData) {
+    auto h = getHeaders(headers, getFormatString(false), types, this->rFormat);
     QString format = getFormatString(false); // Soon:tm:
     QByteArray data;
-    QByteArray imgData = imageBytes(pixmap, format);
     if (iFormat == "base64" || QRegExp("base64\\([^+]\\+[^+]\\)").exactMatch(iFormat)) imgData = imgData.toBase64();
-    switch (this->format) {
+    switch (this->rFormat) {
     case RequestFormat::PLAIN: {
         data = imgData;
     } break;
