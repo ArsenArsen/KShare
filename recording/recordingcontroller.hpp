@@ -14,7 +14,7 @@ class RecordingContext {
 public:
     QImage::Format format;
     std::function<void(QImage)> consumer;
-    std::function<QFile()> finalizer;
+    std::function<QByteArray()> finalizer;
 };
 
 class RecordingController : public QObject {

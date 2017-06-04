@@ -16,7 +16,7 @@ std::function<void(QImage)> RecordingFormats::getConsumer() {
     return consumer;
 }
 
-std::function<QFile()> RecordingFormats::getFinalizer() {
+std::function<QByteArray()> RecordingFormats::getFinalizer() {
     return finalizer;
 }
 
