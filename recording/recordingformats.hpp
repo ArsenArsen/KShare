@@ -22,6 +22,7 @@ private:
     std::function<void(QImage)> consumer;
     std::function<bool()> validator;
     std::function<QByteArray()> finalizer;
+    std::vector<QImage> frames;
     QImage::Format iFormat;
     QDir tmpDir;
     int frame = 0;

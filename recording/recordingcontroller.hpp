@@ -29,6 +29,7 @@ public slots:
     bool start(RecordingContext *context);
     // Returns false if not running
     bool end();
+    void queue(QByteArray arr);
 private slots:
     void timeout();
     void startWithArea(QRect newArea);
