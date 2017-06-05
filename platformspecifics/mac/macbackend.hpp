@@ -4,8 +4,9 @@
 #include <QPixmap>
 
 class PlatformBackend {
-    public:
+public:
     QPixmap getCursor();
+    pid_t pid();
     static PlatformBackend &inst() {
         static PlatformBackend inst;
         return inst;

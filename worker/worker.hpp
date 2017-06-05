@@ -19,6 +19,7 @@ struct _WorkerContext {
     QImage image;
     QImage::Format targetFormat;
     std::function<void(QImage)> consumer;
+    WorkerContext *underlyingThing;
 };
 
 class Worker : public QObject {

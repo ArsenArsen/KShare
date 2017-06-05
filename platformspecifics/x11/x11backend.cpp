@@ -2,6 +2,7 @@
 
 #include <QPixmap>
 #include <QX11Info>
+#include <unistd.h>
 #include <xcb/xcb_cursor.h>
 #include <xcb/xcb_util.h>
 #include <xcb/xfixes.h>
@@ -21,4 +22,8 @@ std::tuple<QPoint, QPixmap> PlatformBackend::getCursor() {
     return std::tuple<QPoint, QPixmap>(QPoint(cursorReply->xhot, cursorReply->yhot),
                                        QPixmap::fromImage(QImage((quint8 *)pixels, cursorReply->width, cursorReply->height,
                                                                  QImage::Format_ARGB32_Premultiplied)));
+}
+
+pid_t PlatformBackend::pid() {
+    return getpid();
 }

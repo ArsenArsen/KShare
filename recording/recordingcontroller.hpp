@@ -5,6 +5,7 @@
 
 #include <QFile>
 #include <QImage>
+#include <QMutex>
 #include <QRect>
 #include <QTimer>
 #include <functional>
@@ -14,6 +15,7 @@ class RecordingContext {
 public:
     QImage::Format format;
     std::function<void(QImage)> consumer;
+    std::function<bool()> validator;
     std::function<QByteArray()> finalizer;
 };
 
@@ -32,6 +34,8 @@ private slots:
     void startWithArea(QRect newArea);
 
 private:
+    QMutex lock;
+    QQueue<QByteArray> uploadQueue;
     QRect area;
     RecordingContext *_context = 0;
     QTimer timer;

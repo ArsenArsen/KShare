@@ -93,7 +93,7 @@ mac {
 } else:win32 {
         SOURCES += $$PWD/platformspecifics/u32/u32backend.cpp
         HEADERS += $$PWD/platformspecifics/u32/u32backend.hpp
-        LIBS += -luser32
+        LIBS += -luser32 -lkernel32 -lpthread
         QT += winextras
 } else:unix {
         SOURCES += $$PWD/platformspecifics/x11/x11backend.cpp

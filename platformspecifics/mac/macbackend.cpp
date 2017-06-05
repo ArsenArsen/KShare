@@ -7,3 +7,7 @@ QPixmap PlatformBackend::getCursor() {
     // Some on how to do NSImage -> QPixmap: http://stackoverflow.com/a/2468961/3809164
     // This is gonna be easier than with Windows
 }
+
+pid_t PlatformBackend::pid() {
+    return getpid();
+}

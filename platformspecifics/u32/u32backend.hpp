@@ -2,10 +2,12 @@
 #define U32BACKEND_HPP
 
 #include <QPixmap>
+#include <windows.h>
 
 class PlatformBackend {
-    public:
+public:
     std::tuple<QPoint, QPixmap> getCursor();
+    DWORD pid();
     static PlatformBackend &inst() {
         static PlatformBackend inst;
         return inst;

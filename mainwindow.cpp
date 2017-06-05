@@ -18,6 +18,7 @@
 #include <colorpicker/colorpickerscene.hpp>
 #include <functional>
 #include <hotkeying.hpp>
+#include <recording/recordingformats.hpp>
 #include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
 
@@ -88,6 +89,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     addHotkeyItem("Area image", "area", [] { screenshotter::area(); });
     addHotkeyItem("Color picker", "picker", [] { ColorPickerScene::showPicker(); });
     addHotkeyItem("Stop Recording", "recordingstop", [&] { controller->end(); });
+    addHotkeyItem("Start Recording", "recordingstart", [&] {
+        RecordingContext *ctx = new RecordingContext;
+        RecordingFormats *format = new RecordingFormats(RecordingFormats::GIF);
+        ctx->consumer = format->getConsumer();
+        ctx->finalizer = format->getFinalizer();
+        ctx->validator = format->getValidator();
+        ctx->format = format->getFormat();
+        controller->start(ctx);
+    });
 
     ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());
     ui->hideToTray->setChecked(settings::settings().value("hideOnClose", true).toBool());
