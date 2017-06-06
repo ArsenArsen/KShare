@@ -37,7 +37,6 @@ RecordingFormats::RecordingFormats(RecordingFormats::Format f) {
             GifWriter writer;
             GifBegin(&writer, tmpDir.absoluteFilePath("resulting.gif").toLocal8Bit().constData(), startImg.width(),
                      startImg.height(), d);
-            int i = 0;
             for (QImage &a : frames) {
                 QByteArray alpha8((char *)a.bits(), a.byteCount());
                 GifWriteFrame(&writer, (uint8_t *)alpha8.data(), a.width(), a.height(), d);

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>512</width>
-    <height>410</height>
+    <height>412</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,15 +26,10 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="9" column="1">
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="formatBox">
       <property name="currentIndex">
-       <number>0</number>
+       <number>-1</number>
       </property>
-      <item>
-       <property name="text">
-        <string>Recording disabled</string>
-       </property>
-      </item>
      </widget>
     </item>
     <item row="3" column="0">

@@ -34,6 +34,8 @@ private slots:
     void on_actionColor_Picker_triggered();
     void on_captureCursor_clicked(bool checked);
 
+    void on_formatBox_currentIndexChanged(int index);
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();

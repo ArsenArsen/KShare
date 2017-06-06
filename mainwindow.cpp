@@ -6,6 +6,7 @@
 #include <QApplication>
 #include <QCheckBox>
 #include <QCloseEvent>
+#include <QComboBox>
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QDoubleSpinBox>
@@ -90,8 +91,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     addHotkeyItem("Color picker", "picker", [] { ColorPickerScene::showPicker(); });
     addHotkeyItem("Stop Recording", "recordingstop", [&] { controller->end(); });
     addHotkeyItem("Start Recording", "recordingstart", [&] {
+        auto f = static_cast<RecordingFormats::Format>(
+        settings::settings().value("recording/format", (int)RecordingFormats::None).toInt());
+        if (f == RecordingFormats::None) return;
         RecordingContext *ctx = new RecordingContext;
-        RecordingFormats *format = new RecordingFormats(RecordingFormats::GIF);
+        RecordingFormats *format = new RecordingFormats(f);
         ctx->consumer = format->getConsumer();
         ctx->finalizer = format->getFinalizer();
         ctx->validator = format->getValidator();
@@ -102,6 +106,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());
     ui->hideToTray->setChecked(settings::settings().value("hideOnClose", true).toBool());
     ui->captureCursor->setChecked(settings::settings().value("captureCursor", true).toBool());
+
+    for (int i = 0; i < RecordingFormats::None; i++) {
+        ui->formatBox->addItem(RecordingFormats::getExt(static_cast<RecordingFormats::Format>(i)));
+    }
+    ui->formatBox->addItem("None");
+    ui->formatBox->setCurrentIndex(settings::settings().value("recording/format", (int)RecordingFormats::None).toInt());
 }
 
 MainWindow::~MainWindow() {
@@ -204,4 +214,8 @@ void MainWindow::on_actionColor_Picker_triggered() {
 
 void MainWindow::on_captureCursor_clicked(bool checked) {
     settings::settings().setValue("captureCursor", checked);
+}
+
+void MainWindow::on_formatBox_currentIndexChanged(int index) {
+    settings::settings().setValue("recording/format", index);
 }
