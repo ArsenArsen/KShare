@@ -172,7 +172,8 @@ QJsonObject recurseAndReplace(QJsonObject &body, QByteArray &data, QString conte
             QString str = v.toString();
             if (str.startsWith("/") && str.endsWith("/")) {
                 o.insert(s, str.replace("%image", data).replace("%contenttype", contentType));
-            }
+            } else
+                o.insert(s, v);
         } else
             o.insert(s, v);
     }
