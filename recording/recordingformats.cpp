@@ -7,13 +7,14 @@
 #include <QFile>
 #include <QStandardPaths>
 #include <QTimer>
+#include <formats.hpp>
 #include <gif-h/gif.h>
 #include <platformbackend.hpp>
 #include <settings.hpp>
 #include <time.h>
 #include <unistd.h>
 
-RecordingFormats::RecordingFormats(RecordingFormats::Format f) {
+RecordingFormats::RecordingFormats(formats::Recording f) {
     QString path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 
     if (path.isEmpty()) {
@@ -26,7 +27,7 @@ RecordingFormats::RecordingFormats(RecordingFormats::Format f) {
     tmpDir.mkdir(name);
     tmpDir.cd(name);
     switch (f) {
-    case GIF: {
+    case formats::Recording::GIF: {
         iFormat = QImage::Format_RGBA8888;
         validator = [] { return true; };
         consumer = [&](QImage img) { frames.push_back(img); };
@@ -49,6 +50,7 @@ RecordingFormats::RecordingFormats(RecordingFormats::Format f) {
             QByteArray data = res.readAll();
             return data;
         };
+        anotherFormat = formats::recordingFormatName(f);
         break;
     }
     default:
@@ -72,16 +74,6 @@ QImage::Format RecordingFormats::getFormat() {
     return iFormat;
 }
 
-QString RecordingFormats::getExt(RecordingFormats::Format f) {
-    switch (f) {
-    case None:
-        return "None";
-        break;
-    case GIF:
-        return "gif";
-        break;
-    default:
-        return QString();
-        break;
-    }
+QString RecordingFormats::getAnotherFormat() {
+    return anotherFormat;
 }

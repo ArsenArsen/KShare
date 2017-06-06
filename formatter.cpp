@@ -3,7 +3,7 @@
 #include <QDateTime>
 #include <QStringList>
 
-QString formatter::format(QString toFormat) {
+QString formatter::format(QString toFormat, QString ext) {
     QRegExp dateRegex("%\\((.+)\\)date");
     dateRegex.indexIn(toFormat);
     QStringList capturedTexts(dateRegex.capturedTexts());
@@ -12,5 +12,6 @@ QString formatter::format(QString toFormat) {
     for (int i = 0; i < capturedTexts.length(); i += 2) {
         formatted = formatted.replace(capturedTexts.at(i), date.toString(capturedTexts.at(i + 1)));
     }
+    formatted = formatted.replace(QRegExp("%(?!%)ext"), ext);
     return formatted;
 }

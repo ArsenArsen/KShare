@@ -14,9 +14,8 @@ public:
     }
     void registerUploader(Uploader *uploader);
     void upload(QPixmap *pixmap);
-    void upload(QByteArray img);
-    void upload(QFile img);
-    virtual std::tuple<QString, QString> format();
+    void upload(QByteArray img, QString format);
+    void upload(QFile img, QString format);
     QList<Uploader *> uploaderList();
     void set(QString uploader);
     QString selectedUploader();

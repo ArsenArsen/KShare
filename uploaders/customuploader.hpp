@@ -15,10 +15,7 @@ public:
     CustomUploader(QString absFilePath);
     QString name();
     QString description();
-    std::tuple<QString, QString> format();
-    void doUpload(QByteArray imgData);
-    QString getFormatString(bool animated);
-    QMap<QString, QString> types;
+    void doUpload(QByteArray imgData, QString format);
 
 private:
     double limit = -1;
@@ -29,8 +26,8 @@ private:
     QUrl target;
     QJsonValue body;
     QJsonObject headers;
+    bool base64 = false;
     QString returnPathspec;
-    QString iFormat;
 };
 
 #endif // CUSTOMUPLOADER_HPP

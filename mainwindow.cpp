@@ -91,15 +91,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     addHotkeyItem("Color picker", "picker", [] { ColorPickerScene::showPicker(); });
     addHotkeyItem("Stop Recording", "recordingstop", [&] { controller->end(); });
     addHotkeyItem("Start Recording", "recordingstart", [&] {
-        auto f = static_cast<RecordingFormats::Format>(
-        settings::settings().value("recording/format", (int)RecordingFormats::None).toInt());
-        if (f == RecordingFormats::None) return;
+        auto f
+        = static_cast<formats::Recording>(settings::settings().value("recording/format", (int)formats::Recording::None).toInt());
+        if (f >= formats::Recording::None) return;
         RecordingContext *ctx = new RecordingContext;
         RecordingFormats *format = new RecordingFormats(f);
         ctx->consumer = format->getConsumer();
         ctx->finalizer = format->getFinalizer();
         ctx->validator = format->getValidator();
         ctx->format = format->getFormat();
+        ctx->anotherFormat = format->getAnotherFormat();
         controller->start(ctx);
     });
 
@@ -107,11 +108,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->hideToTray->setChecked(settings::settings().value("hideOnClose", true).toBool());
     ui->captureCursor->setChecked(settings::settings().value("captureCursor", true).toBool());
 
-    for (int i = 0; i < RecordingFormats::None; i++) {
-        ui->formatBox->addItem(RecordingFormats::getExt(static_cast<RecordingFormats::Format>(i)));
+    for (int i = 0; i < (int)formats::Recording::None; i++) {
+        ui->formatBox->addItem(formats::recordingFormatName(static_cast<formats::Recording>(i)));
     }
+
+    for (int i = 0; i < (int)formats::Normal::None; i++) {
+        ui->imageFormatBox->addItem(formats::normalFormatName(static_cast<formats::Normal>(i)));
+    }
+
     ui->formatBox->addItem("None");
-    ui->formatBox->setCurrentIndex(settings::settings().value("recording/format", (int)RecordingFormats::None).toInt());
+    ui->formatBox->setCurrentIndex(settings::settings().value("recording/format", (int)formats::Recording::None).toInt());
 }
 
 MainWindow::~MainWindow() {
@@ -218,4 +224,8 @@ void MainWindow::on_captureCursor_clicked(bool checked) {
 
 void MainWindow::on_formatBox_currentIndexChanged(int index) {
     settings::settings().setValue("recording/format", index);
+}
+
+void MainWindow::on_imageFormatBox_currentIndexChanged(const QString &arg1) {
+    settings::settings().setValue("imageformat", arg1);
 }

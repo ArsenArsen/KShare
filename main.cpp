@@ -2,7 +2,9 @@
 #include "screenshotutil.hpp"
 #include <QApplication>
 #include <QCommandLineParser>
+#include <QDebug>
 #include <QtGlobal>
+#include <formatter.hpp>
 #include <iostream>
 #include <notifications.hpp>
 #include <worker/worker.hpp>
@@ -56,7 +58,6 @@ int main(int argc, char *argv[]) {
     }
 
     verbose = parser.isSet(v);
-
     MainWindow w;
     Worker::init();
     a.connect(&a, &QApplication::aboutToQuit, Worker::end);

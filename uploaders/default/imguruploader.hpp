@@ -11,10 +11,7 @@ public:
     QString description() {
         return "imgur.com uploader";
     }
-    std::tuple<QString, QString> format() {
-        return std::tuple<QString, QString>("PNG", "MP4");
-    }
-    void doUpload(QByteArray byteArray);
+    void doUpload(QByteArray byteArray, QString);
 };
 
 #endif // IMGURUPLOADER_HPP

@@ -5,7 +5,7 @@
 #include <QString>
 
 namespace formatter {
-QString format(QString toFormat);
+QString format(QString toFormat, QString ext);
 }
 
 #endif // FORMATTER_HPP

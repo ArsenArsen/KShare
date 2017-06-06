@@ -7,7 +7,7 @@
 #include <notifications.hpp>
 #include <screenshotutil.hpp>
 
-void ImgurUploader::doUpload(QByteArray byteArray) {
+void ImgurUploader::doUpload(QByteArray byteArray, QString) {
     if (byteArray.size() > 1e+7) {
         notifications::notify("KShare imgur Uploader ", "Failed upload! Image too big");
         return;

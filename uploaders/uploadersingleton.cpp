@@ -5,8 +5,11 @@
 #include <QBuffer>
 #include <QDebug>
 #include <QDir>
+#include <QFile>
 #include <QStandardPaths>
+#include <formats.hpp>
 #include <formatter.hpp>
+#include <notifications.hpp>
 #include <settings.hpp>
 
 UploaderSingleton::UploaderSingleton()
@@ -57,27 +60,27 @@ void UploaderSingleton::registerUploader(Uploader *uploader) {
 
 void UploaderSingleton::upload(QPixmap *pixmap) {
     auto u = uploaders.value(uploader);
-    QByteArray arr;
-    QBuffer data(&arr);
-    pixmap->save(&data, std::get<0>(u->format()).toLocal8Bit().constData());
-    u->doUpload(arr);
-    data.close();
+    QString format = settings::settings().value("captureformat", "PNG").toString();
+    QFile file(saveDir.absoluteFilePath(formatter::format(settings::settings().value("fileFormat").toString(), format.toLower())));
+
+    if (file.open(QFile::ReadWrite)) {
+        pixmap->save(&file, format.toLocal8Bit().constData());
+        file.seek(0);
+        u->doUpload(file.readAll(), format);
+    } else
+        notifications::notify("KShare - Failed to save picture", file.errorString(), QSystemTrayIcon::Warning);
     delete pixmap;
 }
 
-void UploaderSingleton::upload(QByteArray img) {
-    uploaders.value(uploader)->doUpload(img);
+void UploaderSingleton::upload(QByteArray img, QString format) {
+    uploaders.value(uploader)->doUpload(img, format);
 }
 
-void UploaderSingleton::upload(QFile img) {
+void UploaderSingleton::upload(QFile img, QString format) {
     if (img.open(QIODevice::ReadOnly)) {
-        uploaders.value(uploader)->doUpload(img.readAll());
+        uploaders.value(uploader)->doUpload(img.readAll(), format);
         img.close();
     }
-}
-
-std::tuple<QString, QString> UploaderSingleton::format() {
-    return uploaders.value(uploader)->format();
 }
 
 QList<Uploader *> UploaderSingleton::uploaderList() {

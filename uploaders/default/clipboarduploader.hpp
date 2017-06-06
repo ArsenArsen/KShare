@@ -12,11 +12,8 @@ public:
     QString description() {
         return "Copies the image to clipboard";
     }
-    std::tuple<QString, QString> format() {
-        return std::tuple<QString, QString>("PNG", "MP4");
-    }
 
-    void doUpload(QByteArray imgData);
+    void doUpload(QByteArray imgData, QString format);
 };
 
 #endif // CLIPBOARDUPLOADER_HPP

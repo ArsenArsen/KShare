@@ -7,9 +7,12 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QNetworkReply>
+#include <formats.hpp>
 #include <io/ioutils.hpp>
 #include <notifications.hpp>
 
+using formats::normalFormatFromName;
+using formats::normalFormatMIME;
 using std::runtime_error;
 
 void error(QString absFilePath, QString err) {
@@ -17,12 +20,6 @@ void error(QString absFilePath, QString err) {
 }
 
 CustomUploader::CustomUploader(QString absFilePath) {
-    types.insert("PNG", "image/png"); // This is a list of supported formats, too
-    types.insert("GIF", "image/gif");
-    types.insert("JPG", "image/jpeg");
-    types.insert("JPEG", "image/jpeg");
-    types.insert("WEBM", "video/webm");
-    types.insert("MP4", "video/mp4");
     // Let's go
     QFile file(absFilePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) error(absFilePath, file.errorString());
@@ -74,16 +71,6 @@ CustomUploader::CustomUploader(QString absFilePath) {
         }
     } else
         error(absFilePath, "format provided but not string");
-    QJsonValue imageValue = obj["imageformat"];
-    if (!imageValue.isString()) {
-        error(absFilePath, "imageformat not string");
-    }
-    QString imageFormat = imageValue.toString();
-    if (imageFormat == "base64" || QRegExp("base64\\([^+]+\\+[^+]+)").exactMatch(imageFormat)
-        || QRegExp("[^+]+\\+[^+]+").exactMatch(imageFormat)) {
-        this->iFormat = imageFormat;
-    } else
-        error(absFilePath, "imageformat invalid");
     QJsonValue bodyValue = obj["body"];
     if (rFormat != RequestFormat::PLAIN) {
         if (bodyValue.isUndefined()) error(absFilePath, "body not set");
@@ -113,6 +100,11 @@ CustomUploader::CustomUploader(QString absFilePath) {
         if (!fileLimit.isDouble()) error(absFilePath, "fileLimit not double");
         limit = fileLimit.toDouble();
     }
+    QJsonValue bool64 = obj["base64"];
+    if (!bool64.isNull() && !bool64.isUndefined()) {
+        if (!bool64.isBool()) error(absFilePath, "base64 must be boolean");
+        base64 = bool64.toBool();
+    }
 }
 
 QString CustomUploader::name() {
@@ -121,10 +113,6 @@ QString CustomUploader::name() {
 
 QString CustomUploader::description() {
     return desc;
-}
-
-std::tuple<QString, QString> CustomUploader::format() {
-    return std::tuple<QString, QString>(getFormatString(false), getFormatString(true));
 }
 
 QString getCType(RequestFormat format, QString plainType) {
@@ -139,7 +127,7 @@ QString getCType(RequestFormat format, QString plainType) {
     return plainType;
 }
 
-QList<QPair<QString, QString>> getHeaders(QJsonObject h, QString imageFormat, QMap<QString, QString> types, RequestFormat format) {
+QList<QPair<QString, QString>> getHeaders(QJsonObject h, QString imageFormat, RequestFormat format) {
     QList<QPair<QString, QString>> headers;
     for (QString s : h.keys()) {
         if (s.toLower() == "content-type") continue;
@@ -149,18 +137,8 @@ QList<QPair<QString, QString>> getHeaders(QJsonObject h, QString imageFormat, QM
         else
             headers << QPair<QString, QString>(s, v.toString());
     }
-    headers << QPair<QString, QString>("Content-Type", getCType(format, types.value(imageFormat)));
+    headers << QPair<QString, QString>("Content-Type", getCType(format, normalFormatMIME(normalFormatFromName(imageFormat))));
     return headers;
-}
-
-QString CustomUploader::getFormatString(bool animated) {
-    if (iFormat == "base64")
-        return animated ? "GIF" : "PNG";
-    else if (QRegExp("[^+]+\\+[^+]+").exactMatch(iFormat))
-        return iFormat.split('+')[(int)animated];
-    else if (QRegExp("base64\\([^+]+\\+[^+]+)").exactMatch(iFormat))
-        return iFormat.mid(7, iFormat.length() - 8).split('+')[(int)animated];
-    return "";
 }
 
 QJsonObject recurseAndReplace(QJsonObject &body, QByteArray &data, QString contentType) {
@@ -234,25 +212,26 @@ void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, 
     }
 }
 
-void CustomUploader::doUpload(QByteArray imgData) {
-    auto h = getHeaders(headers, getFormatString(false), types, this->rFormat);
-    QString format = getFormatString(false); // Soon:tm:
+void CustomUploader::doUpload(QByteArray imgData, QString format) {
+    auto h = getHeaders(headers, format, this->rFormat);
     QByteArray data;
-    if (iFormat == "base64" || QRegExp("base64\\([^+]\\+[^+]\\)").exactMatch(iFormat)) imgData = imgData.toBase64();
+    if (base64) imgData = imgData.toBase64();
     switch (this->rFormat) {
     case RequestFormat::PLAIN: {
         data = imgData;
     } break;
     case RequestFormat::JSON: {
         if (body.isString()) {
-            QStringList split = body.toString().replace("%contenttype", types.value(format)).split("%imagedata");
+            QStringList split = body.toString().replace("%contenttype", normalFormatMIME(normalFormatFromName(format))).split("%imagedata");
             for (int i = 0; i < split.size(); i++) {
                 data.append(split[i]);
                 if (i < split.size() - 1) data.append(imgData);
             }
         } else {
             QJsonObject vo = body.toObject();
-            data = QJsonDocument::fromVariant(recurseAndReplace(vo, imgData, types.value(format)).toVariantMap()).toJson();
+            data = QJsonDocument::fromVariant(
+                   recurseAndReplace(vo, imgData, normalFormatMIME(normalFormatFromName(format))).toVariantMap())
+                   .toJson();
         }
     } break;
     case RequestFormat::X_WWW_FORM_URLENCODED: {
@@ -264,7 +243,8 @@ void CustomUploader::doUpload(QByteArray imgData) {
                 QByteArray strB;
                 if (str.startsWith("/") && str.endsWith("/")) {
                     str = str.mid(1, str.length() - 2);
-                    QStringList split = str.replace("%contenttype", types.value(format)).split("%imagedata");
+                    QStringList split
+                    = str.replace("%contenttype", normalFormatMIME(normalFormatFromName(format))).split("%imagedata");
                     for (int i = 0; i < split.size(); i++) {
                         strB.append(split[i]);
                         if (i < split.size() - 1) strB.append(imgData);

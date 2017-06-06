@@ -51,7 +51,8 @@ SOURCES += main.cpp\
     screenareaselector/screenareaselector.cpp \
     recording/recordingpreview.cpp \
     recording/recordingcontroller.cpp \
-    recording/recordingformats.cpp
+    recording/recordingformats.cpp \
+    formats.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -84,7 +85,8 @@ HEADERS  += mainwindow.hpp \
     screenareaselector/screenareaselector.hpp \
     recording/recordingpreview.hpp \
     recording/recordingcontroller.hpp \
-    recording/recordingformats.hpp
+    recording/recordingformats.hpp \
+    formats.hpp
 
 mac {
         SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp

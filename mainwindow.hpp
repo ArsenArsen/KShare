@@ -33,8 +33,8 @@ private slots:
     void on_hideToTray_clicked(bool checked);
     void on_actionColor_Picker_triggered();
     void on_captureCursor_clicked(bool checked);
-
     void on_formatBox_currentIndexChanged(int index);
+    void on_imageFormatBox_currentIndexChanged(const QString &arg1);
 
 public:
     explicit MainWindow(QWidget *parent = 0);

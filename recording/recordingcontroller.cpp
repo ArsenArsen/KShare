@@ -38,7 +38,12 @@ bool RecordingController::end() {
 
     preview = 0;
     WorkerContext *c = new WorkerContext;
-    c->consumer = [&](QImage) { queue(_context->finalizer()); };
+    c->consumer = [&](QImage) {
+        _QueueContext contx;
+        contx.arr = _context->finalizer();
+        contx.format = _context->anotherFormat;
+        queue(contx);
+    };
     c->targetFormat = QImage::Format_Alpha8;
     c->pixmap = QPixmap(0, 0);
     Worker::queue(c);
@@ -48,7 +53,7 @@ bool RecordingController::end() {
     return true;
 }
 
-void RecordingController::queue(QByteArray arr) {
+void RecordingController::queue(_QueueContext arr) {
     QMutexLocker l(&lock);
     uploadQueue.enqueue(arr);
 }
@@ -86,7 +91,10 @@ void RecordingController::timeout() {
             preview->setTime(QString("%1:%2").arg(QString::number(minute)).arg(QString::number(second)), frame);
     } else {
         QMutexLocker l(&lock);
-        if (!uploadQueue.isEmpty()) UploaderSingleton::inst().upload(uploadQueue.dequeue());
+        if (!uploadQueue.isEmpty()) {
+            auto a = uploadQueue.dequeue();
+            UploaderSingleton::inst().upload(a.arr, a.format);
+        }
     }
 }
 

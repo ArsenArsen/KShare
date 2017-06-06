@@ -12,12 +12,17 @@
 #include <functional>
 #include <memory>
 
-class RecordingContext {
-public:
+struct RecordingContext {
     QImage::Format format;
     std::function<void(QImage)> consumer;
     std::function<bool()> validator;
     std::function<QByteArray()> finalizer;
+    QString anotherFormat;
+};
+
+struct _QueueContext {
+    QByteArray arr;
+    QString format;
 };
 
 class RecordingController : public QObject {
@@ -30,14 +35,14 @@ public slots:
     bool start(RecordingContext *context);
     // Returns false if not running
     bool end();
-    void queue(QByteArray arr);
+    void queue(_QueueContext arr);
 private slots:
     void timeout();
     void startWithArea(QRect newArea);
 
 private:
     QMutex lock;
-    QQueue<QByteArray> uploadQueue;
+    QQueue<_QueueContext> uploadQueue;
     QRect area;
     RecordingContext *_context = 0;
     QTimer timer;

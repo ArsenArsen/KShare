@@ -5,18 +5,17 @@
 #include <QFile>
 #include <QImage>
 #include <QString>
+#include <formats.hpp>
 #include <functional>
 
 class RecordingFormats {
 public:
-    enum Format { GIF, None };
-    RecordingFormats(Format f);
+    RecordingFormats(formats::Recording f);
     std::function<void(QImage)> getConsumer();
     std::function<QByteArray()> getFinalizer();
     std::function<bool()> getValidator();
     QImage::Format getFormat();
-
-    static QString getExt(Format f);
+    QString getAnotherFormat();
 
 private:
     std::function<void(QImage)> consumer;
@@ -25,7 +24,7 @@ private:
     std::vector<QImage> frames;
     QImage::Format iFormat;
     QDir tmpDir;
-    int frame = 0;
+    QString anotherFormat;
 };
 
 #endif // RECORDINGFORMATS_HPP
