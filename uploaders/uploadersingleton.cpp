@@ -73,6 +73,11 @@ void UploaderSingleton::upload(QPixmap *pixmap) {
 }
 
 void UploaderSingleton::upload(QByteArray img, QString format) {
+    QFile file(saveDir.absoluteFilePath(formatter::format(settings::settings().value("fileFormat").toString(), format.toLower())));
+    if (file.open(QFile::WriteOnly)) {
+        file.write(img);
+        file.close();
+    }
     uploaders.value(uploader)->doUpload(img, format);
 }
 
