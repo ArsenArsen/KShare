@@ -2,6 +2,7 @@
 
 #include <QBuffer>
 #include <QDateTime>
+#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
@@ -10,6 +11,7 @@
 #include <platformbackend.hpp>
 #include <settings.hpp>
 #include <time.h>
+#include <unistd.h>
 
 RecordingFormats::RecordingFormats(RecordingFormats::Format f) {
     QString path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
@@ -25,24 +27,27 @@ RecordingFormats::RecordingFormats(RecordingFormats::Format f) {
     tmpDir.cd(name);
     switch (f) {
     case GIF: {
-        iFormat = QImage::Format_Alpha8;
+        iFormat = QImage::Format_RGBA8888;
         validator = [] { return true; };
         consumer = [&](QImage img) { frames.push_back(img); };
         finalizer = [&] {
-            if (frames.size() == 0) return QByteArray;
-            int f = 1;
+            if (frames.size() == 0) return QByteArray();
             uint32_t d = 1000 / settings::settings().value("recording/framerate", 30).toInt();
-            QImage startImg = frames[0];
+            QImage &startImg = frames[0];
             GifWriter writer;
-            GifBegin(&writer, tmpDir.absoluteFilePath("resulting.gif"), startImg.width(), startImg.height(), d)
-
-            for (QImage &a : frames){ GifWriteFrame(writer, a.bits(), a.width(), a.height(), d) } QFile res(
-            tmpDir.absoluteFilePath("resulting.gif"));
+            GifBegin(&writer, tmpDir.absoluteFilePath("resulting.gif").toLocal8Bit().constData(), startImg.width(),
+                     startImg.height(), d);
+            int i = 0;
+            for (QImage &a : frames) {
+                QByteArray alpha8((char *)a.bits(), a.byteCount());
+                GifWriteFrame(&writer, (uint8_t *)alpha8.data(), a.width(), a.height(), d);
+            }
+            GifEnd(&writer);
+            QFile res(tmpDir.absoluteFilePath("resulting.gif"));
             if (!res.open(QFile::ReadOnly)) {
-                return QByteArray;
+                return QByteArray();
             }
             QByteArray data = res.readAll();
-            tmpDir.removeRecursively();
             return data;
         };
         break;

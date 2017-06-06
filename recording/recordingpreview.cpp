@@ -11,7 +11,6 @@ RecordingPreview::RecordingPreview(QRect area, QWidget *parent) : QWidget(parent
     recordingArea = area;
     setStyleSheet("background-color: rgba(0, 0, 0, 0.7);");
     setAttribute(Qt::WA_TranslucentBackground);
-    setAttribute(Qt::WA_DeleteOnClose);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setWindowFlags(windowFlags() | Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
     QTimer::singleShot(0, [&] {
@@ -45,6 +44,7 @@ void RecordingPreview::setPixmap(QPixmap map) {
     label->setPixmap(map);
 }
 void RecordingPreview::setTime(QString time, int frame) {
-    hintLabel->setText(QString("Time: ") + time + "\nFrame: " + QString::number(frame)
-                       + "\nStop key: " + hotkeying::sequence("recordingstop"));
+    if (isVisible())
+        hintLabel->setText(QString("Time: ") + time + "\nFrame: " + QString::number(frame)
+                           + "\nStop key: " + hotkeying::sequence("recordingstop"));
 }

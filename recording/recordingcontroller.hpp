@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QImage>
 #include <QMutex>
+#include <QQueue>
 #include <QRect>
 #include <QTimer>
 #include <functional>

@@ -16,7 +16,7 @@ RecordingController::RecordingController() : timer(this) {
 }
 
 bool RecordingController::isRunning() {
-    return timer.isActive();
+    return preview;
 }
 
 bool RecordingController::start(RecordingContext *context) {
@@ -31,12 +31,17 @@ bool RecordingController::start(RecordingContext *context) {
 bool RecordingController::end() {
     if (!isRunning()) return false;
     area = QRect();
-    preview->close();
+    if (preview) {
+        preview->close();
+        preview->deleteLater();
+    }
+
     preview = 0;
     WorkerContext *c = new WorkerContext;
     c->consumer = [&](QImage) { queue(_context->finalizer()); };
     c->targetFormat = QImage::Format_Alpha8;
     c->pixmap = QPixmap(0, 0);
+    Worker::queue(c);
 
     frame = 0;
     time = 0;
@@ -51,11 +56,15 @@ void RecordingController::queue(QByteArray arr) {
 void RecordingController::timeout() {
     if (isRunning()) {
         if (!_context->validator()) {
-            preview->close();
+            if (preview) {
+                preview->close();
+                preview->deleteLater();
+            }
             frame = 0;
             time = 0;
             preview = 0;
             area = QRect();
+            return;
         }
         time++;
         int localTime = time * timer.interval() - 3000;
@@ -73,10 +82,11 @@ void RecordingController::timeout() {
         }
         long second = localTime / 1000 % 60;
         long minute = localTime / 60000;
-        preview->setTime(QString("%1:%2").arg(QString::number(minute)).arg(QString::number(second)), frame);
+        if (isRunning())
+            preview->setTime(QString("%1:%2").arg(QString::number(minute)).arg(QString::number(second)), frame);
     } else {
         QMutexLocker l(&lock);
-        UploaderSingleton::inst().upload(uploadQueue.dequeue());
+        if (!uploadQueue.isEmpty()) UploaderSingleton::inst().upload(uploadQueue.dequeue());
     }
 }
 
