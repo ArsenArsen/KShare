@@ -33,6 +33,7 @@ void handler(QtMsgType type, const QMessageLogContext &, const QString &msg) {
 int main(int argc, char *argv[]) {
     qInstallMessageHandler(handler);
     QApplication a(argc, argv);
+    a.setQuitOnLastWindowClosed(false);
     a.setApplicationName("KShare");
     a.setOrganizationName("ArsenArsen");
     a.setApplicationVersion("3.0");
