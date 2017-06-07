@@ -12,7 +12,7 @@ RecordingPreview::RecordingPreview(QRect area, QWidget *parent) : QWidget(parent
     setStyleSheet("background-color: rgba(0, 0, 0, 0.7);");
     setAttribute(Qt::WA_TranslucentBackground);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    setWindowFlags(windowFlags() | Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
+    setWindowFlags(windowFlags() | Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     QTimer::singleShot(0, [&] {
         adjustSize();
         move(0, 0);

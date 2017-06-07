@@ -9,6 +9,7 @@
 ScreenAreaSelector::ScreenAreaSelector() {
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_DeleteOnClose);
+    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     setStyleSheet("background-color: rgba(0, 0, 0, 0.5);");
     setWindowTitle("KShare: Select Area (By resizing this window)");
     QTimer::singleShot(0, [&] {
