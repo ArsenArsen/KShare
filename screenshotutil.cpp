@@ -43,7 +43,7 @@ QPixmap *screenshotutil::fullscreenArea(bool cursor, qreal x, qreal y, qreal w, 
             QPixmap *withCursor = new QPixmap(noCursor);
             QPainter painter(withCursor);
             auto cursorData = PlatformBackend::inst().getCursor();
-            painter.drawPixmap(QCursor::pos() - std::get<0>(cursorData), std::get<1>(cursorData));
+            painter.drawPixmap(QCursor::pos() - std::get<0>(cursorData) - area.topLeft().toPoint(), std::get<1>(cursorData));
             painter.end();
             return withCursor;
         }
