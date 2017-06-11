@@ -9,7 +9,7 @@ QString normalFormatName(Normal format);
 Normal normalFormatFromName(QString format);
 QString normalFormatMIME(Normal format);
 
-enum class Recording { GIF, None };
+enum class Recording { GIF, WebM, None };
 QString recordingFormatName(Recording format);
 Recording recordingFormatFromName(QString format);
 QString recordingFormatMIME(Recording format);

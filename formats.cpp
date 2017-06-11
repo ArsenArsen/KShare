@@ -40,6 +40,9 @@ QString formats::recordingFormatName(formats::Recording format) {
     case Recording::GIF:
         return "GIF";
         break;
+    case Recording::WebM:
+        return "WEBM";
+        break;
     default:
         return QString();
         break;
@@ -48,6 +51,7 @@ QString formats::recordingFormatName(formats::Recording format) {
 
 formats::Recording formats::recordingFormatFromName(QString format) {
     if (format.toLower() == "gif") return Recording::GIF;
+    if (format.toLower() == "webm") return Recording::WebM;
     return Recording::None;
 }
 
@@ -55,6 +59,9 @@ QString formats::recordingFormatMIME(formats::Recording format) {
     switch (format) {
     case Recording::GIF:
         return "image/gif";
+        break;
+    case Recording::WebM:
+        return "video/webm";
         break;
     default:
         return QString();

@@ -6,6 +6,10 @@
 #include <QtGlobal>
 #include <formatter.hpp>
 #include <iostream>
+extern "C" {
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+}
 #include <notifications.hpp>
 #include <worker/worker.hpp>
 
@@ -34,6 +38,8 @@ void handler(QtMsgType type, const QMessageLogContext &, const QString &msg) {
 }
 
 int main(int argc, char *argv[]) {
+    avcodec_register_all();
+    av_register_all();
     qInstallMessageHandler(handler);
     QApplication a(argc, argv);
     a.setQuitOnLastWindowClosed(false);

@@ -52,7 +52,8 @@ SOURCES += main.cpp\
     recording/recordingpreview.cpp \
     recording/recordingcontroller.cpp \
     recording/recordingformats.cpp \
-    formats.cpp
+    formats.cpp \
+    recording/encoders/webmencoder.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -86,7 +87,11 @@ HEADERS  += mainwindow.hpp \
     recording/recordingpreview.hpp \
     recording/recordingcontroller.hpp \
     recording/recordingformats.hpp \
-    formats.hpp
+    formats.hpp \
+    avencode/mp4codecwrapper.hpp \
+    recording/encoders/webmencoder.hpp
+
+LIBS += -lavcodec -lavformat -lavutil -lswscale -lavutil
 
 mac {
         SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp
