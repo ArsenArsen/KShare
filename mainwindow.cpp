@@ -223,9 +223,9 @@ void MainWindow::on_captureCursor_clicked(bool checked) {
 }
 
 void MainWindow::on_formatBox_currentIndexChanged(int index) {
-    settings::settings().setValue("recording/format", index);
+    if (isVisible()) settings::settings().setValue("recording/format", index);
 }
 
-void MainWindow::on_imageFormatBox_currentIndexChanged(const QString &arg1) {
-    settings::settings().setValue("imageformat", arg1);
+void MainWindow::on_imageFormatBox_currentIndexChanged(int index) {
+    if (isVisible()) settings::settings().setValue("imageformat", index);
 }

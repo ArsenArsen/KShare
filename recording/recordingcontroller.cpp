@@ -60,7 +60,7 @@ void RecordingController::queue(_QueueContext arr) {
 
 void RecordingController::timeout() {
     if (isRunning()) {
-        if (!_context->validator()) {
+        if (!_context->validator(area.size())) {
             if (preview) {
                 preview->close();
                 preview->deleteLater();

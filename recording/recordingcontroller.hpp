@@ -15,7 +15,7 @@
 struct RecordingContext {
     QImage::Format format;
     std::function<void(QImage)> consumer;
-    std::function<bool()> validator;
+    std::function<bool(QSize)> validator;
     std::function<QByteArray()> finalizer;
     QString anotherFormat;
 };

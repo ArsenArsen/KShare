@@ -38,7 +38,6 @@ void handler(QtMsgType type, const QMessageLogContext &, const QString &msg) {
 }
 
 int main(int argc, char *argv[]) {
-    avcodec_register_all();
     av_register_all();
     qInstallMessageHandler(handler);
     QApplication a(argc, argv);

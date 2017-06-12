@@ -18,7 +18,7 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
     QString path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 
     if (path.isEmpty()) {
-        validator = [] { return false; };
+        validator = [](QSize) { return false; };
         return;
     }
     tmpDir = QDir(path);
@@ -29,7 +29,7 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
     switch (f) {
     case formats::Recording::GIF: {
         iFormat = QImage::Format_RGBA8888;
-        validator = [] { return true; };
+        validator = [](QSize) { return true; };
         consumer = [&](QImage img) { frames.push_back(img); };
         finalizer = [&] {
             if (frames.size() == 0) return QByteArray();
@@ -53,9 +53,38 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
         anotherFormat = formats::recordingFormatName(f);
         break;
     }
+    case formats::Recording::WebM: {
+        iFormat = QImage::Format_RGB888;
+        finalizer = [&] {
+            delete enc;
+            QFile res(tmpDir.absoluteFilePath("res.webm"));
+            if (!res.open(QFile::ReadOnly)) {
+                return QByteArray();
+            }
+            QByteArray data = res.readAll();
+            return data;
+        };
+        validator = [&](QSize s) {
+            if (!enc) {
+                QString path = tmpDir.absoluteFilePath("res.webm");
+                enc = new Encoder(path, s);
+                if (!enc->isRunning()) {
+                    delete enc;
+                    return false;
+                }
+            }
+            return true;
+        };
+        consumer = [&](QImage img) { enc->addFrame(img); };
+        break;
+    }
     default:
         break;
     }
+}
+
+RecordingFormats::~RecordingFormats() {
+    tmpDir.removeRecursively();
 }
 
 std::function<void(QImage)> RecordingFormats::getConsumer() {
@@ -66,7 +95,7 @@ std::function<QByteArray()> RecordingFormats::getFinalizer() {
     return finalizer;
 }
 
-std::function<bool()> RecordingFormats::getValidator() {
+std::function<bool(QSize)> RecordingFormats::getValidator() {
     return validator;
 }
 

@@ -18,8 +18,14 @@ void ImgurUploader::doUpload(QByteArray byteArray, QString) {
                       << QPair<QString, QString>("Authorization", "Client-ID 8a98f183fc895da"),
                       byteArray, [](QJsonDocument res, QByteArray, QNetworkReply *) {
                           QString result = res.object()["data"].toObject()["link"].toString();
-                          screenshotutil::toClipboard(result);
-                          notifications::notify("KShare imgur Uploader ",
-                                                result.isEmpty() ? "Failed upload!" : "Uploaded to imgur!");
+                          if (!result.isEmpty()) {
+                              screenshotutil::toClipboard(result);
+                              notifications::notify("KShare imgur Uploader ", "Uploaded to imgur!");
+                          } else {
+                              notifications::notify("KShare imgur Uploader ",
+                                                    QString("Failed upload! imgur said: HTTP %2: %1")
+                                                    .arg(res.object()["data"].toObject()["error"].toString())
+                                                    .arg(QString::number(res.object()["status"].toInt())));
+                          }
                       });
 }

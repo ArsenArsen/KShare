@@ -5,7 +5,7 @@ A [ShareX](https://getsharex.com/) inspired cross platform utility written with 
 |:---:|:-----:|:--:|
 |[![Build Status](https://nativeci.arsenarsen.com/job/KShare/badge/icon)](https://nativeci.arsenarsen.com/job/KShare)| [![Build Status](https://nativeci.arsenarsen.com/job/KShare%20Windows%20x86_64/badge/icon)](https://nativeci.arsenarsen.com/job/KShare%20Windows%20x86_64/)| Soon |
 ## Screenshot
-Made with KShare itself, of course :)  
+Made with KShare itself, of course :)
 ![](https://i.arsenarsen.com/2iphpxpah8.png)
 
 ## Usage
@@ -16,6 +16,10 @@ See the [wiki](https://github.com/ArsenArsen/KShare/wiki).
 * Qt 5 GUI
 * Qt 5 Network
 * [QHotkey](https://github.com/Skycoder42/QHotkey)
+* libavformat
+* libavcodec
+* libavutil
+* libswscale
 * From the above, we are required to have Qt 5 x11extras on Linux.
 
 Despite the name implying so, this project does not depend on the KDE API at all.
@@ -24,7 +28,7 @@ Despite the name implying so, this project does not depend on the KDE API at all
 See the [projects](https://github.com/ArsenArsen/KShare/projects)
 
 ## Install
-Currently, the only package I provide is `kshare-git` on the AUR.  
+Currently, the only package I provide is `kshare-git` on the AUR.
 I do plan to make a Debian and Ubuntu packages, as well as `kshare` stable for Arch.
 
 ## Wayland Support

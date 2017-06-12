@@ -53,7 +53,7 @@ SOURCES += main.cpp\
     recording/recordingcontroller.cpp \
     recording/recordingformats.cpp \
     formats.cpp \
-    recording/encoders/webmencoder.cpp
+    recording/encoders/encoder.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -88,7 +88,7 @@ HEADERS  += mainwindow.hpp \
     recording/recordingcontroller.hpp \
     recording/recordingformats.hpp \
     formats.hpp \
-    recording/encoders/webmencoder.hpp
+    recording/encoders/encoder.hpp
 
 LIBS += -lavcodec -lavformat -lavutil -lswscale -lavutil
 
@@ -96,6 +96,7 @@ mac {
         SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp
         HEADERS += $$PWD/platformspecifics/mac/macbackend.hpp
         LIBS += -framework Carbon
+        warning(Mac is on TODO);
 } else:win32 {
         SOURCES += $$PWD/platformspecifics/u32/u32backend.cpp
         HEADERS += $$PWD/platformspecifics/u32/u32backend.hpp
