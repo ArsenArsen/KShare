@@ -15,72 +15,40 @@
 #include <unistd.h>
 
 RecordingFormats::RecordingFormats(formats::Recording f) {
-    QString path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    QString tmp = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 
-    if (path.isEmpty()) {
+    if (tmp.isEmpty()) {
         validator = [](QSize) { return false; };
         return;
     }
-    tmpDir = QDir(path);
+    tmpDir = QDir(tmp);
     QString name
     = QString("KShareTemp-") + QString::number(PlatformBackend::inst().pid()) + "-" + QTime::currentTime().toString();
     tmpDir.mkdir(name);
     tmpDir.cd(name);
-    switch (f) {
-    case formats::Recording::GIF: {
-        iFormat = QImage::Format_RGBA8888;
-        validator = [](QSize) { return true; };
-        consumer = [&](QImage img) { frames.push_back(img); };
-        finalizer = [&] {
-            if (frames.size() == 0) return QByteArray();
-            uint32_t d = 1000 / settings::settings().value("recording/framerate", 30).toInt();
-            QImage &startImg = frames[0];
-            GifWriter writer;
-            GifBegin(&writer, tmpDir.absoluteFilePath("resulting.gif").toLocal8Bit().constData(), startImg.width(),
-                     startImg.height(), d);
-            for (QImage &a : frames) {
-                QByteArray alpha8((char *)a.bits(), a.byteCount());
-                GifWriteFrame(&writer, (uint8_t *)alpha8.data(), a.width(), a.height(), d);
+    iFormat = QImage::Format_RGB888;
+    path = tmpDir.absoluteFilePath("res." + formats::recordingFormatName(f).toLower());
+    finalizer = [&] {
+        delete enc;
+        QFile res(path);
+        if (!res.open(QFile::ReadOnly)) {
+            return QByteArray();
+        }
+        QByteArray data = res.readAll();
+        return data;
+    };
+    validator = [&](QSize s) {
+        if (!enc) {
+            enc = new Encoder(path, s);
+            if (!enc->isRunning()) {
+                delete enc;
+                return false;
             }
-            GifEnd(&writer);
-            QFile res(tmpDir.absoluteFilePath("resulting.gif"));
-            if (!res.open(QFile::ReadOnly)) {
-                return QByteArray();
-            }
-            QByteArray data = res.readAll();
-            return data;
-        };
-        anotherFormat = formats::recordingFormatName(f);
-        break;
-    }
-    case formats::Recording::WebM: {
-        iFormat = QImage::Format_RGB888;
-        finalizer = [&] {
-            delete enc;
-            QFile res(tmpDir.absoluteFilePath("res.webm"));
-            if (!res.open(QFile::ReadOnly)) {
-                return QByteArray();
-            }
-            QByteArray data = res.readAll();
-            return data;
-        };
-        validator = [&](QSize s) {
-            if (!enc) {
-                QString path = tmpDir.absoluteFilePath("res.webm");
-                enc = new Encoder(path, s);
-                if (!enc->isRunning()) {
-                    delete enc;
-                    return false;
-                }
-            }
-            return true;
-        };
-        consumer = [&](QImage img) { enc->addFrame(img); };
-        break;
-    }
-    default:
-        break;
-    }
+        }
+        return true;
+    };
+    consumer = [&](QImage img) { enc->addFrame(img); };
+    anotherFormat = formats::recordingFormatName(f);
 }
 
 RecordingFormats::~RecordingFormats() {

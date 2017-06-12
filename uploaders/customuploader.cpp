@@ -13,6 +13,8 @@
 
 using formats::normalFormatFromName;
 using formats::normalFormatMIME;
+using formats::recordingFormatFromName;
+using formats::recordingFormatMIME;
 using std::runtime_error;
 
 void error(QString absFilePath, QString err) {
@@ -205,6 +207,7 @@ void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, 
             notifications::notify("KShare Custom Uploader " + name, "Copied upload link to clipboard!");
         } else
             notifications::notify("KShare Custom Uploader " + name, "Upload done, but result empty!");
+        QApplication::clipboard()->setText(data);
     } else {
         notifications::notify("KShare Custom Uploader " + name,
                               "Upload done, but result is not JSON Object! Result in clipboard.");
@@ -216,22 +219,23 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
     auto h = getHeaders(headers, format, this->rFormat);
     QByteArray data;
     if (base64) imgData = imgData.toBase64();
+    QString mime = normalFormatMIME(normalFormatFromName(format));
+    if (mime.isEmpty()) mime = recordingFormatMIME(recordingFormatFromName(format));
+
     switch (this->rFormat) {
     case RequestFormat::PLAIN: {
         data = imgData;
     } break;
     case RequestFormat::JSON: {
         if (body.isString()) {
-            QStringList split = body.toString().replace("%contenttype", normalFormatMIME(normalFormatFromName(format))).split("%imagedata");
+            QStringList split = body.toString().replace("%contenttype", mime).split("%imagedata");
             for (int i = 0; i < split.size(); i++) {
                 data.append(split[i]);
                 if (i < split.size() - 1) data.append(imgData);
             }
         } else {
             QJsonObject vo = body.toObject();
-            data = QJsonDocument::fromVariant(
-                   recurseAndReplace(vo, imgData, normalFormatMIME(normalFormatFromName(format))).toVariantMap())
-                   .toJson();
+            data = QJsonDocument::fromVariant(recurseAndReplace(vo, imgData, mime).toVariantMap()).toJson();
         }
     } break;
     case RequestFormat::X_WWW_FORM_URLENCODED: {
@@ -243,8 +247,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                 QByteArray strB;
                 if (str.startsWith("/") && str.endsWith("/")) {
                     str = str.mid(1, str.length() - 2);
-                    QStringList split
-                    = str.replace("%contenttype", normalFormatMIME(normalFormatFromName(format))).split("%imagedata");
+                    QStringList split = str.replace("%contenttype", mime).split("%imagedata");
                     for (int i = 0; i < split.size(); i++) {
                         strB.append(split[i]);
                         if (i < split.size() - 1) strB.append(imgData);

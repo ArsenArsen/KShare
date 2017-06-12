@@ -27,6 +27,7 @@ private:
     std::vector<QImage> frames;
     QImage::Format iFormat;
     QDir tmpDir;
+    QString path;
     Encoder *enc = NULL;
     QString anotherFormat;
 };
