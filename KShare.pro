@@ -88,7 +88,6 @@ HEADERS  += mainwindow.hpp \
     recording/recordingcontroller.hpp \
     recording/recordingformats.hpp \
     formats.hpp \
-    avencode/mp4codecwrapper.hpp \
     recording/encoders/webmencoder.hpp
 
 LIBS += -lavcodec -lavformat -lavutil -lswscale -lavutil
