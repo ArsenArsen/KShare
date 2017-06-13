@@ -206,9 +206,10 @@ void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, 
         if (!url.isEmpty()) {
             QApplication::clipboard()->setText(url);
             notifications::notify("KShare Custom Uploader " + name, "Copied upload link to clipboard!");
-        } else
+        } else {
             notifications::notify("KShare Custom Uploader " + name, "Upload done, but result empty!");
-        QApplication::clipboard()->setText(data);
+            QApplication::clipboard()->setText(data);
+        }
     } else {
         notifications::notify("KShare Custom Uploader " + name,
                               "Upload done, but result is not JSON Object! Result in clipboard.");
