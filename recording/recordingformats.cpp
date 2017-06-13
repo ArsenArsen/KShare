@@ -8,7 +8,6 @@
 #include <QStandardPaths>
 #include <QTimer>
 #include <formats.hpp>
-#include <gif-h/gif.h>
 #include <platformbackend.hpp>
 #include <settings.hpp>
 #include <time.h>
