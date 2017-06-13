@@ -1,6 +1,5 @@
 #include "bluritem.hpp"
 
-#include <QDebug>
 #include <cropeditor/settings/blurdialog.hpp>
 
 bool BlurItem::init(CropScene *) {

@@ -1,6 +1,5 @@
 #include "hotkeying.hpp"
 
-#include <QDebug>
 #include <QHotkey>
 #include <QMap>
 #include <settings.hpp>

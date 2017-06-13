@@ -2,7 +2,6 @@
 #include "screenshotutil.hpp"
 #include <QApplication>
 #include <QCommandLineParser>
-#include <QDebug>
 #include <QtGlobal>
 #include <formatter.hpp>
 #include <iostream>

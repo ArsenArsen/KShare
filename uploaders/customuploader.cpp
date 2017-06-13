@@ -3,7 +3,6 @@
 #include <QApplication>
 #include <QBuffer>
 #include <QClipboard>
-#include <QDebug>
 #include <QFile>
 #include <QJsonDocument>
 #include <QNetworkReply>

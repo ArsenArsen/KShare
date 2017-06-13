@@ -3,7 +3,6 @@
 #include "cropscene.hpp"
 #include "cropview.hpp"
 #include <QApplication>
-#include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
 #include <QScreen>
