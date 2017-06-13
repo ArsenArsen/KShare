@@ -3,7 +3,6 @@
 
 #include <QImage>
 #include <QSize>
-#include <formats.hpp>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -34,7 +33,6 @@ private:
 
     OutputStream *out = new OutputStream;
     AVFormatContext *fc = NULL;
-    AVPacket pkt;
 
     bool success = false;
 

@@ -36,6 +36,7 @@ Encoder::Encoder(QString &targetFile, QSize res) {
     int fps = settings::settings().value("recording/framerate", 30).toInt();
 
     out->enc->codec_id = codec->id;
+    out->enc->codec = codec;
 
     out->enc->bit_rate = 400000;
     out->enc->width = res.width() % 2 ? res.width() - 1 : res.width();
@@ -50,6 +51,8 @@ Encoder::Encoder(QString &targetFile, QSize res) {
         out->enc->max_b_frames = 2;
     else if (out->enc->codec_id == AV_CODEC_ID_MPEG1VIDEO)
         out->enc->mb_decision = 2;
+    else if (out->enc->codec_id == AV_CODEC_ID_GIF)
+        out->enc->pix_fmt = AV_PIX_FMT_RGB8;
 
 
     ret = avcodec_open2(out->enc, codec, NULL);
@@ -98,6 +101,9 @@ bool Encoder::addFrame(QImage frm) {
     if (frm.format() != QImage::Format_RGB888) frm = frm.convertToFormat(QImage::Format_RGB888);
     uint8_t *frameData = (uint8_t *)frm.bits();
     setFrameRGB(frameData);
+    AVPacket pkt;
+    pkt.size = 0;
+    pkt.data = NULL;
     av_init_packet(&pkt);
     int gotPack = 0;
     int ret = avcodec_encode_video2(out->enc, &pkt, out->frame, &gotPack);
@@ -132,7 +138,8 @@ cleanup:
     av_frame_free(&out->frame);
     sws_freeContext(out->sws);
     delete out;
-    if (!(fc->oformat->flags & AVFMT_NOFILE)) avio_closep(&fc->pb);
+    if (!(fc->oformat->flags & AVFMT_NOFILE)) //
+        avio_closep(&fc->pb);
     avformat_free_context(fc);
     return success;
 }

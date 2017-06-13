@@ -12,7 +12,7 @@ void ClipboardUploader::doUpload(QByteArray imgData, QString format) {
         auto data = new QMimeData();
         data->setData(formats::recordingFormatMIME(f), imgData);
         QApplication::clipboard()->setMimeData(data);
-    }
-    QApplication::clipboard()->setImage(QImage::fromData(imgData, format.toLocal8Bit().constData()));
+    } else
+        QApplication::clipboard()->setImage(QImage::fromData(imgData, format.toLocal8Bit().constData()));
     notifications::notify("KShare", "Copied to clipboard!");
 }
