@@ -100,6 +100,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         ctx->finalizer = format->getFinalizer();
         ctx->validator = format->getValidator();
         ctx->format = format->getFormat();
+        ctx->postUploadTask = format->getPostUploadTask();
         ctx->anotherFormat = format->getAnotherFormat();
         controller->start(ctx);
     });

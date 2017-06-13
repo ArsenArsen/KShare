@@ -38,8 +38,6 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
             return QByteArray();
         }
         QByteArray data = res.readAll();
-        tmpDir.removeRecursively();
-        QScopedPointer<RecordingFormats>(this);
         return data;
     };
     validator = [&](QSize s) {
@@ -61,13 +59,17 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
         return true;
     };
     consumer = [&](QImage img) {
-        if (interrupt) try {
+        if (!interrupt) try {
                 enc->addFrame(img);
             } catch (std::runtime_error e) {
                 notifications::notify("KShare Video Encoder Error", e.what(), QSystemTrayIcon::Critical);
                 qCritical() << "Encoder error: " << e.what();
                 interrupt = true;
             }
+    };
+    postUploadTask = [&] {
+        tmpDir.removeRecursively();
+        QScopedPointer<RecordingFormats> th(this);
     };
     anotherFormat = formats::recordingFormatName(f);
 }
@@ -78,6 +80,10 @@ std::function<void(QImage)> RecordingFormats::getConsumer() {
 
 std::function<QByteArray()> RecordingFormats::getFinalizer() {
     return finalizer;
+}
+
+std::function<void()> RecordingFormats::getPostUploadTask() {
+    return postUploadTask;
 }
 
 std::function<bool(QSize)> RecordingFormats::getValidator() {

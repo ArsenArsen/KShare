@@ -16,6 +16,7 @@ public:
     std::function<void(QImage)> getConsumer();
     std::function<bool(QSize)> getValidator();
     std::function<QByteArray()> getFinalizer();
+    std::function<void()> getPostUploadTask();
     QImage::Format getFormat();
     QString getAnotherFormat();
 
@@ -23,6 +24,7 @@ private:
     std::function<void(QImage)> consumer;
     std::function<bool(QSize)> validator;
     std::function<QByteArray()> finalizer;
+    std::function<void()> postUploadTask;
     std::vector<QImage> frames;
     QImage::Format iFormat;
     QDir tmpDir;

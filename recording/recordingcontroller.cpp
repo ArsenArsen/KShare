@@ -42,6 +42,7 @@ bool RecordingController::end() {
         _QueueContext contx;
         contx.arr = _context->finalizer();
         contx.format = _context->anotherFormat;
+        contx.postUploadTask = _context->postUploadTask;
         queue(contx);
     };
     c->targetFormat = QImage::Format_Alpha8;
@@ -94,6 +95,7 @@ void RecordingController::timeout() {
         if (!uploadQueue.isEmpty()) {
             auto a = uploadQueue.dequeue();
             UploaderSingleton::inst().upload(a.arr, a.format);
+            if (a.postUploadTask) a.postUploadTask();
         }
     }
 }
