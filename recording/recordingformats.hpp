@@ -13,7 +13,6 @@
 class RecordingFormats {
 public:
     RecordingFormats(formats::Recording f);
-    ~RecordingFormats();
     std::function<void(QImage)> getConsumer();
     std::function<bool(QSize)> getValidator();
     std::function<QByteArray()> getFinalizer();

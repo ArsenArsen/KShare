@@ -35,6 +35,8 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
             return QByteArray();
         }
         QByteArray data = res.readAll();
+        tmpDir.removeRecursively();
+        QScopedPointer<RecordingFormats>(this);
         return data;
     };
     validator = [&](QSize s) {
@@ -49,10 +51,6 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
     };
     consumer = [&](QImage img) { enc->addFrame(img); };
     anotherFormat = formats::recordingFormatName(f);
-}
-
-RecordingFormats::~RecordingFormats() {
-    tmpDir.removeRecursively();
 }
 
 std::function<void(QImage)> RecordingFormats::getConsumer() {
