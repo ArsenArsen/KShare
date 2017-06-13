@@ -28,6 +28,7 @@ private:
     QDir tmpDir;
     QString path;
     Encoder *enc = NULL;
+    bool interrupt = false;
     QString anotherFormat;
 };
 

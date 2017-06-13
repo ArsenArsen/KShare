@@ -8,6 +8,7 @@
 #include <QStandardPaths>
 #include <QTimer>
 #include <formats.hpp>
+#include <notifications.hpp>
 #include <platformbackend.hpp>
 #include <settings.hpp>
 #include <time.h>
@@ -15,7 +16,6 @@
 
 RecordingFormats::RecordingFormats(formats::Recording f) {
     QString tmp = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-
     if (tmp.isEmpty()) {
         validator = [](QSize) { return false; };
         return;
@@ -29,6 +29,10 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
     path = tmpDir.absoluteFilePath("res." + formats::recordingFormatName(f).toLower());
     finalizer = [&] {
         delete enc;
+        if (interrupt) {
+            tmpDir.removeRecursively();
+            return;
+        }
         QFile res(path);
         if (!res.open(QFile::ReadOnly)) {
             return QByteArray();
@@ -40,15 +44,31 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
     };
     validator = [&](QSize s) {
         if (!enc) {
-            enc = new Encoder(path, s);
-            if (!enc->isRunning()) {
+            try {
+                enc = new Encoder(path, s);
+                if (!enc->isRunning()) {
+                    delete enc;
+                    return false;
+                }
+            } catch (std::runtime_error e) {
+                notifications::notify("KShare Video Encoder Error", e.what(), QSystemTrayIcon::Critical);
+                qCritical() << "Encoder error: " << e.what();
+                interrupt = true;
                 delete enc;
                 return false;
             }
         }
         return true;
     };
-    consumer = [&](QImage img) { enc->addFrame(img); };
+    consumer = [&](QImage img) {
+        if (interrupt) try {
+                enc->addFrame(img);
+            } catch (std::runtime_error e) {
+                notifications::notify("KShare Video Encoder Error", e.what(), QSystemTrayIcon::Critical);
+                qCritical() << "Encoder error: " << e.what();
+                interrupt = true;
+            }
+    };
     anotherFormat = formats::recordingFormatName(f);
 }
 
