@@ -81,7 +81,6 @@ HEADERS  += mainwindow.hpp \
     cropeditor/drawing/textitem.hpp \
     colorpicker/colorpickerscene.hpp \
     platformbackend.hpp \
-    gif-h/gif.h \
     worker/worker.hpp \
     screenareaselector/screenareaselector.hpp \
     recording/recordingpreview.hpp \
