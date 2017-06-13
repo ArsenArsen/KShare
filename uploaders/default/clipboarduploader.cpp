@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QDebug>
 #include <QMimeData>
 #include <formats.hpp>
 #include <notifications.hpp>
