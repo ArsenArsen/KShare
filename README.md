@@ -15,12 +15,12 @@ See the [wiki](https://github.com/ArsenArsen/KShare/wiki).
 * Qt 5 Widgets
 * Qt 5 GUI
 * Qt 5 Network
+* Qt 5 X11Extras | Winextras 
 * [QHotkey](https://github.com/Skycoder42/QHotkey)
 * libavformat
 * libavcodec
 * libavutil
 * libswscale
-* From the above, we are required to have Qt 5 x11extras on Linux.
 
 Despite the name implying so, this project does not depend on the KDE API at all.
 
