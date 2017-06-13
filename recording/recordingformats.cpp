@@ -31,7 +31,7 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
         delete enc;
         if (interrupt) {
             tmpDir.removeRecursively();
-            return;
+            return QByteArray();
         }
         QFile res(path);
         if (!res.open(QFile::ReadOnly)) {
