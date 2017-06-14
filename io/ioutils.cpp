@@ -8,7 +8,9 @@ namespace ioutils {
 QNetworkAccessManager networkManager;
 }
 
-void ioutils::getJson(QUrl target, QList<QPair<QString, QString>> headers, std::function<void(QJsonDocument, QByteArray, QNetworkReply *)> callback) {
+void ioutils::getJson(QUrl target,
+                      QList<QPair<QString, QString>> headers,
+                      std::function<void(QJsonDocument, QByteArray, QNetworkReply *)> callback) {
     QNetworkRequest req(target);
     for (auto header : headers) {
         req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
@@ -21,7 +23,10 @@ void ioutils::getJson(QUrl target, QList<QPair<QString, QString>> headers, std::
     });
 }
 
-void ioutils::postJson(QUrl target, QList<QPair<QString, QString>> headers, QByteArray body, std::function<void(QJsonDocument, QByteArray, QNetworkReply *)> callback) {
+void ioutils::postJson(QUrl target,
+                       QList<QPair<QString, QString>> headers,
+                       QByteArray body,
+                       std::function<void(QJsonDocument, QByteArray, QNetworkReply *)> callback) {
     QNetworkRequest req(target);
     for (auto header : headers) {
         req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
@@ -46,7 +51,10 @@ void ioutils::getData(QUrl target, QList<QPair<QString, QString>> headers, std::
     });
 }
 
-void ioutils::postData(QUrl target, QList<QPair<QString, QString>> headers, QByteArray body, std::function<void(QByteArray, QNetworkReply *)> callback) {
+void ioutils::postData(QUrl target,
+                       QList<QPair<QString, QString>> headers,
+                       QByteArray body,
+                       std::function<void(QByteArray, QNetworkReply *)> callback) {
     QNetworkRequest req(target);
     for (auto header : headers) {
         req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());

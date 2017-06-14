@@ -4,7 +4,7 @@
 #include "drawitem.hpp"
 
 class LineItem : public DrawItem {
-    public:
+public:
     LineItem();
     QString name() override {
         return "Straight line";
@@ -12,7 +12,7 @@ class LineItem : public DrawItem {
     void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) override;
     void mouseDragEndEvent(QGraphicsSceneMouseEvent *, CropScene *) override;
 
-    private:
+private:
     QPointF init;
     QGraphicsLineItem *line;
 };

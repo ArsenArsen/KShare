@@ -5,13 +5,13 @@
 #include <QGraphicsSimpleTextItem>
 
 class TextItem : public DrawItem {
-    public:
+public:
     QString name() override;
     bool init(CropScene *) override;
     void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) override;
     void mouseDragEndEvent(QGraphicsSceneMouseEvent *, CropScene *) override;
 
-    private:
+private:
     QGraphicsSimpleTextItem *textItem = nullptr;
     QString text;
 };

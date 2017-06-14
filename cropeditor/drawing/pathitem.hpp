@@ -5,7 +5,7 @@
 #include "drawitem.hpp"
 
 class PathItem : public DrawItem {
-    public:
+public:
     PathItem();
     ~PathItem();
     QString name() {
@@ -14,7 +14,7 @@ class PathItem : public DrawItem {
     void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene);
     void mouseDragEndEvent(QGraphicsSceneMouseEvent *e, CropScene *scene);
 
-    private:
+private:
     QPainterPath *path = nullptr;
     QGraphicsPathItem *pathItem = nullptr;
 };

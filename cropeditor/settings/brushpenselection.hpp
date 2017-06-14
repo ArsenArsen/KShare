@@ -11,11 +11,11 @@ class BrushPenSelection;
 class BrushPenSelection : public QDialog {
     Q_OBJECT
 
-    public:
+public:
     explicit BrushPenSelection(CropScene *scene);
     ~BrushPenSelection();
 
-    private slots:
+private slots:
     void on_penColor_clicked(bool);
     void on_brushColor_clicked(bool);
 
@@ -25,7 +25,7 @@ class BrushPenSelection : public QDialog {
     void on_widthSlider_sliderMoved(int position);
     void on_widthSpinner_valueChanged(double arg1);
 
-    private:
+private:
     Ui::BrushPenSelection *ui;
     CropScene *scene;
     QColor brush, pen;

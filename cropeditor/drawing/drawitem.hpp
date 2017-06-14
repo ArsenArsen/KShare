@@ -7,7 +7,7 @@ class DrawItem;
 #include <cropeditor/cropscene.hpp>
 
 class DrawItem {
-    public:
+public:
     virtual ~DrawItem() {
     }
     virtual QString name() = 0;

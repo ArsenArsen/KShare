@@ -11,15 +11,15 @@ class BlurDialog;
 class BlurDialog : public QDialog {
     Q_OBJECT
 
-    public:
+public:
     explicit BlurDialog(QGraphicsBlurEffect *effect, QWidget *parent = 0);
     ~BlurDialog();
 
-    private slots:
+private slots:
     void on_radSpinner_valueChanged(double arg1);
     void on_radSlider_sliderMoved(int position);
 
-    private:
+private:
     Ui::BlurDialog *ui;
     QGraphicsBlurEffect *effect;
 };

@@ -5,7 +5,7 @@
 #include "drawitem.hpp"
 
 class DotItem : public DrawItem {
-    public:
+public:
     DotItem();
     ~DotItem();
     QString name() {

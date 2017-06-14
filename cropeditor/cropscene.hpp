@@ -15,7 +15,7 @@ class CropScene;
 
 class CropScene : public QGraphicsScene {
     Q_OBJECT
-    public:
+public:
     CropScene(QObject *parent, QPixmap *pixmap);
     ~CropScene();
     QPen &pen();
@@ -26,20 +26,20 @@ class CropScene : public QGraphicsScene {
         return _pixmap;
     }
 
-    public slots:
+public slots:
     void fontAsk();
 
-    signals:
+signals:
     void closedWithRect(QRect rect);
 
-    protected:
+protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *e) override;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *e) override;
 
     void keyReleaseEvent(QKeyEvent *e) override;
 
-    private:
+private:
     void addDrawingAction(QMenu &menu, QString name, std::function<DrawItem *()> item);
     void done();
     std::function<DrawItem *()> drawingSelectionMaker;

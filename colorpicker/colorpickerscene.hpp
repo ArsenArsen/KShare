@@ -11,7 +11,7 @@
 #include <screenshotutil.hpp>
 
 class ColorPickerScene : public QGraphicsScene, public QGraphicsView {
-    public:
+public:
     ColorPickerScene(QPixmap *pixmap, QWidget *parentWidget);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
@@ -25,7 +25,7 @@ class ColorPickerScene : public QGraphicsScene, public QGraphicsView {
         });
     }
 
-    private:
+private:
     QColor color;
     QGraphicsEllipseItem *ellipse = 0;
     QGraphicsPixmapItem *pItem = 0;

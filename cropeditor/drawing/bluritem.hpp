@@ -6,7 +6,7 @@
 #include <QGraphicsEffect>
 
 class BlurItem : public DrawItem {
-    public:
+public:
     QString name() {
         return "Blur";
     }
@@ -17,7 +17,7 @@ class BlurItem : public DrawItem {
     void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) override;
     void mouseDragEndEvent(QGraphicsSceneMouseEvent *, CropScene *) override;
 
-    private:
+private:
     QGraphicsBlurEffect *effect;
     QPointF pos;
     QGraphicsRectItem *rect;

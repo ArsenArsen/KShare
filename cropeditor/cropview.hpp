@@ -5,10 +5,10 @@
 #include <QKeyEvent>
 
 class CropView : public QGraphicsView {
-    public:
+public:
     CropView(QGraphicsScene *scene);
 
-    protected:
+protected:
     void keyPressEvent(QKeyEvent *e) override;
 };
 

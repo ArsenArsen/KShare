@@ -10,13 +10,13 @@
 
 class CropEditor : public QObject {
     Q_OBJECT
-    public:
+public:
     CropEditor(QPixmap *image, QObject *parent = 0);
     ~CropEditor();
-    signals:
+signals:
     QPixmap *cropped(QPixmap *pixmap);
 
-    private:
+private:
     void crop(QRect rect);
     CropScene *scene = nullptr;
     CropView *view = nullptr;
