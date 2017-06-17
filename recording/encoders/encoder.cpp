@@ -49,16 +49,18 @@ Encoder::Encoder(QString &targetFile, QSize res, CodecSettings *settings) {
 
     out->enc->gop_size = OR_DEF(settings, gopSize, 12);
     out->enc->pix_fmt = AV_PIX_FMT_YUV420P; // blaze it
+    AVDictionary *dict = NULL;
     if (out->enc->codec_id == AV_CODEC_ID_GIF)
         out->enc->pix_fmt = AV_PIX_FMT_RGB8;
     else if (out->enc->codec_id == AV_CODEC_ID_H264 || out->enc->codec_id == AV_CODEC_ID_H265) {
-        av_opt_set(out->enc->priv_data, "preset", settings->h264Profile.toLocal8Bit().constData(), 0);
-        av_opt_set(out->enc->priv_data, "crf", std::to_string(settings->h264Crf).c_str(), 0);
+        av_dict_set(&dict, "preset", settings->h264Profile.toLocal8Bit().constData(), 0);
+        av_dict_set_int(&dict, "crf", OR_DEF(settings, h264Crf, 12), 0);
     } else if (out->enc->codec_id == AV_CODEC_ID_VP8 || out->enc->codec_id == AV_CODEC_ID_VP9)
-        av_opt_set(out->enc->priv_data, "lossless", std::to_string(settings->vp9Lossless).c_str(), 0);
+        av_dict_set_int(&dict, "lossless", OR_DEF(settings, vp9Lossless, false), 0);
 
 
-    ret = avcodec_open2(out->enc, codec, NULL);
+    ret = avcodec_open2(out->enc, codec, &dict);
+    av_dict_free(&dict);
     if (ret < 0) throwAVErr(ret, "codec open");
     if (codec->capabilities & AV_CODEC_CAP_DR1) avcodec_align_dimensions(out->enc, &out->enc->width, &out->enc->height);
 

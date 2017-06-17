@@ -62,7 +62,7 @@
       <item row="4" column="0">
        <widget class="QTabWidget" name="videoTabs">
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="hTab">
          <property name="layoutDirection">
@@ -82,7 +82,7 @@
           <item row="0" column="1">
            <widget class="QComboBox" name="profileBox">
             <property name="currentText">
-             <string>ultrafast</string>
+             <string notr="true">medium</string>
             </property>
             <item>
              <property name="text">
