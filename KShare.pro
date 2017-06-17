@@ -53,7 +53,9 @@ SOURCES += main.cpp\
     recording/recordingcontroller.cpp \
     recording/recordingformats.cpp \
     formats.cpp \
-    recording/encoders/encoder.cpp
+    recording/encoders/encoder.cpp \
+    recording/encoders/encodersettings.cpp \
+    recording/encoders/encodersettingsdialog.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -87,7 +89,9 @@ HEADERS  += mainwindow.hpp \
     recording/recordingcontroller.hpp \
     recording/recordingformats.hpp \
     formats.hpp \
-    recording/encoders/encoder.hpp
+    recording/encoders/encoder.hpp \
+    recording/encoders/encodersettings.hpp \
+    recording/encoders/encodersettingsdialog.hpp
 
 LIBS += -lavcodec -lavformat -lavutil -lswscale -lavutil
 
@@ -112,7 +116,8 @@ mac {
 
 FORMS    += mainwindow.ui \
     cropeditor/settings/brushpenselection.ui \
-    cropeditor/settings/blurdialog.ui
+    cropeditor/settings/blurdialog.ui \
+    recording/encoders/encodersettingsdialog.ui
 
 DISTFILES += \
     README.md \

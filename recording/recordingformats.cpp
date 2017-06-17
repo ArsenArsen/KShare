@@ -14,6 +14,8 @@
 #include <time.h>
 #include <unistd.h>
 
+#include <recording/encoders/encodersettings.hpp>
+
 RecordingFormats::RecordingFormats(formats::Recording f) {
     QString tmp = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
     if (tmp.isEmpty()) {
@@ -43,7 +45,9 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
     validator = [&](QSize s) {
         if (!enc) {
             try {
-                enc = new Encoder(path, s);
+                auto es = EncoderSettings::inst().getSettings();
+                enc = new Encoder(path, s, es);
+                delete es;
                 if (!enc->isRunning()) {
                     delete enc;
                     return false;
@@ -56,7 +60,7 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
                 return false;
             }
         }
-        return true;
+        return !interrupt;
     };
     consumer = [&](QImage img) {
         if (!interrupt) try {

@@ -44,6 +44,7 @@ private slots:
 
 private:
     QMutex lock;
+    QMutex timerl;
     QQueue<_QueueContext> uploadQueue;
     QRect area;
     RecordingContext *_context = 0;

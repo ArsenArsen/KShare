@@ -64,7 +64,7 @@ void UploaderSingleton::upload(QPixmap *pixmap) {
     QFile file(saveDir.absoluteFilePath(formatter::format(settings::settings().value("fileFormat").toString(), format.toLower())));
 
     if (file.open(QFile::ReadWrite)) {
-        pixmap->save(&file, format.toLocal8Bit().constData());
+        pixmap->save(&file, format.toLocal8Bit().constData(), settings::settings().value("imageQuality", -1).toInt());
         file.seek(0);
         u->doUpload(file.readAll(), format);
     } else

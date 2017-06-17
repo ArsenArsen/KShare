@@ -13,7 +13,9 @@ inline void throwAVErr(int ret, std::string section) {
     throw std::runtime_error("Error during: " + section + ": " + newString);
 }
 
-Encoder::Encoder(QString &targetFile, QSize res) {
+#define OR_DEF(s, e1, e2) s ? s->e1 : e2
+
+Encoder::Encoder(QString &targetFile, QSize res, CodecSettings *settings) {
     int ret;
     // Format
     ret = avformat_alloc_output_context2(&fc, NULL, NULL, targetFile.toLocal8Bit().constData());
@@ -38,25 +40,27 @@ Encoder::Encoder(QString &targetFile, QSize res) {
     out->enc->codec_id = codec->id;
     out->enc->codec = codec;
 
-    out->enc->bit_rate = 400000;
+    out->enc->bit_rate = OR_DEF(settings, bitrate, 400000);
     out->enc->width = res.width() % 2 ? res.width() - 1 : res.width();
     out->enc->height = res.height() % 2 ? res.height() - 1 : res.height();
     size = QSize(out->enc->width, out->enc->height);
     out->st->time_base = { 1, fps };
     out->enc->time_base = out->st->time_base;
 
-    out->enc->gop_size = 12;
+    out->enc->gop_size = OR_DEF(settings, gopSize, 12);
     out->enc->pix_fmt = AV_PIX_FMT_YUV420P; // blaze it
-    if (out->enc->codec_id == AV_CODEC_ID_MPEG2VIDEO)
-        out->enc->max_b_frames = 2;
-    else if (out->enc->codec_id == AV_CODEC_ID_MPEG1VIDEO)
-        out->enc->mb_decision = 2;
-    else if (out->enc->codec_id == AV_CODEC_ID_GIF)
+    if (out->enc->codec_id == AV_CODEC_ID_GIF)
         out->enc->pix_fmt = AV_PIX_FMT_RGB8;
+    else if (out->enc->codec_id == AV_CODEC_ID_H264 || out->enc->codec_id == AV_CODEC_ID_H265) {
+        av_opt_set(out->enc->priv_data, "preset", settings->h264Profile.toLocal8Bit().constData(), 0);
+        av_opt_set(out->enc->priv_data, "crf", std::to_string(settings->h264Crf).c_str(), 0);
+    } else if (out->enc->codec_id == AV_CODEC_ID_VP8 || out->enc->codec_id == AV_CODEC_ID_VP9)
+        av_opt_set(out->enc->priv_data, "lossless", std::to_string(settings->vp9Lossless).c_str(), 0);
 
 
     ret = avcodec_open2(out->enc, codec, NULL);
     if (ret < 0) throwAVErr(ret, "codec open");
+    if (codec->capabilities & AV_CODEC_CAP_DR1) avcodec_align_dimensions(out->enc, &out->enc->width, &out->enc->height);
 
     ret = avcodec_parameters_from_context(out->st->codecpar, out->enc);
     if (ret < 0) throwAVErr(ret, "stream opt copy");

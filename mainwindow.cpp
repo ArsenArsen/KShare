@@ -19,6 +19,7 @@
 #include <colorpicker/colorpickerscene.hpp>
 #include <functional>
 #include <hotkeying.hpp>
+#include <recording/encoders/encodersettingsdialog.hpp>
 #include <recording/recordingformats.hpp>
 #include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
@@ -87,7 +88,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->hotkeys->setSelectionMode(QListWidget::SingleSelection);
 
     addHotkeyItem("Fullscreen image", "fullscreen", [] { screenshotter::fullscreen(); });
-    addHotkeyItem("Area image", "area", [] { screenshotter::area(); });
+    addHotkeyItem("Area image", "area", [] { //
+        screenshotter::area();               //
+    });
     addHotkeyItem("Color picker", "picker", [] { ColorPickerScene::showPicker(); });
     addHotkeyItem("Stop Recording", "recordingstop", [&] { controller->end(); });
     addHotkeyItem("Start Recording", "recordingstart", [&] {
@@ -229,4 +232,10 @@ void MainWindow::on_formatBox_currentIndexChanged(int index) {
 
 void MainWindow::on_imageFormatBox_currentIndexChanged(int index) {
     if (isVisible()) settings::settings().setValue("imageformat", index);
+}
+
+void MainWindow::on_pushButton_clicked() {
+    auto a = new EncoderSettingsDialog();
+    a->setAttribute(Qt::WA_DeleteOnClose);
+    a->show();
 }

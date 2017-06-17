@@ -36,6 +36,8 @@ private slots:
     void on_formatBox_currentIndexChanged(int index);
     void on_imageFormatBox_currentIndexChanged(int index);
 
+    void on_pushButton_clicked();
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();

@@ -70,6 +70,7 @@ void RecordingController::timeout() {
             time = 0;
             preview = 0;
             area = QRect();
+            timer.stop();
             return;
         }
         time++;
@@ -91,6 +92,7 @@ void RecordingController::timeout() {
         if (isRunning())
             preview->setTime(QString("%1:%2").arg(QString::number(minute)).arg(QString::number(second)), frame);
     } else {
+        timer.stop();
         QMutexLocker l(&lock);
         if (!uploadQueue.isEmpty()) {
             auto a = uploadQueue.dequeue();

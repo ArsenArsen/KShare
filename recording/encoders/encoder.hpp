@@ -20,9 +20,19 @@ struct OutputStream {
     SwsContext *sws = NULL;
 };
 
+struct CodecSettings {
+    int bitrate;
+    int gopSize;
+    int bFrames;
+    int mbDecisions;
+    QString h264Profile;
+    int h264Crf;
+    bool vp9Lossless;
+};
+
 class Encoder {
 public:
-    Encoder(QString &targetFile, QSize res);
+    Encoder(QString &targetFile, QSize res, CodecSettings *settings = NULL);
     ~Encoder();
     bool addFrame(QImage frm);
     bool isRunning();
