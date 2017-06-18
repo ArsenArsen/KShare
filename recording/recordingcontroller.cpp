@@ -25,10 +25,12 @@ bool RecordingController::start(RecordingContext *context) {
     _context = context;
     ScreenAreaSelector *sel = new ScreenAreaSelector;
     connect(sel, &ScreenAreaSelector::selectedArea, this, &RecordingController::startWithArea);
+    connect(this, &RecordingController::ended, sel, &ScreenAreaSelector::deleteLater);
     return true;
 }
 
 bool RecordingController::end() {
+    emit ended();
     if (!isRunning()) return false;
     area = QRect();
     if (preview) {

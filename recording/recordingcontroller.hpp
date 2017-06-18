@@ -52,6 +52,8 @@ private:
     RecordingPreview *preview = nullptr;
     unsigned int frame = 0;
     unsigned int time = 0;
+signals:
+    void ended();
 };
 
 #endif // RECORDINGCONTROLLER_HPP

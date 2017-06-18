@@ -53,6 +53,8 @@ public:
 private:
     static MainWindow *instance;
     RecordingController *controller = new RecordingController;
+private slots:
+    void rec();
 
 protected:
     void closeEvent(QCloseEvent *event);

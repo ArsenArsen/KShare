@@ -33,6 +33,22 @@ void addHotkeyItem(QString text, QString name, std::function<void()> func, QStri
     hotkeying::load(name, func, def);
 }
 
+void MainWindow::rec() {
+    if (controller->isRunning()) return;
+    auto f
+    = static_cast<formats::Recording>(settings::settings().value("recording/format", (int)formats::Recording::None).toInt());
+    if (f >= formats::Recording::None) return;
+    RecordingContext *ctx = new RecordingContext;
+    RecordingFormats *format = new RecordingFormats(f);
+    ctx->consumer = format->getConsumer();
+    ctx->finalizer = format->getFinalizer();
+    ctx->validator = format->getValidator();
+    ctx->format = format->getFormat();
+    ctx->postUploadTask = format->getPostUploadTask();
+    ctx->anotherFormat = format->getAnotherFormat();
+    controller->start(ctx);
+}
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     instance = this;
     ui->setupUi(this);
@@ -46,9 +62,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QAction *fullscreen = new QAction("Take fullscreen shot", this);
     QAction *area = new QAction("Take area shot", this);
     QAction *picker = new QAction("Show color picker", this);
+    QAction *rec = new QAction("Record screen", this);
+    QAction *recoff = new QAction("Stop recording", this);
     menu->addActions({ quit, shtoggle, picker });
     menu->addSeparator();
     menu->addActions({ fullscreen, area });
+    menu->addSeparator();
+    menu->addActions({ rec, recoff });
     connect(quit, &QAction::triggered, this, &MainWindow::quit);
     connect(shtoggle, &QAction::triggered, this, &MainWindow::toggleVisible);
     connect(picker, &QAction::triggered, [] { ColorPickerScene::showPicker(); });
@@ -58,6 +78,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     });
     connect(fullscreen, &QAction::triggered, this, [] { screenshotter::fullscreenDelayed(); });
     connect(area, &QAction::triggered, this, [] { screenshotter::areaDelayed(); });
+    connect(rec, &QAction::triggered, this, &MainWindow::rec);
+    connect(recoff, &QAction::triggered, [this] { controller->end(); });
     tray->setContextMenu(menu);
 
     ui->uploaderList->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -88,25 +110,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->hotkeys->setSelectionMode(QListWidget::SingleSelection);
 
     addHotkeyItem("Fullscreen image", "fullscreen", [] { screenshotter::fullscreen(); });
-    addHotkeyItem("Area image", "area", [] { //
-        screenshotter::area();               //
-    });
+    addHotkeyItem("Area image", "area", [] { screenshotter::area(); });
     addHotkeyItem("Color picker", "picker", [] { ColorPickerScene::showPicker(); });
     addHotkeyItem("Stop Recording", "recordingstop", [&] { controller->end(); });
-    addHotkeyItem("Start Recording", "recordingstart", [&] {
-        auto f
-        = static_cast<formats::Recording>(settings::settings().value("recording/format", (int)formats::Recording::None).toInt());
-        if (f >= formats::Recording::None) return;
-        RecordingContext *ctx = new RecordingContext;
-        RecordingFormats *format = new RecordingFormats(f);
-        ctx->consumer = format->getConsumer();
-        ctx->finalizer = format->getFinalizer();
-        ctx->validator = format->getValidator();
-        ctx->format = format->getFormat();
-        ctx->postUploadTask = format->getPostUploadTask();
-        ctx->anotherFormat = format->getAnotherFormat();
-        controller->start(ctx);
-    });
+    addHotkeyItem("Start Recording", "recordingstart", [&] { this->rec(); });
 
     ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());
     ui->hideToTray->setChecked(settings::settings().value("hideOnClose", true).toBool());
