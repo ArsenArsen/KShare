@@ -35,6 +35,8 @@ private slots:
     void on_captureCursor_clicked(bool checked);
     void on_formatBox_currentIndexChanged(int index);
     void on_imageFormatBox_currentIndexChanged(int index);
+    void on_actionStart_triggered();
+    void on_actionStop_triggered();
 
     void on_pushButton_clicked();
 

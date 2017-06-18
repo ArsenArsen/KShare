@@ -246,3 +246,11 @@ void MainWindow::on_pushButton_clicked() {
     a->setAttribute(Qt::WA_DeleteOnClose);
     a->show();
 }
+
+void MainWindow::on_actionStart_triggered() {
+    rec();
+}
+
+void MainWindow::on_actionStop_triggered() {
+    controller->end();
+}

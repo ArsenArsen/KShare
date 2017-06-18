@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>483</width>
-    <height>478</height>
+    <height>512</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -180,9 +180,17 @@
     </property>
     <addaction name="actionColor_Picker"/>
    </widget>
+   <widget class="QMenu" name="menuRecording">
+    <property name="title">
+     <string>Recording</string>
+    </property>
+    <addaction name="actionStart"/>
+    <addaction name="actionStop"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuScreenshot"/>
    <addaction name="menuUtilities"/>
+   <addaction name="menuRecording"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionQuit">
@@ -203,6 +211,16 @@
   <action name="actionColor_Picker">
    <property name="text">
     <string>&amp;Color Picker</string>
+   </property>
+  </action>
+  <action name="actionStart">
+   <property name="text">
+    <string>Start</string>
+   </property>
+  </action>
+  <action name="actionStop">
+   <property name="text">
+    <string>Stop</string>
    </property>
   </action>
  </widget>
