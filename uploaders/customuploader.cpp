@@ -105,6 +105,7 @@ CustomUploader::CustomUploader(QString absFilePath) {
     if (!bool64.isNull() && !bool64.isUndefined()) {
         if (!bool64.isBool()) error(absFilePath, "base64 must be boolean");
         base64 = bool64.toBool();
+        if (rFormat = RequestFormat::JSON && !base64) error(absFilePath, "base64 required with json");
     }
 }
 
