@@ -61,7 +61,9 @@ void UploaderSingleton::registerUploader(Uploader *uploader) {
 void UploaderSingleton::upload(QPixmap *pixmap) {
     auto u = uploaders.value(uploader);
     QString format = settings::settings().value("captureformat", "PNG").toString();
-    QFile file(saveDir.absoluteFilePath(formatter::format(settings::settings().value("fileFormat").toString(), format.toLower())));
+    QFile file(saveDir.absoluteFilePath(
+    formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH:mm:ss)date.%ext").toString(),
+                      format.toLower())));
 
     if (file.open(QFile::ReadWrite)) {
         pixmap->save(&file, format.toLocal8Bit().constData(), settings::settings().value("imageQuality", -1).toInt());

@@ -30,6 +30,7 @@ public:
     void on_formatBox_currentIndexChanged(int index);
     void on_imageFormatBox_currentIndexChanged(int index);
     void on_pushButton_clicked();
+    void on_nameScheme_textChanged(QString txt);
 
 private:
     Ui::SettingsDialog *ui;

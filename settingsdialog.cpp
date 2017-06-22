@@ -38,7 +38,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
     if ((settings::settings().contains("fileFormat")))
         setScheme(settings::settings().value("fileFormat").toString());
     else
-        setScheme("Screenshot %(yyyy-MM-dd HH:mm:ss)date");
+        setScheme("Screenshot %(yyyy-MM-dd HH:mm:ss)date.ext");
 
     // Set delay
     if ((settings::settings().contains("delay")))
@@ -142,4 +142,8 @@ void SettingsDialog::on_pushButton_clicked() {
     auto a = new EncoderSettingsDialog();
     a->setAttribute(Qt::WA_DeleteOnClose);
     a->show();
+}
+
+void SettingsDialog::on_nameScheme_textChanged(QString txt) {
+    settings::settings().setValue("fileFormat", txt);
 }
