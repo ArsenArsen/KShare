@@ -6,6 +6,7 @@
 
 namespace notifications {
 void notify(QString title, QString body, QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information);
+void notifyNolog(QString title, QString body, QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information);
 }
 
 #endif // NOTIFICATIONS_HPP

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>483</width>
-    <height>512</height>
+    <width>352</width>
+    <height>220</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,129 +25,23 @@
     </sizepolicy>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="3" column="0">
-     <widget class="QLineEdit" name="nameScheme">
-      <property name="toolTip">
-       <string>http://doc.qt.io/qt-5/qdatetime.html#toString</string>
-      </property>
+    <item row="1" column="0" colspan="2">
+     <widget class="QPushButton" name="settings">
       <property name="text">
-       <string>Screenshot %(yyyy-MM-dd HH:mm:ss)date</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QCheckBox" name="quickMode">
-      <property name="text">
-       <string>Quick mode (mouse release screenshots)</string>
+       <string>Settings</string>
       </property>
      </widget>
     </item>
     <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Uploader selection:</string>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Log</string>
       </property>
-     </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="QPushButton" name="settingsButton">
-      <property name="text">
-       <string>Open settings directory</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Delay before taking a screenshot</string>
-      </property>
-     </widget>
-    </item>
-    <item row="17" column="0" colspan="2">
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>&lt;a href=&quot;https://github.com/ArsenArsen/KShare&quot;&gt;Source code available free for everyone. Forever.&lt;/a&gt;
-
-</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QDoubleSpinBox" name="delay">
-      <property name="toolTip">
-       <string>In seconds</string>
-      </property>
-      <property name="whatsThis">
-       <string>A delay before taking a screenshot, in seconds</string>
-      </property>
-      <property name="suffix">
-       <string>s</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Hotkeys</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QListWidget" name="uploaderList"/>
-    </item>
-    <item row="1" column="1" rowspan="5">
-     <widget class="QListWidget" name="hotkeys"/>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>File name scheme:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="0">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Recording format</string>
-      </property>
-     </widget>
-    </item>
-    <item row="15" column="0">
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>Still image format</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0" colspan="2">
-     <widget class="QCheckBox" name="hideToTray">
-      <property name="text">
-       <string>Pressing &lt;X&gt; hides to tray</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0" colspan="2">
-     <widget class="QCheckBox" name="captureCursor">
-      <property name="text">
-       <string>Capture cursor</string>
-      </property>
-     </widget>
-    </item>
-    <item row="15" column="1">
-     <widget class="QComboBox" name="imageFormatBox"/>
-    </item>
-    <item row="12" column="1" rowspan="2">
-     <widget class="QComboBox" name="formatBox">
-      <property name="currentIndex">
-       <number>-1</number>
-      </property>
-     </widget>
-    </item>
-    <item row="16" column="0" colspan="2">
-     <widget class="QPushButton" name="pushButton">
-      <property name="text">
-       <string>Encoder settings</string>
-      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QListWidget" name="logBox"/>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -157,7 +51,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>483</width>
+     <width>352</width>
      <height>25</height>
     </rect>
    </property>
@@ -165,6 +59,9 @@
     <property name="title">
      <string>Fi&amp;le</string>
     </property>
+    <addaction name="actionSettings"/>
+    <addaction name="actionAbout"/>
+    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuScreenshot">
@@ -221,6 +118,16 @@
   <action name="actionStop">
    <property name="text">
     <string>Stop</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>

@@ -19,44 +19,32 @@ class MainWindow : public QMainWindow {
 private slots:
     void quit();
     void toggleVisible();
-    void newUploader(Uploader *u);
 
     void on_actionQuit_triggered();
     void on_actionFullscreen_triggered();
     void on_actionArea_triggered();
-    void on_uploaderList_clicked(const QModelIndex &);
-    void on_nameScheme_textEdited(const QString &arg1);
-    void on_delay_valueChanged(double arg1);
-    void on_hotkeys_doubleClicked(const QModelIndex &index);
-    void on_settingsButton_clicked();
-    void on_quickMode_clicked(bool checked);
-    void on_hideToTray_clicked(bool checked);
-    void on_actionColor_Picker_triggered();
-    void on_captureCursor_clicked(bool checked);
-    void on_formatBox_currentIndexChanged(int index);
-    void on_imageFormatBox_currentIndexChanged(int index);
     void on_actionStart_triggered();
     void on_actionStop_triggered();
 
-    void on_pushButton_clicked();
+    void on_actionSettings_triggered();
+
+    void on_actionAbout_triggered();
 
 public:
+    static MainWindow *inst();
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    bool valid();
     Ui::MainWindow *ui;
+    RecordingController *controller = new RecordingController;
 
     QSystemTrayIcon *tray;
-    void setScheme(QString scheme);
-    QDoubleSpinBox *delay();
-
-    static MainWindow *inst();
-    QMap<QString, std::function<void()>> fncs;
+public slots:
+    void rec();
 
 private:
+    bool val = false;
     static MainWindow *instance;
-    RecordingController *controller = new RecordingController;
-private slots:
-    void rec();
 
 protected:
     void closeEvent(QCloseEvent *event);

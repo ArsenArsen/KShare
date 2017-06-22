@@ -1,37 +1,18 @@
 #include "mainwindow.hpp"
+#include "aboutbox.hpp"
 #include "screenshotter.hpp"
 #include "screenshotutil.hpp"
+#include "settingsdialog.hpp"
 #include "ui_mainwindow.h"
-#include <QAction>
-#include <QApplication>
-#include <QCheckBox>
-#include <QCloseEvent>
-#include <QComboBox>
-#include <QCoreApplication>
-#include <QDesktopServices>
-#include <QDoubleSpinBox>
-#include <QInputDialog>
-#include <QListWidgetItem>
-#include <QMenu>
-#include <QStatusBar>
-#include <QSystemTrayIcon>
-#include <QTimer>
+#include <QMessageBox>
 #include <colorpicker/colorpickerscene.hpp>
-#include <functional>
+#include <formats.hpp>
 #include <hotkeying.hpp>
-#include <recording/encoders/encodersettingsdialog.hpp>
 #include <recording/recordingformats.hpp>
 #include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
 
 MainWindow *MainWindow::instance;
-
-void addHotkeyItem(QString text, QString name, std::function<void()> func, QString def = QString()) {
-    QListWidgetItem *item = new QListWidgetItem(text, MainWindow::inst()->ui->hotkeys);
-    item->setData(Qt::UserRole + 1, name);
-    MainWindow::inst()->fncs.insert(name, func);
-    hotkeying::load(name, func, def);
-}
 
 void MainWindow::rec() {
     if (controller->isRunning()) return;
@@ -49,10 +30,14 @@ void MainWindow::rec() {
     controller->start(ctx);
 }
 
+void addHotkey(QString name, std::function<void()> action) {
+    hotkeying::load(name, action);
+}
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     instance = this;
     ui->setupUi(this);
-    setWindowIcon(QIcon(":/icons/icon.png"));
+    setWindowIcon(QIcon(":/icons/icon.svg"));
     tray = new QSystemTrayIcon(windowIcon(), this);
     tray->setToolTip("KShare");
     tray->setVisible(true);
@@ -80,67 +65,28 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(area, &QAction::triggered, this, [] { screenshotter::areaDelayed(); });
     connect(rec, &QAction::triggered, this, &MainWindow::rec);
     connect(recoff, &QAction::triggered, [this] { controller->end(); });
+    connect(ui->settings, &QPushButton::clicked, this, &MainWindow::on_actionSettings_triggered);
+
     tray->setContextMenu(menu);
 
-    ui->uploaderList->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->uploaderList->setSelectionMode(QAbstractItemView::SingleSelection);
-
-    // Add items to uploader selection
-    for (Uploader *u : UploaderSingleton::inst().uploaderList()) newUploader(u);
-    connect(&UploaderSingleton::inst(), &UploaderSingleton::newUploader, this, &MainWindow::newUploader);
-
-    // Set filename scheme
-    if ((settings::settings().contains("fileFormat")))
-        setScheme(settings::settings().value("fileFormat").toString());
-    else
-        setScheme("Screenshot %(yyyy-MM-dd HH:mm:ss)date");
+    addHotkey("fullscreen", [] { screenshotter::fullscreen(); });
+    addHotkey("area", [] { screenshotter::area(); });
+    addHotkey("picker", [] { ColorPickerScene::showPicker(); });
+    addHotkey("recordingstop", [&] { controller->end(); });
+    addHotkey("recordingstart", [&] { this->rec(); });
 
     auto errors = UploaderSingleton::inst().errors();
-    if (errors.length() == 1)
-        statusBar()->showMessage(errors.at(0).what());
-    else
-        statusBar()->showMessage(QString("Errors visible in console (if present). Count: " + QString::number(errors.size())));
-
-    // Set delay
-    if ((settings::settings().contains("delay")))
-        ui->delay->setValue(settings::settings().value("delay").toDouble());
-    else
-        ui->delay->setValue(0.25);
-
-    ui->hotkeys->setSelectionMode(QListWidget::SingleSelection);
-
-    addHotkeyItem("Fullscreen image", "fullscreen", [] { screenshotter::fullscreen(); });
-    addHotkeyItem("Area image", "area", [] { screenshotter::area(); });
-    addHotkeyItem("Color picker", "picker", [] { ColorPickerScene::showPicker(); });
-    addHotkeyItem("Stop Recording", "recordingstop", [&] { controller->end(); });
-    addHotkeyItem("Start Recording", "recordingstart", [&] { this->rec(); });
-
-    ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());
-    ui->hideToTray->setChecked(settings::settings().value("hideOnClose", true).toBool());
-    ui->captureCursor->setChecked(settings::settings().value("captureCursor", true).toBool());
-
-    for (int i = 0; i < (int)formats::Recording::None; i++) {
-        ui->formatBox->addItem(formats::recordingFormatName(static_cast<formats::Recording>(i)));
-    }
-
-    for (int i = 0; i < (int)formats::Normal::None; i++) {
-        ui->imageFormatBox->addItem(formats::normalFormatName(static_cast<formats::Normal>(i)));
-    }
-
-    ui->formatBox->addItem("None");
-    ui->formatBox->setCurrentIndex(settings::settings().value("recording/format", (int)formats::Recording::None).toInt());
+    for (auto err : errors) ui->logBox->addItem(QString("ERROR: ") + err.what());
+    setWindowTitle("KShare v" + QApplication::applicationVersion());
+    val = true;
 }
 
 MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::setScheme(QString scheme) {
-    ui->nameScheme->setText(scheme);
-}
-
-QDoubleSpinBox *MainWindow::delay() {
-    return ui->delay;
+bool MainWindow::valid() {
+    return val;
 }
 
 MainWindow *MainWindow::inst() {
@@ -150,7 +96,7 @@ MainWindow *MainWindow::inst() {
 void MainWindow::closeEvent(QCloseEvent *event) {
     if (settings::settings().value("hideOnClose", true).toBool()) {
         event->ignore();
-        QTimer::singleShot(0, this, &MainWindow::hide);
+        hide();
     } else
         QApplication::exit(0);
 }
@@ -168,13 +114,6 @@ void MainWindow::toggleVisible() {
     }
 }
 
-void MainWindow::newUploader(Uploader *u) {
-    QListWidgetItem *item = new QListWidgetItem(u->name());
-    item->setToolTip(u->description());
-    ui->uploaderList->addItem(item);
-    if (u->name() == UploaderSingleton::inst().selectedUploader()) item->setSelected(true);
-}
-
 void MainWindow::on_actionQuit_triggered() {
     quit();
 }
@@ -187,70 +126,22 @@ void MainWindow::on_actionArea_triggered() {
     screenshotter::areaDelayed();
 }
 
-void MainWindow::on_uploaderList_clicked(const QModelIndex &) {
-    QList<QListWidgetItem *> index = ui->uploaderList->selectedItems();
-    if (index.size() == 1) {
-        UploaderSingleton::inst().set(index.at(0)->text());
-    }
-}
-
-void MainWindow::on_nameScheme_textEdited(const QString &arg1) {
-    settings::settings().setValue("fileFormat", arg1);
-}
-
-void MainWindow::on_delay_valueChanged(double arg1) {
-    settings::settings().setValue("delay", arg1);
-}
-
-void MainWindow::on_hotkeys_doubleClicked(const QModelIndex &) {
-    if (ui->hotkeys->selectedItems().length() == 1) {
-        QListWidgetItem *i = ui->hotkeys->selectedItems().at(0);
-        QString str = i->data(Qt::UserRole + 1).toString();
-        bool ok;
-        QString seq = QInputDialog::getText(ui->centralWidget, "Hotkey Input", "Insert hotkey:", QLineEdit::Normal,
-                                            hotkeying::sequence(str), &ok);
-        if (ok && hotkeying::valid(seq)) hotkeying::hotkey(str, QKeySequence(seq), fncs.value(str));
-    }
-}
-
-void MainWindow::on_settingsButton_clicked() {
-    QDesktopServices::openUrl(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/KShare"));
-}
-
-void MainWindow::on_quickMode_clicked(bool checked) {
-    settings::settings().setValue("quickMode", checked);
-}
-
-void MainWindow::on_hideToTray_clicked(bool checked) {
-    settings::settings().setValue("hideOnClose", checked);
-}
-
-void MainWindow::on_actionColor_Picker_triggered() {
-    ColorPickerScene::showPicker();
-}
-
-void MainWindow::on_captureCursor_clicked(bool checked) {
-    settings::settings().setValue("captureCursor", checked);
-}
-
-void MainWindow::on_formatBox_currentIndexChanged(int index) {
-    if (isVisible()) settings::settings().setValue("recording/format", index);
-}
-
-void MainWindow::on_imageFormatBox_currentIndexChanged(int index) {
-    if (isVisible()) settings::settings().setValue("imageformat", index);
-}
-
-void MainWindow::on_pushButton_clicked() {
-    auto a = new EncoderSettingsDialog();
-    a->setAttribute(Qt::WA_DeleteOnClose);
-    a->show();
-}
-
 void MainWindow::on_actionStart_triggered() {
     rec();
 }
 
 void MainWindow::on_actionStop_triggered() {
     controller->end();
+}
+
+void MainWindow::on_actionSettings_triggered() {
+    SettingsDialog *dialog = new SettingsDialog(this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
+}
+
+void MainWindow::on_actionAbout_triggered() {
+    AboutBox *box = new AboutBox(this);
+    box->setAttribute(Qt::WA_DeleteOnClose);
+    box->show();
 }

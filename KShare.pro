@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = KShare
 TEMPLATE = app
 
+CONFIG += c++11
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -55,7 +57,9 @@ SOURCES += main.cpp\
     formats.cpp \
     recording/encoders/encoder.cpp \
     recording/encoders/encodersettings.cpp \
-    recording/encoders/encodersettingsdialog.cpp
+    recording/encoders/encodersettingsdialog.cpp \
+    settingsdialog.cpp \
+    aboutbox.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -91,7 +95,9 @@ HEADERS  += mainwindow.hpp \
     formats.hpp \
     recording/encoders/encoder.hpp \
     recording/encoders/encodersettings.hpp \
-    recording/encoders/encodersettingsdialog.hpp
+    recording/encoders/encodersettingsdialog.hpp \
+    settingsdialog.hpp \
+    aboutbox.hpp
 
 LIBS += -lavcodec -lavformat -lavutil -lswscale -lavutil
 
@@ -117,7 +123,9 @@ mac {
 FORMS    += mainwindow.ui \
     cropeditor/settings/brushpenselection.ui \
     cropeditor/settings/blurdialog.ui \
-    recording/encoders/encodersettingsdialog.ui
+    recording/encoders/encodersettingsdialog.ui \
+    settingsdialog.ui \
+    aboutbox.ui
 
 DISTFILES += \
     README.md \

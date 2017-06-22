@@ -37,6 +37,7 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
         }
         QFile res(path);
         if (!res.open(QFile::ReadOnly)) {
+            qCritical().noquote() << "Could not open resulting file: " << res.errorString();
             return QByteArray();
         }
         QByteArray data = res.readAll();
@@ -53,7 +54,8 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
                     return false;
                 }
             } catch (std::runtime_error e) {
-                notifications::notify("KShare Video Encoder Error", e.what(), QSystemTrayIcon::Critical);
+                //                notifications::notify("KShare Video Encoder Error", e.what(),
+                //                QSystemTrayIcon::Critical);
                 qCritical() << "Encoder error: " << e.what();
                 interrupt = true;
                 delete enc;
@@ -66,7 +68,8 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
         if (!interrupt) try {
                 enc->addFrame(img);
             } catch (std::runtime_error e) {
-                notifications::notify("KShare Video Encoder Error", e.what(), QSystemTrayIcon::Critical);
+                //                notifications::notify("KShare Video Encoder Error", e.what(),
+                //                QSystemTrayIcon::Critical);
                 qCritical() << "Encoder error: " << e.what();
                 interrupt = true;
             }

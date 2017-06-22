@@ -2,6 +2,7 @@
 #include "screenshotutil.hpp"
 #include <QApplication>
 #include <QCommandLineParser>
+#include <QDebug>
 #include <QtGlobal>
 #include <formatter.hpp>
 #include <iostream>
@@ -9,29 +10,48 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 }
+#include "ui_mainwindow.h"
+#include <QListWidget>
 #include <notifications.hpp>
 #include <worker/worker.hpp>
 
 bool verbose = false;
 
+// I've experiments to run
+// There is research to be done
+// On the people who are
+// still alive
+bool stillAlive = true;
+
+#define LOGACT(lvl)                                                                                                    \
+    std::cout << lvl << stdMsg << "\n";                                                                                \
+    if (stillAlive && MainWindow::inst() && MainWindow::inst()->valid()) {                                             \
+        MainWindow::inst()->ui->logBox->addItem(lvl + msg);                                                            \
+    }
+
 void handler(QtMsgType type, const QMessageLogContext &, const QString &msg) {
     std::string stdMsg = msg.toStdString();
     switch (type) {
     case QtDebugMsg:
-        if (verbose) std::cout << "DEBUG: " << stdMsg << "\n";
+        if (verbose) {
+            LOGACT("DEBUG: ")
+        }
         break;
     case QtInfoMsg:
-        std::cout << "INFO: " << stdMsg << "\n";
+        LOGACT("INFO: ")
+        if (stillAlive) notifications::notifyNolog("KShare", msg);
         break;
     case QtWarningMsg:
-        std::cerr << "WARN: " << stdMsg << "\n";
+        LOGACT("WARN: ")
+        if (stillAlive) notifications::notifyNolog("KShare Warning", msg, QSystemTrayIcon::Warning);
         break;
     case QtCriticalMsg:
-        std::cerr << "CRIT: " << stdMsg << "\n";
+        LOGACT("CRIT: ")
+        if (stillAlive) notifications::notifyNolog("KShare Critical Error", msg, QSystemTrayIcon::Critical);
         break;
     case QtFatalMsg:
-        std::cerr << "FATAL: " << stdMsg << "\n";
-        notifications::notify("KShare Fatal Error", msg, QSystemTrayIcon::Critical);
+        LOGACT("FATAL: ")
+        if (stillAlive) notifications::notifyNolog("KShare Fatal Error", msg, QSystemTrayIcon::Critical);
         break;
     }
 }
@@ -65,6 +85,7 @@ int main(int argc, char *argv[]) {
     MainWindow w;
     Worker::init();
     a.connect(&a, &QApplication::aboutToQuit, Worker::end);
+    a.connect(&a, &QApplication::aboutToQuit, [] { stillAlive = false; });
     if (!parser.isSet(h)) w.show();
     return a.exec();
 }
