@@ -35,10 +35,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
     for (Uploader *u : UploaderSingleton::inst().uploaderList()) newUploader(u);
 
     // Set filename scheme
-    if ((settings::settings().contains("fileFormat")))
-        setScheme(settings::settings().value("fileFormat").toString());
-    else
-        setScheme("Screenshot %(yyyy-MM-dd HH:mm:ss)date.ext");
+    setScheme(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH:mm:ss)date.ext").toString());
+
 
     // Set delay
     if ((settings::settings().contains("delay")))
@@ -95,6 +93,10 @@ void SettingsDialog::on_nameScheme_textEdited(const QString &arg1) {
     settings::settings().setValue("fileFormat", arg1);
 }
 
+void SettingsDialog::on_nameScheme_textChanged(const QString &arg1) {
+    settings::settings().setValue("fileFormat", arg1);
+}
+
 void SettingsDialog::on_delay_valueChanged(double arg1) {
     settings::settings().setValue("delay", arg1);
 }
@@ -142,8 +144,4 @@ void SettingsDialog::on_pushButton_clicked() {
     auto a = new EncoderSettingsDialog();
     a->setAttribute(Qt::WA_DeleteOnClose);
     a->show();
-}
-
-void SettingsDialog::on_nameScheme_textChanged(QString txt) {
-    settings::settings().setValue("fileFormat", txt);
 }
