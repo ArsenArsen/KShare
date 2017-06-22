@@ -89,10 +89,6 @@ void SettingsDialog::on_uploaderList_clicked(const QModelIndex &) {
     }
 }
 
-void SettingsDialog::on_nameScheme_textEdited(const QString &arg1) {
-    settings::settings().setValue("fileFormat", arg1);
-}
-
 void SettingsDialog::on_nameScheme_textChanged(const QString &arg1) {
     settings::settings().setValue("fileFormat", arg1);
 }
