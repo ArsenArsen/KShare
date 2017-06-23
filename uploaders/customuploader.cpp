@@ -291,7 +291,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
         }
     } break;
     case RequestFormat::MULTIPART_FORM_DATA: {
-        QHttpMultiPart multipart(QHttpMultiPart::FormDataType);
+        QHttpMultiPart *multipart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
         auto arr = body.toArray();
         for (QJsonValue val : arr) {
             auto valo = val.toObject();
@@ -311,12 +311,12 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                 QBuffer *buffer = new QBuffer(&imgData);
                 buffer->open(QIODevice::ReadOnly);
                 part.setBodyDevice(buffer);
-                multipart.append(part);
+                multipart->append(part);
             } else {
                 auto bdo = bd.toObject();
                 QJsonObject result = recurseAndReplace(bdo, imgData, mime);
                 part.setBody(QJsonDocument::fromVariant(result.toVariantMap()).toJson());
-                multipart.append(part);
+                multipart->append(part);
             }
             for (QString headerVal : valo.keys()) {
                 QString str = valo[headerVal].toString();
@@ -325,6 +325,21 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                 part.setRawHeader(headerVal.toLatin1(), str.toLatin1());
             }
         }
+        switch (method) {
+        case HttpMethod::POST:
+            if (returnPathspec == "|") {
+                ioutils::postMultipartData(target, h, multipart, [&](QByteArray result, QNetworkReply *) {
+                    QApplication::clipboard()->setText(QString::fromUtf8(result));
+                    notifications::notify("KShare Custom Uploader " + name(), "Copied upload result to clipboard!");
+                });
+            } else {
+                ioutils::postMultipart(target, h, multipart, [&](QJsonDocument result, QByteArray data, QNetworkReply *) {
+                    parseResult(result, data, returnPathspec, name());
+                });
+            }
+            break;
+        }
+        return;
     } break;
     }
     if (limit > 0 && data.size() > limit) {
