@@ -80,6 +80,7 @@ void SettingsDialog::newUploader(Uploader *u) {
     QListWidgetItem *uploader = new QListWidgetItem(u->name(), ui->uploaderList);
     uploader->setToolTip(u->description());
     ui->uploaderList->addItem(uploader);
+    if (UploaderSingleton::inst().currentUploader() == u->name()) ui->uploaderList->setCurrentItem(uploader);
 }
 
 void SettingsDialog::on_uploaderList_clicked(const QModelIndex &) {
@@ -118,10 +119,6 @@ void SettingsDialog::on_quickMode_clicked(bool checked) {
 
 void SettingsDialog::on_hideToTray_clicked(bool checked) {
     settings::settings().setValue("hideOnClose", checked);
-}
-
-void SettingsDialog::on_actionColor_Picker_triggered() {
-    ColorPickerScene::showPicker();
 }
 
 void SettingsDialog::on_captureCursor_clicked(bool checked) {

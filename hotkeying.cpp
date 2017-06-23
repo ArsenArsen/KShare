@@ -5,6 +5,7 @@
 #include <settings.hpp>
 
 QMap<QString, QHotkey *> hotkeys;
+QList<QString> regNames;
 
 // func gets bound only on first set, or load
 void hotkeying::hotkey(QString seqName, QKeySequence seq, std::function<void()> func) {
@@ -23,6 +24,7 @@ void hotkeying::load(QString seqName, std::function<void()> func, QString def) {
     QHotkey *h;
     QString name = seqName;
     name.prepend("hotkey_");
+    if (hotkeys.contains(seqName)) return;
     if (settings::settings().contains(name))
         h = new QHotkey(QKeySequence(settings::settings().value(name).toString()), true);
     else

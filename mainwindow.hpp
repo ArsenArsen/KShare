@@ -25,9 +25,8 @@ private slots:
     void on_actionArea_triggered();
     void on_actionStart_triggered();
     void on_actionStop_triggered();
-
     void on_actionSettings_triggered();
-
+    void on_actionColor_Picker_triggered();
     void on_actionAbout_triggered();
 
 public:

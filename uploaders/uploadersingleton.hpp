@@ -20,6 +20,8 @@ public:
     void set(QString uploader);
     QString selectedUploader();
     QList<std::runtime_error> errors();
+    QString currentUploader();
+
 signals:
     void newUploader(Uploader *u);
 

@@ -109,3 +109,7 @@ QString UploaderSingleton::selectedUploader() {
 QList<std::runtime_error> UploaderSingleton::errors() {
     return errs;
 }
+
+QString UploaderSingleton::currentUploader() {
+    return uploader;
+}

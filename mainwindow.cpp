@@ -134,6 +134,10 @@ void MainWindow::on_actionStop_triggered() {
     controller->end();
 }
 
+void MainWindow::on_actionColor_Picker_triggered() {
+    ColorPickerScene::showPicker();
+}
+
 void MainWindow::on_actionSettings_triggered() {
     SettingsDialog *dialog = new SettingsDialog(this);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
