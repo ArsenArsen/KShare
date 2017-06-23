@@ -8,7 +8,7 @@
 
 enum class HttpMethod { POST };
 
-enum class RequestFormat { X_WWW_FORM_URLENCODED, JSON, PLAIN };
+enum class RequestFormat { X_WWW_FORM_URLENCODED, JSON, MULTIPART_FORM_DATA, PLAIN };
 
 class CustomUploader : public Uploader {
 public:

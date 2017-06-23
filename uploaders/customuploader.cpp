@@ -4,6 +4,8 @@
 #include <QBuffer>
 #include <QClipboard>
 #include <QFile>
+#include <QHttpMultiPart>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QNetworkReply>
 #include <formats.hpp>
@@ -67,6 +69,8 @@ CustomUploader::CustomUploader(QString absFilePath) {
                 rFormat = RequestFormat::JSON;
             else if (formatString == "plain")
                 rFormat = RequestFormat::PLAIN;
+            else if (formatString == "multipart-form-data")
+                rFormat = RequestFormat::MULTIPART_FORM_DATA;
             else
                 error(absFilePath, "format invalid");
         }
@@ -75,10 +79,29 @@ CustomUploader::CustomUploader(QString absFilePath) {
     QJsonValue bodyValue = obj["body"];
     if (rFormat != RequestFormat::PLAIN) {
         if (bodyValue.isUndefined()) error(absFilePath, "body not set");
-        if (bodyValue.isObject())
-            body = bodyValue;
-        else
-            error(absFilePath, "body not object");
+        if (rFormat == RequestFormat::MULTIPART_FORM_DATA) {
+            if (bodyValue.isArray()) {
+                for (QJsonValue val : bodyValue.toArray()) {
+                    if (!val.isObject()) error(absFilePath, "all elements of body must be objects");
+                    if (!val.toObject()["body"].isObject() && !val.toObject().value("body").isString())
+                        error(absFilePath, "all parts must have a body which is object or string!");
+                    QJsonObject vo = val.toObject();
+                    for (auto v : vo["body"].toObject())
+                        if (!v.isObject() && !v.isString())
+                            error(absFilePath, "all parts of body must be string or object");
+                    for (auto v : vo.keys())
+                        if (v.startsWith("__") && !vo[v].isString())
+                            error(absFilePath, "all __headers must be strings");
+                }
+                body = bodyValue;
+            } else
+                error(absFilePath, "body not array (needed for multipart)");
+        } else {
+            if (bodyValue.isObject())
+                body = bodyValue;
+            else
+                error(absFilePath, "body not object");
+        }
     } else {
         if (bodyValue.isString()) {
             body = bodyValue;
@@ -123,6 +146,8 @@ QString getCType(RequestFormat format, QString plainType) {
         return "application/x-www-form-urlencoded";
     case RequestFormat::JSON:
         return "application/json";
+    case RequestFormat::MULTIPART_FORM_DATA:
+        return "multipart/form-data";
     case RequestFormat::PLAIN:
         return plainType;
     }
@@ -262,6 +287,42 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                 data.append(QUrl::toPercentEncoding(key))
                 .append('=')
                 .append(QUrl::toPercentEncoding(QJsonDocument::fromVariant(body[key].toVariant()).toJson()));
+            }
+        }
+    } break;
+    case RequestFormat::MULTIPART_FORM_DATA: {
+        QHttpMultiPart multipart(QHttpMultiPart::FormDataType);
+        auto arr = body.toArray();
+        for (QJsonValue val : arr) {
+            auto valo = val.toObject();
+            QHttpPart part;
+            QJsonValue bd = valo["body"];
+            if (bd.isString()) {
+                QString s = bd.toString();
+                QByteArray body;
+                if (s.startsWith("/") && s.endsWith("/")) {
+                    s = s.mid(1, s.length() - 1);
+                    QStringList split = s.replace("%contenttype", mime).split("%imagedata");
+                    for (int i = 0; i < split.size(); i++) {
+                        body.append(split[i]);
+                        if (i < split.size() - 1) body.append(imgData);
+                    }
+                }
+                QBuffer *buffer = new QBuffer(&imgData);
+                buffer->open(QIODevice::ReadOnly);
+                part.setBodyDevice(buffer);
+                multipart.append(part);
+            } else {
+                auto bdo = bd.toObject();
+                QJsonObject result = recurseAndReplace(bdo, imgData, mime);
+                part.setBody(QJsonDocument::fromVariant(result.toVariantMap()).toJson());
+                multipart.append(part);
+            }
+            for (QString headerVal : valo.keys()) {
+                QString str = valo[headerVal].toString();
+                if (str.startsWith("/") && str.endsWith("/"))
+                    str = str.mid(1, str.length() - 1).replace("%contenttype", mime);
+                part.setRawHeader(headerVal.toLatin1(), str.toLatin1());
             }
         }
     } break;
