@@ -319,10 +319,13 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                 multipart->append(part);
             }
             for (QString headerVal : valo.keys()) {
-                QString str = valo[headerVal].toString();
-                if (str.startsWith("/") && str.endsWith("/"))
-                    str = str.mid(1, str.length() - 1).replace("%contenttype", mime);
-                part.setRawHeader(headerVal.toLatin1(), str.toLatin1());
+                if (headerVal.startsWith("__")) {
+                    headerVal = headerVal.mid(2);
+                    QString str = valo[headerVal].toString();
+                    if (str.startsWith("/") && str.endsWith("/"))
+                        str = str.mid(1, str.length() - 1).replace("%contenttype", mime);
+                    part.setRawHeader(headerVal.toLatin1(), str.toLatin1());
+                }
             }
         }
         switch (method) {
