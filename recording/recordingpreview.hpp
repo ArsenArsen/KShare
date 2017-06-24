@@ -17,6 +17,7 @@ public:
 private:
     QLabel *label;
     QLabel *hintLabel;
+    QSize size;
     QRect recordingArea;
 };
 
