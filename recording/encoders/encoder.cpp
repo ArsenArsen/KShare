@@ -111,21 +111,27 @@ bool Encoder::addFrame(QImage frm) {
     pkt.size = 0;
     pkt.data = NULL;
     av_init_packet(&pkt);
-    int gotPack = 0;
-    int ret = avcodec_encode_video2(out->enc, &pkt, out->frame, &gotPack);
-    if (ret < 0) {
-        av_packet_unref(&pkt);
-        throwAVErr(ret, "encode video");
+    int ret = avcodec_send_frame(out->enc, out->frame);
+    if (ret == AVERROR(EAGAIN)) {
+        do {
+            ret = avcodec_receive_packet(out->enc, &pkt);
+            if (ret < 0) {
+                if (ret != AVERROR(EAGAIN))
+                    throwAVErr(ret, "receive packet");
+                else
+                    break;
+            }
+            av_packet_rescale_ts(&pkt, out->enc->time_base, out->st->time_base);
+            pkt.stream_index = out->st->index;
+            ret = av_interleaved_write_frame(fc, &pkt);
+        } while (ret >= 0);
+        if (ret < 0 && ret != AVERROR(EAGAIN)) {
+            av_packet_unref(&pkt);
+            throwAVErr(ret, "send frame");
+        }
     }
-
-    if (gotPack) {
-        av_packet_rescale_ts(&pkt, out->enc->time_base, out->st->time_base);
-        pkt.stream_index = out->st->index;
-        ret = av_interleaved_write_frame(fc, &pkt);
-    } else
-        ret = 0;
     av_packet_unref(&pkt);
-    if (ret < 0) throwAVErr(ret, "write frame");
+    if (ret < 0 && ret != AVERROR(EAGAIN)) throwAVErr(ret, "send frame");
     return true;
 }
 
@@ -137,7 +143,18 @@ bool Encoder::end() {
     if (!success) {
         goto cleanup;
     }
-
+    int ret;
+    AVPacket pkt;
+    pkt.size = 0;
+    pkt.data = NULL;
+    av_init_packet(&pkt);
+    do {
+        ret = avcodec_receive_packet(out->enc, &pkt);
+        if (ret < 0) break;
+        av_packet_rescale_ts(&pkt, out->enc->time_base, out->st->time_base);
+        pkt.stream_index = out->st->index;
+        av_interleaved_write_frame(fc, &pkt);
+    } while (ret >= 0);
     av_write_trailer(fc);
 cleanup:
     avcodec_free_context(&out->enc);
