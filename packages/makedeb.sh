@@ -4,7 +4,7 @@ then
 	echo "Provide a version with arg1" >&2
 	exit 1
 fi
-cp ubuntu17.04 work -r
+[[ ! -d work ]] && cp ubuntu17.04 work -r
 sed "s/%ver/$1/g" ubuntu17.04/DEBIAN/control > work/DEBIAN/control
 mkdir -p work/usr/bin
 mkdir compiling
