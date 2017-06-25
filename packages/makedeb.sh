@@ -23,3 +23,4 @@ fi
 cd work
 md5sum usr/bin/kshare > DEBIAN/md5sums
 cd ..
+dpkg-deb -b work/
