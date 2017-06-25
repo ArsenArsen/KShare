@@ -21,6 +21,6 @@ std::tuple<QPoint, QPixmap> PlatformBackend::getCursor() {
         return std::tuple<QPoint, QPixmap>(QPoint(0, 0), QPixmap());
 }
 
-DWORD pid() {
+DWORD PlatformBackend::pid() {
     return GetCurrentProcessId();
 }
