@@ -7,6 +7,7 @@ CropView::CropView(QGraphicsScene *scene) : QGraphicsView(scene) {
     setWindowFlags(windowFlags() | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
     setCursor(QCursor(Qt::CrossCursor));
+    setMouseTracking(true);
 }
 
 void CropView::keyPressEvent(QKeyEvent *e) {

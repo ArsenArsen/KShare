@@ -57,6 +57,35 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
     connect(settings, &QAction::triggered, [&] { BrushPenSelection(this).exec(); });
     menu.addAction(settings);
 
+    magnifier = addPixmap(pixmap->copy(0, 0, 11, 11).scaled(110, 110));
+    magnifierBox = addRect(magnifier->boundingRect(), QPen(Qt::cyan));
+    magnifier->setZValue(1);
+    magnifierBox->setZValue(1.1);
+    magnifierBox->setParentItem(magnifier);
+    magnifierHint = addText("ptr: (0, 0)\nsel: (0, 0, 0, 0)");
+    magnifierHint->setParentItem(magnifier);
+    magnifierHint->setY(magnifier->boundingRect().height());
+    QColor c(Qt::cyan);
+    c.setAlphaF(.25);
+    magnifierHintBox = addRect(magnifierHint->boundingRect(), Qt::NoPen, c);
+    magnifierHintBox->setParentItem(magnifierHint);
+    magnifierHintBox->setZValue(1);
+    magnifierHint->setZValue(1.1);
+    for (int i = 0; i < 11; i++) {
+        auto gridRectX = addRect(0, i * 10, 110, 10, QPen(Qt::black));
+        auto gridRectY = addRect(i * 10, 0, 10, 110, QPen(Qt::black));
+        gridRectX->setParentItem(magnifierBox);
+        gridRectY->setParentItem(magnifierBox);
+        gridRectX->setZValue(1);
+        gridRectY->setZValue(1);
+        gridRectsX.append(gridRectX);
+        gridRectsY.append(gridRectY);
+        if (i == 5) {
+            gridRectX->setBrush(c);
+            gridRectY->setBrush(c);
+        }
+    }
+
     connect(menu.addAction("Set Font"), &QAction::triggered, this, &CropScene::fontAsk);
 
     _pixmap = pixmap;
@@ -105,6 +134,31 @@ void CropScene::fontAsk() {
 }
 
 void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
+    QString rectStr("(0, 0, 0, 0)");
+    if (rect) {
+        rectStr = "(%0, %1, %2, %3)";
+        rectStr = rectStr.arg(rect->rect().x()).arg(rect->rect().y()).arg(rect->rect().width()).arg(rect->rect().height());
+    }
+    magnifierHint->setPlainText(QString("ptr: (%0, %1)\nsel: %2").arg(e->scenePos().x()).arg(e->scenePos().y()).arg(rectStr));
+    magnifierHintBox->setRect(magnifierHint->boundingRect());
+
+    QPointF magnifierTopLeft = e->scenePos() - QPointF(5.5, 5.5);
+    QPointF magnifierPos = e->scenePos() + QPointF(11, 11);
+    magnifier->setPos(magnifierPos);
+    magnifier->setPixmap(_pixmap->copy(magnifierTopLeft.x(), magnifierTopLeft.y(), 11, 11).scaled(110, 110));
+    QPointF bottomRight = magnifierHintBox->sceneBoundingRect().bottomRight();
+    if (magnifier->sceneBoundingRect().bottom() > bottomRight.y())
+        bottomRight.setY(magnifier->sceneBoundingRect().bottom());
+
+    if (magnifier->sceneBoundingRect().right() > bottomRight.x())
+        bottomRight.setX(magnifier->sceneBoundingRect().right());
+
+    if (bottomRight.x() > sceneRect().right())
+        magnifierPos -= QPointF(qMax(130., magnifierHintBox->boundingRect().width()), 0);
+    if (bottomRight.y() > sceneRect().bottom())
+        magnifierPos -= QPointF(0, 130 + magnifierHintBox->boundingRect().height());
+    magnifier->setPos(magnifierPos);
+
     auto buttons = e->buttons();
     if (e->modifiers() & Qt::ControlModifier && buttons == Qt::LeftButton) {
         QTransform stupidThing = views()[0]->transform();
@@ -115,7 +169,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
         }
         return;
     }
-    if (buttons == Qt::LeftButton || prevButtons == Qt::NoButton) {
+    if (buttons == Qt::LeftButton || (prevButtons == Qt::NoButton && prevButtons != buttons)) {
         if (drawingSelection) {
             drawingSelection->mouseDragEvent(e, this);
         } else {
@@ -190,6 +244,10 @@ void CropScene::keyReleaseEvent(QKeyEvent *event) {
 void CropScene::done() {
     if (rect) {
         rect->setPen(QPen(Qt::NoPen));
+        magnifier->setVisible(false);
+        magnifierBox->setVisible(false);
+        magnifierHint->setVisible(false);
+        magnifierHintBox->setVisible(false);
         emit closedWithRect(rect->rect().toRect());
     }
 }

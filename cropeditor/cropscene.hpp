@@ -52,6 +52,10 @@ private:
     QFlags<Qt::MouseButton> prevButtons;
     QPixmap *_pixmap;
     QGraphicsRectItem *rect = nullptr;
+    QGraphicsPixmapItem *magnifier = nullptr;
+    QGraphicsRectItem *magnifierBox = nullptr;
+    QGraphicsTextItem *magnifierHint = nullptr;
+    QGraphicsRectItem *magnifierHintBox = nullptr;
     QPointF initPos;
     QPen _pen;
     QBrush _brush;
@@ -61,6 +65,8 @@ private:
     QMenu menu;
     QString drawingName = "None";
     QAction *display;
+    QList<QGraphicsRectItem *> gridRectsX;
+    QList<QGraphicsRectItem *> gridRectsY;
 };
 
 #endif // CROPSCENE_HPP
