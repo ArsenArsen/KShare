@@ -34,10 +34,6 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
 
     menu.addSeparator();
     addDrawingAction(menu, "Eraser", [] { return new EraserItem; });
-
-    QAction *reset = menu.addAction("Reset");
-    connect(reset, &QAction::triggered, [&] { setDrawingSelection("None", [] { return nullptr; }); });
-
     QAction *clear = menu.addAction("Clear all drwawing");
     connect(clear, &QAction::triggered, [&] {
         auto its = items();
@@ -45,6 +41,9 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
             if (i != rect && i != polyItem && i->zValue() != -1) removeItem(i);
         }
     });
+
+    QAction *reset = menu.addAction("Reset pen selection");
+    connect(reset, &QAction::triggered, [&] { setDrawingSelection("None", [] { return nullptr; }); });
 
     menu.addSeparator();
     QAction *settings = new QAction;
