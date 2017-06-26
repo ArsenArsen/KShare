@@ -41,11 +41,14 @@ signals:
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *e) override;
+    void wheelEvent(QGraphicsSceneWheelEvent *event) override; // WHEEEEEEL
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *e) override;
 
     void keyReleaseEvent(QKeyEvent *e) override;
 
 private:
+    void updateMag(QPointF scenePos);
+    void initMagnifierGrid();
     void addDrawingAction(QMenu &menu, QString name, std::function<DrawItem *()> item);
     void done();
     std::function<DrawItem *()> drawingSelectionMaker;

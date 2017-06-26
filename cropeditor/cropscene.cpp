@@ -22,6 +22,7 @@
 CropScene::CropScene(QObject *parent, QPixmap *pixmap)
 : QGraphicsScene(parent), drawingSelectionMaker([] { return nullptr; }), prevButtons(Qt::NoButton),
   _font(settings::settings().value("font", QFont()).value<QFont>()) {
+    _pixmap = pixmap;
     pen().setColor(settings::settings().value("penColor", pen().color()).value<QColor>());
     pen().setCosmetic(settings::settings().value("penCosmetic", pen().isCosmetic()).toBool());
     pen().setWidthF(settings::settings().value("penWidth", pen().widthF()).toFloat());
@@ -71,24 +72,11 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
     magnifierHintBox->setParentItem(magnifierHint);
     magnifierHintBox->setZValue(1);
     magnifierHint->setZValue(1.1);
-    for (int i = 0; i < 11; i++) {
-        auto gridRectX = addRect(0, i * 10, 110, 10, QPen(Qt::black));
-        auto gridRectY = addRect(i * 10, 0, 10, 110, QPen(Qt::black));
-        gridRectX->setParentItem(magnifierBox);
-        gridRectY->setParentItem(magnifierBox);
-        gridRectX->setZValue(1);
-        gridRectY->setZValue(1);
-        gridRectsX.append(gridRectX);
-        gridRectsY.append(gridRectY);
-        if (i == 5) {
-            gridRectX->setBrush(c);
-            gridRectY->setBrush(c);
-        }
-    }
+    initMagnifierGrid();
+    updateMag(QPointF(0, 0));
 
     connect(menu.addAction("Set Font"), &QAction::triggered, this, &CropScene::fontAsk);
 
-    _pixmap = pixmap;
     QTimer::singleShot(0, [&] {
         QPolygonF poly;
         poly.append(sceneRect().topLeft());
@@ -134,30 +122,7 @@ void CropScene::fontAsk() {
 }
 
 void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
-    QString rectStr("(0, 0, 0, 0)");
-    if (rect) {
-        rectStr = "(%0, %1, %2, %3)";
-        rectStr = rectStr.arg(rect->rect().x()).arg(rect->rect().y()).arg(rect->rect().width()).arg(rect->rect().height());
-    }
-    magnifierHint->setPlainText(QString("ptr: (%0, %1)\nsel: %2").arg(e->scenePos().x()).arg(e->scenePos().y()).arg(rectStr));
-    magnifierHintBox->setRect(magnifierHint->boundingRect());
-
-    QPointF magnifierTopLeft = e->scenePos() - QPointF(5.5, 5.5);
-    QPointF magnifierPos = e->scenePos() + QPointF(11, 11);
-    magnifier->setPos(magnifierPos);
-    magnifier->setPixmap(_pixmap->copy(magnifierTopLeft.x(), magnifierTopLeft.y(), 11, 11).scaled(110, 110));
-    QPointF bottomRight = magnifierHintBox->sceneBoundingRect().bottomRight();
-    if (magnifier->sceneBoundingRect().bottom() > bottomRight.y())
-        bottomRight.setY(magnifier->sceneBoundingRect().bottom());
-
-    if (magnifier->sceneBoundingRect().right() > bottomRight.x())
-        bottomRight.setX(magnifier->sceneBoundingRect().right());
-
-    if (bottomRight.x() > sceneRect().right())
-        magnifierPos -= QPointF(qMax(130., magnifierHintBox->boundingRect().width()), 0);
-    if (bottomRight.y() > sceneRect().bottom())
-        magnifierPos -= QPointF(0, 130 + magnifierHintBox->boundingRect().height());
-    magnifier->setPos(magnifierPos);
+    updateMag(e->scenePos());
 
     auto buttons = e->buttons();
     if (e->modifiers() & Qt::ControlModifier && buttons == Qt::LeftButton) {
@@ -224,6 +189,24 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
     prevButtons = Qt::NoButton;
 }
 
+void CropScene::wheelEvent(QGraphicsSceneWheelEvent *event) {
+    int pixCnt = settings::settings().value("magnifierPixelCount", 11).toInt();
+    if (pixCnt % 2 == 0) pixCnt++;
+    if (pixCnt > 20) return;
+    if (event->delta() > 0 && pixCnt < 19)
+        settings::settings().setValue("magnifierPixelCount", pixCnt += 2);
+    else if (pixCnt > 1)
+        settings::settings().setValue("magnifierPixelCount", pixCnt -= 2);
+
+    for (auto item : gridRectsX) delete item;
+    gridRectsX.clear();
+    for (auto item : gridRectsY) delete item;
+    gridRectsY.clear();
+
+    initMagnifierGrid();
+    updateMag(event->scenePos());
+}
+
 void CropScene::addDrawingAction(QMenu &menu, QString name, std::function<DrawItem *()> item) {
     QAction *action = new QAction;
     action->setText(name);
@@ -239,6 +222,57 @@ void CropScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *e) {
 
 void CropScene::keyReleaseEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) done(); // Segfault
+}
+
+void CropScene::updateMag(QPointF scenePos) {
+    QString rectStr("(0, 0, 0, 0)");
+    if (rect) {
+        rectStr = "(%0, %1, %2, %3)";
+        rectStr = rectStr.arg(rect->rect().x()).arg(rect->rect().y()).arg(rect->rect().width()).arg(rect->rect().height());
+    }
+    magnifierHint->setPlainText(QString("ptr: (%0, %1)\nsel: %2").arg(scenePos.x()).arg(scenePos.y()).arg(rectStr));
+    magnifierHintBox->setRect(magnifierHint->boundingRect());
+
+    QPointF magnifierTopLeft = scenePos - QPointF(5.5, 5.5);
+    QPointF magnifierPos = scenePos + QPointF(11, 11);
+    int pixCnt = settings::settings().value("magnifierPixelCount", 11).toInt();
+    if (pixCnt % 2 == 0) pixCnt++;
+
+    magnifier->setPos(magnifierPos);
+    magnifier->setPixmap(_pixmap->copy(magnifierTopLeft.x(), magnifierTopLeft.y(), pixCnt, pixCnt).scaled(110, 110));
+    QPointF bottomRight = magnifierHintBox->sceneBoundingRect().bottomRight();
+    if (magnifier->sceneBoundingRect().bottom() > bottomRight.y())
+        bottomRight.setY(magnifier->sceneBoundingRect().bottom());
+
+    if (magnifier->sceneBoundingRect().right() > bottomRight.x())
+        bottomRight.setX(magnifier->sceneBoundingRect().right());
+
+    if (bottomRight.x() > sceneRect().right())
+        magnifierPos -= QPointF(qMax(130., magnifierHintBox->boundingRect().width()), 0);
+    if (bottomRight.y() > sceneRect().bottom())
+        magnifierPos -= QPointF(0, 130 + magnifierHintBox->boundingRect().height());
+    magnifier->setPos(magnifierPos);
+}
+
+void CropScene::initMagnifierGrid() {
+    QColor c(Qt::cyan);
+    c.setAlphaF(.25);
+    int pixCnt = settings::settings().value("magnifierPixelCount", 11).toInt();
+    if (pixCnt % 2 == 0) pixCnt++;
+    for (int i = 0; i < pixCnt; i++) {
+        auto gridRectX = addRect(0, i * 110. / pixCnt, 110, 110. / pixCnt, QPen(Qt::black));
+        auto gridRectY = addRect(i * 110. / pixCnt, 0, 110. / pixCnt, 110, QPen(Qt::black));
+        gridRectX->setParentItem(magnifierBox);
+        gridRectY->setParentItem(magnifierBox);
+        gridRectX->setZValue(1);
+        gridRectY->setZValue(1);
+        gridRectsX.append(gridRectX);
+        gridRectsY.append(gridRectY);
+        if (i == (pixCnt / 2)) {
+            gridRectX->setBrush(c);
+            gridRectY->setBrush(c);
+        }
+    }
 }
 
 void CropScene::done() {
