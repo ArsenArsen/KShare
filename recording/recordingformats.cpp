@@ -30,12 +30,6 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
     iFormat = QImage::Format_RGB888;
     path = tmpDir.absoluteFilePath("res." + formats::recordingFormatName(f).toLower());
     finalizer = [&] {
-        qDebug() << "end";
-        try {
-            enc->end();
-        } catch (std::runtime_error e) {
-            qCritical() << "Encoder error: " << e.what();
-        }
         delete enc;
         if (interrupt) {
             tmpDir.removeRecursively();

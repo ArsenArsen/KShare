@@ -1,5 +1,6 @@
 #include "cropscene.hpp"
 #include <QColorDialog>
+#include <QDebug>
 #include <QFontDialog>
 #include <QGraphicsPolygonItem>
 #include <QGraphicsSceneContextMenuEvent>
@@ -103,6 +104,15 @@ void CropScene::fontAsk() {
 
 void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
     auto buttons = e->buttons();
+    if (e->modifiers() & Qt::ControlModifier && buttons == Qt::LeftButton) {
+        QTransform stupidThing = views()[0]->transform();
+        auto item = itemAt(e->screenPos(), stupidThing);
+        if (item && item != polyItem && item != rect && item->zValue() != -1) {
+            QPointF delta = e->scenePos() - e->lastScenePos();
+            item->moveBy(delta.x(), delta.y());
+        }
+        return;
+    }
     if (buttons == Qt::LeftButton || prevButtons == Qt::NoButton) {
         if (drawingSelection) {
             drawingSelection->mouseDragEvent(e, this);
