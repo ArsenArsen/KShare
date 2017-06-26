@@ -37,7 +37,7 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
 
     menu.addSeparator();
     addDrawingAction(menu, "Eraser", [] { return new EraserItem; });
-    QAction *clear = menu.addAction("Clear all drwawing");
+    QAction *clear = menu.addAction("Clear all drawing");
     connect(clear, &QAction::triggered, [&] {
         auto its = items();
         for (auto i : its) {
