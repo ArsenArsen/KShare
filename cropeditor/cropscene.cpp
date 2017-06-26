@@ -9,6 +9,7 @@
 #include <QTimer>
 #include <cropeditor/drawing/bluritem.hpp>
 #include <cropeditor/drawing/dotitem.hpp>
+#include <cropeditor/drawing/ellipseitem.hpp>
 #include <cropeditor/drawing/eraseritem.hpp>
 #include <cropeditor/drawing/lineitem.hpp>
 #include <cropeditor/drawing/pathitem.hpp>
@@ -32,6 +33,7 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
     addDrawingAction(menu, "Straight line", [] { return new LineItem; });
     addDrawingAction(menu, "Text", [] { return new TextItem; });
     addDrawingAction(menu, "Rectangle", [] { return new RectItem; });
+    addDrawingAction(menu, "Ellipse", [] { return new EllipseItem; });
 
     menu.addSeparator();
     addDrawingAction(menu, "Eraser", [] { return new EraserItem; });

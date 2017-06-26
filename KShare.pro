@@ -61,7 +61,8 @@ SOURCES += main.cpp\
     settingsdialog.cpp \
     aboutbox.cpp \
     cropeditor/drawing/eraseritem.cpp \
-    cropeditor/drawing/rectitem.cpp
+    cropeditor/drawing/rectitem.cpp \
+    cropeditor/drawing/ellipseitem.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -101,7 +102,8 @@ HEADERS  += mainwindow.hpp \
     settingsdialog.hpp \
     aboutbox.hpp \
     cropeditor/drawing/eraseritem.hpp \
-    cropeditor/drawing/rectitem.hpp
+    cropeditor/drawing/rectitem.hpp \
+    cropeditor/drawing/ellipseitem.hpp
 
 LIBS += -lavcodec -lavformat -lavutil -lswscale -lavutil
 
