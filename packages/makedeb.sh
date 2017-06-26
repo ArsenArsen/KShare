@@ -4,8 +4,8 @@ then
 	echo "Provide a version with arg1" >&2
 	exit 1
 fi
-[[ ! -d work ]] && cp ubuntu17.04 work -r
-sed "s/%ver/$1/g" ubuntu17.04/DEBIAN/control > work/DEBIAN/control
+[[ ! -d work ]] && cp deb work -r
+sed "s/%ver/$1/g" deb/DEBIAN/control > work/DEBIAN/control
 mkdir -p work/usr/bin
 mkdir compiling
 cd compiling 
@@ -23,3 +23,4 @@ cd work
 md5sum usr/bin/kshare > DEBIAN/md5sums
 cd ..
 dpkg-deb -b work/
+rm -rf work
