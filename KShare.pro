@@ -59,7 +59,9 @@ SOURCES += main.cpp\
     recording/encoders/encodersettings.cpp \
     recording/encoders/encodersettingsdialog.cpp \
     settingsdialog.cpp \
-    aboutbox.cpp
+    aboutbox.cpp \
+    cropeditor/drawing/eraseritem.cpp \
+    cropeditor/drawing/rectitem.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -97,7 +99,9 @@ HEADERS  += mainwindow.hpp \
     recording/encoders/encodersettings.hpp \
     recording/encoders/encodersettingsdialog.hpp \
     settingsdialog.hpp \
-    aboutbox.hpp
+    aboutbox.hpp \
+    cropeditor/drawing/eraseritem.hpp \
+    cropeditor/drawing/rectitem.hpp
 
 LIBS += -lavcodec -lavformat -lavutil -lswscale -lavutil
 

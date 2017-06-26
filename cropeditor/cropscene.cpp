@@ -8,8 +8,10 @@
 #include <QTimer>
 #include <cropeditor/drawing/bluritem.hpp>
 #include <cropeditor/drawing/dotitem.hpp>
+#include <cropeditor/drawing/eraseritem.hpp>
 #include <cropeditor/drawing/lineitem.hpp>
 #include <cropeditor/drawing/pathitem.hpp>
+#include <cropeditor/drawing/rectitem.hpp>
 #include <cropeditor/drawing/textitem.hpp>
 #include <cropeditor/settings/brushpenselection.hpp>
 #include <functional>
@@ -28,9 +30,21 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
     addDrawingAction(menu, "Blur", [] { return new BlurItem; });
     addDrawingAction(menu, "Straight line", [] { return new LineItem; });
     addDrawingAction(menu, "Text", [] { return new TextItem; });
+    addDrawingAction(menu, "Rectangle", [] { return new RectItem; });
+
+    menu.addSeparator();
+    addDrawingAction(menu, "Eraser", [] { return new EraserItem; });
 
     QAction *reset = menu.addAction("Reset");
     connect(reset, &QAction::triggered, [&] { setDrawingSelection("None", [] { return nullptr; }); });
+
+    QAction *clear = menu.addAction("Clear all drwawing");
+    connect(clear, &QAction::triggered, [&] {
+        auto its = items();
+        for (auto i : its) {
+            if (i != rect && i != polyItem && i->zValue() != -1) removeItem(i);
+        }
+    });
 
     menu.addSeparator();
     QAction *settings = new QAction;

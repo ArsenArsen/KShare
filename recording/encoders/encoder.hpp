@@ -45,10 +45,11 @@ private:
     AVFormatContext *fc = NULL;
 
     bool success = false;
+    bool ended = false;
 
     QSize size;
 
-    void setFrameRGB(uint8_t *rgb);
+    void setFrameRGB(QImage img);
 };
 
 #endif // ENCODER_HPP

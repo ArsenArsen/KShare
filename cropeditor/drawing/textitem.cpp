@@ -12,8 +12,8 @@ void TextItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) {
     if (!textItem) {
         textItem = scene->addSimpleText(text, scene->font());
         textItem->setPos(e->scenePos());
-        textItem->setPen(scene->pen());
-        textItem->setBrush(scene->brush());
+        textItem->setPen(scene->pen().color());
+        textItem->setBrush(scene->pen().color());
     } else {
         auto ee
         = 180 + qRadiansToDegrees(qAtan2((textItem->pos().y() - e->scenePos().y()), (textItem->pos().x() - e->scenePos().x())));

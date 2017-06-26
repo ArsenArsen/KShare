@@ -25,6 +25,12 @@ public:
     QPixmap *pixmap() {
         return _pixmap;
     }
+    QGraphicsPolygonItem *polyItm() {
+        return polyItem;
+    }
+    QGraphicsRectItem *selRect() {
+        return rect;
+    }
 
 public slots:
     void fontAsk();

@@ -87,10 +87,11 @@ Encoder::Encoder(QString &targetFile, QSize res, CodecSettings *settings) {
     success = true;
 }
 
-void Encoder::setFrameRGB(uint8_t *rgb) {
+void Encoder::setFrameRGB(QImage img) {
+    uint8_t *rgb = (uint8_t *)img.bits();
     int ret = av_frame_make_writable(out->frame);
     if (ret < 0) throwAVErr(ret, "setFrameRGB");
-    int lineSize[1] = { 3 * out->enc->width };
+    int lineSize[1] = { img.bytesPerLine() };
     out->sws = sws_getCachedContext(out->sws, out->enc->width, out->enc->height, AV_PIX_FMT_RGB24, out->enc->width,
                                     out->enc->height, (AVPixelFormat)out->frame->format, 0, 0, 0, 0);
     sws_scale(out->sws, (const uint8_t *const *)&rgb, lineSize, 0, out->enc->height, out->frame->data, out->frame->linesize);
@@ -105,8 +106,7 @@ bool Encoder::addFrame(QImage frm) {
     if (!success) return false;
     if (frm.size() != size) frm = frm.copy(QRect(QPoint(0, 0), size));
     if (frm.format() != QImage::Format_RGB888) frm = frm.convertToFormat(QImage::Format_RGB888);
-    uint8_t *frameData = (uint8_t *)frm.bits();
-    setFrameRGB(frameData);
+    setFrameRGB(frm);
     AVPacket pkt;
     pkt.size = 0;
     pkt.data = NULL;
@@ -140,6 +140,8 @@ bool Encoder::isRunning() {
 }
 
 bool Encoder::end() {
+    if (ended) return false;
+    ended = true;
     if (!success) {
         goto cleanup;
     }
