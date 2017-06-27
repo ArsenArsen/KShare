@@ -1,5 +1,5 @@
 # **KShare**
-## The open source and cross platform screen sharing software
+## The free open source and cross platform screen sharing software
 ###### Inspired by [ShareX](https://getsharex.com)
 
 KShare is a screenshotting utility built using Qt and written in C++.
