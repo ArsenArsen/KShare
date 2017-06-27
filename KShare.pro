@@ -62,7 +62,8 @@ SOURCES += main.cpp\
     aboutbox.cpp \
     cropeditor/drawing/eraseritem.cpp \
     cropeditor/drawing/rectitem.cpp \
-    cropeditor/drawing/ellipseitem.cpp
+    cropeditor/drawing/ellipseitem.cpp \
+    hotkeyinputdialog.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -103,7 +104,8 @@ HEADERS  += mainwindow.hpp \
     aboutbox.hpp \
     cropeditor/drawing/eraseritem.hpp \
     cropeditor/drawing/rectitem.hpp \
-    cropeditor/drawing/ellipseitem.hpp
+    cropeditor/drawing/ellipseitem.hpp \
+    hotkeyinputdialog.hpp
 
 LIBS += -lavcodec -lavformat -lavutil -lswscale -lavutil
 
@@ -131,7 +133,8 @@ FORMS    += mainwindow.ui \
     cropeditor/settings/blurdialog.ui \
     recording/encoders/encodersettingsdialog.ui \
     settingsdialog.ui \
-    aboutbox.ui
+    aboutbox.ui \
+    hotkeyinputdialog.ui
 
 DISTFILES += \
     README.md \

@@ -1,4 +1,5 @@
 #include "settingsdialog.hpp"
+#include "hotkeyinputdialog.hpp"
 #include "mainwindow.hpp"
 #include "ui_settingsdialog.h"
 
@@ -111,10 +112,10 @@ void SettingsDialog::on_hotkeys_doubleClicked(const QModelIndex &) {
     if (ui->hotkeys->selectedItems().length() == 1) {
         QListWidgetItem *i = ui->hotkeys->selectedItems().at(0);
         QString str = i->data(Qt::UserRole + 1).toString();
-        bool ok;
-        QString seq = QInputDialog::getText(MainWindow::inst(), "Hotkey Input", "Insert hotkey:", QLineEdit::Normal,
-                                            hotkeying::sequence(str), &ok);
-        if (ok && hotkeying::valid(seq)) hotkeying::hotkey(str, QKeySequence(seq), fncs.value(str));
+        HotkeyInputDialog *hotkey = new HotkeyInputDialog(str, hotkeying::sequence(str), this);
+        connect(hotkey, &HotkeyInputDialog::sequenceSelected,
+                [&](QKeySequence seq, QString name) { hotkeying::hotkey(name, seq, fncs.value(name)); });
+        hotkey->show();
     }
 }
 

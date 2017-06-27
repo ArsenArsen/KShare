@@ -1,5 +1,6 @@
 #include "mainwindow.hpp"
 #include "screenshotutil.hpp"
+#include "ui_mainwindow.h"
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
@@ -11,7 +12,6 @@ extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 }
-#include "ui_mainwindow.h"
 #include <QListWidget>
 #include <notifications.hpp>
 #include <platformbackend.hpp>
