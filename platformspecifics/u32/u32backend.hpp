@@ -16,6 +16,7 @@ public:
         static PlatformBackend inst;
         return inst;
     }
+    WId getActiveWID();
 };
 
 #endif // U32BACKEND_HPP
