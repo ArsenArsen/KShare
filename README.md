@@ -37,4 +37,14 @@ See the [projects](https://github.com/ArsenArsen/KShare/projects)
 
 I do plan to make a Debian ~~and Ubuntu (see below)~~ packages.
 
+For other UNIX-like platforms, and MSYS2 (for Windows):
+
+You have to obtain the dependencies though.
+```bash
+git clone https://github.com/ArsenArsen/KShare.git
+cd KShare
+qmake // Might be qmake-qt5 on your system
+make
+```
+
 ###### Started on 19th of April 2017 to bring some attention and improvement to Linux screenshotting.
