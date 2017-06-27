@@ -84,6 +84,9 @@
             <property name="currentText">
              <string notr="true">medium</string>
             </property>
+            <property name="currentIndex">
+             <number>5</number>
+            </property>
             <item>
              <property name="text">
               <string>ultrafast</string>

@@ -46,10 +46,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QAction *quit = new QAction("Quit", this);
     QAction *shtoggle = new QAction("Show/Hide", this);
     QAction *fullscreen = new QAction("Take fullscreen shot", this);
+    QAction *area = new QAction("Take area shot", this);
 
-    QAction *active = new QAction("Take area shot", this);
 #ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
-    QAction *area = new QAction("Screenshot active window", this);
+    QAction *active = new QAction("Screenshot active window", this);
     connect(active, &QAction::triggered, this, [] { screenshotter::activeDelayed(); });
 #endif
     QAction *picker = new QAction("Show color picker", this);
@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QAction *recoff = new QAction("Stop recording", this);
     menu->addActions({ quit, shtoggle, picker });
     menu->addSeparator();
-    menu->addActions({ fullscreen, area });
+    menu->addActions({ fullscreen, area, active });
 #ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
     menu->addAction(area);
 #endif
@@ -158,4 +158,8 @@ void MainWindow::on_actionAbout_triggered() {
     AboutBox *box = new AboutBox(this);
     box->setAttribute(Qt::WA_DeleteOnClose);
     box->show();
+}
+
+void MainWindow::on_actionActive_window_triggered() {
+    screenshotter::activeDelayed();
 }

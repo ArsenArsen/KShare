@@ -29,6 +29,8 @@ private slots:
     void on_actionColor_Picker_triggered();
     void on_actionAbout_triggered();
 
+    void on_actionActive_window_triggered();
+
 public:
     static MainWindow *inst();
     explicit MainWindow(QWidget *parent = 0);

@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
     a.setQuitOnLastWindowClosed(false);
     a.setApplicationName("KShare");
     a.setOrganizationName("ArsenArsen");
-    a.setApplicationVersion("3.0");
+    a.setApplicationVersion("4.0");
 
     QCommandLineParser parser;
     parser.addHelpOption();

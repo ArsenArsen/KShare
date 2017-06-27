@@ -29,7 +29,7 @@ void screenshotter::fullscreenDelayed() {
 }
 
 void screenshotter::activeDelayed() {
-    QTimer::singleShot(settings::settings().value("delay", 0.5).toFloat() * 1000, &screenshotter::activeDelayed);
+    QTimer::singleShot(settings::settings().value("delay", 0.5).toFloat() * 1000, &screenshotter::active);
 }
 
 void screenshotter::active() {

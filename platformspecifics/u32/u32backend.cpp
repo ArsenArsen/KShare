@@ -26,5 +26,5 @@ DWORD PlatformBackend::pid() {
 }
 
 WId PlatformBackend::getActiveWID() {
-    return GetForegroundWindow();
+    return (WId)GetForegroundWindow();
 }

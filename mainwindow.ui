@@ -70,6 +70,7 @@
     </property>
     <addaction name="actionFullscreen"/>
     <addaction name="actionArea"/>
+    <addaction name="actionActive_window"/>
    </widget>
    <widget class="QMenu" name="menuUtilities">
     <property name="title">
@@ -128,6 +129,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionActive_window">
+   <property name="text">
+    <string>Active window</string>
    </property>
   </action>
  </widget>
