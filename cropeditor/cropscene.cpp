@@ -233,10 +233,10 @@ void CropScene::updateMag(QPointF scenePos) {
     magnifierHint->setPlainText(QString("ptr: (%0, %1)\nsel: %2").arg(scenePos.x()).arg(scenePos.y()).arg(rectStr));
     magnifierHintBox->setRect(magnifierHint->boundingRect());
 
-    QPointF magnifierTopLeft = scenePos - QPointF(5.5, 5.5);
-    QPointF magnifierPos = scenePos + QPointF(11, 11);
     int pixCnt = settings::settings().value("magnifierPixelCount", 11).toInt();
     if (pixCnt % 2 == 0) pixCnt++;
+    QPointF magnifierTopLeft = scenePos - QPointF(pixCnt / 2., pixCnt / 2.);
+    QPointF magnifierPos = scenePos + QPointF(5, 5);
 
     magnifier->setPos(magnifierPos);
     magnifier->setPixmap(_pixmap->copy(magnifierTopLeft.x(), magnifierTopLeft.y(), pixCnt, pixCnt).scaled(110, 110));
