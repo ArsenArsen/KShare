@@ -4,6 +4,10 @@
 #include <QPixmap>
 #include <windows.h>
 
+#define PLATFORM_CAPABILITY_PID
+#define PLATFORM_CAPABILITY_ACTIVEWINDOW
+#define PLATFORM_CAPABILITY_CURSOR
+
 class PlatformBackend {
 public:
     std::tuple<QPoint, QPixmap> getCursor();

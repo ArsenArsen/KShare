@@ -27,3 +27,30 @@ std::tuple<QPoint, QPixmap> PlatformBackend::getCursor() {
 pid_t PlatformBackend::pid() {
     return getpid();
 }
+
+
+WId PlatformBackend::getActiveWID() {
+    xcb_connection_t *connection = QX11Info::connection();
+    xcb_get_input_focus_reply_t *focusReply;
+    xcb_query_tree_cookie_t treeCookie;
+    xcb_query_tree_reply_t *treeReply;
+
+    focusReply = xcb_get_input_focus_reply(connection, xcb_get_input_focus(connection), nullptr);
+    xcb_window_t window = focusReply->focus;
+    while (1) {
+        treeCookie = xcb_query_tree(connection, window);
+        treeReply = xcb_query_tree_reply(connection, treeCookie, nullptr);
+        if (!treeReply) {
+            window = 0;
+            break;
+        }
+        if (window == treeReply->root || treeReply->parent == treeReply->root) {
+            break;
+        } else {
+            window = treeReply->parent;
+        }
+        delete treeReply;
+    }
+    delete treeReply;
+    return window;
+}

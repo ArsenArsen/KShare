@@ -8,6 +8,7 @@
 #include <colorpicker/colorpickerscene.hpp>
 #include <formats.hpp>
 #include <hotkeying.hpp>
+#include <platformbackend.hpp>
 #include <recording/recordingformats.hpp>
 #include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
@@ -45,13 +46,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QAction *quit = new QAction("Quit", this);
     QAction *shtoggle = new QAction("Show/Hide", this);
     QAction *fullscreen = new QAction("Take fullscreen shot", this);
-    QAction *area = new QAction("Take area shot", this);
+
+    QAction *active = new QAction("Take area shot", this);
+#ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
+    QAction *area = new QAction("Screenshot active window", this);
+    connect(active, &QAction::triggered, this, [] { screenshotter::activeDelayed(); });
+#endif
     QAction *picker = new QAction("Show color picker", this);
     QAction *rec = new QAction("Record screen", this);
     QAction *recoff = new QAction("Stop recording", this);
     menu->addActions({ quit, shtoggle, picker });
     menu->addSeparator();
     menu->addActions({ fullscreen, area });
+#ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
+    menu->addAction(area);
+#endif
     menu->addSeparator();
     menu->addActions({ rec, recoff });
     connect(quit, &QAction::triggered, this, &MainWindow::quit);
@@ -71,6 +80,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     addHotkey("fullscreen", [] { screenshotter::fullscreen(); });
     addHotkey("area", [] { screenshotter::area(); });
+    addHotkey("active", [] { screenshotter::active(); });
     addHotkey("picker", [] { ColorPickerScene::showPicker(); });
     addHotkey("recordingstop", [&] { controller->end(); });
     addHotkey("recordingstart", [&] { this->rec(); });

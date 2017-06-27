@@ -5,6 +5,7 @@
 #include "uploaders/uploadersingleton.hpp"
 #include <QDoubleSpinBox>
 #include <QTimer>
+#include <platformbackend.hpp>
 #include <settings.hpp>
 
 void screenshotter::area() {
@@ -25,4 +26,14 @@ void screenshotter::areaDelayed() {
 
 void screenshotter::fullscreenDelayed() {
     QTimer::singleShot(settings::settings().value("delay", 0.5).toFloat() * 1000, &screenshotter::fullscreen);
+}
+
+void screenshotter::activeDelayed() {
+    QTimer::singleShot(settings::settings().value("delay", 0.5).toFloat() * 1000, &screenshotter::activeDelayed);
+}
+
+void screenshotter::active() {
+#ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
+    UploaderSingleton::inst().upload(screenshotutil::window(PlatformBackend::inst().getActiveWID()));
+#endif
 }

@@ -3,9 +3,13 @@
 
 namespace screenshotter {
 void fullscreen();
-void area();
 void fullscreenDelayed();
+
+void area();
 void areaDelayed();
+
+void activeDelayed();
+void active();
 }
 
 #endif // SCREENSHOTTER_HPP

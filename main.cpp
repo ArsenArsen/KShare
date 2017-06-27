@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
+#include <QScreen>
 #include <QtGlobal>
 #include <formatter.hpp>
 #include <iostream>
@@ -13,6 +14,7 @@ extern "C" {
 #include "ui_mainwindow.h"
 #include <QListWidget>
 #include <notifications.hpp>
+#include <platformbackend.hpp>
 #include <worker/worker.hpp>
 
 bool verbose = false;

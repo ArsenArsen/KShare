@@ -121,7 +121,7 @@ mac {
         SOURCES += $$PWD/platformspecifics/x11/x11backend.cpp
         HEADERS += $$PWD/platformspecifics/x11/x11backend.hpp
         QT += x11extras
-        LIBS += -lxcb-cursor -lxcb-xfixes
+        LIBS += -lxcb-cursor -lxcb-xfixes -lxcb
 } else {
         error(Unsupported platform);
 }

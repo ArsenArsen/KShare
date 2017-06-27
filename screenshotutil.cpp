@@ -8,6 +8,7 @@
 #include <platformbackend.hpp>
 
 QPixmap *screenshotutil::fullscreen(bool cursor) {
+#ifdef PLATFORM_CAPABILITY_CURSOR
     if (cursor) {
         QPixmap *noCursor = window(0);
         QScopedPointer<QPixmap> p(noCursor);
@@ -18,6 +19,7 @@ QPixmap *screenshotutil::fullscreen(bool cursor) {
         painter.end();
         return withCursor;
     }
+#endif
     return window(0);
 }
 
@@ -36,6 +38,7 @@ void screenshotutil::toClipboard(QString value) {
 QPixmap *screenshotutil::fullscreenArea(bool cursor, qreal x, qreal y, qreal w, qreal h) {
     auto scr = QApplication::primaryScreen();
     QRectF area(x, y, w < 0 ? scr->size().width() : w, h < 0 ? scr->size().height() : h);
+#ifdef PLATFORM_CAPABILITY_CURSOR
     if (cursor) {
         QPointF point = QCursor::pos(scr);
         if (area.contains(point)) {
@@ -48,5 +51,6 @@ QPixmap *screenshotutil::fullscreenArea(bool cursor, qreal x, qreal y, qreal w, 
             return withCursor;
         }
     }
+#endif
     return new QPixmap(scr->grabWindow(0, area.x(), area.y(), area.width(), area.height()));
 }

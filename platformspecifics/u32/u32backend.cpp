@@ -24,3 +24,7 @@ std::tuple<QPoint, QPixmap> PlatformBackend::getCursor() {
 DWORD PlatformBackend::pid() {
     return GetCurrentProcessId();
 }
+
+WId PlatformBackend::getActiveWID() {
+    return GetForegroundWindow();
+}

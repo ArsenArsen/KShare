@@ -2,6 +2,7 @@
 #include "mainwindow.hpp"
 #include "ui_settingsdialog.h"
 
+#include <QCheckBox>
 #include <QDesktopServices>
 #include <QInputDialog>
 #include <QListWidget>
@@ -10,6 +11,7 @@
 #include <colorpicker/colorpickerscene.hpp>
 #include <formats.hpp>
 #include <hotkeying.hpp>
+#include <platformbackend.hpp>
 #include <recording/encoders/encodersettingsdialog.hpp>
 #include <screenshotter.hpp>
 #include <settings.hpp>
@@ -48,6 +50,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
 
     addHotkeyItem(ui->hotkeys, "Fullscreen image", "fullscreen", [] { screenshotter::fullscreen(); });
     addHotkeyItem(ui->hotkeys, "Area image", "area", [] { screenshotter::area(); });
+#ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
+    addHotkeyItem(ui->hotkeys, "Active window", "active", [&] { screenshotter::active(); });
+#endif
     addHotkeyItem(ui->hotkeys, "Color picker", "picker", [] { ColorPickerScene::showPicker(); });
     addHotkeyItem(ui->hotkeys, "Stop Recording", "recordingstop", [&] { MainWindow::inst()->controller->end(); });
     addHotkeyItem(ui->hotkeys, "Start Recording", "recordingstart", [&] { MainWindow::inst()->rec(); });
@@ -66,6 +71,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
     ui->formatBox->addItem("None");
     ui->formatBox->setCurrentIndex(settings::settings().value("recording/format", (int)formats::Recording::None).toInt());
     setWindowTitle("Settings");
+#ifndef PLATFORM_CAPABILITY_CURSOR
+    ui->captureCursor->setEnabled(false);
+    ui->captureCursor->setText("Capture cursor (disabled: implementation missing)");
+#endif
 }
 
 void SettingsDialog::setScheme(QString scheme) {

@@ -3,6 +3,10 @@
 
 #include <QPixmap>
 
+#define PLATFORM_CAPABILITY_PID
+#define PLATFORM_CAPABILITY_ACTIVEWINDOW
+#define PLATFORM_CAPABILITY_CURSOR
+
 class PlatformBackend {
 public:
     std::tuple<QPoint, QPixmap> getCursor();
@@ -11,6 +15,7 @@ public:
         static PlatformBackend inst;
         return inst;
     }
+    WId getActiveWID();
 };
 
 #endif // X11BACKEND_HPP

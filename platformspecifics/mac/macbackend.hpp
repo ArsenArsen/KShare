@@ -3,6 +3,8 @@
 
 #include <QPixmap>
 
+#define PLATFORM_CAPABILITY_PID
+
 class PlatformBackend {
 public:
     QPixmap getCursor();
