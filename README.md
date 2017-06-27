@@ -31,11 +31,10 @@ See the [projects](https://github.com/ArsenArsen/KShare/projects)
 |Distro|Link|
 |:----:|:--:|
 |Arch Linux (development)|[kshare-git](https://aur.archlinux.org/packages/kshare-git/)|
-|Ubuntu (development)|[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare/lastSuccessfulBuild/artifact/packages/kshare_3.0_x86_64.deb)|
+|Ubuntu (development)|[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
+|Arch Linux |[kshare](https://aur.archlinux.org/packages/kshare-git/)|
+|Ubuntu |[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare%20Stable/lastSuccessfulBuild/artifact/packages/simpleName.deb	)|
 
-I do plan to make a Debian ~~and Ubuntu (see below)~~ packages, as well as `kshare` stable for Arch.
-
-## Wayland Support
-If it's requested enough, I will make a pull request towards QHotkey to support Wayland. Or open an issue, depending on my mood. But Qt _should_ still work on Wayland.
+I do plan to make a Debian ~~and Ubuntu (see below)~~ packages.
 
 ###### Started on 19th of April 2017 to bring some attention and improvement to Linux screenshotting.
