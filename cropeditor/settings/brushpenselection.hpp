@@ -15,13 +15,13 @@ public:
     explicit BrushPenSelection(CropScene *scene);
     ~BrushPenSelection();
 
-private slots:
+public slots:
+    void on_radSlider_sliderMoved(int position);
+    void on_radSpinner_valueChanged(double arg1);
     void on_penColor_clicked(bool);
     void on_brushColor_clicked(bool);
-
     void on_buttonBox_accepted();
     void on_buttonBox_rejected();
-
     void on_widthSlider_sliderMoved(int position);
     void on_widthSpinner_valueChanged(double arg1);
 

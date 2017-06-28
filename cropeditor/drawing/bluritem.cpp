@@ -1,10 +1,16 @@
 #include "bluritem.hpp"
 
-#include <cropeditor/settings/blurdialog.hpp>
+#include <settings.hpp>
 
 bool BlurItem::init(CropScene *) {
     effect = new QGraphicsBlurEffect;
-    return BlurDialog(effect).exec();
+    QFlags<QGraphicsBlurEffect::BlurHint> blurHints;
+    blurHints.setFlag(QGraphicsBlurEffect::AnimationHint, settings::settings().value("blur/animatedHint", false).toBool());
+    blurHints.setFlag(QGraphicsBlurEffect::PerformanceHint, settings::settings().value("blur/performanceHint", true).toBool());
+    blurHints.setFlag(QGraphicsBlurEffect::QualityHint, settings::settings().value("blur/qualityHint", false).toBool());
+    effect->setBlurHints(blurHints);
+    effect->setBlurRadius(settings::settings().value("blurRadius", 5.).toDouble());
+    return true;
 }
 
 void BlurItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) {

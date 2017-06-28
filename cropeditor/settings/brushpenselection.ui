@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>416</width>
+    <width>449</width>
     <height>367</height>
    </rect>
   </property>
@@ -16,27 +16,24 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3">
+  <layout class="QGridLayout" name="gridLayout_4">
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Pen settings</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <item row="3" column="0" colspan="2">
+       <widget class="QPushButton" name="penColor">
+        <property name="text">
+         <string>Choose pen color</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
          <string>Width</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QSlider" name="widthSlider">
-        <property name="maximum">
-         <number>2500</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
@@ -50,17 +47,20 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="2">
-       <widget class="QPushButton" name="penColor">
-        <property name="text">
-         <string>Choose pen color</string>
+      <item row="1" column="0">
+       <widget class="QSlider" name="widthSlider">
+        <property name="maximum">
+         <number>2500</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="1" column="0" rowspan="2">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Brush settings</string>
@@ -162,7 +162,7 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="3" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
@@ -170,6 +170,92 @@
      <property name="centerButtons">
       <bool>true</bool>
      </property>
+    </widget>
+   </item>
+   <item row="0" column="1" rowspan="3">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Blur settings</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="2" column="0" colspan="2">
+       <widget class="QLabel" name="label_2">
+        <property name="whatsThis">
+         <string>http://doc.qt.io/qt-5/qgraphicsblureffect.html#BlurHint-enum</string>
+        </property>
+        <property name="text">
+         <string>&lt;a href=&quot;http://doc.qt.io/qt-5/qgraphicsblureffect.html#BlurHint-enum&quot;&gt;Blur Hints</string>
+        </property>
+        <property name="openExternalLinks">
+         <bool>true</bool>
+        </property>
+        <property name="textInteractionFlags">
+         <set>Qt::TextBrowserInteraction</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QSlider" name="radSlider">
+        <property name="maximum">
+         <number>3000</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QDoubleSpinBox" name="radSpinner">
+        <property name="suffix">
+         <string>px</string>
+        </property>
+        <property name="maximum">
+         <double>30.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="3">
+       <widget class="QCheckBox" name="performance">
+        <property name="text">
+         <string>Performance Hint</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="3">
+       <widget class="QCheckBox" name="animated">
+        <property name="text">
+         <string>Animated Hint</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" rowspan="2" colspan="3">
+       <widget class="QCheckBox" name="quality">
+        <property name="text">
+         <string>Quality Hint</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0" colspan="3">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="0" colspan="3">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Blur Radius</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

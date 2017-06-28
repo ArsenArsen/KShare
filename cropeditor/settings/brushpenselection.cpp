@@ -5,6 +5,7 @@
 #include <QColorDialog>
 #include <QComboBox>
 #include <QDoubleSpinBox>
+#include <QGraphicsBlurEffect>
 #include <QInputDialog>
 #include <QSlider>
 #include <cropeditor/cropview.hpp>
@@ -12,6 +13,13 @@
 
 BrushPenSelection::BrushPenSelection(CropScene *scene) : QDialog(), ui(new Ui::BrushPenSelection) {
     ui->setupUi(this);
+
+    ui->animated->setChecked(settings::settings().value("blur/animatedHint", false).toBool());
+    ui->performance->setChecked(settings::settings().value("blur/performanceHint", true).toBool());
+    ui->quality->setChecked(settings::settings().value("blur/qualityHint", false).toBool());
+    ui->radSlider->setValue(settings::settings().value("blur/radius", 5.).toDouble() * 100);
+    ui->radSpinner->setValue(settings::settings().value("blur/radius", 5.).toDouble());
+
     ui->cosmetic->setChecked(scene->pen().isCosmetic());
     ui->widthSlider->setValue(scene->pen().width());
     ui->widthSpinner->setValue(scene->pen().widthF());
@@ -41,12 +49,17 @@ void BrushPenSelection::on_buttonBox_accepted() {
     scene->pen().setWidthF(ui->widthSpinner->value());
     scene->brush().setColor(brush);
     scene->brush().setStyle((Qt::BrushStyle)ui->brushStyle->currentIndex());
+
     settings::settings().setValue("penColor", scene->pen().color());
     settings::settings().setValue("penCosmetic", scene->pen().isCosmetic());
     settings::settings().setValue("penWidth", scene->pen().widthF());
     settings::settings().setValue("brushColor", scene->brush().color());
     settings::settings().setValue("brushStyle", (int)scene->brush().style());
     settings::settings().setValue("brushPath", ui->pathItemHasBrush->isChecked());
+    settings::settings().setValue("blur/radius", ui->radSpinner->value());
+    settings::settings().setValue("blur/animatedHint", ui->animated->isChecked());
+    settings::settings().setValue("blur/qualityHint", ui->quality->isChecked());
+    settings::settings().setValue("blur/performanceHint", ui->performance->isChecked());
     close();
 }
 
@@ -60,4 +73,12 @@ void BrushPenSelection::on_widthSlider_sliderMoved(int position) {
 
 void BrushPenSelection::on_widthSpinner_valueChanged(double arg) {
     ui->widthSlider->setValue(arg * 100);
+}
+
+void BrushPenSelection::on_radSpinner_valueChanged(double arg1) {
+    ui->radSlider->setValue(arg1 * 100);
+}
+
+void BrushPenSelection::on_radSlider_sliderMoved(int position) {
+    ui->radSpinner->setValue(position / 100.);
 }
