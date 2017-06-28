@@ -272,8 +272,8 @@ void CropScene::initMagnifierGrid() {
     int pixCnt = settings::settings().value("magnifierPixelCount", 11).toInt();
     if (pixCnt % 2 == 0) pixCnt++;
     for (int i = 0; i < pixCnt; i++) {
-        auto gridRectX = addRect(0, i * 110. / pixCnt, 110, 110. / pixCnt, QPen(Qt::black));
-        auto gridRectY = addRect(i * 110. / pixCnt, 0, 110. / pixCnt, 110, QPen(Qt::black));
+        auto gridRectX = addRect(0, i * 110. / pixCnt, 110, 110. / pixCnt, QPen(Qt::black, 0.5));
+        auto gridRectY = addRect(i * 110. / pixCnt, 0, 110. / pixCnt, 110, QPen(Qt::black, 0.5));
         gridRectX->setParentItem(magnifierBox);
         gridRectY->setParentItem(magnifierBox);
         gridRectX->setZValue(1);
