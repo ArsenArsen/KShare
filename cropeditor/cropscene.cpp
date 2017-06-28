@@ -27,6 +27,7 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
     pen().setCosmetic(settings::settings().value("penCosmetic", pen().isCosmetic()).toBool());
     pen().setWidthF(settings::settings().value("penWidth", pen().widthF()).toFloat());
     brush().setColor(settings::settings().value("brushColor", brush().color()).value<QColor>());
+    brush().setStyle((Qt::BrushStyle)settings::settings().value("brushStyle", (int)Qt::SolidPattern).toInt());
 
     addDrawingAction(menu, "Dot", [] { return new DotItem; });
     addDrawingAction(menu, "Path", [] { return new PathItem; });
@@ -145,6 +146,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
                 QPen pen(Qt::NoBrush, 1);
                 pen.setColor(Qt::cyan);
                 rect->setPen(pen);
+                rect->setZValue(-0.1);
                 addItem(rect);
             } else {
                 if (prevButtons == Qt::NoButton) {

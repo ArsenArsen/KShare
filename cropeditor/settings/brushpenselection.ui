@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>262</height>
+    <width>416</width>
+    <height>367</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -16,69 +16,153 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="6" column="0" colspan="2">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Pen settings</string>
      </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::MinimumExpanding</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>5</width>
-       <height>5</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="0" colspan="3">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Width</string>
-     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Width</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QSlider" name="widthSlider">
+        <property name="maximum">
+         <number>2500</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="widthSpinner"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="cosmetic">
+        <property name="text">
+         <string>Cosmetic</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QPushButton" name="penColor">
+        <property name="text">
+         <string>Choose pen color</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QPushButton" name="penColor">
-     <property name="text">
-      <string>Choose pen color</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QSlider" name="widthSlider">
-     <property name="maximum">
-      <number>2500</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0" colspan="3">
-    <widget class="QPushButton" name="brushColor">
-     <property name="text">
-      <string>Choose brush color</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="3">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
       <string>Brush settings</string>
      </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QPushButton" name="brushColor">
+        <property name="text">
+         <string>Choose brush color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QComboBox" name="brushStyle">
+        <item>
+         <property name="text">
+          <string>No Brush</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Solid</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dense 1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dense 2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dense 3</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dense 4</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dense 5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dense 6</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dense 7</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Horizontal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Vertical</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Cross pattern</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Backwards diagonal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Forwards diagonal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Diagonal cross</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="pathItemHasBrush">
+        <property name="text">
+         <string>Path item has brush</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QCheckBox" name="cosmetic">
-     <property name="text">
-      <string>Cosmetic</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0" colspan="3">
+   <item row="2" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
@@ -87,16 +171,6 @@
       <bool>true</bool>
      </property>
     </widget>
-   </item>
-   <item row="0" column="0" colspan="3">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Pen settings</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QDoubleSpinBox" name="widthSpinner"/>
    </item>
   </layout>
  </widget>
