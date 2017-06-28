@@ -25,9 +25,14 @@ BrushPenSelection::BrushPenSelection(CropScene *scene) : QDialog(), ui(new Ui::B
     ui->widthSpinner->setValue(scene->pen().widthF());
     ui->brushStyle->setCurrentIndex(settings::settings().value("brushStyle", 1).toInt());
     ui->pathItemHasBrush->setChecked(settings::settings().value("brushPath", false).toBool());
+
     this->setFocus();
     pen = scene->pen().color();
+    ui->penAlphaSlider->setValue(pen.alpha());
+    ui->penAlphaSpin->setValue(pen.alpha());
     brush = scene->brush().color();
+    ui->alphaSlider->setValue(brush.alpha());
+    ui->alphaSpin->setValue(brush.alpha());
     this->scene = scene;
 }
 
@@ -37,10 +42,12 @@ BrushPenSelection::~BrushPenSelection() {
 
 void BrushPenSelection::on_penColor_clicked(bool) {
     pen = QColorDialog::getColor(pen, this, "Pen Color");
+    pen.setAlpha(ui->penAlphaSpin->value());
 }
 
 void BrushPenSelection::on_brushColor_clicked(bool) {
     brush = QColorDialog::getColor(brush, this, "Brush Color");
+    brush.setAlpha(ui->alphaSpin->value());
 }
 
 void BrushPenSelection::on_buttonBox_accepted() {
@@ -81,4 +88,12 @@ void BrushPenSelection::on_radSpinner_valueChanged(double arg1) {
 
 void BrushPenSelection::on_radSlider_sliderMoved(int position) {
     ui->radSpinner->setValue(position / 100.);
+}
+
+void BrushPenSelection::on_alphaSpin_valueChanged(int arg1) {
+    brush.setAlpha(arg1);
+}
+
+void BrushPenSelection::on_penAlphaSpin_valueChanged(int arg1) {
+    pen.setAlpha(arg1);
 }

@@ -191,6 +191,16 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
     prevButtons = Qt::NoButton;
 }
 
+void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
+    if (e->modifiers() & Qt::AltModifier) {
+        QTransform stupidThing = views()[0]->transform();
+        auto item = itemAt(e->screenPos(), stupidThing);
+        if (item && item != polyItem && item != rect && item->zValue() != -1) {
+            removeItem(item);
+        }
+    }
+}
+
 void CropScene::wheelEvent(QGraphicsSceneWheelEvent *event) {
     int pixCnt = settings::settings().value("magnifierPixelCount", 11).toInt();
     if (pixCnt % 2 == 0) pixCnt++;

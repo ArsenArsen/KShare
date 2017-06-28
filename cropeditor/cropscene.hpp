@@ -41,6 +41,7 @@ signals:
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *e) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *e) override;
     void wheelEvent(QGraphicsSceneWheelEvent *event) override; // WHEEEEEEL
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *e) override;
 

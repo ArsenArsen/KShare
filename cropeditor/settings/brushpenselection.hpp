@@ -15,7 +15,8 @@ public:
     explicit BrushPenSelection(CropScene *scene);
     ~BrushPenSelection();
 
-public slots:
+private slots:
+    void on_alphaSpin_valueChanged(int arg1);
     void on_radSlider_sliderMoved(int position);
     void on_radSpinner_valueChanged(double arg1);
     void on_penColor_clicked(bool);
@@ -24,6 +25,7 @@ public slots:
     void on_buttonBox_rejected();
     void on_widthSlider_sliderMoved(int position);
     void on_widthSpinner_valueChanged(double arg1);
+    void on_penAlphaSpin_valueChanged(int arg1);
 
 private:
     Ui::BrushPenSelection *ui;

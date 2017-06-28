@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>449</width>
-    <height>367</height>
+    <height>489</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -23,10 +23,27 @@
       <string>Pen settings</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="3" column="0" colspan="2">
+      <item row="1" column="0">
+       <widget class="QSlider" name="widthSlider">
+        <property name="maximum">
+         <number>2500</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
        <widget class="QPushButton" name="penColor">
         <property name="text">
          <string>Choose pen color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="cosmetic">
+        <property name="text">
+         <string>Cosmetic</string>
         </property>
        </widget>
       </item>
@@ -37,23 +54,30 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="widthSpinner"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QCheckBox" name="cosmetic">
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>Cosmetic</string>
+         <string>Pen alpha</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QSlider" name="widthSlider">
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="widthSpinner"/>
+      </item>
+      <item row="6" column="0">
+       <widget class="QSlider" name="penAlphaSlider">
         <property name="maximum">
-         <number>2500</number>
+         <number>255</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QSpinBox" name="penAlphaSpin">
+        <property name="maximum">
+         <number>255</number>
         </property>
        </widget>
       </item>
@@ -66,14 +90,7 @@
       <string>Brush settings</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QPushButton" name="brushColor">
-        <property name="text">
-         <string>Choose brush color</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
+      <item row="3" column="0" colspan="2">
        <widget class="QComboBox" name="brushStyle">
         <item>
          <property name="text">
@@ -152,10 +169,41 @@
         </item>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="4" column="0" colspan="2">
        <widget class="QCheckBox" name="pathItemHasBrush">
         <property name="text">
          <string>Path item has brush</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="alphaSpin">
+        <property name="maximum">
+         <number>255</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QSlider" name="alphaSlider">
+        <property name="maximum">
+         <number>255</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QPushButton" name="brushColor">
+        <property name="text">
+         <string>Choose brush color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Brush alpha</string>
         </property>
        </widget>
       </item>
@@ -261,5 +309,70 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>alphaSlider</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>alphaSpin</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>91</x>
+     <y>292</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>196</x>
+     <y>292</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>alphaSpin</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>alphaSlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>196</x>
+     <y>292</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>91</x>
+     <y>292</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>penAlphaSpin</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>penAlphaSlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>191</x>
+     <y>211</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>86</x>
+     <y>211</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>penAlphaSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>penAlphaSpin</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>86</x>
+     <y>211</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>191</x>
+     <y>211</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
