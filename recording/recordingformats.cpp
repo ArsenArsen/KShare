@@ -31,7 +31,7 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
     path = tmpDir.absoluteFilePath("res." + formats::recordingFormatName(f).toLower());
     finalizer = [&] {
         delete enc;
-        if (interrupt) {
+        if (interrupt || !frameAdded) {
             tmpDir.removeRecursively();
             return QByteArray();
         }
@@ -66,6 +66,7 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
     };
     consumer = [&](QImage img) {
         if (!interrupt) try {
+                frameAdded = true;
                 enc->addFrame(img);
             } catch (std::runtime_error e) {
                 //                notifications::notify("KShare Video Encoder Error", e.what(),

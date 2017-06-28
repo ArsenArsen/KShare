@@ -31,6 +31,7 @@ private:
     QString path;
     Encoder *enc = NULL;
     bool interrupt = false;
+    bool frameAdded = false;
     QString anotherFormat;
 };
 

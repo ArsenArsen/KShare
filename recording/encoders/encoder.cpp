@@ -145,6 +145,7 @@ bool Encoder::end() {
     if (!success) {
         goto cleanup;
     }
+    avcodec_send_frame(out->enc, NULL);
     int ret;
     AVPacket pkt;
     pkt.size = 0;
