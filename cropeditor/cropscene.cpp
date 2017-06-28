@@ -21,7 +21,7 @@
 
 CropScene::CropScene(QObject *parent, QPixmap *pixmap)
 : QGraphicsScene(parent), drawingSelectionMaker([] { return nullptr; }), prevButtons(Qt::NoButton),
-  _font(settings::settings().value("font", QFont()).value<QFont>()) {
+  _brush(Qt::SolidPattern), _font(settings::settings().value("font", QFont()).value<QFont>()) {
     _pixmap = pixmap;
     pen().setColor(settings::settings().value("penColor", pen().color()).value<QColor>());
     pen().setCosmetic(settings::settings().value("penCosmetic", pen().isCosmetic()).toBool());
