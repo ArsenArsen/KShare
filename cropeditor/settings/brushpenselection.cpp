@@ -33,6 +33,8 @@ BrushPenSelection::BrushPenSelection(CropScene *scene) : QDialog(), ui(new Ui::B
     brush = scene->brush().color();
     ui->alphaSlider->setValue(brush.alpha());
     ui->alphaSpin->setValue(brush.alpha());
+
+    setWindowTitle("Crop editor settings");
     this->scene = scene;
 }
 
