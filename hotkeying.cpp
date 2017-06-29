@@ -5,18 +5,21 @@
 #include <settings.hpp>
 
 QMap<QString, QHotkey *> hotkeys;
-QList<QString> regNames;
 
 // func gets bound only on first set, or load
 void hotkeying::hotkey(QString seqName, QKeySequence seq, std::function<void()> func) {
+    QHotkey *hotkey;
     if (hotkeys.contains(seqName))
-        hotkeys.value(seqName)->setShortcut(seq, true);
+        (hotkey = hotkeys.value(seqName))->setShortcut(seq, true);
     else {
-        QHotkey *hotkey = new QHotkey(seq, true);
+        hotkey = new QHotkey(seq, true);
         QObject::connect(hotkey, &QHotkey::activated, func);
         hotkeys.insert(seqName, hotkey);
     }
     settings::settings().setValue(seqName.prepend("hotkey_"), seq.toString());
+    if (!hotkey->isRegistered() && !seq.toString().isEmpty())
+        qWarning().noquote().nospace()
+        << "Could not bind the hotkey " << seqName << "! Is the keybind already registered?";
 }
 
 // forces the hotkey from settings
@@ -31,6 +34,9 @@ void hotkeying::load(QString seqName, std::function<void()> func, QString def) {
         h = new QHotkey(def.isNull() ? "" : def, true);
     QObject::connect(h, &QHotkey::activated, func);
     hotkeys.insert(seqName, h);
+    if (!h->isRegistered() && (settings::settings().contains(name) || !def.isEmpty()))
+        qWarning().noquote().nospace()
+        << "Could not bind the hotkey " << seqName << "! Is the keybind already registered?";
 }
 
 bool hotkeying::valid(QString seq) {
