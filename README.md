@@ -5,7 +5,7 @@ A [ShareX](https://getsharex.com/) inspired cross platform utility written with 
 |:---:|:-----:|:--:|
 |[![Build Status](https://nativeci.arsenarsen.com/job/KShare/badge/icon)](https://nativeci.arsenarsen.com/job/KShare)| [![Build Status](https://nativeci.arsenarsen.com/job/KShare%20Windows%20x86_64/badge/icon)](https://nativeci.arsenarsen.com/job/KShare%20Windows%20x86_64/)| Soon |
 ## Screenshot
-Made with KShare itself, of course :)  
+Made with KShare itself, of course :)
 ![](http://i.imgur.com/ffWvCun.png)
 
 ## Usage
@@ -15,7 +15,7 @@ See the [wiki](https://github.com/ArsenArsen/KShare/wiki).
 * Qt 5 Widgets
 * Qt 5 GUI
 * Qt 5 Network
-* Qt 5 X11Extras | Winextras 
+* Qt 5 X11Extras | Winextras
 * [QHotkey](https://github.com/Skycoder42/QHotkey)
 * libavformat
 * libavcodec
@@ -35,7 +35,7 @@ See the [projects](https://github.com/ArsenArsen/KShare/projects)
 |Arch Linux |[kshare](https://aur.archlinux.org/packages/kshare-git/)|
 |Ubuntu |[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare%20Stable/lastSuccessfulBuild/artifact/packages/simpleName.deb	)|
 
-I do plan to make a Debian ~~and Ubuntu (see below)~~ packages.
+I do plan to make a Debian packages.
 
 For other UNIX-like platforms, and MSYS2 (for Windows):
 
@@ -46,5 +46,8 @@ cd KShare
 qmake // Might be qmake-qt5 on your system
 make
 ```
+
+On systems with FFMpeg pre-3.1 you need to apply `OlderSystemFix.patch` to `recording/encoders/encoder.cpp`.
+On systems with Qt pre-5.7 you need to install the Qt version from their website.
 
 ###### Started on 19th of April 2017 to bring some attention and improvement to Linux screenshotting.

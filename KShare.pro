@@ -137,7 +137,8 @@ FORMS    += mainwindow.ui \
 
 DISTFILES += \
     README.md \
-    LICENSE
+    LICENSE \
+    OlderSystemFix.patch
 
 RESOURCES += \
     icon.qrc

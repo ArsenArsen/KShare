@@ -1,0 +1,94 @@
+diff --git a/recording/encoders/encoder.cpp b/recording/encoders/encoder.cpp
+index 481ba40..c04d32b 100644
+--- a/recording/encoders/encoder.cpp
++++ b/recording/encoders/encoder.cpp
+@@ -64,8 +64,8 @@ Encoder::Encoder(QString &targetFile, QSize res, CodecSettings *settings) {
+     if (ret < 0) throwAVErr(ret, "codec open");
+     if (codec->capabilities & AV_CODEC_CAP_DR1) avcodec_align_dimensions(out->enc, &out->enc->width, &out->enc->height);
+
+-    ret = avcodec_parameters_from_context(out->st->codecpar, out->enc);
+-    if (ret < 0) throwAVErr(ret, "stream opt copy");
++    //    ret = avcodec_parameters_from_context(out->st->codecpar, out->enc);
++    //    if (ret < 0) throwAVErr(ret, "stream opt copy");
+
+     // Frames
+     out->frame = av_frame_alloc();
+@@ -111,25 +111,28 @@ bool Encoder::addFrame(QImage frm) {
+     pkt.size = 0;
+     pkt.data = NULL;
+     av_init_packet(&pkt);
+-    int ret = avcodec_send_frame(out->enc, out->frame);
+-    if (ret == AVERROR(EAGAIN)) {
+-        do {
+-            ret = avcodec_receive_packet(out->enc, &pkt);
+-            if (ret < 0) {
+-                if (ret != AVERROR(EAGAIN))
+-                    throwAVErr(ret, "receive packet");
+-                else
+-                    break;
+-            }
+-            av_packet_rescale_ts(&pkt, out->enc->time_base, out->st->time_base);
+-            pkt.stream_index = out->st->index;
+-            ret = av_interleaved_write_frame(fc, &pkt);
+-        } while (ret >= 0);
+-        if (ret < 0 && ret != AVERROR(EAGAIN)) {
+-            av_packet_unref(&pkt);
+-            throwAVErr(ret, "send frame");
+-        }
+-    }
++    int gotPack;
++    int ret = avcodec_encode_video2(out->enc, &pkt, NULL, &gotPack);
++    if (gotPack) av_interleaved_write_frame(fc, &pkt);
++    //    int ret = avcodec_send_frame(out->enc, out->frame);
++    //    if (ret == AVERROR(EAGAIN)) {
++    //        do {
++    //            ret = avcodec_receive_packet(out->enc, &pkt);
++    //            if (ret < 0) {
++    //                if (ret != AVERROR(EAGAIN))
++    //                    throwAVErr(ret, "receive packet");
++    //                else
++    //                    break;
++    //            }
++    //            av_packet_rescale_ts(&pkt, out->enc->time_base, out->st->time_base);
++    //            pkt.stream_index = out->st->index;
++    //            ret = av_interleaved_write_frame(fc, &pkt);
++    //        } while (ret >= 0);
++    //        if (ret < 0 && ret != AVERROR(EAGAIN)) {
++    //            av_packet_unref(&pkt);
++    //            throwAVErr(ret, "send frame");
++    //        }
++    //    }
+     av_packet_unref(&pkt);
+     if (ret < 0 && ret != AVERROR(EAGAIN)) throwAVErr(ret, "send frame");
+     return true;
+@@ -145,19 +148,21 @@ bool Encoder::end() {
+     if (!success) {
+         goto cleanup;
+     }
+-    avcodec_send_frame(out->enc, NULL);
+-    int ret;
++    // avcodec_send_frame(out->enc, NULL);
+     AVPacket pkt;
+     pkt.size = 0;
+     pkt.data = NULL;
+     av_init_packet(&pkt);
+-    do {
+-        ret = avcodec_receive_packet(out->enc, &pkt);
+-        if (ret < 0) break;
+-        av_packet_rescale_ts(&pkt, out->enc->time_base, out->st->time_base);
+-        pkt.stream_index = out->st->index;
+-        av_interleaved_write_frame(fc, &pkt);
+-    } while (ret >= 0);
++    int gotPack;
++    avcodec_encode_video2(out->enc, &pkt, NULL, &gotPack);
++    if (gotPack) av_interleaved_write_frame(fc, &pkt);
++    //    do {
++    //        ret = avcodec_receive_packet(out->enc, &pkt);
++    //        if (ret < 0) break;
++    //        av_packet_rescale_ts(&pkt, out->enc->time_base, out->st->time_base);
++    //        pkt.stream_index = out->st->index;
++    //        av_interleaved_write_frame(fc, &pkt);
++    //    } while (ret >= 0);
+     av_write_trailer(fc);
+ cleanup:
+     avcodec_free_context(&out->enc);
