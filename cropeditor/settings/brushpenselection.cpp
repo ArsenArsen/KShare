@@ -26,6 +26,9 @@ BrushPenSelection::BrushPenSelection(CropScene *scene) : QDialog(), ui(new Ui::B
     ui->brushStyle->setCurrentIndex(settings::settings().value("brushStyle", 1).toInt());
     ui->pathItemHasBrush->setChecked(settings::settings().value("brushPath", false).toBool());
 
+    ui->arroww->setValue(settings::settings().value("arrow/width", 20).toDouble());
+    ui->arrowh->setValue(settings::settings().value("arrow/height", 10).toDouble());
+
     this->setFocus();
     pen = scene->pen().color();
     ui->penAlphaSlider->setValue(pen.alpha());
@@ -69,6 +72,8 @@ void BrushPenSelection::on_buttonBox_accepted() {
     settings::settings().setValue("blur/animatedHint", ui->animated->isChecked());
     settings::settings().setValue("blur/qualityHint", ui->quality->isChecked());
     settings::settings().setValue("blur/performanceHint", ui->performance->isChecked());
+    settings::settings().setValue("arrow/width", ui->arroww->value());
+    settings::settings().setValue("arrow/height", ui->arrowh->value());
     close();
 }
 

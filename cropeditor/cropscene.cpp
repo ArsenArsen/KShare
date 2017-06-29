@@ -7,6 +7,7 @@
 #include <QGraphicsView>
 #include <QMenu>
 #include <QTimer>
+#include <cropeditor/drawing/arrowitem.hpp>
 #include <cropeditor/drawing/bluritem.hpp>
 #include <cropeditor/drawing/dotitem.hpp>
 #include <cropeditor/drawing/ellipseitem.hpp>
@@ -36,6 +37,7 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
     addDrawingAction(menu, "Text", [] { return new TextItem; });
     addDrawingAction(menu, "Rectangle", [] { return new RectItem; });
     addDrawingAction(menu, "Ellipse", [] { return new EllipseItem; });
+    addDrawingAction(menu, "Arrow", [] { return new ArrowItem; });
 
     menu.addSeparator();
     addDrawingAction(menu, "Eraser", [] { return new EraserItem; });

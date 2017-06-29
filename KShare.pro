@@ -62,7 +62,8 @@ SOURCES += main.cpp\
     cropeditor/drawing/eraseritem.cpp \
     cropeditor/drawing/rectitem.cpp \
     cropeditor/drawing/ellipseitem.cpp \
-    hotkeyinputdialog.cpp
+    hotkeyinputdialog.cpp \
+    cropeditor/drawing/arrowitem.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -103,7 +104,8 @@ HEADERS  += mainwindow.hpp \
     cropeditor/drawing/eraseritem.hpp \
     cropeditor/drawing/rectitem.hpp \
     cropeditor/drawing/ellipseitem.hpp \
-    hotkeyinputdialog.hpp
+    hotkeyinputdialog.hpp \
+    cropeditor/drawing/arrowitem.hpp
 
 LIBS += -lavcodec -lavformat -lavutil -lswscale -lavutil
 
