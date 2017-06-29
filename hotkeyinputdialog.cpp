@@ -11,7 +11,7 @@ HotkeyInputDialog::HotkeyInputDialog(QString hotkeyName, QKeySequence currentSeq
     setWindowTitle(hotkeyName);
     connect(this, &QDialog::accepted, [&] {
         QKeySequence s(ui->keySeq->text());
-        if (!s.toString().isEmpty()) emit sequenceSelected(s, windowTitle());
+        if (ui->keySeq->text().isEmpty() || !s.toString().isEmpty()) emit sequenceSelected(s, windowTitle());
     });
 }
 
