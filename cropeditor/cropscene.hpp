@@ -31,6 +31,9 @@ public:
     QGraphicsRectItem *selRect() {
         return rect;
     }
+    void hide();
+    void show();
+    void setVisible(bool visible);
 
 public slots:
     void fontAsk();
@@ -52,6 +55,7 @@ private:
     void initMagnifierGrid();
     void addDrawingAction(QMenu &menu, QString name, std::function<DrawItem *()> item);
     void done();
+    bool fullscreen;
     std::function<DrawItem *()> drawingSelectionMaker;
     QFlags<Qt::MouseButton> prevButtons;
     QPixmap *_pixmap;

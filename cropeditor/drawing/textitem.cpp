@@ -2,9 +2,11 @@
 #include <QInputDialog>
 #include <QtMath>
 
-bool TextItem::init(CropScene *) {
+bool TextItem::init(CropScene *s) {
     bool ok;
+    s->hide();
     text = QInputDialog::getText(nullptr, "Text to add", "Input", QLineEdit::Normal, QString(), &ok);
+    s->show();
     return ok;
 }
 

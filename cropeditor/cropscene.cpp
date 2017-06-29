@@ -58,7 +58,11 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
     menu.addSeparator();
     display = menu.addAction(drawingName);
     display->setDisabled(true);
-    connect(settings, &QAction::triggered, [&] { BrushPenSelection(this).exec(); });
+    connect(settings, &QAction::triggered, [&] {
+        hide();
+        BrushPenSelection(this).exec();
+        show();
+    });
     menu.addAction(settings);
 
     magnifier = addPixmap(pixmap->copy(0, 0, 11, 11).scaled(110, 110));
@@ -118,10 +122,28 @@ void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> dr
         if (!drawingSelection->init(this)) setDrawingSelection("None", [] { return nullptr; });
 }
 
+void CropScene::hide() {
+    setVisible(false);
+}
+
+void CropScene::show() {
+    setVisible(true);
+}
+
+void CropScene::setVisible(bool visible) {
+    for (auto view : views()) {
+        if (view->isVisible()) fullscreen |= view->isFullScreen();
+        view->setVisible(visible);
+        if (visible && fullscreen) view->showFullScreen();
+    }
+}
+
 void CropScene::fontAsk() {
+    hide();
     bool ok = false;
     QFont font = QFontDialog::getFont(&ok, this->font(), nullptr, "Font to use");
     if (ok) _font = font;
+    show();
 }
 
 void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {

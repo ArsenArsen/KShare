@@ -7,7 +7,7 @@
 class TextItem : public DrawItem {
 public:
     QString name() override;
-    bool init(CropScene *) override;
+    bool init(CropScene *s) override;
     void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) override;
     void mouseDragEndEvent(QGraphicsSceneMouseEvent *, CropScene *) override;
 
