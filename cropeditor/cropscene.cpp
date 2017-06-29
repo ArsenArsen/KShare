@@ -128,7 +128,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
     auto buttons = e->buttons();
     if (e->modifiers() & Qt::ControlModifier && buttons == Qt::LeftButton) {
         QTransform stupidThing = views()[0]->transform();
-        auto item = itemAt(e->screenPos(), stupidThing);
+        auto item = itemAt(e->scenePos(), stupidThing);
         if (item && item != polyItem && item != rect && item->zValue() != -1) {
             QPointF delta = e->scenePos() - e->lastScenePos();
             item->moveBy(delta.x(), delta.y());
@@ -194,7 +194,7 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
 void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
     if (e->modifiers() & Qt::AltModifier) {
         QTransform stupidThing = views()[0]->transform();
-        auto item = itemAt(e->screenPos(), stupidThing);
+        auto item = itemAt(e->scenePos(), stupidThing);
         if (item && item != polyItem && item != rect && item->zValue() != -1) {
             removeItem(item);
         }
