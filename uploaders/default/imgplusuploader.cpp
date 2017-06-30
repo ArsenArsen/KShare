@@ -6,6 +6,7 @@
 #include <QInputDialog>
 #include <formats.hpp>
 #include <io/ioutils.hpp>
+#include <notifications.hpp>
 #include <settings.hpp>
 
 void ImgplusUploader::doUpload(QByteArray byteArray, QString format) {
