@@ -8,7 +8,6 @@
 #include <formats.hpp>
 #include <io/ioutils.hpp>
 #include <notifications.hpp>
-#include <printf.h>
 #include <screenshotutil.hpp>
 #include <settings.hpp>
 
