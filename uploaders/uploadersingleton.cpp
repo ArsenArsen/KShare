@@ -29,7 +29,7 @@ UploaderSingleton::UploaderSingleton()
     for (QString file : configDir.entryList()) {
         try {
             registerUploader(new CustomUploader(configDir.absoluteFilePath(file)));
-        } catch (std::runtime_error e) {
+        } catch (std::runtime_error &e) {
             qWarning() << e.what();
             errs << e;
         }
@@ -45,21 +45,25 @@ UploaderSingleton::UploaderSingleton()
     else
         settings::settings().setValue("uploader", uploader);
     if (!uploaders.contains(uploader)) {
-        settings::settings().setValue("uploader", uploader);
         uploader = "imgur";
+        settings::settings().setValue("uploader", uploader);
     }
 }
 
 void UploaderSingleton::registerUploader(Uploader *uploader) {
-    if (uploaders.contains(uploader->name())) {
+    if (uploaders.contains(uploader->name()))
         throw std::runtime_error(("Ambigious uploader " + uploader->name()).toStdString());
-    }
     uploaders.insert(uploader->name(), uploader);
     emit newUploader(uploader);
 }
 
 void UploaderSingleton::upload(QPixmap *pixmap) {
     auto u = uploaders.value(uploader);
+    if (!u->validate()) {
+        u = uploaders.value("imgur");
+        set("imgur");
+        qWarning() << "Currently selected uploader is not set up properly! Falling back to imgur";
+    }
     QString format = settings::settings().value("captureformat", "PNG").toString();
     QFile file(saveDir.absoluteFilePath(
     formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH:mm:ss)date.%ext").toString(),
@@ -91,6 +95,14 @@ void UploaderSingleton::upload(QFile img, QString format) {
     }
 }
 
+void UploaderSingleton::showSettings() {
+    uploaders.value(uploader)->showSettings();
+}
+
+bool UploaderSingleton::validate() {
+    return uploaders.value(uploader)->validate();
+}
+
 QList<Uploader *> UploaderSingleton::uploaderList() {
     return uploaders.values();
 }
@@ -99,6 +111,7 @@ void UploaderSingleton::set(QString uploader) {
     if (uploaders.contains(uploader)) {
         this->uploader = uploader;
         settings::settings().setValue("uploader", uploader);
+        emit uploaderChanged(uploader);
     }
 }
 

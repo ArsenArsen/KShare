@@ -35,11 +35,12 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
     ui->uploaderList->setSelectionMode(QAbstractItemView::SingleSelection);
 
     // Add items to uploader selection
+    connect(&UploaderSingleton::inst(), &UploaderSingleton::newUploader, this, &SettingsDialog::newUploader);
+    connect(&UploaderSingleton::inst(), &UploaderSingleton::uploaderChanged, this, &SettingsDialog::uploaderChanged);
     for (Uploader *u : UploaderSingleton::inst().uploaderList()) newUploader(u);
 
     // Set filename scheme
     setScheme(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH:mm:ss)date.ext").toString());
-
 
     // Set delay
     if ((settings::settings().contains("delay")))
@@ -93,11 +94,17 @@ void SettingsDialog::newUploader(Uploader *u) {
     if (UploaderSingleton::inst().currentUploader() == u->name()) ui->uploaderList->setCurrentItem(uploader);
 }
 
+void SettingsDialog::uploaderChanged(QString newName) {
+    for (auto item : ui->uploaderList->findItems(newName, Qt::MatchCaseSensitive))
+        ui->uploaderList->setCurrentItem(item);
+}
+
 void SettingsDialog::on_uploaderList_clicked(const QModelIndex &) {
-    QList<QListWidgetItem *> index = ui->uploaderList->selectedItems();
-    if (index.size() == 1) {
-        UploaderSingleton::inst().set(index.at(0)->text());
-    }
+    UploaderSingleton::inst().set(ui->uploaderList->currentItem()->text());
+}
+
+void SettingsDialog::on_uploaderList_doubleClicked(const QModelIndex &) {
+    UploaderSingleton::inst().showSettings();
 }
 
 void SettingsDialog::on_nameScheme_textChanged(const QString &arg1) {
@@ -109,14 +116,12 @@ void SettingsDialog::on_delay_valueChanged(double arg1) {
 }
 
 void SettingsDialog::on_hotkeys_doubleClicked(const QModelIndex &) {
-    if (ui->hotkeys->selectedItems().length() == 1) {
-        QListWidgetItem *i = ui->hotkeys->selectedItems().at(0);
-        QString str = i->data(Qt::UserRole + 1).toString();
-        HotkeyInputDialog *hotkey = new HotkeyInputDialog(str, hotkeying::sequence(str), this);
-        connect(hotkey, &HotkeyInputDialog::sequenceSelected,
-                [&](QKeySequence seq, QString name) { hotkeying::hotkey(name, seq, fncs.value(name)); });
-        hotkey->show();
-    }
+    QListWidgetItem *i = ui->hotkeys->currentItem();
+    QString str = i->data(Qt::UserRole + 1).toString();
+    HotkeyInputDialog *hotkey = new HotkeyInputDialog(str, hotkeying::sequence(str), this);
+    connect(hotkey, &HotkeyInputDialog::sequenceSelected,
+            [&](QKeySequence seq, QString name) { hotkeying::hotkey(name, seq, fncs.value(name)); });
+    hotkey->show();
 }
 
 void SettingsDialog::on_settingsButton_clicked() {

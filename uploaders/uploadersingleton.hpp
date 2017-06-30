@@ -16,14 +16,17 @@ public:
     void upload(QPixmap *pixmap);
     void upload(QByteArray img, QString format);
     void upload(QFile img, QString format);
+    void showSettings();
     QList<Uploader *> uploaderList();
     void set(QString uploader);
     QString selectedUploader();
     QList<std::runtime_error> errors();
     QString currentUploader();
+    bool validate();
 
 signals:
     void newUploader(Uploader *u);
+    void uploaderChanged(QString newName);
 
 private:
     QDir saveDir;

@@ -16,12 +16,12 @@ public:
     explicit SettingsDialog(QWidget *parent = 0);
     ~SettingsDialog();
     void setScheme(QString scheme);
-    void newUploader(Uploader *u);
 
 public slots:
     void on_uploaderList_clicked(const QModelIndex &);
+    void on_uploaderList_doubleClicked(const QModelIndex &);
     void on_delay_valueChanged(double arg1);
-    void on_hotkeys_doubleClicked(const QModelIndex &index);
+    void on_hotkeys_doubleClicked(const QModelIndex &i);
     void on_settingsButton_clicked();
     void on_quickMode_clicked(bool checked);
     void on_hideToTray_clicked(bool checked);
@@ -30,6 +30,8 @@ public slots:
     void on_imageFormatBox_currentIndexChanged(int index);
     void on_pushButton_clicked();
     void on_nameScheme_textChanged(const QString &arg1);
+    void newUploader(Uploader *u);
+    void uploaderChanged(QString newName);
 
 private:
     Ui::SettingsDialog *ui;

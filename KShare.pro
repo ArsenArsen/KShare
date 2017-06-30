@@ -63,7 +63,8 @@ SOURCES += main.cpp\
     cropeditor/drawing/rectitem.cpp \
     cropeditor/drawing/ellipseitem.cpp \
     hotkeyinputdialog.cpp \
-    cropeditor/drawing/arrowitem.cpp
+    cropeditor/drawing/arrowitem.cpp \
+    uploaders/default/imgursettingsdialog.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -105,7 +106,8 @@ HEADERS  += mainwindow.hpp \
     cropeditor/drawing/rectitem.hpp \
     cropeditor/drawing/ellipseitem.hpp \
     hotkeyinputdialog.hpp \
-    cropeditor/drawing/arrowitem.hpp
+    cropeditor/drawing/arrowitem.hpp \
+    uploaders/default/imgursettingsdialog.hpp
 
 LIBS += -lavcodec -lavformat -lavutil -lswscale -lavutil
 
@@ -133,7 +135,8 @@ FORMS    += mainwindow.ui \
     recording/encoders/encodersettingsdialog.ui \
     settingsdialog.ui \
     aboutbox.ui \
-    hotkeyinputdialog.ui
+    hotkeyinputdialog.ui \
+    uploaders/default/imgursettingsdialog.ui
 
 DISTFILES += \
     README.md \
