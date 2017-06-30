@@ -11,6 +11,7 @@
 #include <formatter.hpp>
 #include <notifications.hpp>
 #include <settings.hpp>
+#include <uploaders/default/imgplusuploader.hpp>
 
 UploaderSingleton::UploaderSingleton()
 : QObject(), saveDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
@@ -37,6 +38,7 @@ UploaderSingleton::UploaderSingleton()
 
     // UPLOADERS
     registerUploader(new ImgurUploader);
+    registerUploader(new ImgplusUploader);
     registerUploader(new ClipboardUploader);
     // ---------
 

@@ -64,7 +64,8 @@ SOURCES += main.cpp\
     cropeditor/drawing/ellipseitem.cpp \
     hotkeyinputdialog.cpp \
     cropeditor/drawing/arrowitem.cpp \
-    uploaders/default/imgursettingsdialog.cpp
+    uploaders/default/imgursettingsdialog.cpp \
+    uploaders/default/imgplusuploader.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -107,7 +108,8 @@ HEADERS  += mainwindow.hpp \
     cropeditor/drawing/ellipseitem.hpp \
     hotkeyinputdialog.hpp \
     cropeditor/drawing/arrowitem.hpp \
-    uploaders/default/imgursettingsdialog.hpp
+    uploaders/default/imgursettingsdialog.hpp \
+    uploaders/default/imgplusuploader.hpp
 
 LIBS += -lavcodec -lavformat -lavutil -lswscale -lavutil
 
