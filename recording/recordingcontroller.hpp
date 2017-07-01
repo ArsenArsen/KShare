@@ -16,13 +16,13 @@ struct RecordingContext {
     QImage::Format format;
     std::function<void(QImage)> consumer;
     std::function<bool(QSize)> validator;
-    std::function<QByteArray()> finalizer;
+    std::function<QString()> finalizer;
     std::function<void()> postUploadTask;
     QString anotherFormat;
 };
 
 struct _QueueContext {
-    QByteArray arr;
+    QString file;
     QString format;
     std::function<void()> postUploadTask;
 };

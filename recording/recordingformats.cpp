@@ -33,15 +33,9 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
         delete enc;
         if (interrupt || !frameAdded) {
             tmpDir.removeRecursively();
-            return QByteArray();
+            return QString();
         }
-        QFile res(path);
-        if (!res.open(QFile::ReadOnly)) {
-            qCritical().noquote() << "Could not open resulting file: " << res.errorString();
-            return QByteArray();
-        }
-        QByteArray data = res.readAll();
-        return data;
+        return QFile(path).size() > 0 ? path : QString();
     };
     validator = [&](QSize s) {
         if (!enc) {
@@ -86,7 +80,7 @@ std::function<void(QImage)> RecordingFormats::getConsumer() {
     return consumer;
 }
 
-std::function<QByteArray()> RecordingFormats::getFinalizer() {
+std::function<QString()> RecordingFormats::getFinalizer() {
     return finalizer;
 }
 

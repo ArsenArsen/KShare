@@ -90,11 +90,16 @@ void UploaderSingleton::upload(QByteArray img, QString format) {
     uploaders.value(uploader)->doUpload(img, format);
 }
 
-void UploaderSingleton::upload(QFile img, QString format) {
-    if (img.open(QIODevice::ReadOnly)) {
-        uploaders.value(uploader)->doUpload(img.readAll(), format);
-        img.close();
-    }
+void UploaderSingleton::upload(QFile &img, QString format) {
+    if (img.size() <= 0) return;
+    if (img.rename(
+        saveDir.absoluteFilePath(formatter::format(settings::settings().value("fileFormat").toString(), format.toLower())))) {
+        if (img.open(QFile::ReadWrite))
+            uploaders.value(uploader)->doUpload(img.readAll(), format);
+        else
+            notifications::notify("KShare - Failed to save picture", img.errorString(), QSystemTrayIcon::Warning);
+    } else
+        notifications::notify("KShare - Failed to save picture", img.errorString(), QSystemTrayIcon::Warning);
 }
 
 void UploaderSingleton::showSettings() {

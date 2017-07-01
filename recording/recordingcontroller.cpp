@@ -42,7 +42,7 @@ bool RecordingController::end() {
     WorkerContext *c = new WorkerContext;
     c->consumer = [&](QImage) {
         _QueueContext contx;
-        contx.arr = _context->finalizer();
+        contx.file = _context->finalizer();
         contx.format = _context->anotherFormat;
         contx.postUploadTask = _context->postUploadTask;
         queue(contx);
@@ -94,11 +94,13 @@ void RecordingController::timeout() {
         if (isRunning())
             preview->setTime(QString("%1:%2").arg(QString::number(minute)).arg(QString::number(second)), frame);
     } else {
-        timer.stop();
         QMutexLocker l(&lock);
         if (!uploadQueue.isEmpty()) {
             auto a = uploadQueue.dequeue();
-            UploaderSingleton::inst().upload(a.arr, a.format);
+            if (!a.file.isEmpty()) {
+                QFile f(a.file);
+                UploaderSingleton::inst().upload(f, a.format);
+            }
             if (a.postUploadTask) a.postUploadTask();
         }
     }
