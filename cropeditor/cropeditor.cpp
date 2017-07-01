@@ -18,10 +18,10 @@ CropEditor::CropEditor(QPixmap *image, QObject *parent) : QObject(parent) {
     pixmapItem->setScale(1 / ratio);
     scene->addItem(pixmapItem);
     scene->setSceneRect(image->rect());
-    //    view->show();
-    //    view->resize(pixmapItem->pixmap().width(), pixmapItem->pixmap().height());
-    //    view->move(0, 0);
-    view->showFullScreen();
+    view->resize(image->width(), image->height());
+    view->setMinimumSize(image->size());
+    view->move(0, 0);
+    view->show();
 
     connect(scene, &CropScene::closedWithRect, this, &CropEditor::crop);
 }
