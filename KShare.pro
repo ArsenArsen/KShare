@@ -124,8 +124,6 @@ mac {
         HEADERS += $$PWD/platformspecifics/u32/u32backend.hpp
         LIBS += -luser32 -lkernel32 -lpthread
         QT += winextras
-
-
 } else:unix {
         SOURCES += $$PWD/platformspecifics/x11/x11backend.cpp
         HEADERS += $$PWD/platformspecifics/x11/x11backend.hpp
