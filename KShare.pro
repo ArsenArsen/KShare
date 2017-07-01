@@ -111,7 +111,8 @@ HEADERS  += mainwindow.hpp \
     uploaders/default/imgursettingsdialog.hpp \
     uploaders/default/imgplusuploader.hpp
 
-LIBS += -lavcodec -lavformat -lavutil -lswscale -lavutil
+CONFIG += link_pkgconfig
+PKGCONFIG += libavformat libavcodec libswscale libavutil
 
 mac {
         SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp
@@ -123,6 +124,8 @@ mac {
         HEADERS += $$PWD/platformspecifics/u32/u32backend.hpp
         LIBS += -luser32 -lkernel32 -lpthread
         QT += winextras
+
+
 } else:unix {
         SOURCES += $$PWD/platformspecifics/x11/x11backend.cpp
         HEADERS += $$PWD/platformspecifics/x11/x11backend.hpp
