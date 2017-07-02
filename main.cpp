@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
     Worker::init();
     a.connect(&a, &QApplication::aboutToQuit, Worker::end);
     a.connect(&a, &QApplication::aboutToQuit, [] { stillAlive = false; });
-    screenshotutil::fullscreen()->save("/home/arsen/test.png", "PNG");
+
     if (!parser.isSet(h)) w.show();
     return a.exec();
 }

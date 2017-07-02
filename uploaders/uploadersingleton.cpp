@@ -59,7 +59,7 @@ void UploaderSingleton::registerUploader(Uploader *uploader) {
     emit newUploader(uploader);
 }
 
-void UploaderSingleton::upload(QPixmap *pixmap) {
+void UploaderSingleton::upload(QPixmap pixmap) {
     auto u = uploaders.value(uploader);
     if (!u->validate()) {
         u = uploaders.value("imgur");
@@ -72,12 +72,11 @@ void UploaderSingleton::upload(QPixmap *pixmap) {
                       format.toLower())));
 
     if (file.open(QFile::ReadWrite)) {
-        pixmap->save(&file, format.toLocal8Bit().constData(), settings::settings().value("imageQuality", -1).toInt());
+        pixmap.save(&file, format.toLocal8Bit().constData(), settings::settings().value("imageQuality", -1).toInt());
         file.seek(0);
         u->doUpload(file.readAll(), format);
     } else
         notifications::notify("KShare - Failed to save picture", file.errorString(), QSystemTrayIcon::Warning);
-    delete pixmap;
 }
 
 void UploaderSingleton::upload(QByteArray img, QString format) {

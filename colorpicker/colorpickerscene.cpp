@@ -6,7 +6,7 @@
 #include <QGraphicsTextItem>
 #include <QTimer>
 
-ColorPickerScene::ColorPickerScene(QPixmap *pixmap, QWidget *parentWidget)
+ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
 : QGraphicsScene(), QGraphicsView(this, parentWidget) {
     setFrameShape(QFrame::NoFrame); // Time taken to solve: A george99g and 38 minutes.
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -16,7 +16,7 @@ ColorPickerScene::ColorPickerScene(QPixmap *pixmap, QWidget *parentWidget)
     setCursor(QCursor(Qt::CrossCursor));
     setMouseTracking(true);
 
-    pItem = addPixmap(*pixmap);
+    pItem = addPixmap(pixmap);
     pItem->setZValue(-2);
     ellipse = addEllipse(QRectF(QCursor::pos(), QSize(20, 20)), QPen(Qt::cyan), Qt::NoBrush);
     QFont font("Monospace");

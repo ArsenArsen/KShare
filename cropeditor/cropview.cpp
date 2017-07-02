@@ -10,12 +10,3 @@ CropView::CropView(QGraphicsScene *scene) : QGraphicsView(scene) {
     setMouseTracking(true);
     setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
 }
-
-void CropView::keyPressEvent(QKeyEvent *e) {
-    if (e->key() == Qt::Key_Escape) {
-        close();
-        e->accept();
-        return;
-    }
-    QGraphicsView::keyPressEvent(e);
-}

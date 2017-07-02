@@ -12,7 +12,7 @@
 
 class ColorPickerScene : public QGraphicsScene, public QGraphicsView {
 public:
-    ColorPickerScene(QPixmap *pixmap, QWidget *parentWidget);
+    ColorPickerScene(QPixmap pixmap, QWidget *parentWidget);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *) override;

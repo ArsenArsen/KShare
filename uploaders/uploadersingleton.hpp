@@ -13,7 +13,7 @@ public:
         return inst;
     }
     void registerUploader(Uploader *uploader);
-    void upload(QPixmap *pixmap);
+    void upload(QPixmap pixmap);
     void upload(QByteArray img, QString format);
     void upload(QFile &img, QString format);
     void showSettings();

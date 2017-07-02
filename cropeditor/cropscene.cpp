@@ -20,7 +20,7 @@
 #include <functional>
 #include <settings.hpp>
 
-CropScene::CropScene(QObject *parent, QPixmap *pixmap)
+CropScene::CropScene(QObject *parent, QPixmap pixmap)
 : QGraphicsScene(parent), drawingSelectionMaker([] { return nullptr; }), prevButtons(Qt::NoButton),
   _brush(Qt::SolidPattern), _font(settings::settings().value("font", QFont()).value<QFont>()) {
     _pixmap = pixmap;
@@ -65,7 +65,7 @@ CropScene::CropScene(QObject *parent, QPixmap *pixmap)
     });
     menu.addAction(settings);
 
-    magnifier = addPixmap(pixmap->copy(0, 0, 11, 11).scaled(110, 110));
+    magnifier = addPixmap(pixmap.copy(0, 0, 11, 11).scaled(110, 110));
     magnifierBox = addRect(magnifier->boundingRect(), QPen(Qt::cyan));
     magnifier->setZValue(1);
     magnifierBox->setZValue(1.1);
@@ -257,7 +257,7 @@ void CropScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *e) {
 }
 
 void CropScene::keyReleaseEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) done(); // Segfault
+    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter || event->key() == Qt::Key_Escape) done();
 }
 
 void CropScene::updateMag(QPointF scenePos) {
@@ -275,7 +275,7 @@ void CropScene::updateMag(QPointF scenePos) {
     QPointF magnifierPos = scenePos + QPointF(5, 5);
 
     magnifier->setPos(magnifierPos);
-    magnifier->setPixmap(_pixmap->copy(magnifierTopLeft.x(), magnifierTopLeft.y(), pixCnt, pixCnt).scaled(110, 110));
+    magnifier->setPixmap(_pixmap.copy(magnifierTopLeft.x(), magnifierTopLeft.y(), pixCnt, pixCnt).scaled(110, 110));
     QPointF bottomRight = magnifierHintBox->sceneBoundingRect().bottomRight();
     if (magnifier->sceneBoundingRect().bottom() > bottomRight.y())
         bottomRight.setY(magnifier->sceneBoundingRect().bottom());
@@ -319,5 +319,6 @@ void CropScene::done() {
         magnifierHint->setVisible(false);
         magnifierHintBox->setVisible(false);
         emit closedWithRect(rect->rect().toRect());
-    }
+    } else
+        emit closedWithRect(QRect());
 }

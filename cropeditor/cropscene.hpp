@@ -16,13 +16,13 @@ class CropScene;
 class CropScene : public QGraphicsScene {
     Q_OBJECT
 public:
-    CropScene(QObject *parent, QPixmap *pixmap);
+    CropScene(QObject *parent, QPixmap pixmap);
     ~CropScene();
     QPen &pen();
     QBrush &brush();
     QFont &font();
     void setDrawingSelection(QString name, std::function<DrawItem *()> drawAction);
-    QPixmap *pixmap() {
+    QPixmap pixmap() {
         return _pixmap;
     }
     QGraphicsPolygonItem *polyItm() {
@@ -58,7 +58,7 @@ private:
     bool fullscreen;
     std::function<DrawItem *()> drawingSelectionMaker;
     QFlags<Qt::MouseButton> prevButtons;
-    QPixmap *_pixmap;
+    QPixmap _pixmap;
     QGraphicsRectItem *rect = nullptr;
     QGraphicsPixmapItem *magnifier = nullptr;
     QGraphicsRectItem *magnifierBox = nullptr;
