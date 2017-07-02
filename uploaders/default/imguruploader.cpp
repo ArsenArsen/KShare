@@ -64,8 +64,8 @@ void ImgurUploader::doUpload(QByteArray byteArray, QString format) {
     if (settings::settings().contains("imgur/expire")     //
         && settings::settings().contains("imgur/refresh") //
         && settings::settings().contains("imgur/access")) {
-        QDateTime loltheseguysIminacallwithareretarded = settings::settings().value("imgur/expire").toDateTime();
-        if (loltheseguysIminacallwithareretarded.msecsTo(QDateTime::currentDateTimeUtc()) < 0) {
+        QDateTime expireTime = settings::settings().value("imgur/expire").toDateTime();
+        if (QDateTime::currentDateTimeUtc() > expireTime) {
             new SegfaultWorkaround(byteArray, this, mime);
         } else
             handleSend("Bearer " + settings::settings().value("imgur/access").toString(), mime, byteArray);

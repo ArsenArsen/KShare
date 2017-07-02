@@ -13,11 +13,23 @@
 #include <settings.hpp>
 #include <uploaders/default/imgplusuploader.hpp>
 
-UploaderSingleton::UploaderSingleton()
-: QObject(), saveDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
-    if (QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).isEmpty()) {
-        qFatal("Cannot determine location for pictures");
+UploaderSingleton::UploaderSingleton() : QObject() {
+    switch (settings::settings().value("saveLocation", 1).toInt()) {
+    case 0:
+        saveDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+        if (QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).isEmpty()) {
+            qFatal("Cannot determine location for pictures");
+        }
+        break;
+    case 1:
+        if (QStandardPaths::writableLocation(QStandardPaths::HomeLocation).isEmpty()) {
+            qFatal("Cannot determine location of your home directory");
+        }
+        saveDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Screenshots";
+    default:
+        break;
     }
+
     if (!saveDir.exists()) {
         if (!saveDir.mkpath(".")) {
             qFatal("Could not create the path %s to store images in!", saveDir.absolutePath().toLocal8Bit().constData());

@@ -19,7 +19,7 @@ using formats::recordingFormatMIME;
 using std::runtime_error;
 
 void error(QString absFilePath, QString err) {
-    throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": " + err).toStdString());
+    throw runtime_erraor((QString("Invalid file: ").append(absFilePath) + ": " + err).toStdString());
 }
 
 CustomUploader::CustomUploader(QString absFilePath) {

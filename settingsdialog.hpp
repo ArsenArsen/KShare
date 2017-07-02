@@ -17,7 +17,7 @@ public:
     ~SettingsDialog();
     void setScheme(QString scheme);
 
-public slots:
+private slots:
     void on_uploaderList_clicked(const QModelIndex &);
     void on_uploaderList_doubleClicked(const QModelIndex &);
     void on_delay_valueChanged(double arg1);
@@ -32,6 +32,7 @@ public slots:
     void on_nameScheme_textChanged(const QString &arg1);
     void newUploader(Uploader *u);
     void uploaderChanged(QString newName);
+    void on_saveLocation_currentIndexChanged(int index);
 
 private:
     Ui::SettingsDialog *ui;

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>483</width>
-    <height>470</height>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,21 +17,21 @@
    <item row="1" column="1">
     <widget class="QListWidget" name="uploaderList"/>
    </item>
-   <item row="6" column="1">
+   <item row="8" column="1">
     <widget class="QCheckBox" name="quickMode">
      <property name="text">
       <string>Quick mode (mouse release screenshots)</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="6" column="1">
     <widget class="QLabel" name="label_3">
      <property name="text">
       <string>Delay before taking a screenshot</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="7" column="1">
     <widget class="QDoubleSpinBox" name="delay">
      <property name="toolTip">
       <string>In seconds</string>
@@ -44,7 +44,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2" rowspan="5">
+   <item row="1" column="2" rowspan="7">
     <widget class="QListWidget" name="hotkeys"/>
    </item>
    <item row="0" column="2">
@@ -54,31 +54,31 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="1" colspan="2">
+   <item row="12" column="2">
+    <widget class="QComboBox" name="imageFormatBox"/>
+   </item>
+   <item row="13" column="1" colspan="2">
     <widget class="QPushButton" name="pushButton">
      <property name="text">
       <string>Encoder settings</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="1">
+   <item row="12" column="1">
     <widget class="QLabel" name="label_7">
      <property name="text">
       <string>Still image format</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="2">
-    <widget class="QComboBox" name="imageFormatBox"/>
-   </item>
-   <item row="9" column="1">
+   <item row="11" column="1">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Recording format</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="1" colspan="2">
+   <item row="9" column="1" colspan="2">
     <widget class="QCheckBox" name="captureCursor">
      <property name="text">
       <string>Capture cursor</string>
@@ -102,21 +102,21 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="1" colspan="2">
+   <item row="10" column="1" colspan="2">
     <widget class="QCheckBox" name="hideToTray">
      <property name="text">
       <string>Pressing &lt;X&gt; hides to tray</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="2">
+   <item row="11" column="2">
     <widget class="QComboBox" name="formatBox">
      <property name="currentIndex">
       <number>-1</number>
      </property>
     </widget>
    </item>
-   <item row="6" column="2">
+   <item row="8" column="2">
     <widget class="QPushButton" name="settingsButton">
      <property name="text">
       <string>Open settings directory</string>
@@ -130,7 +130,7 @@
      </property>
     </widget>
    </item>
-   <item row="12" column="1" colspan="2">
+   <item row="14" column="1" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -138,6 +138,27 @@
      <property name="standardButtons">
       <set>QDialogButtonBox::Ok</set>
      </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>File save location</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QComboBox" name="saveLocation">
+     <item>
+      <property name="text">
+       <string>Pictures folder</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Screenshots folder (In your user folder)</string>
+      </property>
+     </item>
     </widget>
    </item>
   </layout>
