@@ -27,6 +27,7 @@ UploaderSingleton::UploaderSingleton() : QObject() {
         }
         saveDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Screenshots";
     default:
+        qFatal("Invalid config [saveLocation not int or is not in range]");
         break;
     }
 
