@@ -40,7 +40,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
     for (Uploader *u : UploaderSingleton::inst().uploaderList()) newUploader(u);
 
     // Set filename scheme
-    setScheme(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH:mm:ss)date.ext").toString());
+    setScheme(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH:mm:ss)date.%ext").toString());
 
     // Set delay
     if ((settings::settings().contains("delay")))
