@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QDebug>
 #include <QPainter>
 #include <QPixmap>
 #include <QScreen>
@@ -10,9 +11,9 @@
 QPixmap screenshotutil::fullscreen(bool cursor) {
     int height = 0, width = 0;
     for (QScreen *screen : QApplication::screens()) {
-        width += screen->size().width();
-        int h = screen->size().height();
-        height = h > height ? h : height;
+        QRect geo = screen->geometry();
+        width = qMax(geo.right() + geo.width(), width);
+        height = qMax(geo.bottom() + geo.height(), height);
     }
     QPixmap image(width, height);
     image.fill(Qt::transparent);
@@ -20,7 +21,10 @@ QPixmap screenshotutil::fullscreen(bool cursor) {
     width = 0;
     for (QScreen *screen : QApplication::screens()) {
         QPixmap currentScreen = window(0, screen);
-        painter.drawPixmap(width, 0, currentScreen);
+        // Hack for https://bugreports.qt.io/browse/QTBUG-58110
+        QStringList qVer = QString(qVersion()).split('.');
+        if (qVer.at(0).toInt() == 5 && qVer.at(1).toInt() < 9) currentScreen = currentScreen.copy(screen->geometry());
+        painter.drawPixmap(screen->geometry().topLeft(), currentScreen);
         width += screen->size().width();
     }
 #ifdef PLATFORM_CAPABILITY_CURSOR
@@ -28,8 +32,8 @@ QPixmap screenshotutil::fullscreen(bool cursor) {
         auto cursorData = PlatformBackend::inst().getCursor();
         painter.drawPixmap(QCursor::pos() - std::get<0>(cursorData), std::get<1>(cursorData));
     }
-    painter.end();
 #endif
+    painter.end();
     return image;
 }
 

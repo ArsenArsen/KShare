@@ -32,12 +32,13 @@ ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
     color = pItem->pixmap().toImage().pixelColor(QCursor::pos());
     text->setPlainText(color.name());
     ellipse->setBrush(color);
+    image = pixmap.toImage();
 
     show();
 }
 
 void ColorPickerScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-    color = pItem->pixmap().toImage().pixelColor(event->scenePos().toPoint());
+    color = image.pixelColor(event->scenePos().toPoint());
     text->setPlainText(color.name());
     ellipse->setBrush(color);
 
@@ -61,9 +62,6 @@ void ColorPickerScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     ellipse->setRect(QRectF(scopePoint, QSize(20, 20)));
     text->setPos(resPoint);
     textBackground->setPos(text->pos());
-    // How does this work? I have no clue....
-    // I mean.. It kinda makes sense when you look through it carefully
-    // But it's still a mess.
 }
 
 void ColorPickerScene::keyPressEvent(QKeyEvent *event) {

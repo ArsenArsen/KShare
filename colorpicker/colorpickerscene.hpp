@@ -17,10 +17,11 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *) override;
     static void showPicker() {
-        ColorPickerScene(screenshotutil::fullscreen(), 0);
+        new ColorPickerScene(screenshotutil::fullscreen(), 0);
     }
 
 private:
+    QImage image;
     QColor color;
     QGraphicsEllipseItem *ellipse = 0;
     QGraphicsPixmapItem *pItem = 0;

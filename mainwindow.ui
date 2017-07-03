@@ -80,7 +80,7 @@
    </widget>
    <widget class="QMenu" name="menuRecording">
     <property name="title">
-     <string>Recording</string>
+     <string>&amp;Recording</string>
     </property>
     <addaction name="actionStart"/>
     <addaction name="actionStop"/>

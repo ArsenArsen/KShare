@@ -54,7 +54,7 @@ private:
     void updateMag(QPointF scenePos);
     void initMagnifierGrid();
     void addDrawingAction(QMenu &menu, QString name, std::function<DrawItem *()> item);
-    void done();
+    void done(bool notEsc);
     bool fullscreen;
     std::function<DrawItem *()> drawingSelectionMaker;
     QFlags<Qt::MouseButton> prevButtons;

@@ -211,7 +211,7 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
         if (drawingSelection)
             if (!drawingSelection->init(this)) setDrawingSelection("None", [] { return nullptr; });
     } else if (settings::settings().value("quickMode", false).toBool())
-        done();
+        done(true);
     prevButtons = Qt::NoButton;
 }
 
@@ -257,7 +257,8 @@ void CropScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *e) {
 }
 
 void CropScene::keyReleaseEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter || event->key() == Qt::Key_Escape) done();
+    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter || event->key() == Qt::Key_Escape)
+        done(event->key() != Qt::Key_Escape);
 }
 
 void CropScene::updateMag(QPointF scenePos) {
@@ -311,8 +312,8 @@ void CropScene::initMagnifierGrid() {
     }
 }
 
-void CropScene::done() {
-    if (rect) {
+void CropScene::done(bool notEsc) {
+    if (notEsc && rect) {
         rect->setPen(QPen(Qt::NoPen));
         magnifier->setVisible(false);
         magnifierBox->setVisible(false);
