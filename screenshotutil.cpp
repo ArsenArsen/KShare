@@ -9,24 +9,29 @@
 #include <platformbackend.hpp>
 
 QPixmap screenshotutil::fullscreen(bool cursor) {
-    int height = 0, width = 0;
-    for (QScreen *screen : QApplication::screens()) {
-        QRect geo = screen->geometry();
-        width = qMax(geo.left() + geo.width(), width);
-        height = qMax(geo.top() + geo.height(), height);
-    }
-    QPixmap image(width, height);
-    image.fill(Qt::transparent);
-    QPainter painter(&image);
-    width = 0;
-    for (QScreen *screen : QApplication::screens()) {
-        QPixmap currentScreen = window(0, screen);
-        // Hack for https://bugreports.qt.io/browse/QTBUG-58110
-        static QStringList qVer = QString(qVersion()).split('.');
-        if (qVer.at(0).toInt() == 5 && qVer.at(1).toInt() < 9) currentScreen = currentScreen.copy(screen->geometry());
-        painter.drawPixmap(screen->geometry().topLeft(), currentScreen);
-        width += screen->size().width();
-    }
+    QPixmap image;
+
+    // Hack for https://bugreports.qt.io/browse/QTBUG-58110
+    static QStringList qVer = QString(qVersion()).split('.');
+    if (qVer.at(0).toInt() == 5 && qVer.at(1).toInt() < 9) {
+        int height = 0, width = 0;
+        for (QScreen *screen : QApplication::screens()) {
+            QRect geo = screen->geometry();
+            width = qMax(geo.left() + geo.width(), width);
+            height = qMax(geo.top() + geo.height(), height);
+        }
+        image = QPixmap(width, height);
+        image.fill(Qt::transparent);
+        QPainter painter(&image);
+        width = 0;
+
+        for (QScreen *screen : QApplication::screens()) {
+            QPixmap currentScreen = window(0, screen);
+            painter.drawPixmap(screen->geometry().topLeft(), currentScreen);
+            width += screen->size().width();
+        }
+    } else
+        image = window(0);
 #ifdef PLATFORM_CAPABILITY_CURSOR
     if (cursor) {
         auto cursorData = PlatformBackend::inst().getCursor();
