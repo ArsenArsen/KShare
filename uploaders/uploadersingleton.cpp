@@ -26,6 +26,7 @@ UploaderSingleton::UploaderSingleton() : QObject() {
             qFatal("Cannot determine location of your home directory");
         }
         saveDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Screenshots";
+        break;
     default:
         qFatal("Invalid config [saveLocation not int or is not in range]");
         break;

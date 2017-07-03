@@ -17,12 +17,7 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *) override;
     static void showPicker() {
-        ColorPickerScene *s = new ColorPickerScene(screenshotutil::fullscreen(), 0);
-        QTimer::singleShot(0, [s] {
-            s->showFullScreen();
-            QScopedPointer<ColorPickerScene>(s);
-            // Before anyone asks I have 0 clue about how does this not segfault
-        });
+        ColorPickerScene(screenshotutil::fullscreen(), 0);
     }
 
 private:

@@ -15,6 +15,9 @@ ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
     setCursor(QCursor(Qt::CrossCursor));
     setMouseTracking(true);
+    setWindowTitle("KShare Color Picker");
+    setGeometry(pixmap.rect());
+    setAttribute(Qt::WA_DeleteOnClose);
 
     pItem = addPixmap(pixmap);
     pItem->setZValue(-2);
@@ -29,6 +32,8 @@ ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
     color = pItem->pixmap().toImage().pixelColor(QCursor::pos());
     text->setPlainText(color.name());
     ellipse->setBrush(color);
+
+    show();
 }
 
 void ColorPickerScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
