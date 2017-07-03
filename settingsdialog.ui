@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>483</width>
-    <height>530</height>
+    <width>485</width>
+    <height>638</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,20 +47,13 @@
    <item row="1" column="2" rowspan="7">
     <widget class="QListWidget" name="hotkeys"/>
    </item>
+   <item row="12" column="2">
+    <widget class="QComboBox" name="imageFormatBox"/>
+   </item>
    <item row="0" column="2">
     <widget class="QLabel" name="label_5">
      <property name="text">
       <string>Hotkeys</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="2">
-    <widget class="QComboBox" name="imageFormatBox"/>
-   </item>
-   <item row="13" column="1" colspan="2">
-    <widget class="QPushButton" name="pushButton">
-     <property name="text">
-      <string>Encoder settings</string>
      </property>
     </widget>
    </item>
@@ -130,6 +123,20 @@
      </property>
     </widget>
    </item>
+   <item row="5" column="1">
+    <widget class="QComboBox" name="saveLocation">
+     <item>
+      <property name="text">
+       <string>Pictures folder</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Screenshots folder (In your user folder)</string>
+      </property>
+     </item>
+    </widget>
+   </item>
    <item row="14" column="1" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
@@ -147,18 +154,44 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
-    <widget class="QComboBox" name="saveLocation">
-     <item>
-      <property name="text">
-       <string>Pictures folder</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Screenshots folder (In your user folder)</string>
-      </property>
-     </item>
+   <item row="13" column="1" colspan="2">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Advanced</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="2" column="0">
+       <widget class="QSpinBox" name="cropX">
+        <property name="suffix">
+         <string/>
+        </property>
+        <property name="prefix">
+         <string>x: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="cropY">
+        <property name="prefix">
+         <string>y: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Editor Position (tweak if the editor does not cover the entire screen)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Encoder settings</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

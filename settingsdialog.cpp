@@ -159,3 +159,11 @@ void SettingsDialog::on_pushButton_clicked() {
 void SettingsDialog::on_saveLocation_currentIndexChanged(int index) {
     settings::settings().setValue("saveLocation", index);
 }
+
+void SettingsDialog::on_cropX_valueChanged(int arg1) {
+    settings::settings().setValue("cropx", arg1);
+}
+
+void SettingsDialog::on_cropY_valueChanged(int arg1) {
+    settings::settings().setValue("cropy", arg1);
+}
