@@ -10,6 +10,7 @@
 
 QPixmap screenshotutil::fullscreen(bool cursor) {
     QPixmap image;
+    QPainter painter;
 
     // Hack for https://bugreports.qt.io/browse/QTBUG-58110
     static QStringList qVer = QString(qVersion()).split('.');
@@ -22,16 +23,18 @@ QPixmap screenshotutil::fullscreen(bool cursor) {
         }
         image = QPixmap(width, height);
         image.fill(Qt::transparent);
-        QPainter painter(&image);
         width = 0;
+        painter.begin(&image);
 
         for (QScreen *screen : QApplication::screens()) {
             QPixmap currentScreen = window(0, screen);
             painter.drawPixmap(screen->geometry().topLeft(), currentScreen);
             width += screen->size().width();
         }
-    } else
+    } else {
         image = window(0);
+        painter.begin(&image);
+    }
 #ifdef PLATFORM_CAPABILITY_CURSOR
     if (cursor) {
         auto cursorData = PlatformBackend::inst().getCursor();
