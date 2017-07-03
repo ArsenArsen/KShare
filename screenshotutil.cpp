@@ -22,7 +22,7 @@ QPixmap screenshotutil::fullscreen(bool cursor) {
     for (QScreen *screen : QApplication::screens()) {
         QPixmap currentScreen = window(0, screen);
         // Hack for https://bugreports.qt.io/browse/QTBUG-58110
-        QStringList qVer = QString(qVersion()).split('.');
+        static QStringList qVer = QString(qVersion()).split('.');
         if (qVer.at(0).toInt() == 5 && qVer.at(1).toInt() < 9) currentScreen = currentScreen.copy(screen->geometry());
         painter.drawPixmap(screen->geometry().topLeft(), currentScreen);
         width += screen->size().width();
