@@ -168,12 +168,24 @@
         <property name="prefix">
          <string>x: </string>
         </property>
+        <property name="minimum">
+         <number>-999999</number>
+        </property>
+        <property name="maximum">
+         <number>999999</number>
+        </property>
        </widget>
       </item>
       <item row="2" column="1">
        <widget class="QSpinBox" name="cropY">
         <property name="prefix">
          <string>y: </string>
+        </property>
+        <property name="minimum">
+         <number>-999999</number>
+        </property>
+        <property name="maximum">
+         <number>999999</number>
         </property>
        </widget>
       </item>

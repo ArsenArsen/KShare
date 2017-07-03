@@ -74,6 +74,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
 
     ui->formatBox->addItem("None");
     ui->formatBox->setCurrentIndex(settings::settings().value("recording/format", (int)formats::Recording::None).toInt());
+    ui->cropX->setValue(settings::settings().value("cropx", 0).toInt());
+    ui->cropY->setValue(settings::settings().value("cropy", 0).toInt());
     setWindowTitle("Settings");
 #ifndef PLATFORM_CAPABILITY_CURSOR
     ui->captureCursor->setEnabled(false);
