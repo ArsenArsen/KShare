@@ -15,6 +15,9 @@ QPixmap screenshotutil::fullscreen(bool cursor) {
     // Hack for https://bugreports.qt.io/browse/QTBUG-58110
     static QStringList qVer = QString(qVersion()).split('.');
     if (qVer.at(0).toInt() == 5 && qVer.at(1).toInt() < 9) {
+        image = window(0);
+        painter.begin(&image);
+    } else {
         int height = 0, width = 0;
         for (QScreen *screen : QApplication::screens()) {
             QRect geo = screen->geometry();
@@ -31,9 +34,6 @@ QPixmap screenshotutil::fullscreen(bool cursor) {
             painter.drawPixmap(screen->geometry().topLeft(), currentScreen);
             width += screen->size().width();
         }
-    } else {
-        image = window(0);
-        painter.begin(&image);
     }
 #ifdef PLATFORM_CAPABILITY_CURSOR
     if (cursor) {
