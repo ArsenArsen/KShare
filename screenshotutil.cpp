@@ -12,8 +12,8 @@ QPixmap screenshotutil::fullscreen(bool cursor) {
     int height = 0, width = 0;
     for (QScreen *screen : QApplication::screens()) {
         QRect geo = screen->geometry();
-        width = qMax(geo.right() + geo.width(), width);
-        height = qMax(geo.bottom() + geo.height(), height);
+        width = qMax(geo.left() + geo.width(), width);
+        height = qMax(geo.top() + geo.height(), height);
     }
     QPixmap image(width, height);
     image.fill(Qt::transparent);
