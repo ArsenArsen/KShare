@@ -84,7 +84,7 @@
       <string>%(date format)date and %ext are supported</string>
      </property>
      <property name="text">
-      <string>Screenshot %(yyyy-MM-dd HH:mm:ss)date.%ext</string>
+      <string>Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext</string>
      </property>
     </widget>
    </item>
