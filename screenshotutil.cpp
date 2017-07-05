@@ -21,17 +21,18 @@ QPixmap screenshotutil::fullscreen(bool cursor) {
         painter.begin(&image);
     } else {
 #endif
-        int height = qAbs(smallestCoordinate.y()), width = qAbs(smallestCoordinate.x()); // qute abs
+        int height = 0, width = 0;
+        int ox = smallestCoordinate.x() * -1, oy = smallestCoordinate.y() * -1;
         for (QScreen *screen : QApplication::screens()) {
             QRect geo = screen->geometry();
-            width = qMax(geo.left() + geo.width(), width);
-            height = qMax(geo.top() + geo.height(), height);
+            width = qMax(ox + geo.left() + geo.width(), width);
+            height = qMax(oy + geo.top() + geo.height(), height); // qute abs
         }
         image = QPixmap(width, height);
         image.fill(Qt::transparent);
         width = 0;
         painter.begin(&image);
-        painter.translate(qAbs(smallestCoordinate.x()), qAbs(smallestCoordinate.y()));
+        painter.translate(ox, oy);
 
         for (QScreen *screen : QApplication::screens()) {
             QPixmap currentScreen = window(0, screen);
