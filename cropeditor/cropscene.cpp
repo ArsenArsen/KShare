@@ -141,7 +141,7 @@ void CropScene::setVisible(bool visible) {
 void CropScene::fontAsk() {
     hide();
     bool ok = false;
-    QFont font = QFontDialog::getFont(&ok, this->font(), nullptr, "Font to use");
+    QFont font = QFontDialog::getFont(&ok, this->font(), this->views()[0], "Font to use");
     if (ok) _font = font;
     show();
 }
