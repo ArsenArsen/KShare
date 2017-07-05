@@ -17,7 +17,7 @@ public:
         return inst;
     }
     WId getActiveWID();
-    bool filenamValid(QString name);
+    bool filenameValid(QString name);
 };
 
 #endif // U32BACKEND_HPP
