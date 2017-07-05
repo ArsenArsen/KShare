@@ -11,16 +11,17 @@
 QPixmap screenshotutil::fullscreen(bool cursor) {
     QPixmap image;
     QPainter painter;
+    QPoint smallestCoordinate = smallestScreenCoordinate();
 
-    // Hack for https://bugreports.qt.io/browse/QTBUG-58110
-    static QStringList qVer = QString(qVersion()).split('.');
+// Hack for https://bugreports.qt.io/browse/QTBUG-58110
 #ifdef Q_OS_LINUX
+    static QStringList qVer = QString(qVersion()).split('.');
     if (qVer.at(0).toInt() == 5 && qVer.at(1).toInt() < 9) {
         image = window(0);
         painter.begin(&image);
     } else {
 #endif
-        int height = 0, width = 0;
+        int height = qAbs(smallestCoordinate.y()), width = qAbs(smallestCoordinate.x()); // qute abs
         for (QScreen *screen : QApplication::screens()) {
             QRect geo = screen->geometry();
             width = qMax(geo.left() + geo.width(), width);
@@ -30,6 +31,7 @@ QPixmap screenshotutil::fullscreen(bool cursor) {
         image.fill(Qt::transparent);
         width = 0;
         painter.begin(&image);
+        painter.translate(qAbs(smallestCoordinate.x()), qAbs(smallestCoordinate.y()));
 
         for (QScreen *screen : QApplication::screens()) {
             QPixmap currentScreen = window(0, screen);
@@ -60,4 +62,13 @@ void screenshotutil::toClipboard(QString value) {
 
 QPixmap screenshotutil::fullscreenArea(bool cursor, qreal x, qreal y, qreal w, qreal h) {
     return fullscreen(cursor).copy(x, y, w, h);
+}
+
+QPoint screenshotutil::smallestScreenCoordinate() {
+    QPoint smallestCoordinate;
+    for (QScreen *screen : QApplication::screens()) {
+        smallestCoordinate.rx() = qMin(smallestCoordinate.x(), screen->geometry().left());
+        smallestCoordinate.ry() = qMin(smallestCoordinate.y(), screen->geometry().top());
+    }
+    return smallestCoordinate;
 }

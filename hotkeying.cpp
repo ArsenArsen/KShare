@@ -28,17 +28,17 @@ void hotkeying::load(QString seqName, std::function<void()> func, QString def) {
     QString name = seqName;
     name.prepend("hotkey_");
     if (hotkeys.contains(seqName)) return;
-    if (settings::settings().contains(name)) {
-        QString k = settings::settings().value(name).toString();
+    QString k = settings::settings().value(name).toString();
+    if (!k.isEmpty()) {
         if (!k.isEmpty())
             h = new QHotkey(QKeySequence(settings::settings().value(k).toString()), true);
         else
-            h = new QHotkey(def.isNull() ? "" : def, true);
+            h = new QHotkey(def.isEmpty() ? "" : def, true);
     } else
-        h = new QHotkey(def.isNull() ? "" : def, true);
+        h = new QHotkey(def.isEmpty() ? "" : def, true);
     QObject::connect(h, &QHotkey::activated, func);
     hotkeys.insert(seqName, h);
-    if (!h->isRegistered() && (settings::settings().contains(name) || !def.isEmpty()))
+    if (!h->isRegistered() && !h->shortcut().toString().isEmpty())
         qWarning().noquote().nospace()
         << "Could not bind the hotkey " << seqName << "! Is the keybind already registered?";
 }
