@@ -28,9 +28,13 @@ void hotkeying::load(QString seqName, std::function<void()> func, QString def) {
     QString name = seqName;
     name.prepend("hotkey_");
     if (hotkeys.contains(seqName)) return;
-    if (settings::settings().contains(name))
-        h = new QHotkey(QKeySequence(settings::settings().value(name).toString()), true);
-    else
+    if (settings::settings().contains(name)) {
+        QString k = settings::settings().value(name).toString();
+        if (!k.isEmpty())
+            h = new QHotkey(QKeySequence(settings::settings().value(k).toString()), true);
+        else
+            h = new QHotkey(def.isNull() ? "" : def, true);
+    } else
         h = new QHotkey(def.isNull() ? "" : def, true);
     QObject::connect(h, &QHotkey::activated, func);
     hotkeys.insert(seqName, h);
