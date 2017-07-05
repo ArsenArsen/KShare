@@ -4,6 +4,7 @@
 #include "screenshotutil.hpp"
 #include "settingsdialog.hpp"
 #include "ui_mainwindow.h"
+#include <QDebug>
 #include <QMessageBox>
 #include <colorpicker/colorpickerscene.hpp>
 #include <formats.hpp>
@@ -19,7 +20,10 @@ void MainWindow::rec() {
     if (controller->isRunning()) return;
     auto f
     = static_cast<formats::Recording>(settings::settings().value("recording/format", (int)formats::Recording::None).toInt());
-    if (f >= formats::Recording::None) return;
+    if (f >= formats::Recording::None) {
+        qWarning() << "Recording format not set in settings. Aborting.";
+        return;
+    }
     RecordingContext *ctx = new RecordingContext;
     RecordingFormats *format = new RecordingFormats(f);
     ctx->consumer = format->getConsumer();
