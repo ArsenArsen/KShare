@@ -28,8 +28,8 @@ private slots:
     void on_actionSettings_triggered();
     void on_actionColor_Picker_triggered();
     void on_actionAbout_triggered();
-
     void on_actionActive_window_triggered();
+    void on_actionAbort_triggered();
 
 public:
     static MainWindow *inst();

@@ -29,6 +29,17 @@ WId PlatformBackend::getActiveWID() {
     return (WId)GetForegroundWindow();
 }
 
+QString illegal(QStringLiteral("<>:\"/\|?*"));
+QStringList illegalNames({ "CON",  "PRN",  "AUX",  "NUL",  "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7",
+                           "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" });
+
 bool PlatformBackend::filenamValid(QString name) {
-    return IsValidFileName(name.toLocal8Bit().constData()) == 0;
+    unsigned int periods = 0;
+    for (QChar c : name) {
+        if (c == '.') periods++;
+        if (illegal.contains(c)) return false;
+        if (c < 32) return false;
+    }
+    if (periods == name.length()) return false;
+    return !illegalNames.contains(name);
 }

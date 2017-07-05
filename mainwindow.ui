@@ -84,6 +84,7 @@
     </property>
     <addaction name="actionStart"/>
     <addaction name="actionStop"/>
+    <addaction name="actionAbort"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuScreenshot"/>
@@ -134,6 +135,11 @@
   <action name="actionActive_window">
    <property name="text">
     <string>Active window</string>
+   </property>
+  </action>
+  <action name="actionAbort">
+   <property name="text">
+    <string>Abort</string>
    </property>
   </action>
  </widget>
