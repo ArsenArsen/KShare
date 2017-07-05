@@ -38,6 +38,7 @@ public slots:
     // Returns false if not running
     bool end();
     void queue(_QueueContext arr);
+    bool abort();
 private slots:
     void timeout();
     void startWithArea(QRect newArea);

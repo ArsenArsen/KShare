@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QAction *picker = new QAction("Show color picker", this);
     QAction *rec = new QAction("Record screen", this);
     QAction *recoff = new QAction("Stop recording", this);
+    QAction *recabort = new QAction("Abort recording", this);
     menu->addActions({ quit, shtoggle, picker });
     menu->addSeparator();
     menu->addActions({ fullscreen, area, active });
@@ -62,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     menu->addAction(area);
 #endif
     menu->addSeparator();
-    menu->addActions({ rec, recoff });
+    menu->addActions({ rec, recoff, recabort });
     connect(quit, &QAction::triggered, this, &MainWindow::quit);
     connect(shtoggle, &QAction::triggered, this, &MainWindow::toggleVisible);
     connect(picker, &QAction::triggered, [] { ColorPickerScene::showPicker(); });
@@ -73,7 +74,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(fullscreen, &QAction::triggered, this, [] { screenshotter::fullscreenDelayed(); });
     connect(area, &QAction::triggered, this, [] { screenshotter::areaDelayed(); });
     connect(rec, &QAction::triggered, this, &MainWindow::rec);
-    connect(recoff, &QAction::triggered, [this] { controller->end(); });
+    connect(recoff, &QAction::triggered, controller, &RecordingController::end);
+    connect(recabort, &QAction::triggered, controller, &RecordingController::abort);
     connect(ui->settings, &QPushButton::clicked, this, &MainWindow::on_actionSettings_triggered);
 
     tray->setContextMenu(menu);
@@ -83,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     addHotkey("active", [] { screenshotter::active(); });
     addHotkey("picker", [] { ColorPickerScene::showPicker(); });
     addHotkey("recordingstop", [&] { controller->end(); });
+    addHotkey("recordingabort", [&] { controller->abort(); });
     addHotkey("recordingstart", [&] { this->rec(); });
 
     auto errors = UploaderSingleton::inst().errors();
@@ -162,4 +165,8 @@ void MainWindow::on_actionAbout_triggered() {
 
 void MainWindow::on_actionActive_window_triggered() {
     screenshotter::activeDelayed();
+}
+
+void MainWindow::on_actionAbort_triggered() {
+    controller->abort();
 }

@@ -56,6 +56,30 @@ bool RecordingController::end() {
     return true;
 }
 
+bool RecordingController::abort() {
+    emit ended();
+    if (!isRunning()) return false;
+    area = QRect();
+    if (preview) {
+        preview->close();
+        preview->deleteLater();
+    }
+
+    preview = 0;
+    WorkerContext *c = new WorkerContext;
+    c->consumer = [&](QImage) {
+        _context->finalizer();
+        _context->postUploadTask();
+    };
+    c->targetFormat = QImage::Format_Alpha8;
+    c->pixmap = QPixmap(0, 0);
+    Worker::queue(c);
+
+    frame = 0;
+    time = 0;
+    return true;
+}
+
 void RecordingController::queue(_QueueContext arr) {
     QMutexLocker l(&lock);
     uploadQueue.enqueue(arr);
