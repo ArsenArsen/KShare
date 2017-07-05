@@ -13,6 +13,7 @@ public:
         static PlatformBackend inst;
         return inst;
     }
+    bool filenameValid(QString name);
 };
 
 #endif // MACBACKEND_HPP

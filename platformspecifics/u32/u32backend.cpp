@@ -28,3 +28,7 @@ DWORD PlatformBackend::pid() {
 WId PlatformBackend::getActiveWID() {
     return (WId)GetForegroundWindow();
 }
+
+bool PlatformBackend::filenamValid(QString name) {
+    return IsValidFileName(name.toLocal8Bit().constData()) == 0;
+}

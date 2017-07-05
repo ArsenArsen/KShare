@@ -16,6 +16,7 @@ public:
         return inst;
     }
     WId getActiveWID();
+    bool filenameValid(QString name);
 };
 
 #endif // X11BACKEND_HPP

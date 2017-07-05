@@ -11,3 +11,7 @@ QPixmap PlatformBackend::getCursor() {
 pid_t PlatformBackend::pid() {
     return getpid();
 }
+
+bool PlatformBackend::filenameValid(QString name) {
+    return !name.contains('/');
+}

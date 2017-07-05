@@ -54,3 +54,7 @@ WId PlatformBackend::getActiveWID() {
     delete treeReply;
     return window;
 }
+
+bool PlatformBackend::filenameValid(QString name) {
+    return !name.contains('/');
+}

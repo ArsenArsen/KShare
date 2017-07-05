@@ -65,7 +65,8 @@ SOURCES += main.cpp\
     hotkeyinputdialog.cpp \
     cropeditor/drawing/arrowitem.cpp \
     uploaders/default/imgursettingsdialog.cpp \
-    uploaders/default/imgplusuploader.cpp
+    uploaders/default/imgplusuploader.cpp \
+    filenamevalidator.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -109,7 +110,8 @@ HEADERS  += mainwindow.hpp \
     hotkeyinputdialog.hpp \
     cropeditor/drawing/arrowitem.hpp \
     uploaders/default/imgursettingsdialog.hpp \
-    uploaders/default/imgplusuploader.hpp
+    uploaders/default/imgplusuploader.hpp \
+    filenamevalidator.hpp
 
 CONFIG += link_pkgconfig
 PKGCONFIG += libavformat libavcodec libswscale libavutil
