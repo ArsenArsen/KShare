@@ -113,29 +113,33 @@ HEADERS  += mainwindow.hpp \
     uploaders/default/imgplusuploader.hpp \
     filenamevalidator.hpp
 
-CONFIG += link_pkgconfig
-PKGCONFIG += libavformat libavcodec libswscale libavutil
+nopkg {
+    LIBS += -lavcodec -lavformat -lavutil -lswscale
+} else {
+    CONFIG += link_pkgconfig
+    PKGCONFIG += libavformat libavcodec libswscale libavutil
+}
 
 mac {
-        ICON = icons/icon.icns
-        SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp
-        HEADERS += $$PWD/platformspecifics/mac/macbackend.hpp
-        LIBS += -framework Carbon
-        warning(Mac is on TODO);
+    ICON = icons/icon.icns
+    SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp
+    HEADERS += $$PWD/platformspecifics/mac/macbackend.hpp
+    LIBS += -framework Carbon
+    warning(Mac is on TODO);
 } else:win32 {
-        RC_FILE = icon.rc
-        SOURCES += $$PWD/platformspecifics/u32/u32backend.cpp
-        HEADERS += $$PWD/platformspecifics/u32/u32backend.hpp
-        LIBS += -luser32 -lkernel32 -lpthread
-        QT += winextras
+    RC_FILE = icon.rc
+    SOURCES += $$PWD/platformspecifics/u32/u32backend.cpp
+    HEADERS += $$PWD/platformspecifics/u32/u32backend.hpp
+    LIBS += -luser32 -lkernel32 -lpthread
+    QT += winextras
 } else:unix {
-        RC_FILE = icon.rc
-        SOURCES += $$PWD/platformspecifics/x11/x11backend.cpp
-        HEADERS += $$PWD/platformspecifics/x11/x11backend.hpp
-        QT += x11extras
-        LIBS += -lxcb-cursor -lxcb-xfixes -lxcb
+    RC_FILE = icon.rc
+    SOURCES += $$PWD/platformspecifics/x11/x11backend.cpp
+    HEADERS += $$PWD/platformspecifics/x11/x11backend.hpp
+    QT += x11extras
+    LIBS += -lxcb-cursor -lxcb-xfixes -lxcb
 } else {
-        error(Unsupported platform);
+    error(Unsupported platform);
 }
 
 FORMS    += mainwindow.ui \
@@ -149,7 +153,8 @@ FORMS    += mainwindow.ui \
 DISTFILES += \
     README.md \
     LICENSE \
-    OlderSystemFix.patch
+    OlderSystemFix.patch \
+    appveyor.yml
 
 RESOURCES += \
     icon.qrc
