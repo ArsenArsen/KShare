@@ -151,6 +151,8 @@ DISTFILES += \
 RESOURCES += \
     icon.qrc
 
+RC_FILE = icon.rc
+
 ICON = icons/icon.ico
 
 # Enable debug symbols
