@@ -5,8 +5,10 @@ function addFile {
 }
 
 function addAllFiles {
-    find $1 -type f -iname $2 | while read -r filename; do
-        addFile $filename
+    (find $1 -type f -iname "$2" || exit 1) | while read -r filename; do
+        cp $filename .
+        echo $filename
+                echo "Source: \"$(basename $filename)\"; DestDir: \"{app}\"; Flags: ignoreversion" >> installer.iss
     done
 }
 
