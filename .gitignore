@@ -38,7 +38,7 @@ CMakeLists.txt.user
 Makefile
 
 # Executable
-KShare
+./KShare
 
 # Other
 *.out

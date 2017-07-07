@@ -114,7 +114,21 @@ HEADERS  += mainwindow.hpp \
     filenamevalidator.hpp
 
 nopkg {
+#    win32 {
+#        !exists($$(FFMPEG_DEV_PATH)\README.txt) {
+#                error("You must define a valid FFMPEG_DEV_PATH")
+#        }
+
+#        !exists($$(FFMPEG_SHARED_PATH)\README.txt) {
+#                error("You must define a valid FFMPEG_SHARED_PATH")
+#        }
+
+#        INCLUDEPATH += $$(FFMPEG_DEV_PATH)\include
+#        LIBS += -L$$(FFMPEG_DEV_PATH)\lib
+#        message(Set the library and include paths);
+#    }
     LIBS += -lavcodec -lavformat -lavutil -lswscale
+    message(nopkg);
 } else {
     CONFIG += link_pkgconfig
     PKGCONFIG += libavformat libavcodec libswscale libavutil
@@ -154,7 +168,8 @@ DISTFILES += \
     README.md \
     LICENSE \
     OlderSystemFix.patch \
-    appveyor.yml
+    AppVeyor/appveyor.yml \
+    AppVeyor/make_installer.sh
 
 RESOURCES += \
     icon.qrc

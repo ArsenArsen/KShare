@@ -1,0 +1,12 @@
+#!/bin/bash
+if [[ `git rev-parse --abbrev-ref HEAD 2>/dev/null` == "dev" ]]
+then
+	HASH=`git rev-parse --verify HEAD`
+	sed "s/;COMMIT;/c$HASH/g" /media/arsen/Data/Packages/KShare/PKGBUILD.sample > /media/arsen/Data/Packages/KShare/PKGBUILD
+	cd /media/arsen/Data/Packages/KShare
+	makepkg --printsrcinfo > .SRCINFO
+	git stage .
+	git commit -m "UPDATE $HASH"
+	git push
+fi
+
