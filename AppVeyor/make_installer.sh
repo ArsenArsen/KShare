@@ -8,7 +8,7 @@ function addAllFiles {
     (find $1 -type f -iname "$2" || exit 1) | while read -r filename; do
         cp $filename .
         echo $filename
-                echo "Source: \"$(basename $filename)\"; DestDir: \"{app}\"; Flags: ignoreversion" >> installer.iss
+        echo "Source: \"$(basename $filename)\"; DestDir: \"{app}\"; Flags: ignoreversion" >> installer.iss
     done
 }
 
@@ -39,7 +39,7 @@ sed "s/;VER;/$ver/" installer.iss.pattern.top > installer.iss
 #addFile /c/Qt/5.9/mingw53_32/bin/LIBGCC_S_DW2-1.DLL
 
 addAllFiles /c/Qt/5.9/mingw53_32/bin/ '*.dll'
-addAllFiles ../../build/ffmpeg-3.3.2-win64-shared/bin/ '*.dll'
+addAllFiles ../../build/QtAV-depends-windows-x86+x64/bin/ '*.dll'
 
 cat installer.iss.pattern.bottom >> installer.iss
 "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" installer.iss
