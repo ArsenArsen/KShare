@@ -22,8 +22,8 @@ addFile ../../build/QtAV-depends-windows-x86+x64/bin/avcodec-57.dll
 #addFile ../../build/QtAV-depends-windows-x86+x64/bin/avfilter-6.dll
 addFile ../../build/QtAV-depends-windows-x86+x64/bin/avformat-57.dll
 addFile ../../build/QtAV-depends-windows-x86+x64/bin/avutil-55.dll
-#addFile ../../build/QtAV-depends-windows-x86+x64/bin/postproc-54.dll
-#addFile ../../build/QtAV-depends-windows-x86+x64/bin/swresample-2.dll
+addFile ../../build/QtAV-depends-windows-x86+x64/bin/postproc-54.dll
+addFile ../../build/QtAV-depends-windows-x86+x64/bin/swresample-2.dll
 addFile ../../build/QtAV-depends-windows-x86+x64/bin/swscale-4.dll
 addFile /c/Qt/5.9/mingw53_32/bin/Qt5Core.dll
 addFile /c/Qt/5.9/mingw53_32/bin/Qt5Network.dll
