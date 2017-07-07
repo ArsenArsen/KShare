@@ -9,7 +9,7 @@ function addFileIn {
     echo $1
     mkdir -p $2
     cp $1 $2
-    echo "Source: \"$2\\$2\"; DestDir: \"{app}\"; Flags: ignoreversion" >> installer.iss
+    echo "Source: \"$2\\$(basename $1)\"; DestDir: \"{app}\"; Flags: ignoreversion" >> installer.iss
 }
 
 function addAllFiles {
