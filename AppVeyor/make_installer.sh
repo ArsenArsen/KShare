@@ -6,7 +6,7 @@ function addFile {
 
 function addAllFiles {
     find $1 -type f -iname $2 | while read -r filename; do
-        addFile filename
+        addFile $filename
     done
 }
 
