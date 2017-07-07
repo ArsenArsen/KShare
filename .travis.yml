@@ -8,7 +8,6 @@ before_install:
   - export CPATH=/usr/local/Cellar/ffmpeg/3.3.2/include:$CPATH
   - export LIBRARY_PATH=/usr/local/Cellar/ffmpeg/3.3.2/lib:$LIBRARY_PATH
   - export DYLD_LIBRARY_PATH=/usr/local/Cellar/ffmpeg/3.3.2/lib:$DYLD_LIBRARY_PATH
-  - export PKG_CONFIG_PATH=:$PKG_CONFIG_PATH
 script:
   - qmake
   - make -j4

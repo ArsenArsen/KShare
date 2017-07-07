@@ -24,4 +24,6 @@ build_script:
   - bash -xe AppVeyor\make_installer.sh
 artifacts:
   - path: KShare.exe
+    name: Shared link
   - path: installer.exe
+    name: Installer
