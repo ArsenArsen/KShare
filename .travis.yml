@@ -1,0 +1,9 @@
+os: osx
+before_install:
+  - brew install qt
+  - brew install ffmpeg@3.2
+  - brew link ffmpeg
+  - brew link qt
+  - export CPATH=/usr/local/Cellar/ffmpeg/3.2/include:$CPATH
+  - export LIBRARY_PATH=/usr/local/Cellar/ffmpeg/3.2/lib:$LIBRARY_PATH
+  - export DYLD_LIBRARY_PATH=/usr/local/Cellar/ffmpeg/3.2/lib:$DYLD_LIBRARY_PATH
