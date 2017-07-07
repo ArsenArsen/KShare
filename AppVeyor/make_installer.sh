@@ -17,26 +17,26 @@ cp ../../KShare.exe . || exit 1
 
 sed "s/;VER;/$ver/" installer.iss.pattern.top > installer.iss
 
-#addFile ../../build/ffmpeg-3.3.2-win64-shared/bin/avcodec-57.dll
-##addFile ../../build/ffmpeg-3.3.2-win64-shared/bin/avdevice-57.dll
-##addFile ../../build/ffmpeg-3.3.2-win64-shared/bin/avfilter-6.dll
-#addFile ../../build/ffmpeg-3.3.2-win64-shared/bin/avformat-57.dll
-#addFile ../../build/ffmpeg-3.3.2-win64-shared/bin/avutil-55.dll
-##addFile ../../build/ffmpeg-3.3.2-win64-shared/bin/postproc-54.dll
-##addFile ../../build/ffmpeg-3.3.2-win64-shared/bin/swresample-2.dll
-#addFile ../../build/ffmpeg-3.3.2-win64-shared/bin/swscale-4.dll
-#addFile /c/Qt/5.9/mingw53_32/bin/Qt5Core.dll
-#addFile /c/Qt/5.9/mingw53_32/bin/Qt5Network.dll
-#addFile /c/Qt/5.9/mingw53_32/bin/Qt5Gui.dll
-#addFile /c/Qt/5.9/mingw53_32/bin/Qt5Widgets.dll
-#addFile /c/Qt/5.9/mingw53_32/bin/Qt5WinExtras.dll
-#addFile /c/Qt/5.9/mingw53_32/bin/Qt5Network.dll
-#addFile /c/Qt/5.9/mingw53_32/bin/LIBSTDC++-6.DLL
-#addFile /c/Qt/5.9/mingw53_32/bin/LIBWINPTHREAD-1.DLL
-#addFile /c/Qt/5.9/mingw53_32/bin/LIBGCC_S_DW2-1.DLL
+addFile ../../build/QtAV-depends-windows-x86+x64/bin/avcodec-57.dll
+#addFile ../../build/QtAV-depends-windows-x86+x64/bin/avdevice-57.dll
+#addFile ../../build/QtAV-depends-windows-x86+x64/bin/avfilter-6.dll
+addFile ../../build/QtAV-depends-windows-x86+x64/bin/avformat-57.dll
+addFile ../../build/QtAV-depends-windows-x86+x64/bin/avutil-55.dll
+#addFile ../../build/QtAV-depends-windows-x86+x64/bin/postproc-54.dll
+#addFile ../../build/QtAV-depends-windows-x86+x64/bin/swresample-2.dll
+addFile ../../build/QtAV-depends-windows-x86+x64/bin/swscale-4.dll
+addFile /c/Qt/5.9/mingw53_32/bin/Qt5Core.dll
+addFile /c/Qt/5.9/mingw53_32/bin/Qt5Network.dll
+addFile /c/Qt/5.9/mingw53_32/bin/Qt5Gui.dll
+addFile /c/Qt/5.9/mingw53_32/bin/Qt5Widgets.dll
+addFile /c/Qt/5.9/mingw53_32/bin/Qt5WinExtras.dll
+addFile /c/Qt/5.9/mingw53_32/bin/Qt5Network.dll
+addFile /c/Qt/5.9/mingw53_32/bin/LIBSTDC++-6.DLL
+addFile /c/Qt/5.9/mingw53_32/bin/LIBWINPTHREAD-1.DLL
+addFile /c/Qt/5.9/mingw53_32/bin/LIBGCC_S_DW2-1.DLL
 
-addAllFiles /c/Qt/5.9/mingw53_32/bin/ '*.dll'
-addAllFiles ../../build/QtAV-depends-windows-x86+x64/bin/ '*.dll'
+#addAllFiles /c/Qt/5.9/mingw53_32/bin/ '*.dll'
+#addAllFiles ../../build/QtAV-depends-windows-x86+x64/bin/ '*.dll'
 
 cat installer.iss.pattern.bottom >> installer.iss
 "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" installer.iss
