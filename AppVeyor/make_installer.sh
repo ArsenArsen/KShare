@@ -5,6 +5,13 @@ function addFile {
     echo "Source: \"$(basename $1)\"; DestDir: \"{app}\"; Flags: ignoreversion" >> installer.iss
 }
 
+function addFileIn {
+    echo $1
+    mkdir -p $2
+    cp $1 $2
+    echo "Source: \"$2\\$2\"; DestDir: \"{app}\"; Flags: ignoreversion" >> installer.iss
+}
+
 function addAllFiles {
     for file in $1/$2; do addFile "$file"; done
 }
@@ -31,6 +38,9 @@ addFile /c/Qt/5.9/mingw53_32/bin/Qt5Gui.dll
 addFile /c/Qt/5.9/mingw53_32/bin/Qt5Widgets.dll
 addFile /c/Qt/5.9/mingw53_32/bin/Qt5WinExtras.dll
 addFile /c/Qt/5.9/mingw53_32/bin/Qt5Network.dll
+
+addFileIn /c/Qt/5.9/mingw53_32/plugins/platforms/qwindows.dll platforms
+
 addFile /c/Qt/5.9/mingw53_32/bin/LIBSTDC++-6.DLL
 addFile /c/Qt/5.9/mingw53_32/bin/LIBWINPTHREAD-1.DLL
 addFile /c/Qt/5.9/mingw53_32/bin/LIBGCC_S_DW2-1.DLL
