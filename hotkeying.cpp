@@ -30,10 +30,7 @@ void hotkeying::load(QString seqName, std::function<void()> func, QString def) {
     if (hotkeys.contains(seqName)) return;
     QString k = settings::settings().value(name).toString();
     if (!k.isEmpty()) {
-        if (!k.isEmpty())
-            h = new QHotkey(QKeySequence(settings::settings().value(k).toString()), true);
-        else
-            h = new QHotkey(def.isEmpty() ? "" : def, true);
+        h = new QHotkey(QKeySequence(k), true);
     } else
         h = new QHotkey(def.isEmpty() ? "" : def, true);
     QObject::connect(h, &QHotkey::activated, func);

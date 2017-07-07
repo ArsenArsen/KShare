@@ -12,24 +12,16 @@ function addFileIn {
     echo "Source: \"$2\\$(basename $1)\"; DestDir: \"{app}\\$2\"; Flags: ignoreversion" >> installer.iss
 }
 
-function addAllFiles {
-    for file in $1/$2; do addFile "$file"; done
-}
-
 ver=$(cat main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVersion(\"//g" | sed "s/\");//g")
 
 cd packages/windows
 cp ../../KShare.exe . || exit 1
-# BOOOOOOIII Feeels good, it's not powershell.
 
 sed "s/;VER;/$ver/" installer.iss.pattern.top > installer.iss
 
 addFile ../../build/QtAV-depends-windows-x86+x64/bin/avcodec-57.dll
-#addFile ../../build/QtAV-depends-windows-x86+x64/bin/avdevice-57.dll
-#addFile ../../build/QtAV-depends-windows-x86+x64/bin/avfilter-6.dll
 addFile ../../build/QtAV-depends-windows-x86+x64/bin/avformat-57.dll
 addFile ../../build/QtAV-depends-windows-x86+x64/bin/avutil-55.dll
-#addFile ../../build/QtAV-depends-windows-x86+x64/bin/postproc-54.dll
 addFile ../../build/QtAV-depends-windows-x86+x64/bin/swresample-2.dll
 addFile ../../build/QtAV-depends-windows-x86+x64/bin/swscale-4.dll
 addFile /c/Qt/5.9/mingw53_32/bin/Qt5Core.dll
@@ -44,9 +36,6 @@ addFileIn /c/Qt/5.9/mingw53_32/plugins/platforms/qwindows.dll platforms
 addFile /c/Qt/5.9/mingw53_32/bin/LIBSTDC++-6.DLL
 addFile /c/Qt/5.9/mingw53_32/bin/LIBWINPTHREAD-1.DLL
 addFile /c/Qt/5.9/mingw53_32/bin/LIBGCC_S_DW2-1.DLL
-
-#addAllFiles /c/Qt/5.9/mingw53_32/bin/ '*.dll'
-#addAllFiles ../../build/QtAV-depends-windows-x86+x64/bin/ '*.dll'
 
 cat installer.iss.pattern.bottom >> installer.iss
 "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" installer.iss
