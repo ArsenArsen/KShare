@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 function addFile {
+    echo $1
     cp $1 .
     echo "Source: \"$(basename $1)\"; DestDir: \"{app}\"; Flags: ignoreversion" >> installer.iss
 }
 
 function addAllFiles {
-    (find $1 -type f -iname "$2" || exit 1) | while read -r filename; do
-        cp $filename .
-        echo $filename
-        echo "Source: \"$(basename $filename)\"; DestDir: \"{app}\"; Flags: ignoreversion" >> installer.iss
-    done
+    for file in $1/$2; do addFile "$file"; done
 }
 
 ver=$(cat main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVersion(\"//g" | sed "s/\");//g")
