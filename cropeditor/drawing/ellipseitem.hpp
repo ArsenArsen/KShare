@@ -12,7 +12,7 @@ public:
     }
     ~EllipseItem() {
     }
-    void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) override;
+    void mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) override;
     void mouseDragEndEvent(QGraphicsSceneMouseEvent *, CropScene *) override {
     }
 

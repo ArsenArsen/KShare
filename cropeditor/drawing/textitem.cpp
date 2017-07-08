@@ -10,15 +10,15 @@ bool TextItem::init(CropScene *s) {
     return ok;
 }
 
-void TextItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) {
+void TextItem::mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) {
     if (!textItem) {
         textItem = scene->addSimpleText(text, scene->font());
-        textItem->setPos(e->scenePos());
+        textItem->setPos(scene->cursorPosition());
         textItem->setPen(scene->pen().color());
         textItem->setBrush(scene->pen().color());
     } else {
-        auto ee
-        = 180 + qRadiansToDegrees(qAtan2((textItem->pos().y() - e->scenePos().y()), (textItem->pos().x() - e->scenePos().x())));
+        auto ee = 180 + qRadiansToDegrees(qAtan2((textItem->pos().y() - scene->cursorPosition().y()),
+                                                 (textItem->pos().x() - scene->cursorPosition().x())));
         textItem->setRotation(ee);
     }
 }

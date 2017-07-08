@@ -32,6 +32,7 @@ bool stillAlive = true;
     }
 
 void handler(QtMsgType type, const QMessageLogContext &, const QString &msg) {
+    if (!verbose && msg.startsWith("QPixmap::fromWinHBITMAP")) return;
     std::string stdMsg = msg.toStdString();
     switch (type) {
     case QtDebugMsg:

@@ -9,13 +9,13 @@ PathItem::~PathItem() {
     delete path;
 }
 
-void PathItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) {
+void PathItem::mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) {
     if (path == nullptr) {
-        path = new QPainterPath(e->scenePos());
+        path = new QPainterPath(scene->cursorPosition());
         pathItem = scene->addPath(*path, scene->pen(),
                                   settings::settings().value("brushPath", false).toBool() ? scene->brush() : QBrush());
     } else {
-        path->quadTo(path->currentPosition(), e->scenePos());
+        path->quadTo(path->currentPosition(), scene->cursorPosition());
         pathItem->setPath(*path);
     }
 }

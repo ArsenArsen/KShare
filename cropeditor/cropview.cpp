@@ -9,4 +9,5 @@ CropView::CropView(QGraphicsScene *scene) : QGraphicsView(scene) {
     setCursor(QCursor(Qt::CrossCursor));
     setMouseTracking(true);
     setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
+    setCursor(Qt::BlankCursor);
 }

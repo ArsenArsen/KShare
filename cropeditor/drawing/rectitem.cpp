@@ -6,14 +6,14 @@ RectItem::RectItem() {
 RectItem::~RectItem() {
 }
 
-void RectItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) {
+void RectItem::mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) {
     if (!rect) {
-        rect = scene->addRect(e->scenePos().x(), e->scenePos().y(), 0, 0);
+        rect = scene->addRect(scene->cursorPosition().x(), scene->cursorPosition().y(), 0, 0);
         rect->setBrush(scene->brush());
         rect->setPen(scene->pen());
-        initPos = e->scenePos();
+        initPos = scene->cursorPosition();
     } else {
-        auto p = e->scenePos();
+        auto p = scene->cursorPosition();
         rect->setRect(
         QRect(qMin(initPos.x(), p.x()), qMin(initPos.y(), p.y()), qAbs(initPos.x() - p.x()), qAbs(initPos.y() - p.y())));
     }

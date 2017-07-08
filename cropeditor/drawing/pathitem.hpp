@@ -11,7 +11,7 @@ public:
     QString name() {
         return "Path";
     }
-    void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene);
+    void mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene);
     void mouseDragEndEvent(QGraphicsSceneMouseEvent *e, CropScene *scene);
 
 private:

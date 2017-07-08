@@ -14,7 +14,7 @@ public:
     }
 
     bool init(CropScene *) override;
-    void mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) override;
+    void mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) override;
     void mouseDragEndEvent(QGraphicsSceneMouseEvent *, CropScene *) override;
 
 private:

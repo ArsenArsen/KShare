@@ -2,9 +2,9 @@
 #include <QtMath>
 #include <settings.hpp>
 
-void ArrowItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) {
+void ArrowItem::mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) {
     if (init.isNull()) {
-        init = e->scenePos();
+        init = scene->cursorPosition();
         line = scene->addLine(QLineF(init, init), scene->pen());
         QPainterPath poly;
         qreal w = settings::settings().value("arrow/width", 20).toDouble() / 2;
@@ -14,8 +14,9 @@ void ArrowItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) {
         poly.lineTo(QPoint(w, h));
         head = scene->addPath(poly, scene->pen(), scene->brush());
     } else {
-        line->setLine(QLineF(init, e->scenePos()));
-        head->setRotation(270 + qRadiansToDegrees(qAtan2((init.y() - e->scenePos().y()), (init.x() - e->scenePos().x()))));
+        line->setLine(QLineF(init, scene->cursorPosition()));
+        head->setRotation(
+        270 + qRadiansToDegrees(qAtan2((init.y() - scene->cursorPosition().y()), (init.x() - scene->cursorPosition().x()))));
     }
-    head->setPos(e->scenePos());
+    head->setPos(scene->cursorPosition());
 }

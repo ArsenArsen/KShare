@@ -3,12 +3,12 @@
 LineItem::LineItem() {
 }
 
-void LineItem::mouseDragEvent(QGraphicsSceneMouseEvent *e, CropScene *scene) {
+void LineItem::mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) {
     if (init.isNull()) {
-        init = e->scenePos();
+        init = scene->cursorPosition();
         line = scene->addLine(QLineF(init, init), scene->pen());
     } else {
-        line->setLine(QLineF(init, e->scenePos()));
+        line->setLine(QLineF(init, scene->cursorPosition()));
     }
 }
 

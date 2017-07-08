@@ -34,6 +34,9 @@ public:
     void hide();
     void show();
     void setVisible(bool visible);
+    QPointF cursorPosition() {
+        return cursorPos;
+    }
 
 public slots:
     void fontAsk();
@@ -47,15 +50,15 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *e) override;
     void wheelEvent(QGraphicsSceneWheelEvent *event) override; // WHEEEEEEL
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *e) override;
-
     void keyReleaseEvent(QKeyEvent *e) override;
 
 private:
-    void updateMag(QPointF scenePos);
+    void updateMag();
     void initMagnifierGrid();
     void addDrawingAction(QMenu &menu, QString name, std::function<DrawItem *()> item);
     void done(bool notEsc);
     bool fullscreen;
+    QPointF cursorPos;
     std::function<DrawItem *()> drawingSelectionMaker;
     QFlags<Qt::MouseButton> prevButtons;
     QPixmap _pixmap;
@@ -75,6 +78,7 @@ private:
     QAction *display;
     QList<QGraphicsRectItem *> gridRectsX;
     QList<QGraphicsRectItem *> gridRectsY;
+    QGraphicsPolygonItem *cursorItem = nullptr;
 };
 
 #endif // CROPSCENE_HPP
