@@ -28,3 +28,5 @@ artifacts:
     name: Shared link
   - path: installer.exe
     name: Installer
+  - path: portable.zip
+    name: Portable version

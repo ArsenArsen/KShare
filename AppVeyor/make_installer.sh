@@ -9,13 +9,14 @@ function addFileIn {
     echo $1
     mkdir -p $2
     cp $1 $2
+    7z a -tzip $2\\$1 portable.zip
     echo "Source: \"$2\\$(basename $1)\"; DestDir: \"{app}\\$2\"; Flags: ignoreversion" >> installer.iss
 }
 
 ver=$(cat main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVersion(\"//g" | sed "s/\");//g")
 
 cd packages/windows
-cp ../../KShare.exe . || exit 1
+cp ../../KShare.exe . || exit 3
 
 sed "s/;VER;/$ver/" installer.iss.pattern.top > installer.iss
 
@@ -40,3 +41,4 @@ addFile /c/Qt/5.9/mingw53_32/bin/LIBGCC_S_DW2-1.DLL
 cat installer.iss.pattern.bottom >> installer.iss
 "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" installer.iss
 cp Output/setup.exe ../../installer.exe || exit 1
+cp Output/porable.zip ../../ || exit 2
