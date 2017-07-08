@@ -16,9 +16,7 @@ build_script:
   - 7z x av.7z > NUL
   - xcopy ffmpeg-3.3.2-win64-shared\* %QTDIR% /e /i /Y
   - xcopy ffmpeg-3.3.2-win64-dev\* %QTDIR% /e /i /Y
-  - xcopy QtAV-depends-windows-x86+x64\bin\x64\* %QTDIR%\bin\ /e /i /Y
-  - xcopy QtAV-depends-windows-x86+x64\lib\x64\* %QTDIR%\lib\ /e /i /Y
-  - xcopy QtAV-depends-windows-x86+x64\include\* %QTDIR%\include\ /e /i /Y
+  - xcopy QtAV-depends-windows-x86+x64\* %QTDIR% /e /i /Y
   - qmake CONFIG+=nopkg ../KShare.pro
   - mingw32-make.exe -j8
   - copy release\KShare.exe ..\KShare.exe
