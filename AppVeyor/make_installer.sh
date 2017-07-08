@@ -2,12 +2,12 @@
 function addFile {
     echo $1
     cp $1 .
+    7z a -tzip portable.zip $(basename $1)
     echo "Source: \"$(basename $1)\"; DestDir: \"{app}\"; Flags: ignoreversion" >> installer.iss
 }
 
 function addFileIn {
     name=$2\\$(basename $1)
-    echo $1 $name
     mkdir -p $2
     cp $1 $2
     7z a -tzip portable.zip $name
