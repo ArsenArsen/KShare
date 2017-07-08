@@ -9,8 +9,9 @@ function addFileIn {
     echo $1
     mkdir -p $2
     cp $1 $2
-    7z a -tzip $2\\$1 portable.zip
-    echo "Source: \"$2\\$(basename $1)\"; DestDir: \"{app}\\$2\"; Flags: ignoreversion" >> installer.iss
+    name=$2\\$(basename $1)
+    7z a -tzip portable.zip $name
+    echo "Source: \"$name\"; DestDir: \"{app}\\$2\"; Flags: ignoreversion" >> installer.iss
 }
 
 ver=$(cat main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVersion(\"//g" | sed "s/\");//g")
