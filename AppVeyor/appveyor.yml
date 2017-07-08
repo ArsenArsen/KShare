@@ -22,7 +22,7 @@ build_script:
   - mingw32-make.exe -j8
   - copy release\KShare.exe ..\KShare.exe
   - cd ..
-  - bash -xe AppVeyor\make_installer.sh
+  - bash AppVeyor\make_installer.sh
 artifacts:
   - path: KShare.exe
     name: Shared link

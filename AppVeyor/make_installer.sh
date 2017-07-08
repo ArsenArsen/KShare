@@ -6,10 +6,10 @@ function addFile {
 }
 
 function addFileIn {
-    echo $1
+    name=$2\\$(basename $1)
+    echo $1 $name
     mkdir -p $2
     cp $1 $2
-    name=$2\\$(basename $1)
     7z a -tzip portable.zip $name
     echo "Source: \"$name\"; DestDir: \"{app}\\$2\"; Flags: ignoreversion" >> installer.iss
 }
