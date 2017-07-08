@@ -42,7 +42,7 @@ void addHotkey(QString name, std::function<void()> action) {
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     instance = this;
     ui->setupUi(this);
-    setWindowIcon(QIcon(":/icons/icon.svg"));
+    setWindowIcon(QIcon(":/icons/icon.png"));
     tray = new QSystemTrayIcon(windowIcon(), this);
     tray->setToolTip("KShare");
     tray->setVisible(true);
