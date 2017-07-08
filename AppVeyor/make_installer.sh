@@ -39,7 +39,9 @@ addFile /c/Qt/5.9/mingw53_32/bin/LIBSTDC++-6.DLL
 addFile /c/Qt/5.9/mingw53_32/bin/LIBWINPTHREAD-1.DLL
 addFile /c/Qt/5.9/mingw53_32/bin/LIBGCC_S_DW2-1.DLL
 
+ls
+
 cat installer.iss.pattern.bottom >> installer.iss
 "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" installer.iss
 cp Output/setup.exe ../../installer.exe || exit 1
-cp Output/porable.zip ../../ || exit 2
+cp Output/portable.zip ../../ || exit 2
