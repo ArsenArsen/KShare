@@ -1,6 +1,6 @@
 environment:
   QTDIR: C:\Qt\5.9\mingw53_32
-platform:x64
+platform: x64
 build_script:
   - dir
   - mkdir build
