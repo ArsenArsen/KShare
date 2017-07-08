@@ -18,6 +18,7 @@ ver=$(cat main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVer
 
 cd packages/windows
 cp ../../KShare.exe . || exit 3
+7z a -tzip portable.zip KShare.exe
 
 sed "s/;VER;/$ver/" installer.iss.pattern.top > installer.iss
 
