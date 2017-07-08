@@ -7,8 +7,14 @@ build_script:
   - cd build
   - set PATH=%PATH%;%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin;C:\MinGW\msys\1.0\bin
   - git submodule update --init --recursive
+  - curl -kLO https://ffmpeg.zeranoe.com/builds/win64/dev/ffmpeg-3.3.2-win64-dev.zip
+  - 7z x ffmpeg-3.3.2-win64-dev.zip
+  - curl -kLO https://ffmpeg.zeranoe.com/builds/win64/shared/ffmpeg-3.3.2-win64-shared.zip
+  - 7z x ffmpeg-3.3.2-win64-shared.zip
   - ps: Start-FileDownload https://downloads.sourceforge.net/project/qtav/depends/QtAV-depends-windows-x86%2Bx64.7z av.7z
   - 7z x av.7z > NUL
+  - xcopy ffmpeg-3.3.2-win64-shared\* %QTDIR% /e /i /Y
+  - xcopy ffmpeg-3.3.2-win64-dev\* %QTDIR% /e /i /Y
   - xcopy QtAV-depends-windows-x86+x64\bin\x64\* %QTDIR%\bin\ /e /i /Y
   - xcopy QtAV-depends-windows-x86+x64\lib\x64\* %QTDIR%\lib\ /e /i /Y
   - xcopy QtAV-depends-windows-x86+x64\include\* %QTDIR%\include\ /e /i /Y
