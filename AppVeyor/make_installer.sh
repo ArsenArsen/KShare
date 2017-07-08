@@ -40,9 +40,9 @@ addFile /c/Qt/5.9/mingw53_32/bin/LIBSTDC++-6.DLL
 addFile /c/Qt/5.9/mingw53_32/bin/LIBWINPTHREAD-1.DLL
 addFile /c/Qt/5.9/mingw53_32/bin/LIBGCC_S_DW2-1.DLL
 
-for filename in /c/OpenSSL-Win32/bin/*.dll; do
-    addFile $filename
-done
+addFile /c/OpenSSL-Win32/bin/libeay32.dll
+addFile /c/OpenSSL-Win32/bin/ssleay32.dll
+addFile /c/OpenSSL-Win32/bin/msvcr120.dll
 
 ls
 
