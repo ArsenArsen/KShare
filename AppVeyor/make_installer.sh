@@ -44,4 +44,4 @@ ls
 cat installer.iss.pattern.bottom >> installer.iss
 "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" installer.iss
 cp Output/setup.exe ../../installer.exe || exit 1
-cp Output/portable.zip ../../ || exit 2
+cp portable.zip ../../ || exit 2
