@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QImage>
 #include <QString>
+#include <QTemporaryDir>
 #include <formats.hpp>
 #include <functional>
 
@@ -27,7 +28,7 @@ private:
     std::function<void()> postUploadTask;
     std::vector<QImage> frames;
     QImage::Format iFormat;
-    QDir tmpDir;
+    QTemporaryDir tmpDir;
     QString path;
     Encoder *enc = NULL;
     bool interrupt = false;

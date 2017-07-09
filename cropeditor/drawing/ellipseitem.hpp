@@ -7,7 +7,7 @@ class EllipseItem : public DrawItem {
 public:
     EllipseItem() {
     }
-    QString name() {
+    QString name() override {
         return "Blur";
     }
     ~EllipseItem() {

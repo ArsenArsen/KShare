@@ -22,19 +22,10 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
         validator = [](QSize) { return false; };
         return;
     }
-    tmpDir = QDir(tmp);
-    QString name
-    = QString("KShareTemp-") + QString::number(PlatformBackend::inst().pid()) + "-" + QTime::currentTime().toString();
-    tmpDir.mkdir(name);
-    tmpDir.cd(name);
     iFormat = QImage::Format_RGB888;
-    path = tmpDir.absoluteFilePath("res." + formats::recordingFormatName(f).toLower());
+    path = tmpDir.filePath("res." + formats::recordingFormatName(f).toLower());
     finalizer = [&] {
         delete enc;
-        if (interrupt || !frameAdded) {
-            tmpDir.removeRecursively();
-            return QString();
-        }
         return QFile(path).size() > 0 ? path : QString();
     };
     validator = [&](QSize s) {
@@ -69,10 +60,7 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
                 interrupt = true;
             }
     };
-    postUploadTask = [&] {
-        tmpDir.removeRecursively();
-        QScopedPointer<RecordingFormats> th(this);
-    };
+    postUploadTask = [&] { QScopedPointer<RecordingFormats> th(this); };
     anotherFormat = formats::recordingFormatName(f);
 }
 

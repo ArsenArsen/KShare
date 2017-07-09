@@ -135,19 +135,19 @@ nopkg {
 }
 
 mac {
-    ICON = icons/icon.icns
+    ICON = $$PWD/icons/icon.icns
     SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp
     HEADERS += $$PWD/platformspecifics/mac/macbackend.hpp
     LIBS += -framework Carbon
     warning(Mac is on TODO);
 } else:win32 {
-    RC_FILE = icon.rc
+    RC_FILE = $$PWD/icon.rc
     SOURCES += $$PWD/platformspecifics/u32/u32backend.cpp
     HEADERS += $$PWD/platformspecifics/u32/u32backend.hpp
     LIBS += -luser32 -lkernel32 -lpthread
     QT += winextras
 } else:unix {
-    RC_FILE = icon.rc
+    RC_FILE = $$PWD/icon.rc
     SOURCES += $$PWD/platformspecifics/x11/x11backend.cpp
     HEADERS += $$PWD/platformspecifics/x11/x11backend.hpp
     QT += x11extras

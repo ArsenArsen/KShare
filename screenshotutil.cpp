@@ -75,5 +75,27 @@ QPoint screenshotutil::smallestScreenCoordinate() {
     return smallestCoordinate;
 }
 
-QPixmap screenshotutil::renderText(QString toRender, QColor background, QFont font) {
+QPixmap screenshotutil::renderText(QString toRender, int padding, QColor background, QColor pen, QFont font) {
+    QFontMetrics metric(font);
+    QStringList lines = toRender.replace("\r", "").split('\n');
+    QSize resultingSize(0, padding * 2);
+    int lineSpace = metric.leading();
+    for (QString line : lines) {
+        QRect br = metric.boundingRect(line);
+        resultingSize.rheight() += lineSpace + br.height();
+        resultingSize.rwidth() = qMax(br.width(), resultingSize.width());
+    }
+    resultingSize.rwidth() += padding * 2;
+    QPixmap renderred(resultingSize);
+    renderred.fill(background);
+    QPainter painter(&renderred);
+    painter.setPen(pen);
+    int y = padding;
+    for (QString line : lines) {
+        QRect br = metric.boundingRect(line);
+        painter.drawText(padding, y, br.width(), br.height(), 0, line);
+        y += lineSpace + br.height();
+    }
+    painter.end();
+    return renderred;
 }

@@ -7,7 +7,7 @@
 
 class BlurItem : public DrawItem {
 public:
-    QString name() {
+    QString name() override {
         return "Blur";
     }
     ~BlurItem() {

@@ -7,5 +7,4 @@ before_install:
 script:
   - cd build
   - qmake ..
-  - make -j4
-
+  - make -j$(($(nproc) + 1))

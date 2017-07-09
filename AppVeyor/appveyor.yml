@@ -19,7 +19,7 @@ build_script:
   - xcopy ffmpeg-3.3.2-win64-dev\* %QTDIR% /e /i /Y
   - xcopy QtAV-depends-windows-x86+x64\* %QTDIR% /e /i /Y
   - qmake CONFIG+=nopkg ../KShare.pro
-  - mingw32-make.exe -j8
+  - mingw32-make.exe -j%NUMBER_OF_PROCESSORS%
   - copy release\KShare.exe ..\KShare.exe
   - cd ..
   - bash AppVeyor\make_installer.sh

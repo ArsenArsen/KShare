@@ -92,6 +92,10 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     initMagnifierGrid();
     updateMag();
 
+    addItem(hint);
+    hint->setPos(5, 5);
+    hint->setZValue(2);
+    hint->setVisible(settings::settings().value("crophint", true).toBool());
     connect(menu.addAction("Set Font"), &QAction::triggered, this, &CropScene::fontAsk);
 
     QPolygonF poly;
@@ -169,6 +173,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
         QCursor::setPos(views()[0]->mapToGlobal(cursorPos.toPoint()));
     } else
         cursorPos = e->scenePos();
+    hint->setVisible(!hint->sceneBoundingRect().contains(cursorPos));
     cursorItem->setPos(cursorPos);
     updateMag();
 
@@ -283,6 +288,11 @@ void CropScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *e) {
 void CropScene::keyReleaseEvent(QKeyEvent *event) {
     if (((event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) && !drawingSelection) || event->key() == Qt::Key_Escape)
         done(event->key() != Qt::Key_Escape);
+    else if (event->key() == Qt::Key_F1) {
+        bool enabled = !settings::settings().value("crophint", true).toBool();
+        hint->setVisible(enabled);
+        settings::settings().setValue("crophint", enabled);
+    }
 }
 
 void CropScene::updateMag() {
@@ -338,6 +348,7 @@ void CropScene::initMagnifierGrid() {
 
 void CropScene::done(bool notEsc) {
     if (notEsc && rect) {
+        hint->setVisible(false);
         rect->setPen(QPen(Qt::NoPen));
         magnifier->setVisible(false);
         cursorItem->setVisible(false);
