@@ -8,7 +8,7 @@
 #ifdef Q_OS_WIN
 #include <platformspecifics/u32/u32backend.hpp>
 #endif
-#ifdef Q_OS_UNIX
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
 #include <platformspecifics/x11/x11backend.hpp>
 #endif
 
