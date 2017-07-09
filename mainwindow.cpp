@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QAction *recabort = new QAction("Abort recording", this);
     menu->addActions({ quit, shtoggle, picker });
     menu->addSeparator();
-    menu->addActions({ fullscreen, area, active });
+    menu->addActions({ fullscreen, area });
 #ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
     menu->addAction(area);
 #endif

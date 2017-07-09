@@ -26,7 +26,7 @@ QPixmap screenshotutil::fullscreen(bool cursor) {
         for (QScreen *screen : QApplication::screens()) {
             QRect geo = screen->geometry();
             width = qMax(ox + geo.left() + geo.width(), width);
-            height = qMax(oy + geo.top() + geo.height(), height); // qute abs
+            height = qMax(oy + geo.top() + geo.height(), height);
         }
         image = QPixmap(width, height);
         image.fill(Qt::transparent);
@@ -36,7 +36,8 @@ QPixmap screenshotutil::fullscreen(bool cursor) {
 
         for (QScreen *screen : QApplication::screens()) {
             QPixmap currentScreen = window(0, screen);
-            painter.drawPixmap(screen->geometry().topLeft(), currentScreen);
+            QRect geo = screen->geometry();
+            painter.drawPixmap(geo.left(), geo.top(), geo.width(), geo.height(), currentScreen);
             width += screen->size().width();
         }
 #ifdef Q_OS_LINUX
@@ -72,4 +73,7 @@ QPoint screenshotutil::smallestScreenCoordinate() {
         smallestCoordinate.ry() = qMin(smallestCoordinate.y(), screen->geometry().top());
     }
     return smallestCoordinate;
+}
+
+QPixmap screenshotutil::renderText(QString toRender, QColor background, QFont font) {
 }

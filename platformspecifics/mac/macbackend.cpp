@@ -1,6 +1,8 @@
 #include "macbackend.hpp"
 
-QPixmap PlatformBackend::getCursor() {
+#include <unistd.h>
+
+std::tuple<QPoint, QPixmap> PlatformBackend::getCursor() {
 #warning "TODO: Mac backend"
     return std::tuple<QPoint, QPixmap>(QPoint(0, 0), QPixmap());
     // Not Monday: https://developer.apple.com/reference/appkit/nscursor/1527062-image

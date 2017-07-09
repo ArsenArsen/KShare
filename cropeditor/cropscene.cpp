@@ -103,6 +103,7 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     polyItem = new QGraphicsPolygonItem(poly);
     polyItem->setBrush(QBrush(QColor(0, 0, 0, 191)));
     polyItem->setPen(QPen(Qt::NoPen));
+    polyItem->setZValue(1);
     addItem(polyItem);
     QTimer::singleShot(0, [&] {
         auto pf = views()[0]->mapFromGlobal(QCursor::pos());

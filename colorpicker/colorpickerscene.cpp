@@ -17,6 +17,7 @@ ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
     setMouseTracking(true);
     setWindowTitle("KShare Color Picker");
     setGeometry(pixmap.rect());
+    move(screenshotutil::smallestScreenCoordinate());
     setAttribute(Qt::WA_DeleteOnClose);
 
     pItem = addPixmap(pixmap);
