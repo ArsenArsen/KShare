@@ -1,7 +1,7 @@
 os: osx
 language: cpp
 before_install:
-  - brew install qt ffmpeg pkg-config
+  - brew install qt ffmpeg
   - brew link qt --force
   - mkdir build
 script:
