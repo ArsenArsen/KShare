@@ -17,7 +17,7 @@
 #include <recording/encoders/encodersettings.hpp>
 
 RecordingFormats::RecordingFormats(formats::Recording f) {
-    if (tmpDir.isValid()) {
+    if (!tmpDir.isValid()) {
         validator = [](QSize) { return false; };
         qCritical().noquote() << "Could not create temporary directory. Error: " + tmpDir.errorString();
         return;
