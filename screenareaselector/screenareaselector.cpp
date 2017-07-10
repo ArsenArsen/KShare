@@ -47,6 +47,6 @@ void ScreenAreaSelector::resizeEvent(QResizeEvent *) {
 }
 
 void ScreenAreaSelector::closeEvent(QCloseEvent *) {
-    QRect r = QRect(pos(), rect().size());
+    QRect r = QRect(mapToGlobal(QPoint(0, 0)), rect().size());
     settings::settings().setValue("screenareaselector/rect", r);
 }
