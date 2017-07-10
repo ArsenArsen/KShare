@@ -23,7 +23,7 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
         return;
     }
     iFormat = QImage::Format_RGB888;
-    path = tmpDir.filePath("res." + formats::recordingFormatName(f).toLower());
+    path = tmpDir.path() + "/res." + formats::recordingFormatName(f).toLower();
     finalizer = [&] {
         delete enc;
         return QFile(path).size() > 0 ? path : QString();
