@@ -17,9 +17,9 @@
 #include <recording/encoders/encodersettings.hpp>
 
 RecordingFormats::RecordingFormats(formats::Recording f) {
-    QString tmp = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-    if (tmp.isEmpty()) {
+    if (tmpDir.isValid()) {
         validator = [](QSize) { return false; };
+        qCritical().noquote() << "Could not create temporary directory. Error: " + tmpDir.errorString();
         return;
     }
     iFormat = QImage::Format_RGB888;

@@ -5,6 +5,7 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsTextItem>
 #include <QTimer>
+#include <settings.hpp>
 
 ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
 : QGraphicsScene(), QGraphicsView(this, parentWidget) {
@@ -16,7 +17,6 @@ ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
     setCursor(QCursor(Qt::CrossCursor));
     setMouseTracking(true);
     setWindowTitle("KShare Color Picker");
-    setGeometry(pixmap.rect());
     move(screenshotutil::smallestScreenCoordinate());
     setAttribute(Qt::WA_DeleteOnClose);
 
@@ -36,6 +36,11 @@ ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
     image = pixmap.toImage();
 
     show();
+    activateWindow();
+    setGeometry(pixmap.rect());
+    QPoint p = screenshotutil::smallestScreenCoordinate()
+               + QPoint(settings::settings().value("cropx", 0).toInt(), settings::settings().value("cropy", 0).toInt());
+    move(p.x(), p.y());
 }
 
 void ColorPickerScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {

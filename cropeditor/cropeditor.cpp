@@ -13,17 +13,18 @@
 CropEditor::CropEditor(QPixmap image, QObject *parent) : QObject(parent) {
     scene = new CropScene(parent, image);
     view = new CropView(scene);
+    view->show();
+    view->raise();
     QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(image);
     pixmapItem->setZValue(-1);
     scene->addItem(pixmapItem);
     scene->setSceneRect(image.rect());
     view->resize(image.width(), image.height());
     view->setMinimumSize(image.size());
-    QPoint p = screenshotutil::smallestScreenCoordinate();
-    view->move(p.x() + settings::settings().value("cropx", 0).toInt(), p.y() + settings::settings().value("cropy", 0).toInt());
+    QPoint p = screenshotutil::smallestScreenCoordinate()
+               + QPoint(settings::settings().value("cropx", 0).toInt(), settings::settings().value("cropy", 0).toInt());
+    view->move(p.x(), p.y());
     view->setWindowTitle("KShare Crop Editor");
-    view->show();
-    view->raise();
     view->activateWindow();
 
     connect(scene, &CropScene::closedWithRect, this, &CropEditor::crop);
