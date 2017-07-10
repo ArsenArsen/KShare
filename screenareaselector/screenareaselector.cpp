@@ -35,7 +35,7 @@ ScreenAreaSelector::~ScreenAreaSelector() {
 void ScreenAreaSelector::keyPressEvent(QKeyEvent *event) {
     event->accept();
     if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
-        QRect r = QRect(mapToGlobal(pos()), rect().size());
+        QRect r = QRect(mapToGlobal(QPoint(0, 0)), rect().size());
         emit selectedArea(r);
         close();
     } else if (event->key() == Qt::Key_Escape)
