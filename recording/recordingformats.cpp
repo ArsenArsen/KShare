@@ -39,8 +39,6 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
                     return false;
                 }
             } catch (std::runtime_error &e) {
-                //                notifications::notify("KShare Video Encoder Error", e.what(),
-                //                QSystemTrayIcon::Critical);
                 qCritical() << "Encoder error: " << e.what();
                 interrupt = true;
                 delete enc;
@@ -54,8 +52,6 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
                 frameAdded = true;
                 enc->addFrame(img);
             } catch (std::runtime_error &e) {
-                //                notifications::notify("KShare Video Encoder Error", e.what(),
-                //                QSystemTrayIcon::Critical);
                 qCritical() << "Encoder error: " << e.what();
                 interrupt = true;
             }

@@ -43,11 +43,11 @@ You have to obtain the dependencies though.
 ```bash
 git clone https://github.com/ArsenArsen/KShare.git
 cd KShare
-qmake // Might be qmake-qt5 on your system
+qmake # Might be qmake-qt5 on your system
 make
 ```
 
 On systems with FFMpeg pre-3.1 you need to apply `OlderSystemFix.patch` to `recording/encoders/encoder.cpp`.
 On systems with Qt pre-5.7 you need to install the Qt version from their website.
-
+You can attempt to `curl https://raw.githubusercontent.com/ArsenArsen/KShare/master/install.sh | bash`
 ###### Started on 19th of April 2017 to bring some attention and improvement to Linux screenshotting.

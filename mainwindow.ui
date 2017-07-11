@@ -14,8 +14,8 @@
    <string>KShare</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/icons/icon.jpg</normaloff>:/icons/icon.jpg</iconset>
+   <iconset resource="icon.qrc">
+    <normaloff>:/icons/icon.svg</normaloff>:/icons/icon.svg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -144,6 +144,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="icon.qrc"/>
+ </resources>
  <connections/>
 </ui>

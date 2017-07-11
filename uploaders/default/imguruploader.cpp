@@ -11,7 +11,7 @@
 #include <screenshotutil.hpp>
 #include <settings.hpp>
 
-struct SegfaultWorkaround {
+struct SegfaultWorkaround { // I'm a scrub for doing this
     SegfaultWorkaround(QByteArray a, ImgurUploader *u, QString m) : byteArray(), dis(u), mime(m) {
         a.swap(byteArray);
         QJsonObject object;
@@ -81,16 +81,20 @@ void ImgurUploader::handleSend(QString auth, QString mime, QByteArray byteArray)
     ioutils::postJson(QUrl("https://api.imgur.com/3/image"),
                       QList<QPair<QString, QString>>() << QPair<QString, QString>("Content-Type", mime.toUtf8())
                                                        << QPair<QString, QString>("Authorization", auth),
-                      byteArray, [](QJsonDocument res, QByteArray, QNetworkReply *) {
+                      byteArray, [byteArray, this, mime](QJsonDocument res, QByteArray, QNetworkReply *r) {
                           QString result = res.object()["data"].toObject()["link"].toString();
+                          if (r->error() == QNetworkReply::ContentAccessDenied) {
+                              new SegfaultWorkaround(byteArray, this, mime);
+                              return;
+                          }
                           if (!result.isEmpty()) {
                               screenshotutil::toClipboard(result);
                               notifications::notify("KShare imgur Uploader ", "Uploaded to imgur!");
                           } else {
                               notifications::notify("KShare imgur Uploader ",
-                                                    QString("Failed upload! imgur said: HTTP %2: %1")
-                                                    .arg(res.object()["data"].toObject()["error"].toString())
-                                                    .arg(QString::number(res.object()["status"].toInt())));
+                                                    QString("Failed upload! imgur said: HTTP %1: %2")
+                                                    .arg(r->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt())
+                                                    .arg(r->errorString()));
                           }
                       });
 }

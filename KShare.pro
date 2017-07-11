@@ -170,7 +170,8 @@ DISTFILES += \
     OlderSystemFix.patch \
     AppVeyor/appveyor.yml \
     AppVeyor/make_installer.sh \
-    .travis.yml
+    .travis.yml \
+    install.sh
 
 RESOURCES += \
     icon.qrc
