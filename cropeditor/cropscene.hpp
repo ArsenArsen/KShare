@@ -32,6 +32,7 @@ public:
     QGraphicsRectItem *selRect() {
         return rect;
     }
+    QGraphicsItem *whichItem(QPointF scenePos);
     void hide();
     void show();
     void setVisible(bool visible);

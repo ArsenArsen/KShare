@@ -142,6 +142,14 @@ void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> dr
         if (!drawingSelection->init(this)) setDrawingSelection("None", [] { return nullptr; });
 }
 
+QGraphicsItem *CropScene::whichItem(QPointF scenePos) {
+    for (auto item : items()) {
+        if (item->sceneBoundingRect().contains(scenePos))
+            if (item != polyItem && item != rect && item != cursorItem && item->zValue() != -1) return item;
+    }
+    return nullptr;
+}
+
 void CropScene::hide() {
     setVisible(false);
 }
@@ -188,11 +196,8 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
 
     auto buttons = e->buttons();
     if (e->modifiers() & Qt::ControlModifier && buttons == Qt::LeftButton) {
-        QTransform stupidThing = views()[0]->transform();
-        auto item = itemAt(cursorPos, stupidThing);
-        if (item && item != polyItem && item != rect && item->zValue() != -1) {
-            item->moveBy(delta.x(), delta.y());
-        }
+        auto item = whichItem(cursorPos);
+        if (item) item->moveBy(delta.x(), delta.y());
         return;
     }
     if (buttons == Qt::LeftButton || (prevButtons == Qt::NoButton && prevButtons != buttons)) {
@@ -253,11 +258,8 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
 
 void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
     if (e->modifiers() & Qt::AltModifier) {
-        QTransform stupidThing = views()[0]->transform();
-        auto item = itemAt(cursorPos, stupidThing);
-        if (item && item != polyItem && item != rect && item->zValue() != -1) {
-            removeItem(item);
-        }
+        auto item = whichItem(cursorItem->scenePos());
+        if (item) removeItem(item);
     }
 }
 
