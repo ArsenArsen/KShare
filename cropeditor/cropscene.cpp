@@ -154,7 +154,16 @@ void CropScene::setVisible(bool visible) {
     for (auto view : views()) {
         if (view->isVisible()) fullscreen |= view->isFullScreen();
         view->setVisible(visible);
-        if (visible && fullscreen) view->showFullScreen();
+        if (fullscreen) view->showFullScreen();
+        if (visible) {
+            view->resize(_pixmap.width(), _pixmap.height());
+            view->setMinimumSize(_pixmap.size());
+            QPoint p = screenshotutil::smallestScreenCoordinate() + QPoint(settings::settings().value("cropx", 0).toInt(),
+                                                                           settings::settings().value("cropy", 0).toInt());
+            view->move(p.x(), p.y());
+            view->setWindowTitle("KShare Crop Editor");
+            view->activateWindow();
+        }
     }
 }
 
