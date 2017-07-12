@@ -17,7 +17,7 @@ void requestlogging::addEntry(RequestContext context) {
                        " " +                                               // space
                        context.reply->url().toString() +                   // write url
                        " " +                                               // space
-                       QString::number(context.reply->attribute(QNetworkRequest::HttpStatusCodeAttribute))
+                       QString::number(context.reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()) //
                        +    // write status
                        "\n" // newline
                        )

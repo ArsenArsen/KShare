@@ -308,7 +308,9 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                         if (i < split.size() - 1) body.append(imgData);
                     }
                 }
-                QBuffer *buffer = new QBuffer(&imgData);
+                QByteArray *bodyHeap = new QByteArray;
+                body.swap(*bodyHeap);
+                QBuffer *buffer = new QBuffer(bodyHeap);
                 buffer->open(QIODevice::ReadOnly);
                 part.setBodyDevice(buffer);
                 multipart->append(part);
@@ -327,7 +329,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                         str = str.mid(1, str.length() - 1).replace("%contenttype", mime);
                     part.setRawHeader(headerVal.toLatin1(), str.toLatin1());
                 } else
-                    cdh += "; " + headerVal + ": \"" + valo[headerVal].toString().replace("\"", "\\\"") + "\"";
+                    cdh += "; " + headerVal + "= \"" + valo[headerVal].toString().replace("\"", "\\\"") + "\"";
             }
             part.setHeader(QNetworkRequest::ContentDispositionHeader, cdh);
         }
