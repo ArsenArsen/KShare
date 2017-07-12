@@ -318,6 +318,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                 part.setBody(QJsonDocument::fromVariant(result.toVariantMap()).toJson());
                 multipart->append(part);
             }
+            QByteArray cdh("form-data");
             for (QString headerVal : valo.keys()) {
                 if (headerVal.startsWith("__")) {
                     headerVal = headerVal.mid(2);
@@ -325,8 +326,10 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                     if (str.startsWith("/") && str.endsWith("/"))
                         str = str.mid(1, str.length() - 1).replace("%contenttype", mime);
                     part.setRawHeader(headerVal.toLatin1(), str.toLatin1());
-                }
+                } else
+                    cdh += "; " + headerVal + ": \"" + valo[headerVal].toString().replace("\"", "\\\"") + "\"";
             }
+            part.setHeader(QNetworkRequest::ContentDispositionHeader, cdh)
         }
         switch (method) {
         case HttpMethod::POST:

@@ -24,6 +24,7 @@ void postMultipartData(QUrl target,
                        QList<QPair<QString, QString>> headers,
                        QHttpMultiPart *body,
                        std::function<void(QByteArray, QNetworkReply *)> callback);
+QString methodString(QNetworkAccessManager::Operation operation);
 }
 
 #endif // IOUTILS_HPP

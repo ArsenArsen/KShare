@@ -94,3 +94,22 @@ void ioutils::postData(QUrl target,
         delete reply;
     });
 }
+
+
+QString ioutils::methodString(QNetworkAccessManager::Operation operation) {
+    switch (operation) {
+    case QNetworkAccessManager::GetOperation:
+        return "GET";
+    case QNetworkAccessManager::PostOperation:
+        return "POST";
+    case QNetworkAccessManager::PutOperation:
+        return "PUT";
+    case QNetworkAccessManager::DeleteOperation:
+        return "DELETE";
+    case QNetworkAccessManager::HeadOperation:
+        return "HEAD";
+    default:
+        //        return "Dunno";
+        return "Unknown";
+    }
+}

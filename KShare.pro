@@ -66,7 +66,8 @@ SOURCES += main.cpp\
     cropeditor/drawing/arrowitem.cpp \
     uploaders/default/imgursettingsdialog.cpp \
     uploaders/default/imgplusuploader.cpp \
-    filenamevalidator.cpp
+    filenamevalidator.cpp \
+    logs/requestlogging.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -111,7 +112,8 @@ HEADERS  += mainwindow.hpp \
     cropeditor/drawing/arrowitem.hpp \
     uploaders/default/imgursettingsdialog.hpp \
     uploaders/default/imgplusuploader.hpp \
-    filenamevalidator.hpp
+    filenamevalidator.hpp \
+    logs/requestlogging.hpp
 
 nopkg {
 #    win32 {

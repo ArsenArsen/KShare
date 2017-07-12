@@ -26,7 +26,7 @@ bool verbose = false;
 bool stillAlive = true;
 
 #define LOGACT(lvl)                                                                                                    \
-    std::cout << lvl << stdMsg << "\n";                                                                                \
+    std::cout << lvl << stdMsg << "\n" << std::flush;                                                                  \
     if (stillAlive && MainWindow::inst() && MainWindow::inst()->valid()) {                                             \
         MainWindow::inst()->ui->logBox->addItem(lvl + msg);                                                            \
     }
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
     Worker::init();
     a.connect(&a, &QApplication::aboutToQuit, Worker::end);
     a.connect(&a, &QApplication::aboutToQuit, [] { stillAlive = false; });
-    screenshotutil::renderText("DICKS").save("/home/arsen/test.png");
+
     if (!parser.isSet(h)) w.show();
     return a.exec();
 }
