@@ -329,7 +329,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                 } else
                     cdh += "; " + headerVal + ": \"" + valo[headerVal].toString().replace("\"", "\\\"") + "\"";
             }
-            part.setHeader(QNetworkRequest::ContentDispositionHeader, cdh)
+            part.setHeader(QNetworkRequest::ContentDispositionHeader, cdh);
         }
         switch (method) {
         case HttpMethod::POST:
