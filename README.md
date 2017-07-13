@@ -50,4 +50,6 @@ make
 On systems with FFMpeg pre-3.1 you need to apply `OlderSystemFix.patch` to `recording/encoders/encoder.cpp`.
 On systems with Qt pre-5.7 you need to install the Qt version from their website.
 You can attempt to `curl https://raw.githubusercontent.com/ArsenArsen/KShare/master/install.sh | bash`
+
+You can find more details [here](https://blog.arsenarsen.com/posts/compiling-kshare-on-linux-mac-os-x-and-windows-final-revision)
 ###### Started on 19th of April 2017 to bring some attention and improvement to Linux screenshotting.

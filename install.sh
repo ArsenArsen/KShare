@@ -16,7 +16,7 @@ installIfNeeded pkg-config
 installIfNeeded git
 resultfile="$(pwd)/KShare/build/KShare.app/"
 elif [[ "$uname" = "Linux" ]]; then
-echo "Please install Qt5 SDK, qmake, ffmpeg development files, git, and pkgcondig"
+echo "Please install Qt5 SDK, qmake, ffmpeg development files, git, and pkgconfig"
 bash
 resultfile="$(pwd)/KShare/build/KShare"
 else echo "Unsupported OS!" && exit 1; fi
