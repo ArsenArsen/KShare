@@ -32,7 +32,7 @@ See the [projects](https://github.com/ArsenArsen/KShare/projects)
 |:----:|:--:|
 |Arch Linux (development)|[kshare-git](https://aur.archlinux.org/packages/kshare-git/)|
 |Ubuntu (development)|[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
-|Arch Linux |[kshare](https://aur.archlinux.org/packages/kshare-git/)|
+|Arch Linux |[kshare](https://aur.archlinux.org/packages/kshare/)|
 |Ubuntu |[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare%20Stable/lastSuccessfulBuild/artifact/packages/simpleName.deb	)|
 
 I do plan to make a Debian packages.
