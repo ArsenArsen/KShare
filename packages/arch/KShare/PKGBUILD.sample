@@ -17,7 +17,7 @@ build() {
   git checkout dev
   git submodule update --init --recursive  
   qmake
-  make
+  make -j$(($(nproc) + 1))
 }
 
 package() {

@@ -21,6 +21,10 @@ See the [wiki](https://github.com/ArsenArsen/KShare/wiki).
 * libavcodec
 * libavutil
 * libswscale
+Additionally, on Linux, you require:
+* XCB
+* XCB xfixes
+* XCB cursor
 
 Despite the name implying so, this project does not depend on the KDE API at all.
 

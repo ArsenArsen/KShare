@@ -293,6 +293,8 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
     case RequestFormat::MULTIPART_FORM_DATA: {
         QHttpMultiPart *multipart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
         auto arr = body.toArray();
+        QList<QBuffer *> buffersToDelete;
+        QList<QByteArray *> arraysToDelete;
         for (QJsonValue val : arr) {
             auto valo = val.toObject();
             QHttpPart part;
@@ -307,18 +309,19 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                         body.append(split[i]);
                         if (i < split.size() - 1) body.append(imgData);
                     }
-                }
+                } else
+                    body = s.toUtf8();
                 QByteArray *bodyHeap = new QByteArray;
                 body.swap(*bodyHeap);
                 QBuffer *buffer = new QBuffer(bodyHeap);
                 buffer->open(QIODevice::ReadOnly);
                 part.setBodyDevice(buffer);
-                multipart->append(part);
+                buffersToDelete.append(buffer);
+                arraysToDelete.append(bodyHeap);
             } else {
                 auto bdo = bd.toObject();
                 QJsonObject result = recurseAndReplace(bdo, imgData, mime);
                 part.setBody(QJsonDocument::fromVariant(result.toVariantMap()).toJson());
-                multipart->append(part);
             }
             QByteArray cdh("form-data");
             for (QString headerVal : valo.keys()) {
@@ -328,22 +331,28 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                     if (str.startsWith("/") && str.endsWith("/"))
                         str = str.mid(1, str.length() - 1).replace("%contenttype", mime);
                     part.setRawHeader(headerVal.toLatin1(), str.toLatin1());
-                } else
-                    cdh += "; " + headerVal + "= \"" + valo[headerVal].toString().replace("\"", "\\\"") + "\"";
+                } else if (headerVal != "body")
+                    cdh += "; " + headerVal + "=\"" + valo[headerVal].toString().replace("\"", "\\\"") + "\"";
             }
             part.setHeader(QNetworkRequest::ContentDispositionHeader, cdh);
+            multipart->append(part);
         }
         switch (method) {
         case HttpMethod::POST:
             if (returnPathspec == "|") {
-                ioutils::postMultipartData(target, h, multipart, [&](QByteArray result, QNetworkReply *) {
+                ioutils::postMultipartData(target, h, multipart, [&, buffersToDelete, arraysToDelete](QByteArray result, QNetworkReply *) {
                     QApplication::clipboard()->setText(QString::fromUtf8(result));
+                    for (auto buffer : buffersToDelete) buffer->deleteLater();
+                    for (auto arr : arraysToDelete) delete arr;
                     notifications::notify("KShare Custom Uploader " + name(), "Copied upload result to clipboard!");
                 });
             } else {
-                ioutils::postMultipart(target, h, multipart, [&](QJsonDocument result, QByteArray data, QNetworkReply *) {
-                    parseResult(result, data, returnPathspec, name());
-                });
+                ioutils::postMultipart(target, h, multipart,
+                                       [&, buffersToDelete, arraysToDelete](QJsonDocument result, QByteArray data, QNetworkReply *) {
+                                           for (auto buffer : buffersToDelete) buffer->deleteLater();
+                                           for (auto arr : arraysToDelete) delete arr;
+                                           parseResult(result, data, returnPathspec, name());
+                                       });
             }
             break;
         }
