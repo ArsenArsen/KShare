@@ -13,6 +13,7 @@ QMutex Worker::lock;
 //  1. Convert the image to the right format
 //  2. Consume the image.
 void Worker::queue(WorkerContext *context) {
+    init();
     QMutexLocker ml(&lock);
     _WorkerContext *c = new _WorkerContext;
     c->image = context->pixmap.toImage();
