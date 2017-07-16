@@ -251,7 +251,7 @@ QJsonObject recurseAndReplace(QJsonObject &body, QByteArray &data, QString forma
         } else if (v.isString()) {
             QString str = v.toString();
             if (str.startsWith("/") && str.endsWith("/")) {
-                o.insert(s, substituteArgs(str.toUtf8(), format, data));
+                o.insert(s, QString::fromUtf8(substituteArgs(str.toUtf8(), format, data)));
             } else
                 o.insert(s, v);
         } else
@@ -320,7 +320,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                     headerVal = headerVal.mid(2);
                     QByteArray str = valo[headerVal].toString().toUtf8();
                     if (str.startsWith("/") && str.endsWith("/")) str = substituteArgs(str, format);
-                    part.setRawHeader(headerVal.toLatin1(), str;
+                    part.setRawHeader(headerVal.toLatin1(), str);
                 } else if (headerVal != "body")
                     cdh += "; " + headerVal + "=\"" + valo[headerVal].toString().replace("\"", "\\\"") + "\"";
             }
