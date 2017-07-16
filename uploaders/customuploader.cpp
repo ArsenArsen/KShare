@@ -168,25 +168,6 @@ QList<QPair<QString, QString>> getHeaders(QJsonObject h, QString imageFormat, Re
     return headers;
 }
 
-QJsonObject recurseAndReplace(QJsonObject &body, QByteArray &data, QString contentType) {
-    QJsonObject o;
-    for (QString s : body.keys()) {
-        QJsonValue v = body[s];
-        if (v.isObject()) {
-            QJsonObject vo = v.toObject();
-            o.insert(s, recurseAndReplace(vo, data, contentType));
-        } else if (v.isString()) {
-            QString str = v.toString();
-            if (str.startsWith("/") && str.endsWith("/")) {
-                o.insert(s, str.mid(1, str.length() - 2).replace("%imagedata", data).replace("%contenttype", contentType));
-            } else
-                o.insert(s, v);
-        } else
-            o.insert(s, v);
-    }
-    return o;
-}
-
 QString parsePathspec(QJsonDocument &response, QString &pathspec) {
     if (!pathspec.startsWith(".")) {
         // Does not point to anything
@@ -243,12 +224,46 @@ void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, 
     }
 }
 
+QByteArray substituteArgs(QByteArray arr, QString format, QByteArray imgData = QByteArray()) {
+    QString mime = normalFormatMIME(normalFormatFromName(format));
+    if (mime.isEmpty()) mime = recordingFormatMIME(recordingFormatFromName(format));
+    if (arr.startsWith("/") && arr.endsWith("/")) {
+        arr = arr.mid(1, arr.length() - 2);
+
+        arr = arr.replace("%contenttype", mime.toUtf8());
+        arr = arr.replace("%FORMAT", format.toUpper().toUtf8());
+        arr = arr.replace("%format", format.toLower().toUtf8());
+
+        if (imgData.isNull()) return arr;
+        return arr.replace("%imagedata", imgData);
+    } else
+        return arr;
+}
+
+
+QJsonObject recurseAndReplace(QJsonObject &body, QByteArray &data, QString format) {
+    QJsonObject o;
+    for (QString s : body.keys()) {
+        QJsonValue v = body[s];
+        if (v.isObject()) {
+            QJsonObject vo = v.toObject();
+            o.insert(s, recurseAndReplace(vo, data, format));
+        } else if (v.isString()) {
+            QString str = v.toString();
+            if (str.startsWith("/") && str.endsWith("/")) {
+                o.insert(s, substituteArgs(str.toUtf8(), format, data));
+            } else
+                o.insert(s, v);
+        } else
+            o.insert(s, v);
+    }
+    return o;
+}
+
 void CustomUploader::doUpload(QByteArray imgData, QString format) {
     auto h = getHeaders(headers, format, this->rFormat);
     QByteArray data;
     if (base64) imgData = imgData.toBase64();
-    QString mime = normalFormatMIME(normalFormatFromName(format));
-    if (mime.isEmpty()) mime = recordingFormatMIME(recordingFormatFromName(format));
 
     switch (this->rFormat) {
     case RequestFormat::PLAIN: {
@@ -256,14 +271,10 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
     } break;
     case RequestFormat::JSON: {
         if (body.isString()) {
-            QStringList split = body.toString().replace("%contenttype", mime).split("%imagedata");
-            for (int i = 0; i < split.size(); i++) {
-                data.append(split[i]);
-                if (i < split.size() - 1) data.append(imgData);
-            }
+            data = substituteArgs(body.toString().toUtf8(), format, imgData);
         } else {
             QJsonObject vo = body.toObject();
-            data = QJsonDocument::fromVariant(recurseAndReplace(vo, imgData, mime).toVariantMap()).toJson();
+            data = QJsonDocument::fromVariant(recurseAndReplace(vo, imgData, format).toVariantMap()).toJson();
         }
     } break;
     case RequestFormat::X_WWW_FORM_URLENCODED: {
@@ -271,17 +282,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
         for (QString key : body.keys()) {
             QJsonValue val = body[key];
             if (val.isString()) {
-                QString str = val.toString();
-                QByteArray strB;
-                if (str.startsWith("/") && str.endsWith("/")) {
-                    str = str.mid(1, str.length() - 2);
-                    QStringList split = str.replace("%contenttype", mime).split("%imagedata");
-                    for (int i = 0; i < split.size(); i++) {
-                        strB.append(split[i]);
-                        if (i < split.size() - 1) strB.append(imgData);
-                    }
-                }
-                data.append(QUrl::toPercentEncoding(key)).append('=').append(strB);
+                data.append(QUrl::toPercentEncoding(key)).append('=').append(substituteArgs(val.toString().toUtf8(), format, imgData));
             } else {
                 if (!data.isEmpty()) data.append('&');
                 data.append(QUrl::toPercentEncoding(key))
@@ -300,17 +301,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
             QHttpPart part;
             QJsonValue bd = valo["body"];
             if (bd.isString()) {
-                QString s = bd.toString();
-                QByteArray body;
-                if (s.startsWith("/") && s.endsWith("/")) {
-                    s = s.mid(1, s.length() - 1);
-                    QStringList split = s.replace("%contenttype", mime).split("%imagedata");
-                    for (int i = 0; i < split.size(); i++) {
-                        body.append(split[i]);
-                        if (i < split.size() - 1) body.append(imgData);
-                    }
-                } else
-                    body = s.toUtf8();
+                QByteArray body = substituteArgs(bd.toString().toUtf8(), format, imgData);
                 QByteArray *bodyHeap = new QByteArray;
                 body.swap(*bodyHeap);
                 QBuffer *buffer = new QBuffer(bodyHeap);
@@ -320,17 +311,16 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                 arraysToDelete.append(bodyHeap);
             } else {
                 auto bdo = bd.toObject();
-                QJsonObject result = recurseAndReplace(bdo, imgData, mime);
+                QJsonObject result = recurseAndReplace(bdo, imgData, format);
                 part.setBody(QJsonDocument::fromVariant(result.toVariantMap()).toJson());
             }
             QByteArray cdh("form-data");
             for (QString headerVal : valo.keys()) {
                 if (headerVal.startsWith("__")) {
                     headerVal = headerVal.mid(2);
-                    QString str = valo[headerVal].toString();
-                    if (str.startsWith("/") && str.endsWith("/"))
-                        str = str.mid(1, str.length() - 1).replace("%contenttype", mime);
-                    part.setRawHeader(headerVal.toLatin1(), str.toLatin1());
+                    QByteArray str = valo[headerVal].toString().toUtf8();
+                    if (str.startsWith("/") && str.endsWith("/")) str = substituteArgs(str, format);
+                    part.setRawHeader(headerVal.toLatin1(), str;
                 } else if (headerVal != "body")
                     cdh += "; " + headerVal + "=\"" + valo[headerVal].toString().replace("\"", "\\\"") + "\"";
             }
