@@ -162,7 +162,6 @@ void CropScene::setVisible(bool visible) {
     for (auto view : views()) {
         if (view->isVisible()) fullscreen |= view->isFullScreen();
         view->setVisible(visible);
-        if (fullscreen) view->showFullScreen();
         if (visible) {
             view->resize(_pixmap.width(), _pixmap.height());
             view->setMinimumSize(_pixmap.size());
