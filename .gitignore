@@ -48,3 +48,5 @@ Makefile
 vgcore.*
 
 *.Release
+
+.*_history
