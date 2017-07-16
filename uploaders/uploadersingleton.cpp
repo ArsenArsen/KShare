@@ -95,7 +95,9 @@ void UploaderSingleton::upload(QPixmap pixmap) {
 
 void UploaderSingleton::upload(QByteArray img, QString format) {
     if (img.isEmpty()) return;
-    QFile file(saveDir.absoluteFilePath(formatter::format(settings::settings().value("fileFormat").toString(), format.toLower())));
+    QFile file(saveDir.absoluteFilePath(
+    formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
+                      format.toLower())));
     if (file.open(QFile::WriteOnly)) {
         file.write(img);
         file.close();
@@ -105,8 +107,9 @@ void UploaderSingleton::upload(QByteArray img, QString format) {
 
 void UploaderSingleton::upload(QFile &img, QString format) {
     if (img.size() <= 0) return;
-    if (img.rename(
-        saveDir.absoluteFilePath(formatter::format(settings::settings().value("fileFormat").toString(), format.toLower())))) {
+    if (img.rename(saveDir.absoluteFilePath(
+        formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
+                          format.toLower())))) {
         if (img.open(QFile::ReadWrite))
             uploaders.value(uploader)->doUpload(img.readAll(), format);
         else
