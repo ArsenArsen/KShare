@@ -208,7 +208,6 @@ QString parsePathspec(QJsonDocument &response, QString &pathspec) {
 
 void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, QString name) {
     if (result.isObject()) {
-        qDebug() << result.object()[".url"];
         QString url = parsePathspec(result, returnPathspec);
         if (!url.isEmpty()) {
             QApplication::clipboard()->setText(url);
