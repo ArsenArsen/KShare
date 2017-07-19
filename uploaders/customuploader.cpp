@@ -35,7 +35,7 @@ CustomUploader::CustomUploader(QString absFilePath) {
         error(absFilePath, "name is not a string");
     else
         uName = obj["name"].toString();
-    if (!obj.contains("desc")) {
+    if (obj.contains("desc")) {
         if (!obj["desc"].isString())
             /*t*/ error(absFilePath, "desc not a string");
         else
