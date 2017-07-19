@@ -130,6 +130,8 @@ CustomUploader::CustomUploader(QString absFilePath) {
         base64 = bool64.toBool();
         if (rFormat == RequestFormat::JSON && !base64) error(absFilePath, "base64 required with json");
     }
+    urlPrepend = obj["return_prepend"].toString();
+    urlAppend = obj["return_append"].toString();
 }
 
 QString CustomUploader::name() {
@@ -191,6 +193,8 @@ QString parsePathspec(QJsonDocument &response, QString &pathspec) {
                 return "";
             else if (val.isString())
                 return val.toString();
+            else if (val.isArray())
+                val = val.toArray()[fields.at(i).toInt()];
             else if (!val.isObject())
                 return QString::fromUtf8(QJsonDocument::fromVariant(val.toVariant()).toJson());
             else
@@ -206,9 +210,9 @@ QString parsePathspec(QJsonDocument &response, QString &pathspec) {
     return "";
 }
 
-void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, QString name) {
+void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, QString name, QString urlPrepend, QString urlAppend) {
     if (result.isObject()) {
-        QString url = parsePathspec(result, returnPathspec);
+        QString url = urlPrepend + parsePathspec(result, returnPathspec) + urlAppend;
         if (!url.isEmpty()) {
             QApplication::clipboard()->setText(url);
             notifications::notify("KShare Custom Uploader " + name, "Copied upload link to clipboard!");
@@ -340,13 +344,13 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                                        [&, buffersToDelete, arraysToDelete](QJsonDocument result, QByteArray data, QNetworkReply *) {
                                            for (auto buffer : buffersToDelete) buffer->deleteLater();
                                            for (auto arr : arraysToDelete) delete arr;
-                                           parseResult(result, data, returnPathspec, name());
+                                           parseResult(result, data, returnPathspec, name(), urlPrepend, urlPrepend);
                                        });
             }
             break;
         }
         return;
-    } break;
+    }
     }
     if (limit > 0 && data.size() > limit) {
         notifications::notify("KShare Custom Uploader " + name(), "File limit exceeded!");
@@ -361,7 +365,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
             });
         } else {
             ioutils::postJson(target, h, data, [&](QJsonDocument result, QByteArray data, QNetworkReply *) {
-                parseResult(result, data, returnPathspec, name());
+                parseResult(result, data, returnPathspec, name(), urlPrepend, urlPrepend);
             });
         }
         break;

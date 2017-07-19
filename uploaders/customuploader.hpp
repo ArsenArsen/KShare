@@ -28,6 +28,7 @@ private:
     QJsonObject headers;
     bool base64 = false;
     QString returnPathspec;
+    QString urlPrepend, urlAppend;
 };
 
 #endif // CUSTOMUPLOADER_HPP
