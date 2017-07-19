@@ -12,7 +12,7 @@ void ioutils::postMultipart(QUrl target,
                             std::function<void(QJsonDocument, QByteArray, QNetworkReply *)> callback) {
     QNetworkRequest req(target);
     for (auto header : headers) {
-        req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
+        if (header.first.toLower() != "content-type") req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
     QNetworkReply *reply = networkManager.post(req, body);
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {

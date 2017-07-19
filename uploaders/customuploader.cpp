@@ -182,12 +182,6 @@ QString parsePathspec(QJsonDocument &response, QString &pathspec) {
             return QString::fromUtf8(response.toJson());
         }
         QJsonValue val = o[fields.at(0)];
-        if (val.isUndefined() || val.isNull())
-            return "";
-        else if (val.isString())
-            return val.toString();
-        else if (!val.isObject())
-            return QString::fromUtf8(QJsonDocument::fromVariant(val.toVariant()).toJson());
         for (int i = 1; i < fields.size(); i++) {
             if (val.isUndefined() || val.isNull())
                 return "";
@@ -325,7 +319,8 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                     if (str.startsWith("/") && str.endsWith("/")) str = substituteArgs(str, format);
                     part.setRawHeader(headerVal.toLatin1(), str);
                 } else if (headerVal != "body")
-                    cdh += "; " + headerVal + "=\"" + valo[headerVal].toString().replace("\"", "\\\"") + "\"";
+                    cdh += "; " + headerVal + "=\""
+                           + substituteArgs(valo[headerVal].toString().toUtf8(), format).replace("\"", "\\\"") + "\"";
             }
             part.setHeader(QNetworkRequest::ContentDispositionHeader, cdh);
             multipart->append(part);
@@ -344,7 +339,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
                                        [&, buffersToDelete, arraysToDelete](QJsonDocument result, QByteArray data, QNetworkReply *) {
                                            for (auto buffer : buffersToDelete) buffer->deleteLater();
                                            for (auto arr : arraysToDelete) delete arr;
-                                           parseResult(result, data, returnPathspec, name(), urlPrepend, urlPrepend);
+                                           parseResult(result, data, returnPathspec, name(), urlPrepend, urlAppend);
                                        });
             }
             break;
@@ -365,7 +360,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
             });
         } else {
             ioutils::postJson(target, h, data, [&](QJsonDocument result, QByteArray data, QNetworkReply *) {
-                parseResult(result, data, returnPathspec, name(), urlPrepend, urlPrepend);
+                parseResult(result, data, returnPathspec, name(), urlPrepend, urlAppend);
             });
         }
         break;
