@@ -43,6 +43,8 @@ addFile /c/OpenSSL-Win32/bin/libeay32.dll
 addFile /c/OpenSSL-Win32/bin/ssleay32.dll
 addFile /c/OpenSSL-Win32/bin/msvcr120.dll
 
+ls /c/OpenSSL-Win32/bin/
+
 ls
 
 cat installer.iss.pattern.bottom >> installer.iss
