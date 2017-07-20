@@ -9,7 +9,7 @@ script:
 - qmake ..
 - make -j$(($(nproc) + 1))
 - mkdir done
-- zip KShare.app done/output.zip -r
+- zip done/output.zip KShare.app -r
 deploy:
   provider: s3
   access_key_id: AKIAIHF2FGD2SKLGJOQA
