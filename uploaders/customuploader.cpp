@@ -315,7 +315,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
             for (QString headerVal : valo.keys()) {
                 if (headerVal.startsWith("__")) {
                     headerVal = headerVal.mid(2);
-                    QByteArray str = valo[headerVal].toString().toUtf8();
+                    QByteArray str = valo["__" + headerVal].toString().toUtf8();
                     if (str.startsWith("/") && str.endsWith("/")) str = substituteArgs(str, format);
                     part.setRawHeader(headerVal.toLatin1(), str);
                 } else if (headerVal != "body")
