@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 function addFile {
-    echo $1
-    cp $1 .
+    cp $1 . || (echo cp $1 failed ; return 1)
     7z a -tzip portable.zip $(basename $1) > /dev/null
     echo "Source: \"$(basename $1)\"; DestDir: \"{app}\"; Flags: ignoreversion" >> installer.iss
+    echo $1
 }
 
 function addFileIn {
     name=$2\\$(basename $1)
     mkdir -p $2
-    cp $1 $2
+    cp $1 $2 || (echo cp $name failed ; return 1)
     7z a -tzip portable.zip $name > /dev/null
     echo "Source: \"$name\"; DestDir: \"{app}\\$2\"; Flags: ignoreversion" >> installer.iss
+    echo $name
 }
 
 ver=$(cat main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVersion(\"//g" | sed "s/\");//g")
