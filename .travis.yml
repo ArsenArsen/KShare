@@ -1,10 +1,23 @@
 os: osx
 language: cpp
 before_install:
-  - brew install qt ffmpeg
-  - brew link qt --force
-  - mkdir build
+- brew install qt ffmpeg
+- brew link qt --force
+- mkdir build
 script:
-  - cd build
-  - qmake ..
-  - make -j$(($(nproc) + 1))
+- cd build
+- qmake ..
+- make -j$(($(nproc) + 1))
+- mkdir done
+- zip KShare.app done/output.zip -r
+deploy:
+  provider: s3
+  access_key_id: AKIAIHF2FGD2SKLGJOQA
+  secret_access_key:
+    secure: DzDQejh1jVi0fov/j9JQU+TGyrDSoKUSBO2YXu9XskyyJb5fDITZ4m1SicK4Iev5GeFUYCPP4xUqJyLPGDnfqLEF9Uc3AZJV48AUAwaUnfgfGy6QYs2cMjuT5CyKnpybVRJpqqWYOkiNeUNuLnuZ8quU/p8l1Ib4y4oZlMKNcK0xON83zb86oXTSrenqEFDrAIEvZDFLWjEXeLjKIiT5sy9aRsNDfizOekjU7n0tz6jBtbX4RzV3x31PKc4pwGuiUlFwjOxwLju4BSD6YtsvJGUIyN+FhS0wWBTqEGl1+6TAAJQDVuntvX/GjFCG6FLessqbFg6QxMi4sczHZMRNSQKiUj18sJfJMkrL0scMHUI7F5NoArvlsxE2C7EjhghEQzxV/8BcCw68LhUutXf64g0wt1E3wunktrFPGYLHEwMPYnRtqOLY+quwsDDoV/VYnIHFeiY18VkuwC47Ps1b6EZJuY0cmfRGFMCpK6qbeRIrkCxpN1ZTslthuuz0yBn4/8PYCn/jtIP5mI5fXtl1DGav7vD2o2g26E9gYpCpDxkFEOZAzBtUdEHzMogjcvvK2POyy4fMReHMDvgVZ5c0XZkcTJX0Db4iVmxOnNBMF9qxSQnDlZLLFEr0D5j48tKFIGTzsCxmRLj52syPii/4RRMhW2SAhF1qaqCNZPz0VXI=
+  bucket: kshare-s3
+  local-dir: build/done
+  acl: public_read
+  on:
+    repo: ArsenArsen/KShare
+    branch: dev
