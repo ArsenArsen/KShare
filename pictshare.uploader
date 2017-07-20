@@ -1,0 +1,11 @@
+{
+    "name": "PictShare",
+    "desc" : "Example",
+    "target": ".../backend.php",
+    "base64": true,
+    "format": "x-www-form-urlencoded",
+    "body": {
+        "base64": "/data:%contenttype;base64,%imagedata/"
+    },
+    "return": ".url"
+} 

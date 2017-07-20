@@ -1,0 +1,15 @@
+{
+    "name": "Uploader name",
+    "target": "POMF endpoint",
+    "format": "multipart-form-data",
+    "body": [
+	{
+	    "__Content-Type": "/%contenttype/",
+	    "filename": "/image.%format/",
+	    "name": "files[]",
+	    "body": "/%imagedata/"
+	}
+    ],
+    "return": ".files.0.url",
+    "return_prepend": "Add only if the host does not fill out url"
+}
