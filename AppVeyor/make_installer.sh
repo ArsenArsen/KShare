@@ -2,7 +2,7 @@
 function addFile {
     echo $1
     cp $1 .
-    7z a -tzip portable.zip $(basename $1)
+    7z a -tzip portable.zip $(basename $1) > /dev/null
     echo "Source: \"$(basename $1)\"; DestDir: \"{app}\"; Flags: ignoreversion" >> installer.iss
 }
 
@@ -10,7 +10,7 @@ function addFileIn {
     name=$2\\$(basename $1)
     mkdir -p $2
     cp $1 $2
-    7z a -tzip portable.zip $name
+    7z a -tzip portable.zip $name > /dev/null
     echo "Source: \"$name\"; DestDir: \"{app}\\$2\"; Flags: ignoreversion" >> installer.iss
 }
 
@@ -44,8 +44,6 @@ addFile /c/OpenSSL-Win32/bin/ssleay32.dll
 addFile /c/OpenSSL-Win32/bin/msvcr120.dll
 
 ls /c/OpenSSL-Win32/bin/
-
-ls
 
 cat installer.iss.pattern.bottom >> installer.iss
 "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" installer.iss
