@@ -43,7 +43,9 @@ addFile /c/OpenSSL-Win32/bin/libeay32.dll
 addFile /c/OpenSSL-Win32/bin/ssleay32.dll
 addFile /c/OpenSSL-Win32/bin/msvcr120.dll
 
-ls /c/OpenSSL-Win32/bin/
+echo -----------------
+ls /c/OpenSSL-Win32/bin/ -R
+echo -----------------
 
 cat installer.iss.pattern.bottom >> installer.iss
 "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" installer.iss
