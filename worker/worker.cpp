@@ -58,13 +58,15 @@ bool Worker::ended() {
 
 void Worker::process() {
     while (!ended()) {
-        QMutexLocker ml(&lock);
+        lock.lock();
         if (!qqueue.isEmpty()) {
             _WorkerContext *c = qqueue.dequeue();
+            lock.unlock();
             c->consumer(c->image.convertToFormat(c->targetFormat));
             delete c->underlyingThing;
             delete c;
-        }
+        } else
+            lock.unlock();
         std::this_thread::sleep_for(std::chrono::milliseconds(10)); // STL likes it's scopes
     }
     emit finished();
