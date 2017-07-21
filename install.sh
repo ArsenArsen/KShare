@@ -26,10 +26,10 @@ cd KShare
 mkdir build || exit 3
 cd build
 qmake-qt5 .. || qmake .. || exit 4
-make -j$(($(nproc) + 1)) || exit 5
+make || exit 5
 echo "------------------------------------------------------"
 echo "Resulting file is $resultfile"
 if [[ "$uname" = "Linux" ]]; then echo "To link the file into path, run sudo ln -s $resultfile /usr/bin/kshare"; fi
 cd ..
-echo "To update, go to $(pwd), git pull, cd build, and make -j$(($(nproc) + 1))"
+echo "To update, go to $(pwd), git pull, cd build, and \`make\`"
 echo "------------------------------------------------------"
