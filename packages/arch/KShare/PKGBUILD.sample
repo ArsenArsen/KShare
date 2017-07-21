@@ -24,5 +24,9 @@ package() {
   cd "${srcdir}/KShare"
   mkdir -p "$pkgdir/usr/bin"
   install ./KShare "$pkgdir/usr/bin/kshare"
+  mkdir -p "$pkgdir/usr/share/pixmaps"
+  install "${srcdir}/KShare/icons/icon.png"
+  mkdir -p "$pkgdir/usr/share/applications"
+  install KShare.desktop "$pkgdir/usr/share/applications"
 }
 
