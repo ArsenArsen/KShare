@@ -1,11 +1,9 @@
 #include "settings.hpp"
 
 #include <QDebug>
-#include <QMutex>
 #include <QStandardPaths>
 
 QSettings &settings::settings() {
-    QMutexLocker l(lock);
     static QSettings settings(dir().absoluteFilePath("settings.ini"), QSettings::IniFormat);
     return settings;
 }
