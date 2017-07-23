@@ -4,9 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core gui network widgets
 
 TARGET = KShare
 TEMPLATE = app
@@ -141,6 +139,7 @@ mac {
     SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp
     HEADERS += $$PWD/platformspecifics/mac/macbackend.hpp
     LIBS += -framework Carbon
+    QMAKE_INFO_PLIST = $$PWD/packages/macos/Info.plist
     warning(Mac is on TODO);
 } else:win32 {
     RC_FILE = $$PWD/icon.rc
@@ -178,7 +177,12 @@ DISTFILES += \
 RESOURCES += \
     icon.qrc
 
-# Enable debug symbols
-QMAKE_CFLAGS_DEBUG += -g
+CONFIG += debug_and_release
+
+CONFIG(debug, debug|release) {
+    TARGET = debug_binary
+} else {
+    TARGET = release_binary
+}
 
 include(QHotkey/qhotkey.pri)

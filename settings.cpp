@@ -4,8 +4,6 @@
 #include <QMutex>
 #include <QStandardPaths>
 
-QMutex *lock = new QMutex;
-
 QSettings &settings::settings() {
     QMutexLocker l(lock);
     static QSettings settings(dir().absoluteFilePath("settings.ini"), QSettings::IniFormat);
@@ -15,12 +13,13 @@ QSettings &settings::settings() {
 QDir settings::dir() {
     static QDir configDir(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation));
     if (configDir.dirName() != "KShare") {
-        if (!configDir.cd("KShare"))
+        if (!configDir.cd("KShare")) {
             if (!configDir.mkdir("KShare")) {
                 qFatal("Could not make config directory");
             } else {
                 configDir.cd("KShare");
             }
+        }
     }
     return configDir;
 }

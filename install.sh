@@ -10,14 +10,15 @@ resultfile=""
 
 if [[ "$uname" = "Darwin" ]]; then
 export PATH="/usr/local/opt/qt/bin:$PATH"
+command -v brew >/dev/null || { echo "Homebrew is required!"; exit }
 installIfNeeded qt
 installIfNeeded ffmpeg
 installIfNeeded pkg-config
 installIfNeeded git
 resultfile="$(pwd)/KShare/build/KShare.app/"
 elif [[ "$uname" = "Linux" ]]; then
-echo "Please install Qt5 SDK, qmake, ffmpeg development files, git, and pkgconfig"
-bash
+echo "Please install Qt5 GUI, Widgets, Networking, and X11 Extras, qmake, ffmpeg development files, git, and pkgconfig"
+sh
 resultfile="$(pwd)/KShare/build/KShare"
 else echo "Unsupported OS!" && exit 1; fi
 
