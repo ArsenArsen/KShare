@@ -21,7 +21,8 @@ HotkeyInputDialog::~HotkeyInputDialog() {
 
 void HotkeyInputDialog::keyPressEvent(QKeyEvent *e) {
     if (e->key() == Qt::Key_Shift || e->key() == Qt::Key_Control || e->key() == Qt::Key_Alt || e->key() == Qt::Key_AltGr
-        || e->key() == Qt::Key_Context1 || e->key() == Qt::Key_Context2 || e->key() == Qt::Key_Context3 || e->key() == Qt::Key_Context4)
+        || e->key() == Qt::Key_Context1 || e->key() == Qt::Key_Context2 || e->key() == Qt::Key_Context3
+        || e->key() == Qt::Key_Context4 || e->key() == Qt::Key_Meta)
         return;
     if (recording) {
         QKeySequence seq(e->modifiers() + e->key());
