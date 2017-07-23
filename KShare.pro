@@ -177,12 +177,6 @@ DISTFILES += \
 RESOURCES += \
     icon.qrc
 
-CONFIG += debug_and_release
-
-CONFIG(debug, debug|release) {
-    TARGET = debug_binary
-} else {
-    TARGET = release_binary
-}
+QMAKE_CFLAGS_DEBUG += -g
 
 include(QHotkey/qhotkey.pri)
