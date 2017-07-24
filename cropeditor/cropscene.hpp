@@ -54,11 +54,13 @@ protected:
     void wheelEvent(QGraphicsSceneWheelEvent *event) override; // WHEEEEEEL
     void keyReleaseEvent(QKeyEvent *e) override;
 
+private slots:
+    void done(bool notEsc = true);
+
 private:
     void updateMag();
     void initMagnifierGrid();
-    void addDrawingAction(QMenuBar *menu, QString name, std::function<DrawItem *()> item);
-    void done(bool notEsc);
+    void addDrawingAction(QMenuBar *menu, QString name, QString icon, std::function<DrawItem *()> item);
     bool fullscreen;
     QPointF cursorPos;
     std::function<DrawItem *()> drawingSelectionMaker;

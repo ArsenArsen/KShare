@@ -11,7 +11,6 @@
 #include <QTimer>
 #include <cropeditor/drawing/arrowitem.hpp>
 #include <cropeditor/drawing/bluritem.hpp>
-#include <cropeditor/drawing/dotitem.hpp>
 #include <cropeditor/drawing/ellipseitem.hpp>
 #include <cropeditor/drawing/eraseritem.hpp>
 #include <cropeditor/drawing/lineitem.hpp>
@@ -34,18 +33,19 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     static_cast<Qt::BrushStyle>(settings::settings().value("brushStyle", static_cast<int>(Qt::SolidPattern)).toInt()));
 
     menu = new QMenuBar;
-    addDrawingAction(menu, "Dot", [] { return new DotItem; });
-    addDrawingAction(menu, "Path", [] { return new PathItem; });
-    addDrawingAction(menu, "Blur", [] { return new BlurItem; });
-    addDrawingAction(menu, "Straight line", [] { return new LineItem; });
-    addDrawingAction(menu, "Text", [] { return new TextItem; });
-    addDrawingAction(menu, "Rectangle", [] { return new RectItem; });
-    addDrawingAction(menu, "Ellipse", [] { return new EllipseItem; });
-    addDrawingAction(menu, "Arrow", [] { return new ArrowItem; });
+    addDrawingAction(menu, "Free draw", ":/icons/pencil.svg", [] { return new PathItem; });
+    addDrawingAction(menu, "Blur", ":/icons/blur.png", [] { return new BlurItem; });
+    addDrawingAction(menu, "Straight line", ":/icons/line.svg", [] { return new LineItem; });
+    addDrawingAction(menu, "Text", ":/icons/text.svg", [] { return new TextItem; });
+    addDrawingAction(menu, "Rectangle", ":/icons/rectangle.svg", [] { return new RectItem; });
+    addDrawingAction(menu, "Ellipse", ":/icons/circle.svg", [] { return new EllipseItem; });
+    addDrawingAction(menu, "Arrow", ":/icons/arrow.svg", [] { return new ArrowItem; });
 
     menu->addSeparator();
-    addDrawingAction(menu, "Eraser", [] { return new EraserItem; });
-    QAction *clear = menu->addAction("Clear all drawing");
+    addDrawingAction(menu, "Eraser", ":/icons/erase.svg", [] { return new EraserItem; });
+    QAction *clear = menu->addAction("");
+    clear->setToolTip("Clear all drawing");
+    clear->setIcon(QIcon(":/icons/delete.svg"));
     connect(clear, &QAction::triggered, [&] {
         auto its = items();
         for (auto i : its) {
@@ -66,7 +66,8 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
 
     menu->addSeparator();
     QAction *settings = new QAction;
-    settings->setText("Settings");
+    settings->setToolTip("Settings");
+    settings->setIcon(QIcon(":/icons/settings.svg"));
     menu->addSeparator();
     display = menu->addAction(drawingName);
     display->setDisabled(true);
@@ -75,7 +76,25 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
         BrushPenSelection(this).exec();
         show();
     });
+
+    QAction *font = menu->addAction("");
+    font->setIcon(QIcon(":/icons/fontsettings.svg"));
+    connect(font, &QAction::triggered, this, &CropScene::fontAsk);
+
     menu->addAction(settings);
+    menu->addSeparator();
+    QAction *confirm = menu->addAction("");
+    confirm->setToolTip("Confirm");
+    confirm->setIcon(QIcon(":/icons/accept.svg"));
+    connect(confirm, &QAction::triggered, [this] { done(true); });
+    menu->addAction(confirm);
+
+    QAction *cancel = menu->addAction("");
+    cancel->setToolTip("Cancel");
+    cancel->setIcon(QIcon(":/icons/cancel.svg"));
+    connect(cancel, &QAction::triggered, [this] { done(false); });
+    menu->addAction(cancel);
+
     QPolygonF cursorPoly;
     cursorPoly << QPoint(-10, 0) //
                << QPoint(10, 0)  //
@@ -108,7 +127,6 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     hint->setPos(5, 5);
     hint->setZValue(2);
     hint->setVisible(settings::settings().value("crophint", true).toBool());
-    connect(menu->addAction("Set Font"), &QAction::triggered, this, &CropScene::fontAsk);
 
     QPolygonF poly;
     QRect prect = pixmap.rect();
@@ -156,6 +174,7 @@ void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> dr
     drawingSelectionMaker = drawAction;
     drawingSelection = drawAction();
     drawingName = name;
+    display->setText(drawingName);
     if (drawingSelection)
         if (!drawingSelection->init(this)) setDrawingSelection("None", [] { return nullptr; });
 }
@@ -163,8 +182,7 @@ void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> dr
 QGraphicsItem *CropScene::whichItem(QPointF scenePos) {
     for (auto item : items()) {
         if (item->sceneBoundingRect().contains(scenePos))
-            if (item != polyItem && item != rect && item != cursorItem && item->zValue() != -1 && item != proxyMenu)
-                return item;
+            if (item != polyItem && item != rect && item != cursorItem && item->zValue() != -1) return item;
     }
     return nullptr;
 }
@@ -281,7 +299,7 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
 void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
     if (e->modifiers() & Qt::AltModifier) {
         auto item = whichItem(cursorItem->scenePos());
-        if (item) removeItem(item);
+        if (item && item != proxyMenu) removeItem(item);
     }
 
     QGraphicsScene::mousePressEvent(e);
@@ -307,12 +325,12 @@ void CropScene::wheelEvent(QGraphicsSceneWheelEvent *event) {
     QGraphicsScene::wheelEvent(event);
 }
 
-void CropScene::addDrawingAction(QMenuBar *menu, QString name, std::function<DrawItem *()> item) {
-    QAction *action = menu->addAction(name);
-    connect(action, &QAction::triggered, [this, &menu, action, item, name](bool) { setDrawingSelection(name, item); });
+void CropScene::addDrawingAction(QMenuBar *menu, QString name, QString icon, std::function<DrawItem *()> item) {
+    QAction *action = menu->addAction("");
+    action->setToolTip(name);
+    action->setIcon(QIcon(icon));
+    connect(action, &QAction::triggered, [this, menu, action, item, name](bool) { setDrawingSelection(name, item); });
 }
-
-static QPoint contextOffset(5, 5);
 
 void CropScene::keyReleaseEvent(QKeyEvent *event) {
     if (((event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) && !drawingSelection) || event->key() == Qt::Key_Escape)

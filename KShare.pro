@@ -4,12 +4,12 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network widgets
+QT       += core gui network widgets svg
 
 TARGET = KShare
 TEMPLATE = app
 
-CONFIG += c++11
+CONFIG += c++11 thread
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
@@ -39,7 +39,6 @@ SOURCES += main.cpp\
     uploaders/customuploader.cpp \
     notifications.cpp \
     hotkeying.cpp \
-    cropeditor/drawing/dotitem.cpp \
     cropeditor/settings/brushpenselection.cpp \
     cropeditor/drawing/bluritem.cpp \
     cropeditor/drawing/pathitem.cpp \
@@ -84,7 +83,6 @@ HEADERS  += mainwindow.hpp \
     notifications.hpp \
     hotkeying.hpp \
     cropeditor/drawing/drawitem.hpp \
-    cropeditor/drawing/dotitem.hpp \
     cropeditor/settings/brushpenselection.hpp \
     cropeditor/drawing/bluritem.hpp \
     cropeditor/drawing/pathitem.hpp \
