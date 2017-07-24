@@ -380,6 +380,7 @@ void CropScene::done(bool notEsc) {
         hint->setVisible(false);
         rect->setPen(QPen(Qt::NoPen));
         magnifier->setVisible(false);
+        proxyMenu->setVisible(false);
         cursorItem->setVisible(false);
         magnifierBox->setVisible(false);
         magnifierHint->setVisible(false);
