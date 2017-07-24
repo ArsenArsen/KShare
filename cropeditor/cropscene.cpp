@@ -1,4 +1,5 @@
 #include "cropscene.hpp"
+#include <QApplication>
 #include <QColorDialog>
 #include <QDebug>
 #include <QFontDialog>
@@ -8,6 +9,7 @@
 #include <QGraphicsView>
 #include <QMenu>
 #include <QMenuBar>
+#include <QScreen>
 #include <QTimer>
 #include <cropeditor/drawing/arrowitem.hpp>
 #include <cropeditor/drawing/bluritem.hpp>
@@ -145,11 +147,13 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     widget->setPos(100, 100);
     proxyMenu = widget;
 
-    QTimer::singleShot(0, [&] {
+    QTimer::singleShot(0, [&, widget] {
         auto pf = views()[0]->mapFromGlobal(QCursor::pos());
         cursorPos = QPoint(pf.x(), pf.y());
         cursorItem->setPos(cursorPos);
         updateMag();
+        int w = QApplication::primaryScreen()->geometry().width();
+        widget->setPos((w - widget->boundingRect().width()) / 2, 100);
     });
 }
 
