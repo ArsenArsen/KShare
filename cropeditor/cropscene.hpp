@@ -8,6 +8,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
 #include <QMenu>
+#include <QMenuBar>
 #include <functional>
 #include <screenshotutil.hpp>
 class CropScene;
@@ -51,13 +52,12 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *e) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *e) override;
     void wheelEvent(QGraphicsSceneWheelEvent *event) override; // WHEEEEEEL
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *e) override;
     void keyReleaseEvent(QKeyEvent *e) override;
 
 private:
     void updateMag();
     void initMagnifierGrid();
-    void addDrawingAction(QMenu &menu, QString name, std::function<DrawItem *()> item);
+    void addDrawingAction(QMenuBar *menu, QString name, std::function<DrawItem *()> item);
     void done(bool notEsc);
     bool fullscreen;
     QPointF cursorPos;
@@ -75,7 +75,8 @@ private:
     QFont _font;
     QGraphicsPolygonItem *polyItem = nullptr;
     DrawItem *drawingSelection = nullptr;
-    QMenu menu;
+    QMenuBar *menu = nullptr;
+    QGraphicsProxyWidget *proxyMenu = nullptr;
     QString drawingName = "None";
     QAction *display;
     QList<QGraphicsRectItem *> gridRectsX;
