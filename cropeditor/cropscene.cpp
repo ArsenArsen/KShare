@@ -63,35 +63,35 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     addDrawingAction(menu, "Crop", ":/icons/crop.svg", [] { return nullptr; });
 
     menu->addSeparator();
-    QAction *action = new QAction;
-    action->setToolTip("Settings");
-    action->setIcon(QIcon(":/icons/settings.svg"));
-    menu->addSeparator();
-    display = menu->addAction(drawingName);
-    display->setDisabled(true);
-    connect(action, &QAction::triggered, [&] {
+    QAction *settings = menu->addAction("");
+    settings->setToolTip("Settings");
+    settings->setIcon(QIcon(":/icons/settings.svg"));
+    connect(settings, &QAction::triggered, [&] {
         hide();
         BrushPenSelection(this).exec();
         show();
     });
-
-    action = menu->addAction("");
-    action->setIcon(QIcon(":/icons/fontsettings.svg"));
-    connect(action, &QAction::triggered, this, &CropScene::fontAsk);
-
-    menu->addAction(action);
     menu->addSeparator();
-    action = menu->addAction("");
-    action->setToolTip("Confirm");
-    action->setIcon(QIcon(":/icons/accept.svg"));
-    connect(action, &QAction::triggered, [this] { done(true); });
-    menu->addAction(action);
+    display = menu->addAction(drawingName);
+    display->setDisabled(true);
 
-    action = menu->addAction("");
-    action->setToolTip("Cancel");
-    action->setIcon(QIcon(":/icons/cancel.svg"));
-    connect(action, &QAction::triggered, [this] { done(false); });
-    menu->addAction(action);
+    QAction *fonts = menu->addAction("");
+    fonts->setIcon(QIcon(":/icons/fontsettings.svg"));
+    connect(fonts, &QAction::triggered, this, &CropScene::fontAsk);
+
+    menu->addAction(fonts);
+    menu->addSeparator();
+    QAction *confirm = menu->addAction("");
+    confirm->setToolTip("Confirm");
+    confirm->setIcon(QIcon(":/icons/accept.svg"));
+    connect(confirm, &QAction::triggered, [this] { done(true); });
+    menu->addAction(confirm);
+
+    QAction *cancel = menu->addAction("");
+    cancel->setToolTip("Cancel");
+    cancel->setIcon(QIcon(":/icons/cancel.svg"));
+    connect(cancel, &QAction::triggered, [this] { done(false); });
+    menu->addAction(cancel);
 
     QPolygonF cursorPoly;
     cursorPoly << QPoint(-10, 0) //
