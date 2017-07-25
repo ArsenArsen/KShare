@@ -9,12 +9,13 @@
         <file>icons/text.svg</file>
         <file>icons/delete.svg</file>
         <file>icons/arrow.svg</file>
-        <file>icons/circle.svg</file>
         <file>icons/settings.svg</file>
         <file>icons/fontsettings.svg</file>
         <file>icons/erase.svg</file>
         <file>icons/blur.png</file>
         <file>icons/accept.svg</file>
         <file>icons/cancel.svg</file>
+        <file>icons/crop.svg</file>
+        <file>icons/circle.svg</file>
     </qresource>
 </RCC>

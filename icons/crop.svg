@@ -14,23 +14,10 @@
    viewBox="0 0 270.93333 270.93333"
    version="1.1"
    id="svg8"
-   sodipodi:docname="blur.svg"
-   inkscape:export-filename="/media/arsen/Data/CandCPP/KShare/icons/blur.png"
-   inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96"
-   inkscape:version="0.92.1 r">
+   inkscape:version="0.92.1 r"
+   sodipodi:docname="crop.svg">
   <defs
-     id="defs2">
-    <filter
-       style="color-interpolation-filters:sRGB;"
-       inkscape:label="Blur"
-       id="filter878">
-      <feGaussianBlur
-         stdDeviation="20 20"
-         result="blur"
-         id="feGaussianBlur876" />
-    </filter>
-  </defs>
+     id="defs2" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -39,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="2043.7881"
+     inkscape:cx="1550.9309"
      inkscape:cy="126.79149"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -68,12 +55,22 @@
      id="layer1"
      transform="translate(0,-26.066725)">
     <rect
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:21.41490173;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke markers fill;filter:url(#filter878)"
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:21.41490173;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke markers fill"
        id="rect10"
        width="181.7851"
        height="181.7851"
        x="44.574112"
        y="70.640831"
        ry="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:21.16666667;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 44.57411,70.64083 43.845239,25.613154"
+       id="path12"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:21.16666603;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -0.45356506,71.369702 44.574112,70.640831"
+       id="path12-3"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

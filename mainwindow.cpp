@@ -6,6 +6,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QMessageBox>
+#include <QShortcut>
 #include <colorpicker/colorpickerscene.hpp>
 #include <formats.hpp>
 #include <hotkeying.hpp>
