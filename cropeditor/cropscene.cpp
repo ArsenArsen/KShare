@@ -139,6 +139,7 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     addItem(polyItem);
 
     auto widget = addWidget(menu);
+    widget->setFlag(QGraphicsItem::ItemIsMovable, true);
     widget->setZValue(100);
     widget->setPos(100, 100);
     proxyMenu = widget;
@@ -293,7 +294,7 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
         done(true);
     prevButtons = Qt::NoButton;
 
-    QGraphicsScene::mouseReleaseEvent(e);
+    if (!(e->modifiers() & Qt::ControlModifier)) QGraphicsScene::mouseReleaseEvent(e);
 }
 
 void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
@@ -302,7 +303,7 @@ void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
         if (item && item != proxyMenu) removeItem(item);
     }
 
-    QGraphicsScene::mousePressEvent(e);
+    if (!(e->modifiers() & Qt::ControlModifier)) QGraphicsScene::mousePressEvent(e);
 }
 
 void CropScene::wheelEvent(QGraphicsSceneWheelEvent *event) {
@@ -322,7 +323,7 @@ void CropScene::wheelEvent(QGraphicsSceneWheelEvent *event) {
     initMagnifierGrid();
     updateMag();
 
-    QGraphicsScene::wheelEvent(event);
+    if (!(event->modifiers() & Qt::ControlModifier)) QGraphicsScene::wheelEvent(event);
 }
 
 void CropScene::addDrawingAction(QMenuBar *menu, QString name, QString icon, std::function<DrawItem *()> item) {
@@ -341,7 +342,7 @@ void CropScene::keyReleaseEvent(QKeyEvent *event) {
         settings::settings().setValue("crophint", enabled);
     }
 
-    QGraphicsScene::keyReleaseEvent(event);
+    if (!(event->modifiers() & Qt::ControlModifier)) QGraphicsScene::keyReleaseEvent(event);
 }
 
 void CropScene::updateMag() {
