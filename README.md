@@ -39,8 +39,6 @@ See the [projects](https://github.com/ArsenArsen/KShare/projects)
 |Arch Linux |[kshare](https://aur.archlinux.org/packages/kshare/)|
 |Ubuntu/Debian |[.deb](https://nativeci.arsenarsen.com/job/KShare%20Stable/lastSuccessfulBuild/artifact/packages/simpleName.deb	)|
 
-I do plan to make a Debian packages.
-
 For other UNIX-like platforms, and MSYS2 (for Windows):
 
 You have to obtain the dependencies though.
