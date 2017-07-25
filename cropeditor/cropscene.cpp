@@ -340,6 +340,8 @@ void CropScene::keyReleaseEvent(QKeyEvent *event) {
         hint->setVisible(enabled);
         settings::settings().setValue("crophint", enabled);
     }
+
+    QGraphicsScene::keyReleaseEvent(event);
 }
 
 void CropScene::updateMag() {
