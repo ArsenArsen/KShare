@@ -6,12 +6,15 @@
 #include <QTimer>
 #include <settings.hpp>
 
+static QString hintPattern("Set the recording region by resizing this.\n%1x%2");
+
 ScreenAreaSelector::ScreenAreaSelector() {
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_DeleteOnClose);
-    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
     setStyleSheet("background-color: rgba(0, 0, 0, 0.5);");
     setWindowTitle("KShare: Select Area (By resizing this window)");
+    setAutoFillBackground(true);
     QTimer::singleShot(0, [&] {
         QVariant val = settings::settings().value("screenareaselector/rect");
         if (val.canConvert<QRect>()) {
@@ -19,7 +22,7 @@ ScreenAreaSelector::ScreenAreaSelector() {
             resize(rect.size());
             move(rect.topLeft());
         }
-        hintLabel->setText(QString::number(width()) + "x" + QString::number(height()));
+        hintLabel->setText(hintPattern.arg(QString::number(width()), QString::number(height())));
         show();
     });
     setLayout(new QStackedLayout());
@@ -43,7 +46,7 @@ void ScreenAreaSelector::keyPressEvent(QKeyEvent *event) {
 }
 
 void ScreenAreaSelector::resizeEvent(QResizeEvent *) {
-    hintLabel->setText(QString::number(width()) + "x" + QString::number(height()));
+    hintLabel->setText(hintPattern.arg(QString::number(width()), QString::number(height())));
 }
 
 void ScreenAreaSelector::closeEvent(QCloseEvent *) {
