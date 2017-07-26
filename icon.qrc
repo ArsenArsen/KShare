@@ -1,21 +1,21 @@
 <RCC>
     <qresource prefix="/">
-        <file>icons/icon.png</file>
         <file>icons/icon.svg</file>
+        <file>icons/icon.png</file>
         <file>icons/icon.ico</file>
-        <file>icons/pencil.svg</file>
-        <file>icons/rectangle.svg</file>
-        <file>icons/line.svg</file>
-        <file>icons/text.svg</file>
-        <file>icons/delete.svg</file>
-        <file>icons/arrow.svg</file>
-        <file>icons/settings.svg</file>
-        <file>icons/fontsettings.svg</file>
-        <file>icons/erase.svg</file>
+        <file>icons/pencil.png</file>
+        <file>icons/rectangle.png</file>
+        <file>icons/line.png</file>
+        <file>icons/text.png</file>
+        <file>icons/delete.png</file>
+        <file>icons/arrow.png</file>
+        <file>icons/settings.png</file>
+        <file>icons/fontsettings.png</file>
+        <file>icons/erase.png</file>
         <file>icons/blur.png</file>
-        <file>icons/accept.svg</file>
-        <file>icons/cancel.svg</file>
-        <file>icons/crop.svg</file>
-        <file>icons/circle.svg</file>
+        <file>icons/accept.png</file>
+        <file>icons/cancel.png</file>
+        <file>icons/crop.png</file>
+        <file>icons/circle.png</file>
     </qresource>
 </RCC>

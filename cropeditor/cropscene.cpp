@@ -35,19 +35,19 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     static_cast<Qt::BrushStyle>(settings::settings().value("brushStyle", static_cast<int>(Qt::SolidPattern)).toInt()));
 
     menu = new QMenuBar;
-    addDrawingAction(menu, "Free draw", ":/icons/pencil.svg", [] { return new PathItem; });
+    addDrawingAction(menu, "Free draw", ":/icons/pencil.png", [] { return new PathItem; });
     addDrawingAction(menu, "Blur", ":/icons/blur.png", [] { return new BlurItem; });
-    addDrawingAction(menu, "Straight line", ":/icons/line.svg", [] { return new LineItem; });
-    addDrawingAction(menu, "Text", ":/icons/text.svg", [] { return new TextItem; });
-    addDrawingAction(menu, "Rectangle", ":/icons/rectangle.svg", [] { return new RectItem; });
-    addDrawingAction(menu, "Ellipse", ":/icons/circle.svg", [] { return new EllipseItem; });
-    addDrawingAction(menu, "Arrow", ":/icons/arrow.svg", [] { return new ArrowItem; });
+    addDrawingAction(menu, "Straight line", ":/icons/line.png", [] { return new LineItem; });
+    addDrawingAction(menu, "Text", ":/icons/text.png", [] { return new TextItem; });
+    addDrawingAction(menu, "Rectangle", ":/icons/rectangle.png", [] { return new RectItem; });
+    addDrawingAction(menu, "Ellipse", ":/icons/circle.png", [] { return new EllipseItem; });
+    addDrawingAction(menu, "Arrow", ":/icons/arrow.png", [] { return new ArrowItem; });
 
     menu->addSeparator();
-    addDrawingAction(menu, "Eraser", ":/icons/erase.svg", [] { return new EraserItem; });
+    addDrawingAction(menu, "Eraser", ":/icons/erase.png", [] { return new EraserItem; });
     QAction *clear = menu->addAction("");
     clear->setToolTip("Clear all drawing");
-    clear->setIcon(QIcon(":/icons/delete.svg"));
+    clear->setIcon(QIcon(":/icons/delete.png"));
     connect(clear, &QAction::triggered, [&] {
         auto its = items();
         for (auto i : its) {
@@ -60,12 +60,12 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
         }
     });
 
-    addDrawingAction(menu, "Crop", ":/icons/crop.svg", [] { return nullptr; });
+    addDrawingAction(menu, "Crop", ":/icons/crop.png", [] { return nullptr; });
 
     menu->addSeparator();
     QAction *settings = menu->addAction("");
     settings->setToolTip("Settings");
-    settings->setIcon(QIcon(":/icons/settings.svg"));
+    settings->setIcon(QIcon(":/icons/settings.png"));
     connect(settings, &QAction::triggered, [&] {
         hide();
         BrushPenSelection(this).exec();
@@ -76,20 +76,20 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     display->setDisabled(true);
 
     QAction *fonts = menu->addAction("");
-    fonts->setIcon(QIcon(":/icons/fontsettings.svg"));
+    fonts->setIcon(QIcon(":/icons/fontsettings.png"));
     connect(fonts, &QAction::triggered, this, &CropScene::fontAsk);
 
     menu->addAction(fonts);
     menu->addSeparator();
     QAction *confirm = menu->addAction("");
     confirm->setToolTip("Confirm");
-    confirm->setIcon(QIcon(":/icons/accept.svg"));
+    confirm->setIcon(QIcon(":/icons/accept.png"));
     connect(confirm, &QAction::triggered, [this] { done(true); });
     menu->addAction(confirm);
 
     QAction *cancel = menu->addAction("");
     cancel->setToolTip("Cancel");
-    cancel->setIcon(QIcon(":/icons/cancel.svg"));
+    cancel->setIcon(QIcon(":/icons/cancel.png"));
     connect(cancel, &QAction::triggered, [this] { done(false); });
     menu->addAction(cancel);
 
