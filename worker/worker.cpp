@@ -20,7 +20,7 @@ void Worker::queue(WorkerContext *context) {
     c->consumer = context->consumer;
     c->targetFormat = context->targetFormat;
     c->underlyingThing = context;
-    inst->qqueue.enqueue(c);
+    inst->qqueue.enqueue(std::move(c));
 }
 
 void Worker::init() {
