@@ -151,7 +151,8 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
         updateMag();
         auto screen = QApplication::primaryScreen();
         int w = screen->geometry().width();
-        widget->setPos(views()[0]->mapToScene(QPoint((w - widget->boundingRect().width()) / 2, screen->geometry().y() + 100)));
+        widget->setPos(views()[0]->mapToScene(
+        QPoint(screen->geometry().x() + (w - widget->boundingRect().width()) / 2, screen->geometry().y() + 100)));
     });
 }
 
