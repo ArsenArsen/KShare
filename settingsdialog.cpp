@@ -20,7 +20,7 @@
 #include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
 
-QMap<QString, std::function<void()>> fncs;
+static QMap<QString, std::function<void()>> fncs;
 
 void addHotkeyItem(QListWidget *hotkeys, QString text, QString name, std::function<void()> func, QString def = QString()) {
     QListWidgetItem *item = new QListWidgetItem(text, hotkeys);
@@ -52,14 +52,14 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
 
     ui->hotkeys->setSelectionMode(QListWidget::SingleSelection);
 
-    addHotkeyItem(ui->hotkeys, "Fullscreen image", "fullscreen", [] { screenshotter::fullscreen(); });
-    addHotkeyItem(ui->hotkeys, "Area image", "area", [] { screenshotter::area(); });
+    addHotkeyItem(ui->hotkeys, tr("Fullscreen image"), "fullscreen", [] { screenshotter::fullscreen(); });
+    addHotkeyItem(ui->hotkeys, tr("Area image"), "area", [] { screenshotter::area(); });
 #ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
-    addHotkeyItem(ui->hotkeys, "Active window", "active", [&] { screenshotter::active(); });
+    addHotkeyItem(ui->hotkeys, tr("Active window"), "active", [&] { screenshotter::active(); });
 #endif
-    addHotkeyItem(ui->hotkeys, "Color picker", "picker", [] { ColorPickerScene::showPicker(); });
-    addHotkeyItem(ui->hotkeys, "Stop Recording", "recordingstop", [&] { MainWindow::inst()->controller->end(); });
-    addHotkeyItem(ui->hotkeys, "Start Recording", "recordingstart", [&] { MainWindow::inst()->rec(); });
+    addHotkeyItem(ui->hotkeys, tr("Color picker"), "picker", [] { ColorPickerScene::showPicker(); });
+    addHotkeyItem(ui->hotkeys, tr("Stop Recording"), "recordingstop", [&] { MainWindow::inst()->controller->end(); });
+    addHotkeyItem(ui->hotkeys, tr("Start Recording"), "recordingstart", [&] { MainWindow::inst()->rec(); });
 
     ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());
     ui->hideToTray->setChecked(settings::settings().value("hideOnClose", true).toBool());
@@ -81,7 +81,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
     ui->nameScheme->setValidator(new FilenameValidator(ui->nameScheme));
 #ifndef PLATFORM_CAPABILITY_CURSOR
     ui->captureCursor->setEnabled(false);
-    ui->captureCursor->setText("Capture cursor (disabled: implementation missing)");
+    ui->captureCursor->setText(tr("Capture cursor (disabled: implementation missing)"));
 #endif
 }
 

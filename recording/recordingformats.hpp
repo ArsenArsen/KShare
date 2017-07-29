@@ -1,6 +1,7 @@
 #ifndef RECORDINGFORMATS_HPP
 #define RECORDINGFORMATS_HPP
 
+#include <QApplication>
 #include <QDir>
 #include <QFile>
 #include <QImage>
@@ -12,6 +13,7 @@
 #include <recording/encoders/encoder.hpp>
 
 class RecordingFormats {
+    Q_DECLARE_TR_FUNCTIONS(RecordingFormats)
 public:
     RecordingFormats(formats::Recording f);
     std::function<void(QImage)> getConsumer();

@@ -53,7 +53,7 @@ private:
 
 void ImgurUploader::doUpload(QByteArray byteArray, QString format) {
     if (byteArray.size() > 1e+7) {
-        notifications::notify("KShare imgur Uploader ", "Failed upload! Image too big");
+        notifications::notify(tr("KShare imgur Uploader"), tr("Failed upload! Image too big"));
         return;
     }
     QString mime;
@@ -89,10 +89,10 @@ void ImgurUploader::handleSend(QString auth, QString mime, QByteArray byteArray)
                           }
                           if (!result.isEmpty()) {
                               screenshotutil::toClipboard(result);
-                              notifications::notify("KShare imgur Uploader ", "Uploaded to imgur!");
+                              notifications::notify(tr("KShare imgur Uploader"), tr("Uploaded to imgur!"));
                           } else {
-                              notifications::notify("KShare imgur Uploader ",
-                                                    QString("Failed upload! imgur said: HTTP %1: %2")
+                              notifications::notify(tr("KShare imgur Uploader "),
+                                                    QString(tr("Failed upload! imgur said: HTTP %1: %2"))
                                                     .arg(r->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt())
                                                     .arg(r->errorString()));
                           }

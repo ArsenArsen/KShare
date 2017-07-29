@@ -36,14 +36,15 @@ void ImgplusUploader::doUpload(QByteArray byteArray, QString format) {
                                [](QByteArray link, QNetworkReply *) {
                                    QApplication::clipboard()->setText(QString::fromUtf8(link));
                                    if (!link.startsWith("http"))
-                                       qCritical() << "Failed to upload! Copied the response to clipboard";
+                                       qCritical() << QObject::tr("Failed to upload! Copied the response to clipboard");
                                    else
-                                       notifications::notify("KShare imgur Uploader ", "Uploaded to ImagePlus!");
+                                       notifications::notify(QObject::tr("KShare imgplus Uploader"),
+                                                             QObject::tr("Uploaded to ImagePlus!"));
                                });
 }
 
 void ImgplusUploader::showSettings() {
-    QString text = QInputDialog::getText(0, "imgplus API key", "Enter the imgpl.us API key (Found in Settings)",
+    QString text = QInputDialog::getText(0, tr("imgplus API key"), tr("Enter the imgpl.us API key (Found in Settings)"),
                                          QLineEdit::Normal, settings::settings().value("imgplus/apikey").toString());
     if (!text.isNull()) settings::settings().setValue("imgplus/apikey", text);
 }

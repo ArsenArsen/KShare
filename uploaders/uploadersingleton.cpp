@@ -18,18 +18,17 @@ UploaderSingleton::UploaderSingleton() : QObject() {
     case 0:
         saveDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
         if (QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).isEmpty()) {
-            qFatal("Cannot determine location for pictures");
+            qFatal("%s", tr("Cannot determine location for pictures").toLocal8Bit().constData());
         }
         break;
     case 1:
         if (QStandardPaths::writableLocation(QStandardPaths::HomeLocation).isEmpty()) {
-            qFatal("Cannot determine location of your home directory");
+            qFatal("%s", tr("Cannot determine location of your home directory").toLocal8Bit().constData());
         }
         saveDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Screenshots";
         break;
     default:
-        qFatal("Invalid config [saveLocation not int or is not in range]");
-        break;
+        qFatal("%s", tr("Invalid config [saveLocation not int or is not in range]").toLocal8Bit().constData());
     }
 
     if (!saveDir.exists()) {
@@ -68,7 +67,7 @@ UploaderSingleton::UploaderSingleton() : QObject() {
 
 void UploaderSingleton::registerUploader(Uploader *uploader) {
     if (uploaders.contains(uploader->name()))
-        throw std::runtime_error(("Ambigious uploader " + uploader->name()).toStdString());
+        throw std::runtime_error((tr("Ambigious uploader ") + uploader->name()).toStdString());
     uploaders.insert(uploader->name(), uploader);
     emit newUploader(uploader);
 }
@@ -78,7 +77,7 @@ void UploaderSingleton::upload(QPixmap pixmap) {
     if (!u->validate()) {
         u = uploaders.value("imgur");
         set("imgur");
-        qWarning() << "Currently selected uploader is not set up properly! Falling back to imgur";
+        qWarning() << tr("Currently selected uploader is not set up properly! Falling back to imgur");
     }
     QString format = settings::settings().value("captureformat", "PNG").toString();
     QFile file(saveDir.absoluteFilePath(
@@ -90,7 +89,7 @@ void UploaderSingleton::upload(QPixmap pixmap) {
         file.seek(0);
         u->doUpload(file.readAll(), format);
     } else
-        notifications::notify("KShare - Failed to save picture", file.errorString(), QSystemTrayIcon::Warning);
+        notifications::notify(tr("KShare - Failed to save picture"), file.errorString(), QSystemTrayIcon::Warning);
 }
 
 void UploaderSingleton::upload(QByteArray img, QString format) {
@@ -113,9 +112,9 @@ void UploaderSingleton::upload(QFile &img, QString format) {
         if (img.open(QFile::ReadWrite))
             uploaders.value(uploader)->doUpload(img.readAll(), format);
         else
-            notifications::notify("KShare - Failed to save picture", img.errorString(), QSystemTrayIcon::Warning);
+            notifications::notify(tr("KShare - Failed to save picture"), img.errorString(), QSystemTrayIcon::Warning);
     } else
-        notifications::notify("KShare - Failed to save picture", img.errorString(), QSystemTrayIcon::Warning);
+        notifications::notify(tr("KShare - Failed to save picture"), img.errorString(), QSystemTrayIcon::Warning);
 }
 
 void UploaderSingleton::showSettings() {

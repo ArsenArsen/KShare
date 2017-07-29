@@ -19,7 +19,7 @@
 RecordingFormats::RecordingFormats(formats::Recording f) {
     if (!tmpDir.isValid()) {
         validator = [](QSize) { return false; };
-        qCritical().noquote() << "Could not create temporary directory. Error: " + tmpDir.errorString();
+        qCritical().noquote() << tr("Could not create temporary directory. Error: ") + tmpDir.errorString();
         return;
     }
     iFormat = QImage::Format_RGB888;
@@ -39,7 +39,7 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
                     return false;
                 }
             } catch (std::runtime_error &e) {
-                qCritical() << "Encoder error: " << e.what();
+                qCritical() << tr("Encoder error: ") << e.what();
                 interrupt = true;
                 delete enc;
                 return false;
@@ -52,7 +52,7 @@ RecordingFormats::RecordingFormats(formats::Recording f) {
                 frameAdded = true;
                 enc->addFrame(img);
             } catch (std::runtime_error &e) {
-                qCritical() << "Encoder error: " << e.what();
+                qCritical() << tr("Encoder error: ") << e.what();
                 interrupt = true;
             }
     };

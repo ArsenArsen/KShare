@@ -28,11 +28,11 @@ void HotkeyInputDialog::keyPressEvent(QKeyEvent *e) {
         QKeySequence seq(e->modifiers() + e->key());
         ui->keySeq->setText(seq.toString());
         recording = false;
-        ui->recordButton->setText("Record");
+        ui->recordButton->setText(tr("Record"));
     }
 }
 
 void HotkeyInputDialog::on_recordButton_clicked() {
     recording = !recording;
-    ui->recordButton->setText(recording ? "Stop recording" : "Record");
+    ui->recordButton->setText(recording ? tr("Stop recording") : tr("Record"));
 }

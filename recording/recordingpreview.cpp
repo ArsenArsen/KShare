@@ -7,7 +7,7 @@
 #include <QTimer>
 #include <hotkeying.hpp>
 
-QSize max(300, 300);
+static QSize max(300, 300);
 
 inline bool sizeGreater(QSize one, QSize two) {
     return one.height() > two.height() || one.width() > two.width();
@@ -44,7 +44,7 @@ RecordingPreview::RecordingPreview(QRect area, QWidget *parent) : QWidget(parent
     label->setPixmap(empty);
     layout()->addWidget(hintLabel);
     layout()->addWidget(label);
-    hintLabel->setText(QString("Time: 00:00\nFrame: 0\nStop key: ") + hotkeying::sequence("recordingstop"));
+    hintLabel->setText(QString(tr("Time: 00:00\nFrame: 0\nStop key: ")) + hotkeying::sequence("recordingstop"));
 }
 
 RecordingPreview::~RecordingPreview() {
@@ -58,6 +58,6 @@ void RecordingPreview::setPixmap(QPixmap map) {
 }
 void RecordingPreview::setTime(QString time, int frame) {
     if (isVisible())
-        hintLabel->setText(QString("Time: ") + time + "\nFrame: " + QString::number(frame)
-                           + "\nStop key: " + hotkeying::sequence("recordingstop"));
+        hintLabel->setText(
+        tr("Time: %1\nFrame: %2\nStop key: %3").arg(time).arg(frame).arg(hotkeying::sequence("recordingstop")));
 }

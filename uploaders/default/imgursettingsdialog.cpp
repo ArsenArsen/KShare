@@ -60,7 +60,7 @@ void ImgurSettingsDialog::on_authorize_clicked() {
                                                         QDateTime::currentDateTimeUtc().addSecs(res["expires_in"].toInt()));
                           settings::settings().setValue("imgur/refresh", res["refresh_token"].toString());
                           settings::settings().setValue("imgur/access", res["refresh_token"].toString());
-                          ui->status->setText("It works!");
+                          ui->status->setText(tr("It works!"));
                           ui->status->setStyleSheet("* { color: green; }");
 
                           ui->authorize->setEnabled(false);

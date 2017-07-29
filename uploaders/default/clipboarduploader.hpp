@@ -1,10 +1,12 @@
 #ifndef CLIPBOARDUPLOADER_HPP
 #define CLIPBOARDUPLOADER_HPP
 
+#include <QApplication>
 #include <QPixmap>
 #include <uploaders/uploader.hpp>
 
 class ClipboardUploader : public Uploader {
+    Q_DECLARE_TR_FUNCTIONS(ClipboardUploader)
 public:
     QString name() {
         return "clipboard";

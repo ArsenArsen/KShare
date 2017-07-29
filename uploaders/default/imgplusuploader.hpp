@@ -1,9 +1,11 @@
 #ifndef IMGPLUSUPLOADER_HPP
 #define IMGPLUSUPLOADER_HPP
 
+#include <QApplication>
 #include <uploaders/uploader.hpp>
 
 class ImgplusUploader : public Uploader {
+    Q_DECLARE_TR_FUNCTIONS(ImgplusUploader)
 public:
     QString name() override {
         return "ImagePlus";

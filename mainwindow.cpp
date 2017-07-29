@@ -19,10 +19,10 @@ MainWindow *MainWindow::instance;
 
 void MainWindow::rec() {
     if (controller->isRunning()) return;
-    auto f
-    = static_cast<formats::Recording>(settings::settings().value("recording/format", (int)formats::Recording::None).toInt());
+    auto f = static_cast<formats::Recording>(
+    settings::settings().value("recording/format", static_cast<int>(formats::Recording::None)).toInt());
     if (f >= formats::Recording::None) {
-        qWarning() << "Recording format not set in settings. Aborting.";
+        qWarning() << tr("Recording format not set in settings. Aborting.");
         return;
     }
     RecordingContext *ctx = new RecordingContext;
@@ -34,6 +34,22 @@ void MainWindow::rec() {
     ctx->postUploadTask = format->getPostUploadTask();
     ctx->anotherFormat = format->getAnotherFormat();
     controller->start(ctx);
+}
+
+#define ACTION(english, menu)                                                                                          \
+    [&]() -> QAction * {                                                                                               \
+        QAction *a = menu->addAction(tr(english));                                                                     \
+        acts.insert(a, english);                                                                                       \
+        return a;                                                                                                      \
+    }()
+
+void MainWindow::changeEvent(QEvent *e) {
+    if (e->type() == QEvent::LocaleChange) {
+        ui->retranslateUi(this);
+        for (auto key : acts.keys()) {
+            key->setText(tr(acts.value(key)));
+        }
+    }
 }
 
 void addHotkey(QString name, std::function<void()> action) {
@@ -48,19 +64,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     tray->setToolTip("KShare");
     tray->setVisible(true);
     QMenu *menu = new QMenu(this);
-    QAction *quit = new QAction("Quit", this);
-    QAction *shtoggle = new QAction("Show/Hide", this);
-    QAction *fullscreen = new QAction("Take fullscreen shot", this);
-    QAction *area = new QAction("Take area shot", this);
+    QAction *quit = ACTION("Quit", menu);
+    QAction *shtoggle = ACTION("Show/Hide", menu);
+    QAction *fullscreen = ACTION("Take fullscreen shot", menu);
+    QAction *area = ACTION("Take area shot", menu);
 
 #ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
-    QAction *active = new QAction("Screenshot active window", this);
+    QAction *active = ACTION("Screenshot active window", menu);
     connect(active, &QAction::triggered, this, [] { screenshotter::activeDelayed(); });
 #endif
-    QAction *picker = new QAction("Show color picker", this);
-    QAction *rec = new QAction("Record screen", this);
-    QAction *recoff = new QAction("Stop recording", this);
-    QAction *recabort = new QAction("Abort recording", this);
+    QAction *picker = ACTION("Show color picker", menu);
+    QAction *rec = ACTION("Record screen", menu);
+    QAction *recoff = ACTION("Stop recording", menu);
+    QAction *recabort = ACTION("Abort recording", menu);
     menu->addActions({ quit, shtoggle, picker });
     menu->addSeparator();
     menu->addActions({ fullscreen, area });

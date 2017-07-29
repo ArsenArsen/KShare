@@ -13,7 +13,7 @@ QDir settings::dir() {
     if (configDir.dirName() != "KShare") {
         if (!configDir.cd("KShare")) {
             if (!configDir.mkdir("KShare")) {
-                qFatal("Could not make config directory");
+                qFatal("%s", QObject::tr("Could not make config directory").toLocal8Bit().constData());
             } else {
                 configDir.cd("KShare");
             }

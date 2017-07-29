@@ -30,10 +30,10 @@ signals:
 
 private:
     QDir saveDir;
-    UploaderSingleton();
     QMap<QString, Uploader *> uploaders;
     QString uploader = "imgur";
     QList<std::runtime_error> errs;
+    UploaderSingleton();
 };
 
 #endif // UPLOADERSINGLETON_HPP

@@ -18,8 +18,8 @@ using formats::recordingFormatFromName;
 using formats::recordingFormatMIME;
 using std::runtime_error;
 
-void error(QString absFilePath, QString err) {
-    throw runtime_error((QString("Invalid file: ").append(absFilePath) + ": " + err).toStdString());
+[[noreturn]] void error(QString absFilePath, QString err) {
+    throw runtime_error((QObject::tr("Invalid file: ").append(absFilePath) + ": " + err).toStdString());
 }
 
 CustomUploader::CustomUploader(QString absFilePath) {
@@ -28,16 +28,16 @@ CustomUploader::CustomUploader(QString absFilePath) {
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) error(absFilePath, file.errorString());
     QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
     if (!doc.isObject()) {
-        error(absFilePath, "Root not an object");
+        error(absFilePath, tr("Root not an object"));
     }
     QJsonObject obj = doc.object();
     if (!obj["name"].isString())
-        error(absFilePath, "name is not a string");
+        error(absFilePath, tr("name is not a string"));
     else
         uName = obj["name"].toString();
     if (obj.contains("desc")) {
         if (!obj["desc"].isString())
-            /*t*/ error(absFilePath, "desc not a string");
+            /*t*/ error(absFilePath, tr("desc not a string"));
         else
 
             desc = obj["desc"].toString();
@@ -45,19 +45,19 @@ CustomUploader::CustomUploader(QString absFilePath) {
         desc = absFilePath;
     QJsonValue m = obj["method"];
     if (!m.isUndefined() && !m.isNull()) {
-        if (!m.isString()) error(absFilePath, "method not a string");
+        if (!m.isString()) error(absFilePath, tr("method not a string"));
         QString toCheck = m.toString().toLower();
         if (toCheck == "post")
             method = HttpMethod::POST;
         else
-            error(absFilePath, "method invalid");
+            error(absFilePath, tr("method invalid"));
     }
     QJsonValue url = obj["target"];
     if (!url.isString()) {
-        error(absFilePath, "target missing");
+        error(absFilePath, tr("target missing"));
     }
     QUrl target(url.toString());
-    if (!target.isValid()) error(absFilePath, "target not URL");
+    if (!target.isValid()) error(absFilePath, tr("target not URL"));
     this->target = target;
     QJsonValue formatValue = obj["format"];
     if (!formatValue.isUndefined() && !formatValue.isNull()) {
@@ -72,45 +72,47 @@ CustomUploader::CustomUploader(QString absFilePath) {
             else if (formatString == "multipart-form-data")
                 rFormat = RequestFormat::MULTIPART_FORM_DATA;
             else
-                error(absFilePath, "format invalid");
+                error(absFilePath, tr("format invalid"));
         }
     } else
-        error(absFilePath, "format provided but not string");
+        error(absFilePath, tr("format provided but not string"));
     QJsonValue bodyValue = obj["body"];
     if (rFormat != RequestFormat::PLAIN) {
-        if (bodyValue.isUndefined()) error(absFilePath, "body not set");
+        if (bodyValue.isUndefined()) error(absFilePath, tr("body not set"));
         if (rFormat == RequestFormat::MULTIPART_FORM_DATA) {
             if (bodyValue.isArray()) {
                 for (QJsonValue val : bodyValue.toArray()) {
-                    if (!val.isObject()) error(absFilePath, "all elements of body must be objects");
+                    if (!val.isObject()) error(absFilePath, tr("all elements of body must be objects"));
                     if (!val.toObject()["body"].isObject() && !val.toObject().value("body").isString())
-                        error(absFilePath, "all parts must have a body which is object or string!");
+                        error(absFilePath, tr("all parts must have a body which is object or string!"));
                     QJsonObject vo = val.toObject();
                     for (auto v : vo["body"].toObject())
                         if (!v.isObject() && !v.isString())
-                            error(absFilePath, "all parts of body must be string or object");
+                            error(absFilePath, tr("all parts of body must be string or object"));
                     for (auto v : vo.keys())
                         if (v.startsWith("__") && !vo[v].isString())
-                            error(absFilePath, "all __headers must be strings");
+                            //: __<whatever is the word for header>
+                            error(absFilePath, tr("all __headers must be strings"));
                 }
                 body = bodyValue;
             } else
-                error(absFilePath, "body not array (needed for multipart)");
+                error(absFilePath, tr("body not array (needed for multipart)"));
         } else {
             if (bodyValue.isObject())
                 body = bodyValue;
             else
-                error(absFilePath, "body not object");
+                error(absFilePath, tr("body not object"));
         }
     } else {
         if (bodyValue.isString()) {
             body = bodyValue;
         } else
-            error(absFilePath, "body not string (reason: format: PLAIN)");
+            //: `format: PLAIN` should stay the same
+            error(absFilePath, tr("body not string (reason: format: PLAIN)"));
     }
     QJsonValue headerVal = obj["headers"];
     if (!(headerVal.isUndefined() || headerVal.isNull())) {
-        if (!headerVal.isObject()) error(absFilePath, "headers must be object");
+        if (!headerVal.isObject()) error(absFilePath, tr("headers must be object"));
         headers = headerVal.toObject();
     } else
         headers = QJsonObject();
@@ -118,17 +120,18 @@ CustomUploader::CustomUploader(QString absFilePath) {
     if (returnPsVal.isString()) {
         returnPathspec = returnPsVal.toString();
     } else
-        error(absFilePath, "return invalid");
+        error(absFilePath, tr("return invalid"));
     QJsonValue fileLimit = obj["fileLimit"];
     if (!fileLimit.isNull() && !fileLimit.isUndefined()) {
-        if (!fileLimit.isDouble()) error(absFilePath, "fileLimit not double");
+        //: fileLimit stays English
+        if (!fileLimit.isDouble()) error(absFilePath, tr("fileLimit not decimal"));
         limit = fileLimit.toDouble();
     }
     QJsonValue bool64 = obj["base64"];
     if (!bool64.isNull() && !bool64.isUndefined()) {
-        if (!bool64.isBool()) error(absFilePath, "base64 must be boolean");
+        if (!bool64.isBool()) error(absFilePath, tr("base64 must be boolean"));
         base64 = bool64.toBool();
-        if (rFormat == RequestFormat::JSON && !base64) error(absFilePath, "base64 required with json");
+        if (rFormat == RequestFormat::JSON && !base64) error(absFilePath, tr("base64 required with json"));
     }
     urlPrepend = obj["return_prepend"].toString();
     urlAppend = obj["return_append"].toString();
@@ -204,19 +207,19 @@ QString parsePathspec(QJsonDocument &response, QString &pathspec) {
     return "";
 }
 
-void parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, QString name, QString urlPrepend, QString urlAppend) {
+void CustomUploader::parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, QString name) {
     if (result.isObject()) {
         QString url = urlPrepend + parsePathspec(result, returnPathspec) + urlAppend;
         if (!url.isEmpty()) {
             QApplication::clipboard()->setText(url);
-            notifications::notify("KShare Custom Uploader " + name, "Copied upload link to clipboard!");
+            notifications::notify(tr("KShare Custom Uploader ") + name, tr("Copied upload link to clipboard!"));
         } else {
-            notifications::notify("KShare Custom Uploader " + name, "Upload done, but result empty!");
+            notifications::notify(tr("KShare Custom Uploader ") + name, tr("Upload done, but result empty!"));
             QApplication::clipboard()->setText(data);
         }
     } else {
-        notifications::notify("KShare Custom Uploader " + name,
-                              "Upload done, but result is not JSON Object! Result in clipboard.");
+        notifications::notify(tr("KShare Custom Uploader ") + name,
+                              tr("Upload done, but result is not JSON Object! Result in clipboard."));
         QApplication::clipboard()->setText(data);
     }
 }
@@ -328,18 +331,20 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
         switch (method) {
         case HttpMethod::POST:
             if (returnPathspec == "|") {
-                ioutils::postMultipartData(target, h, multipart, [&, buffersToDelete, arraysToDelete](QByteArray result, QNetworkReply *) {
-                    QApplication::clipboard()->setText(QString::fromUtf8(result));
-                    for (auto buffer : buffersToDelete) buffer->deleteLater();
-                    for (auto arr : arraysToDelete) delete arr;
-                    notifications::notify("KShare Custom Uploader " + name(), "Copied upload result to clipboard!");
-                });
+                ioutils::postMultipartData(target, h, multipart,
+                                           [&, buffersToDelete, arraysToDelete](QByteArray result, QNetworkReply *) {
+                                               QApplication::clipboard()->setText(QString::fromUtf8(result));
+                                               for (auto buffer : buffersToDelete) buffer->deleteLater();
+                                               for (auto arr : arraysToDelete) delete arr;
+                                               notifications::notify(tr("KShare Custom Uploader ") + name(),
+                                                                     tr("Copied upload result to clipboard!"));
+                                           });
             } else {
                 ioutils::postMultipart(target, h, multipart,
                                        [&, buffersToDelete, arraysToDelete](QJsonDocument result, QByteArray data, QNetworkReply *) {
                                            for (auto buffer : buffersToDelete) buffer->deleteLater();
                                            for (auto arr : arraysToDelete) delete arr;
-                                           parseResult(result, data, returnPathspec, name(), urlPrepend, urlAppend);
+                                           parseResult(result, data, returnPathspec, name());
                                        });
             }
             break;
@@ -348,7 +353,7 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
     }
     }
     if (limit > 0 && data.size() > limit) {
-        notifications::notify("KShare Custom Uploader " + name(), "File limit exceeded!");
+        notifications::notify(tr("KShare Custom Uploader ") + name(), tr("File limit exceeded!"));
         return;
     }
     switch (method) {
@@ -356,11 +361,11 @@ void CustomUploader::doUpload(QByteArray imgData, QString format) {
         if (returnPathspec == "|") {
             ioutils::postData(target, h, data, [&](QByteArray result, QNetworkReply *) {
                 QApplication::clipboard()->setText(QString::fromUtf8(result));
-                notifications::notify("KShare Custom Uploader " + name(), "Copied upload result to clipboard!");
+                notifications::notify(tr("KShare Custom Uploader ") + name(), tr("Copied upload result to clipboard!"));
             });
         } else {
             ioutils::postJson(target, h, data, [&](QJsonDocument result, QByteArray data, QNetworkReply *) {
-                parseResult(result, data, returnPathspec, name(), urlPrepend, urlAppend);
+                parseResult(result, data, returnPathspec, name());
             });
         }
         break;

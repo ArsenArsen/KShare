@@ -37,7 +37,7 @@ BrushPenSelection::BrushPenSelection(CropScene *scene) : QDialog(), ui(new Ui::B
     ui->alphaSlider->setValue(brush.alpha());
     ui->alphaSpin->setValue(brush.alpha());
 
-    setWindowTitle("Crop editor settings");
+    setWindowTitle(tr("Crop editor settings"));
     this->scene = scene;
 }
 
@@ -46,12 +46,12 @@ BrushPenSelection::~BrushPenSelection() {
 }
 
 void BrushPenSelection::on_penColor_clicked(bool) {
-    pen = QColorDialog::getColor(pen, this, "Pen Color");
+    pen = QColorDialog::getColor(pen, this, tr("Pen Color"));
     pen.setAlpha(ui->penAlphaSpin->value());
 }
 
 void BrushPenSelection::on_brushColor_clicked(bool) {
-    brush = QColorDialog::getColor(brush, this, "Brush Color");
+    brush = QColorDialog::getColor(brush, this, tr("Brush Color"));
     brush.setAlpha(ui->alphaSpin->value());
 }
 

@@ -13,6 +13,7 @@ extern "C" {
 #include <libavformat/avformat.h>
 }
 #include <QListWidget>
+#include <QTranslator>
 #include <notifications.hpp>
 #include <platformbackend.hpp>
 #include <worker/worker.hpp>
@@ -59,6 +60,19 @@ void handler(QtMsgType type, const QMessageLogContext &, const QString &msg) {
     }
 }
 
+void loadTranslation(QString locale) {
+    QFile resource(":/langs/kshare_" + locale + ".qm");
+    if (!resource.exists()) return;
+    resource.open(QIODevice::ReadOnly);
+
+    QTranslator *translator = new QTranslator;
+    QByteArray file = resource.readAll();
+    QByteArray *permFile = new QByteArray;
+    permFile->swap(file);
+    translator->load((const unsigned char *)permFile->constData(), permFile->size());
+    QApplication::installTranslator(translator);
+}
+
 int main(int argc, char *argv[]) {
     av_register_all();
     qInstallMessageHandler(handler);
@@ -67,6 +81,9 @@ int main(int argc, char *argv[]) {
     a.setApplicationName("KShare");
     a.setOrganizationName("ArsenArsen");
     a.setApplicationVersion("4.1");
+
+    QString locale = QLocale::system().name();
+    if (locale != "en_US") loadTranslation(locale);
 
     QCommandLineParser parser;
     parser.addHelpOption();

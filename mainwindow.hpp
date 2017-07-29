@@ -45,10 +45,12 @@ public slots:
 
 private:
     bool val = false;
+    QMap<QAction *, const char *> acts;
     static MainWindow *instance;
 
 protected:
-    void closeEvent(QCloseEvent *event);
+    void changeEvent(QEvent *e) override;
+    void closeEvent(QCloseEvent *event) override;
 };
 
 #endif // MAINWINDOW_HPP

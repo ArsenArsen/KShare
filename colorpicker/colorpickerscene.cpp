@@ -16,7 +16,7 @@ ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
     setCursor(QCursor(Qt::CrossCursor));
     setMouseTracking(true);
-    setWindowTitle("KShare Color Picker");
+    setWindowTitle(tr("KShare Color Picker"));
     setAttribute(Qt::WA_DeleteOnClose);
 
     pItem = addPixmap(pixmap);

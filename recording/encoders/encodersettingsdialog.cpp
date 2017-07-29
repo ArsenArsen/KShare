@@ -8,7 +8,7 @@
 
 EncoderSettingsDialog::EncoderSettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::EncoderSettingsDialog) {
     ui->setupUi(this);
-    setWindowTitle("KShare Encoder Settings");
+    setWindowTitle(tr("KShare Encoder Settings"));
     connect(ui->buttonBox, &QDialogButtonBox::accepted, [&] {
         EncoderSettings::inst().setbitrate(ui->bitrate->value());
         EncoderSettings::inst().seth264Crf(ui->crf->value());

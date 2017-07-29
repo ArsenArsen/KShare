@@ -4,13 +4,10 @@ QString formats::normalFormatName(formats::Normal format) {
     switch (format) {
     case Normal::JPG:
         return "JPG";
-        break;
     case Normal::PNG:
         return "PNG";
-        break;
     default:
         return QString();
-        break;
     }
 }
 
@@ -25,13 +22,10 @@ QString formats::normalFormatMIME(formats::Normal format) {
     switch (format) {
     case Normal::JPG:
         return "image/jpeg";
-        break;
     case Normal::PNG:
         return "image/png";
-        break;
     default:
         return QString();
-        break;
     }
 }
 
@@ -39,16 +33,12 @@ QString formats::recordingFormatName(formats::Recording format) {
     switch (format) {
     case Recording::GIF:
         return "GIF";
-        break;
     case Recording::WebM:
         return "WEBM";
-        break;
     case Recording::MP4:
         return "MP4";
-        break;
     default:
         return QString();
-        break;
     }
 }
 
@@ -63,15 +53,11 @@ QString formats::recordingFormatMIME(formats::Recording format) {
     switch (format) {
     case Recording::GIF:
         return "image/gif";
-        break;
     case Recording::WebM:
         return "video/webm";
-        break;
     case Recording::MP4:
         return "video/mp4";
-        break;
     default:
         return QString();
-        break;
     }
 }

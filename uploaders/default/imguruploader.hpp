@@ -2,8 +2,10 @@
 #define IMGURUPLOADER_HPP
 
 #include "../uploader.hpp"
+#include <QApplication>
 
 class ImgurUploader : public Uploader {
+    Q_DECLARE_TR_FUNCTIONS(ImgurUploader)
     friend struct SegfaultWorkaround;
 
 public:

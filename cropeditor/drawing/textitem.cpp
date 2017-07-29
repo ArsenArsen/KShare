@@ -5,7 +5,7 @@
 bool TextItem::init(CropScene *s) {
     bool ok;
     s->hide();
-    text = QInputDialog::getText(nullptr, "Text to add", "Input", QLineEdit::Normal, QString(), &ok);
+    text = QInputDialog::getText(nullptr, tr("Text to add"), tr("Input"), QLineEdit::Normal, QString(), &ok);
     s->show();
     return ok;
 }
