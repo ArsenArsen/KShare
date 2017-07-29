@@ -14,7 +14,7 @@
    <enum>Qt::StrongFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string notr="true">Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
    <item row="0" column="0">
@@ -110,7 +110,7 @@
       <item row="2" column="0" colspan="2">
        <widget class="QLabel" name="label_2">
         <property name="whatsThis">
-         <string>http://doc.qt.io/qt-5/qgraphicsblureffect.html#BlurHint-enum</string>
+         <string notr="true">http://doc.qt.io/qt-5/qgraphicsblureffect.html#BlurHint-enum</string>
         </property>
         <property name="text">
          <string>&lt;a href=&quot;http://doc.qt.io/qt-5/qgraphicsblureffect.html#BlurHint-enum&quot;&gt;Blur Hints</string>
@@ -126,7 +126,7 @@
       <item row="1" column="2">
        <widget class="QDoubleSpinBox" name="radSpinner">
         <property name="suffix">
-         <string>px</string>
+         <string notr="true">px</string>
         </property>
         <property name="maximum">
          <double>30.000000000000000</double>
@@ -322,20 +322,20 @@
       <item row="1" column="0">
        <widget class="QDoubleSpinBox" name="arroww">
         <property name="prefix">
-         <string>w: </string>
+         <string notr="true">w: </string>
         </property>
         <property name="suffix">
-         <string>px</string>
+         <string notr="true">px</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
        <widget class="QDoubleSpinBox" name="arrowh">
         <property name="prefix">
-         <string>h: </string>
+         <string notr="true">h: </string>
         </property>
         <property name="suffix">
-         <string>px</string>
+         <string notr="true">px</string>
         </property>
        </widget>
       </item>

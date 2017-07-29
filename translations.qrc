@@ -1,1 +1,5 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/">
+        <file>translations/sr_RS.qm</file>
+    </qresource>
+</RCC>

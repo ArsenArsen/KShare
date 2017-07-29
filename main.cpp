@@ -61,7 +61,7 @@ void handler(QtMsgType type, const QMessageLogContext &, const QString &msg) {
 }
 
 void loadTranslation(QString locale) {
-    QFile resource(":/langs/kshare_" + locale + ".qm");
+    QFile resource(":/translations/" + locale + ".qm");
     if (!resource.exists()) return;
     resource.open(QIODevice::ReadOnly);
 

@@ -173,7 +173,8 @@ DISTFILES += \
     install.sh
 
 RESOURCES += \
-    icon.qrc
+    icon.qrc \
+    translations.qrc
 
 QMAKE_CFLAGS_DEBUG += -g
 

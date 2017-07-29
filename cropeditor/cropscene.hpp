@@ -84,19 +84,20 @@ private:
     QList<QGraphicsRectItem *> gridRectsX;
     QList<QGraphicsRectItem *> gridRectsY;
     QGraphicsPolygonItem *cursorItem = nullptr;
-    QGraphicsPixmapItem *hint = new QGraphicsPixmapItem(screenshotutil::renderText( //
-    "Press F1 to toggle this hint\n"
-    "\tHold Shift to slow the cursor down\n"
-    "\tCtrl+Drag a thing to move it around\n"
-    "\tAlt+Click a drawing to remove it\n"
-    "\tPress Return/Enter to finish\n"
-    "\tPress ESC to cancel\n"
-    "\tUse the menu bar to draw\n"
-    "\tNOTE: You must select 'Reset pen selection' before closing the editor\n"
-    "\tIf you do not it will not close.",
-    5,
-    QColor(0, 0, 0, 125),
-    Qt::white));
+    QGraphicsPixmapItem *hint
+    = new QGraphicsPixmapItem(screenshotutil::renderText(tr( //
+                                                         "Press F1 to toggle this hint\n"
+                                                         "\tHold Shift to slow the cursor down\n"
+                                                         "\tCtrl+Drag a thing to move it around\n"
+                                                         "\tAlt+Click a drawing to remove it\n"
+                                                         "\tPress Return/Enter to finish\n"
+                                                         "\tPress ESC to cancel\n"
+                                                         "\tUse the menu bar to draw\n"
+                                                         "\tNOTE: You must select 'Crop' before closing the editor\n"
+                                                         "\tIf you do not it will not close."),
+                                                         5,
+                                                         QColor(0, 0, 0, 125),
+                                                         Qt::white));
 };
 
 #endif // CROPSCENE_HPP

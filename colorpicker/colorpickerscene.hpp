@@ -11,7 +11,7 @@
 #include <screenshotutil.hpp>
 
 class ColorPickerScene : public QGraphicsScene, public QGraphicsView {
-    Q_OBJECT
+    Q_DECLARE_TR_FUNCTIONS(ColorPickerScene)
 public:
     ColorPickerScene(QPixmap pixmap, QWidget *parentWidget);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;

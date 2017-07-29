@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>KShare</string>
+   <string notr="true">KShare</string>
   </property>
   <property name="windowIcon">
    <iconset resource="icon.qrc">
@@ -97,7 +97,7 @@
     <string>&amp;Quit</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Q</string>
+    <string notr="true">Ctrl+Q</string>
    </property>
   </action>
   <action name="actionFullscreen">

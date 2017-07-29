@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string notr="true">Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -62,14 +62,14 @@
       <item row="4" column="0">
        <widget class="QTabWidget" name="videoTabs">
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="hTab">
          <property name="layoutDirection">
           <enum>Qt::LeftToRight</enum>
          </property>
          <attribute name="title">
-          <string>h264/h265</string>
+          <string notr="true">h264/h265</string>
          </attribute>
          <layout class="QFormLayout" name="verticalLayout">
           <item row="0" column="0">
@@ -82,59 +82,59 @@
           <item row="0" column="1">
            <widget class="QComboBox" name="profileBox">
             <property name="currentText">
-             <string notr="true">medium</string>
+             <string notr="true">ultrafast</string>
             </property>
             <property name="currentIndex">
-             <number>5</number>
+             <number>0</number>
             </property>
             <item>
              <property name="text">
-              <string>ultrafast</string>
+              <string notr="true">ultrafast</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>superfast</string>
+              <string notr="true">superfast</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>veryfast</string>
+              <string notr="true">veryfast</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>faster</string>
+              <string notr="true">faster</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>fast</string>
+              <string notr="true">fast</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>medium</string>
+              <string notr="true">medium</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>slow</string>
+              <string notr="true">slow</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>slower</string>
+              <string notr="true">slower</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>veryslow</string>
+              <string notr="true">veryslow</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>placebo</string>
+              <string notr="true">placebo</string>
              </property>
             </item>
            </widget>
@@ -160,7 +160,7 @@
         </widget>
         <widget class="QWidget" name="vpTab">
          <attribute name="title">
-          <string>VP9</string>
+          <string notr="true">VP9</string>
          </attribute>
          <layout class="QFormLayout" name="verticalLayout1">
           <item row="0" column="1">
@@ -174,7 +174,7 @@
         </widget>
         <widget class="QWidget" name="gifTab">
          <attribute name="title">
-          <string>GIF</string>
+          <string notr="true">GIF</string>
          </attribute>
          <layout class="QFormLayout" name="verticalLayout2">
           <item row="0" column="0">
@@ -198,7 +198,7 @@
       <item row="1" column="0">
        <widget class="QDoubleSpinBox" name="bitrate">
         <property name="suffix">
-         <string>kbps</string>
+         <string notr="true">kbps</string>
         </property>
         <property name="maximum">
          <double>999999.000000000000000</double>

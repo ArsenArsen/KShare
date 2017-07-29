@@ -40,7 +40,7 @@
       <string>A delay before taking a screenshot, in seconds</string>
      </property>
      <property name="suffix">
-      <string>s</string>
+      <string notr="true">s</string>
      </property>
     </widget>
    </item>
@@ -84,7 +84,7 @@
       <string>%(date format)date and %ext are supported</string>
      </property>
      <property name="text">
-      <string>Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext</string>
+      <string notr="true">Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext</string>
      </property>
     </widget>
    </item>
@@ -166,7 +166,7 @@
          <string/>
         </property>
         <property name="prefix">
-         <string>x: </string>
+         <string notr="true">x: </string>
         </property>
         <property name="minimum">
          <number>-999999</number>
@@ -179,7 +179,7 @@
       <item row="2" column="1">
        <widget class="QSpinBox" name="cropY">
         <property name="prefix">
-         <string>y: </string>
+         <string notr="true">y: </string>
         </property>
         <property name="minimum">
          <number>-999999</number>
