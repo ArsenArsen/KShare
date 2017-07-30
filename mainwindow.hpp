@@ -46,6 +46,7 @@ public slots:
 private:
     bool val = false;
     QMap<QAction *, const char *> acts;
+    QMenu *menu;
     static MainWindow *instance;
 
 protected:

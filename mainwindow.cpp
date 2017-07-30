@@ -63,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     tray = new QSystemTrayIcon(windowIcon(), this);
     tray->setToolTip("KShare");
     tray->setVisible(true);
-    QMenu *menu = new QMenu(this);
+    menu = new QMenu(this);
     QAction *quit = ACTION("Quit", menu);
     QAction *shtoggle = ACTION("Show/Hide", menu);
     QAction *fullscreen = ACTION("Take fullscreen shot", menu);
