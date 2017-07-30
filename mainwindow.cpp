@@ -81,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     menu->addSeparator();
     menu->addActions({ fullscreen, area });
 #ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
-    menu->addAction(area);
+    menu->addAction(active);
 #endif
     menu->addSeparator();
     menu->addActions({ rec, recoff, recabort });
