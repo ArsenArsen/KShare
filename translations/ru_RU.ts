@@ -55,7 +55,7 @@
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="116"/>
         <source>&lt;a href=&quot;http://doc.qt.io/qt-5/qgraphicsblureffect.html#BlurHint-enum&quot;&gt;Blur Hints</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="149"/>
@@ -95,37 +95,37 @@
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="210"/>
         <source>Dense 1</source>
-        <translation>Толщина 1</translation>
+        <translation>Плотность 1</translation>
     </message>
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="215"/>
         <source>Dense 2</source>
-        <translation>Толщина 2</translation>
+        <translation>Плотность 2</translation>
     </message>
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="220"/>
         <source>Dense 3</source>
-        <translation>Толщина 3</translation>
+        <translation>Плотность 3</translation>
     </message>
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="225"/>
         <source>Dense 4</source>
-        <translation>Толщина 4</translation>
+        <translation>Плотность 4</translation>
     </message>
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="230"/>
         <source>Dense 5</source>
-        <translation>Толщина 5</translation>
+        <translation>Плотность 5</translation>
     </message>
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="235"/>
         <source>Dense 6</source>
-        <translation>Толщина 6</translation>
+        <translation>Плотность 6</translation>
     </message>
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="240"/>
         <source>Dense 7</source>
-        <translation>Толщина 7</translation>
+        <translation>Плотность 7</translation>
     </message>
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="245"/>
@@ -140,7 +140,7 @@
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="255"/>
         <source>Cross pattern</source>
-        <translation>Крестики</translation>
+        <translation>В клетку</translation>
     </message>
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="260"/>
@@ -155,12 +155,12 @@
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="270"/>
         <source>Diagonal cross</source>
-        <translation>Диагональные крестики</translation>
+        <translation>В клетку по диагонали</translation>
     </message>
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="278"/>
         <source>Choose brush color</source>
-        <translation>Выбрать цвет кисти</translation>
+        <translation>Выбрать цвет штриховки</translation>
     </message>
     <message>
         <location filename="../cropeditor/settings/brushpenselection.ui" line="302"/>
@@ -507,7 +507,7 @@
     <message>
         <location filename="../recording/encoders/encodersettingsdialog.ui" line="194"/>
         <source>Bitrate</source>
-        <translation>Витрейт</translation>
+        <translation>Битрейт</translation>
     </message>
     <message>
         <location filename="../recording/encoders/encodersettingsdialog.ui" line="214"/>
@@ -635,7 +635,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../uploaders/default/imguruploader.cpp" line="56"/>
         <location filename="../uploaders/default/imguruploader.cpp" line="92"/>
         <source>KShare imgur Uploader</source>
-        <translation>Загрузчик KShare на imgur</translation>
+        <translation>Imgur загрузчик KShare</translation>
     </message>
     <message>
         <location filename="../uploaders/default/imguruploader.cpp" line="56"/>
@@ -645,12 +645,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../uploaders/default/imguruploader.cpp" line="92"/>
         <source>Uploaded to imgur!</source>
-        <translation>Загруено на imgur!</translation>
+        <translation>Загружено на imgur!</translation>
     </message>
     <message>
         <location filename="../uploaders/default/imguruploader.cpp" line="94"/>
         <source>KShare imgur Uploader </source>
-        <translation>Загрузчик KShare на imgur </translation>
+        <translation>Imgur загрузчик KShare </translation>
     </message>
     <message>
         <location filename="../uploaders/default/imguruploader.cpp" line="95"/>
