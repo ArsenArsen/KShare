@@ -35,9 +35,9 @@ See the [projects](https://github.com/ArsenArsen/KShare/projects)
 |Distro|Link|
 |:----:|:--:|
 |Arch Linux (development)|[kshare-git](https://aur.archlinux.org/packages/kshare-git/)|
-|Ubuntu/Debian (development)|[.deb](https://nativeci.arsenarsen.com/job/KShare/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
+|Ubuntu/Debian (development)|[.deb](https://nativeci.arsenarsen.com/job/KShare%20(dev\)/main=linux/lastSuccessfulBuild/artifact/build/KShare)|
 |Arch Linux |[kshare](https://aur.archlinux.org/packages/kshare/)|
-|Ubuntu/Debian |[.deb](https://nativeci.arsenarsen.com/job/KShare%20Stable/lastSuccessfulBuild/artifact/packages/simpleName.deb	)|
+|Ubuntu/Debian |[.deb](https://nativeci.arsenarsen.com/job/KShare%20(master\)/main=linux/lastSuccessfulBuild/artifact/build/KShare)|
 
 For other UNIX-like platforms, and MSYS2 (for Windows):
 
