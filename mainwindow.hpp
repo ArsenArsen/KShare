@@ -49,7 +49,6 @@ private:
     static MainWindow *instance;
 
 protected:
-    void changeEvent(QEvent *e) override;
     void closeEvent(QCloseEvent *event) override;
 };
 
