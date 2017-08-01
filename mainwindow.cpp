@@ -38,19 +38,9 @@ void MainWindow::rec() {
 
 #define ACTION(english, menu)                                                                                          \
     [&]() -> QAction * {                                                                                               \
-        QAction *a = menu->addAction(tr(english));                                                                     \
-        acts.insert(a, english);                                                                                       \
+        QAction *a = menu->addAction(english);                                                                         \
         return a;                                                                                                      \
     }()
-
-void MainWindow::changeEvent(QEvent *e) {
-    if (e->type() == QEvent::LocaleChange) {
-        ui->retranslateUi(this);
-        for (auto key : acts.keys()) {
-            key->setText(tr(acts.value(key)));
-        }
-    }
-}
 
 void addHotkey(QString name, std::function<void()> action) {
     hotkeying::load(name, action);
@@ -64,19 +54,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     tray->setToolTip("KShare");
     tray->setVisible(true);
     menu = new QMenu(this);
-    QAction *quit = ACTION("Quit", menu);
-    QAction *shtoggle = ACTION("Show/Hide", menu);
-    QAction *fullscreen = ACTION("Take fullscreen shot", menu);
-    QAction *area = ACTION("Take area shot", menu);
+    QAction *quit = ACTION(tr("Quit"), menu);
+    QAction *shtoggle = ACTION(tr("Show/Hide"), menu);
+    QAction *fullscreen = ACTION(tr("Take fullscreen shot"), menu);
+    QAction *area = ACTION(tr("Take area shot"), menu);
 
 #ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
-    QAction *active = ACTION("Screenshot active window", menu);
+    QAction *active = ACTION(tr("Screenshot active window"), menu);
     connect(active, &QAction::triggered, this, [] { screenshotter::activeDelayed(); });
 #endif
-    QAction *picker = ACTION("Show color picker", menu);
-    QAction *rec = ACTION("Record screen", menu);
-    QAction *recoff = ACTION("Stop recording", menu);
-    QAction *recabort = ACTION("Abort recording", menu);
+    QAction *picker = ACTION(tr("Show color picker"), menu);
+    QAction *rec = ACTION(tr("Record screen"), menu);
+    QAction *recoff = ACTION(tr("Stop recording"), menu);
+    QAction *recabort = ACTION(tr("Abort recording"), menu);
     menu->addActions({ quit, shtoggle, picker });
     menu->addSeparator();
     menu->addActions({ fullscreen, area });

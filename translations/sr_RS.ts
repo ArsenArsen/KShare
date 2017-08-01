@@ -285,7 +285,7 @@
         <translation>Otkaži</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="210"/>
+        <location filename="../cropeditor/cropscene.cpp" line="211"/>
         <source>KShare Crop Editor</source>
         <translation>KShare Urednik Slika</translation>
     </message>
@@ -739,6 +739,51 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="25"/>
         <source>Recording format not set in settings. Aborting.</source>
         <translation>Format snjimanja nije podešen! Otkazujem.</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="57"/>
+        <source>Quit</source>
+        <translation>Izađi</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="58"/>
+        <source>Show/Hide</source>
+        <translation>Prikaži/Sakrij</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="59"/>
+        <source>Take fullscreen shot</source>
+        <translation>Slikaj ceo ekran</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="60"/>
+        <source>Take area shot</source>
+        <translation>Slikaj deo ekrana</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="63"/>
+        <source>Screenshot active window</source>
+        <translation>Slikaj trenutni prozor</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="66"/>
+        <source>Show color picker</source>
+        <translation>Prikaži birač boja</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="67"/>
+        <source>Record screen</source>
+        <translation>Snjimi ekran</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="68"/>
+        <source>Stop recording</source>
+        <translation>Zaustavi snjimanje</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="69"/>
+        <source>Abort recording</source>
+        <translation>Obustavi snjimanje</translation>
     </message>
 </context>
 <context>
