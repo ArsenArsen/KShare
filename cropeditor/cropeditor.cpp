@@ -13,7 +13,10 @@
 CropEditor::CropEditor(QPixmap image, QObject *parent) : QObject(parent) {
     scene = new CropScene(parent, image);
     view = new CropView(scene);
-    view->show();
+    if (QApplication::screens().size() > 1)
+        view->show();
+    else
+        view->showFullScreen();
     view->raise();
     QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(image);
     pixmapItem->setZValue(-1);

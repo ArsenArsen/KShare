@@ -200,9 +200,9 @@ void CropScene::show() {
 
 void CropScene::setVisible(bool visible) {
     for (auto view : views()) {
-        if (view->isVisible()) fullscreen |= view->isFullScreen();
         view->setVisible(visible);
         if (visible) {
+            if (QApplication::screens().size() == 1) view->showFullScreen();
             view->resize(_pixmap.width(), _pixmap.height());
             view->setMinimumSize(_pixmap.size());
             QPoint p = screenshotutil::smallestScreenCoordinate() + QPoint(settings::settings().value("cropx", 0).toInt(),

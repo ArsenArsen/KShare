@@ -34,7 +34,11 @@ ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
     ellipse->setBrush(color);
     image = pixmap.toImage();
 
-    show();
+    if (QApplication::screens().size() == 1)
+        showFullScreen();
+    else
+        show();
+
     activateWindow();
     setGeometry(pixmap.rect());
     QPoint p = screenshotutil::smallestScreenCoordinate()
