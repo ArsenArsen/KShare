@@ -42,7 +42,7 @@ Makefile
 
 # Other
 *.out
-
+tags
 *.Debug
 
 vgcore.*
