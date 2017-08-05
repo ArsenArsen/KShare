@@ -1,6 +1,7 @@
 #include "colorpickerscene.hpp"
 #include <QApplication>
 #include <QClipboard>
+#include <QDebug>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsTextItem>
@@ -76,9 +77,11 @@ void ColorPickerScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 void ColorPickerScene::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Return) QApplication::clipboard()->setText(color.name());
     if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Escape) close();
+    qInfo().noquote() << tr("Copied hex code to clipboard.");
 }
 
 void ColorPickerScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *) {
     QApplication::clipboard()->setText(color.name());
     close();
+    qInfo().noquote() << tr("Copied hex code to clipboard.");
 }

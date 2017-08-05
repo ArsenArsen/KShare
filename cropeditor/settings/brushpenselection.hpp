@@ -27,10 +27,12 @@ private slots:
     void on_widthSpinner_valueChanged(double arg1);
     void on_penAlphaSpin_valueChanged(int arg1);
 
+    void on_highlightColor_clicked();
+
 private:
     Ui::BrushPenSelection *ui;
     CropScene *scene;
-    QColor brush, pen;
+    QColor brush, pen, highlight;
 };
 
 #endif // BRUSHPENSELECTION_HPP

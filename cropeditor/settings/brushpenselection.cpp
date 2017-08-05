@@ -8,6 +8,7 @@
 #include <QGraphicsBlurEffect>
 #include <QInputDialog>
 #include <QSlider>
+#include <QTimer>
 #include <cropeditor/cropview.hpp>
 #include <settings.hpp>
 
@@ -19,6 +20,8 @@ BrushPenSelection::BrushPenSelection(CropScene *scene) : QDialog(), ui(new Ui::B
     ui->quality->setChecked(settings::settings().value("blur/qualityHint", false).toBool());
     ui->radSlider->setValue(settings::settings().value("blur/radius", 5.).toDouble() * 100);
     ui->radSpinner->setValue(settings::settings().value("blur/radius", 5.).toDouble());
+
+    ui->gridBox->setChecked(scene->grid());
 
     ui->cosmetic->setChecked(scene->pen().isCosmetic());
     ui->widthSlider->setValue(scene->pen().width());
@@ -36,6 +39,7 @@ BrushPenSelection::BrushPenSelection(CropScene *scene) : QDialog(), ui(new Ui::B
     brush = scene->brush().color();
     ui->alphaSlider->setValue(brush.alpha());
     ui->alphaSpin->setValue(brush.alpha());
+    highlight = scene->highlight();
 
     setWindowTitle(tr("Crop editor settings"));
     this->scene = scene;
@@ -60,12 +64,16 @@ void BrushPenSelection::on_buttonBox_accepted() {
     scene->pen().setCosmetic(ui->cosmetic->isChecked());
     scene->pen().setWidthF(ui->widthSpinner->value());
     scene->brush().setColor(brush);
+    scene->setHighlight(highlight);
+    scene->setGrid(ui->gridBox->isChecked());
     scene->brush().setStyle((Qt::BrushStyle)ui->brushStyle->currentIndex());
 
     settings::settings().setValue("penColor", scene->pen().color());
     settings::settings().setValue("penCosmetic", scene->pen().isCosmetic());
     settings::settings().setValue("penWidth", scene->pen().widthF());
     settings::settings().setValue("brushColor", scene->brush().color());
+    settings::settings().setValue("highlightColor", scene->highlight());
+    settings::settings().setValue("gridEnabled", scene->grid());
     settings::settings().setValue("brushStyle", (int)scene->brush().style());
     settings::settings().setValue("brushPath", ui->pathItemHasBrush->isChecked());
     settings::settings().setValue("blur/radius", ui->radSpinner->value());
@@ -103,4 +111,8 @@ void BrushPenSelection::on_alphaSpin_valueChanged(int arg1) {
 
 void BrushPenSelection::on_penAlphaSpin_valueChanged(int arg1) {
     pen.setAlpha(arg1);
+}
+
+void BrushPenSelection::on_highlightColor_clicked() {
+    highlight = QColorDialog::getColor(highlight, this, tr("Highlight color"));
 }

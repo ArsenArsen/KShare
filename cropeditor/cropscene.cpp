@@ -33,6 +33,7 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     brush().setColor(settings::settings().value("brushColor", brush().color()).value<QColor>());
     brush().setStyle(
     static_cast<Qt::BrushStyle>(settings::settings().value("brushStyle", static_cast<int>(Qt::SolidPattern)).toInt()));
+    _highlight = settings::settings().value("highlightColor", QColor(Qt::cyan)).value<QColor>();
 
     menu = new QMenuBar;
     addDrawingAction(menu, tr("Free draw"), ":/icons/pencil.png", [] { return new PathItem; });
@@ -105,20 +106,19 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     cursorItem->setZValue(3);
 
     magnifier = addPixmap(QPixmap(110, 110));
-    magnifierBox = addRect(magnifier->boundingRect(), QPen(Qt::cyan));
+    magnifierBox = addRect(magnifier->boundingRect(), QPen(_highlight));
     magnifier->setZValue(3);
     magnifierBox->setZValue(1.1);
     magnifierBox->setParentItem(magnifier);
     magnifierHint = addText("ptr: (0, 0)\nsel: (-1, -1, 0, 0)");
     magnifierHint->setParentItem(magnifier);
     magnifierHint->setY(magnifier->boundingRect().height());
-    QColor c(Qt::cyan);
+    QColor c(_highlight);
     c.setAlphaF(.25);
     magnifierHintBox = addRect(magnifierHint->boundingRect(), Qt::NoPen, c);
     magnifierHintBox->setParentItem(magnifierHint);
     magnifierHintBox->setZValue(1);
     magnifierHint->setZValue(1.1);
-    initMagnifierGrid();
     updateMag();
 
     addItem(hint);
@@ -153,6 +153,7 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
         int w = screen->geometry().width();
         widget->setPos(views()[0]->mapToScene(
         QPoint(screen->geometry().x() + (w - widget->boundingRect().width()) / 2, screen->geometry().y() + 100)));
+        setGrid(settings::settings().value("gridEnabled", true).toBool());
     });
 }
 
@@ -170,6 +171,19 @@ QBrush &CropScene::brush() {
 
 QFont &CropScene::font() {
     return _font;
+}
+
+void CropScene::setHighlight(QColor highlight) {
+    _highlight = highlight;
+    QColor c = highlight;
+    c.setAlphaF(.4);
+    magnifierHintBox->setBrush(c);
+    if (grid()) setGrid(true);
+    if (rect) rect->setPen(highlight);
+    int i = settings::settings().value("magnifierPixelCount", 11).toInt() / 2;
+    if (gridRectsX.isEmpty() || gridRectsY.isEmpty()) return;
+    gridRectsX[i]->setBrush(c);
+    gridRectsY[i]->setBrush(c);
 }
 
 void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> drawAction) {
@@ -229,7 +243,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
         QCursor::setPos(views()[0]->mapToGlobal(cursorPos.toPoint()));
     } else
         cursorPos = e->scenePos();
-    hint->setVisible(!hint->sceneBoundingRect().contains(cursorPos));
+    hint->setVisible(settings::settings().value("crophint").toBool() && !hint->sceneBoundingRect().contains(cursorPos));
     cursorItem->setPos(cursorPos);
     updateMag();
 
@@ -248,7 +262,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
                 rect = new QGraphicsRectItem(p.x(), p.y(), 1, 1);
                 initPos = p;
                 QPen pen(Qt::NoBrush, 1);
-                pen.setColor(Qt::cyan);
+                pen.setColor(_highlight);
                 rect->setPen(pen);
                 rect->setZValue(1);
                 addItem(rect);
@@ -322,7 +336,7 @@ void CropScene::wheelEvent(QGraphicsSceneWheelEvent *event) {
     for (auto item : gridRectsY) delete item;
     gridRectsY.clear();
 
-    initMagnifierGrid();
+    if (grid()) initMagnifierGrid();
     updateMag();
 
     if (!(event->modifiers() & Qt::ControlModifier)) QGraphicsScene::wheelEvent(event);
@@ -378,7 +392,9 @@ void CropScene::updateMag() {
 }
 
 void CropScene::initMagnifierGrid() {
-    QColor c(Qt::cyan);
+    if (!gridRectsX.isEmpty() || !gridRectsY.isEmpty()) return;
+
+    QColor c(_highlight);
     c.setAlphaF(.25);
     int pixCnt = settings::settings().value("magnifierPixelCount", 11).toInt();
     if (pixCnt % 2 == 0) pixCnt++;
@@ -387,8 +403,8 @@ void CropScene::initMagnifierGrid() {
         auto gridRectY = addRect(i * 110. / pixCnt, 0, 110. / pixCnt, 110, QPen(Qt::black, 0.5));
         gridRectX->setParentItem(magnifierBox);
         gridRectY->setParentItem(magnifierBox);
-        gridRectX->setZValue(1);
-        gridRectY->setZValue(1);
+        gridRectX->setZValue(5);
+        gridRectY->setZValue(5);
         gridRectsX.append(gridRectX);
         gridRectsY.append(gridRectY);
         if (i == (pixCnt / 2)) {

@@ -23,6 +23,24 @@ public:
     QPen &pen();
     QBrush &brush();
     QFont &font();
+    QColor highlight() {
+        return _highlight;
+    }
+    void setHighlight(QColor highlight);
+    bool grid() {
+        return _grid;
+    }
+    void setGrid(bool grid) {
+        _grid = grid;
+        if (grid) {
+            initMagnifierGrid();
+        } else {
+            for (auto r : gridRectsX) delete r;
+            gridRectsX.clear();
+            for (auto r : gridRectsY) delete r;
+            gridRectsY.clear();
+        }
+    }
     void setDrawingSelection(QString name, std::function<DrawItem *()> drawAction);
     QPixmap pixmap() {
         return _pixmap;
@@ -74,6 +92,8 @@ private:
     QPen _pen;
     QBrush _brush;
     QFont _font;
+    QColor _highlight;
+    bool _grid;
     QGraphicsPolygonItem *polyItem = nullptr;
     DrawItem *drawingSelection = nullptr;
     QMenuBar *menu = nullptr;

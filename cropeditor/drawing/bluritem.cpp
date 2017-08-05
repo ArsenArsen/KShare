@@ -16,7 +16,7 @@ bool BlurItem::init(CropScene *) {
 void BlurItem::mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) {
     if (pos.isNull()) {
         pos = scene->cursorPosition();
-        rect = scene->addRect(QRect(scene->cursorPosition().toPoint(), QSize(1, 1)), QPen(Qt::cyan), Qt::NoBrush);
+        rect = scene->addRect(QRect(scene->cursorPosition().toPoint(), QSize(1, 1)), QPen(scene->highlight()), Qt::NoBrush);
         pixmap = scene->addPixmap(scene->pixmap().copy(rect->rect().toRect()));
         pixmap->setPos(scene->cursorPosition());
         pixmap->setZValue(rect->zValue() - 0.1);
