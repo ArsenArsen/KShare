@@ -47,149 +47,169 @@
         <translation>Podešavanja mućenja</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="106"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="116"/>
         <source>Performance Hint</source>
         <translation>Performanse</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="116"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="140"/>
         <source>&lt;a href=&quot;http://doc.qt.io/qt-5/qgraphicsblureffect.html#BlurHint-enum&quot;&gt;Blur Hints</source>
         <translation>&lt;a href=&quot;http://doc.qt.io/qt-5/qgraphicsblureffect.html#BlurHint-enum&quot;&gt;Opcije</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="149"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="153"/>
         <source>Blur Radius</source>
         <translation>Radius mućenja</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="156"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="123"/>
         <source>Animated Hint</source>
         <translation>Optimizacija animacije</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="163"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="130"/>
         <source>Quality Hint</source>
         <translation>Povećan kvalitet</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="186"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="173"/>
         <source>Brush settings</source>
         <translation>Podešavanja četke</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="192"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="179"/>
         <source>Brush alpha</source>
         <translation>Providnost četke</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="200"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="187"/>
         <source>No Brush</source>
         <translation>Prazno</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="205"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="192"/>
         <source>Solid</source>
         <translation>Puno</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="210"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="197"/>
         <source>Dense 1</source>
         <translation>Gustina 1</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="215"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="202"/>
         <source>Dense 2</source>
         <translation>Gustina 2</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="220"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="207"/>
         <source>Dense 3</source>
         <translation>Gustina 3</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="225"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="212"/>
         <source>Dense 4</source>
         <translation>Gustina 4</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="230"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="217"/>
         <source>Dense 5</source>
         <translation>Gustina 5</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="235"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="222"/>
         <source>Dense 6</source>
         <translation>Gustina 6</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="240"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="227"/>
         <source>Dense 7</source>
         <translation>Gustina 7</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="245"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="232"/>
         <source>Horizontal</source>
         <translation>Horizontalne linije</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="250"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="237"/>
         <source>Vertical</source>
         <translation>Vertikalne linije</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="255"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="242"/>
         <source>Cross pattern</source>
         <translation>Krstasto</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="260"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="247"/>
         <source>Backwards diagonal</source>
         <translation>Diagonalno unazad</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="265"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="252"/>
         <source>Forwards diagonal</source>
         <translation>Diagonalno unapred</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="270"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="257"/>
         <source>Diagonal cross</source>
         <translation>Diagonalno krstasti</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="278"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="265"/>
         <source>Choose brush color</source>
         <translation>Izaberi boju četke</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="302"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="289"/>
         <source>Path item has brush</source>
         <translation>Da li popuniti oblast linije</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="312"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="299"/>
         <source>Arrow settings</source>
         <translation>Podešavanja strela</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.ui" line="318"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="305"/>
         <source>Arrow width and height</source>
         <translation>Visina i debljina strela</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.cpp" line="40"/>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="335"/>
+        <source>Other editor settings</source>
+        <translation>Druga podešavanja urednika</translation>
+    </message>
+    <message>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="341"/>
+        <source>Enable grid</source>
+        <translation>Omogući mrežu</translation>
+    </message>
+    <message>
+        <location filename="../cropeditor/settings/brushpenselection.ui" line="348"/>
+        <source>Highligh color</source>
+        <translation>Boja akcenta</translation>
+    </message>
+    <message>
+        <location filename="../cropeditor/settings/brushpenselection.cpp" line="44"/>
         <source>Crop editor settings</source>
         <translation>Podešavanja editora</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.cpp" line="49"/>
+        <location filename="../cropeditor/settings/brushpenselection.cpp" line="53"/>
         <source>Pen Color</source>
         <translation>Boja olovke</translation>
     </message>
     <message>
-        <location filename="../cropeditor/settings/brushpenselection.cpp" line="54"/>
+        <location filename="../cropeditor/settings/brushpenselection.cpp" line="58"/>
         <source>Brush Color</source>
         <translation>Boja četke</translation>
+    </message>
+    <message>
+        <location filename="../cropeditor/settings/brushpenselection.cpp" line="117"/>
+        <source>Highlight color</source>
+        <translation>Boja akcenta</translation>
     </message>
 </context>
 <context>
@@ -204,15 +224,21 @@
 <context>
     <name>ColorPickerScene</name>
     <message>
-        <location filename="../colorpicker/colorpickerscene.cpp" line="19"/>
+        <location filename="../colorpicker/colorpickerscene.cpp" line="20"/>
         <source>KShare Color Picker</source>
         <translation>KShare Birač Boja</translation>
+    </message>
+    <message>
+        <location filename="../colorpicker/colorpickerscene.cpp" line="80"/>
+        <location filename="../colorpicker/colorpickerscene.cpp" line="86"/>
+        <source>Copied hex code to clipboard.</source>
+        <translation>Boja u hex formatu je kopirana.</translation>
     </message>
 </context>
 <context>
     <name>CropEditor</name>
     <message>
-        <location filename="../cropeditor/cropeditor.cpp" line="27"/>
+        <location filename="../cropeditor/cropeditor.cpp" line="30"/>
         <source>KShare Crop Editor</source>
         <translation>KShare Urednik</translation>
     </message>
@@ -220,77 +246,77 @@
 <context>
     <name>CropScene</name>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="38"/>
+        <location filename="../cropeditor/cropscene.cpp" line="39"/>
         <source>Free draw</source>
         <translation>Crtanje</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="39"/>
+        <location filename="../cropeditor/cropscene.cpp" line="40"/>
         <source>Blur</source>
         <translation>Mućenje slike</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="40"/>
+        <location filename="../cropeditor/cropscene.cpp" line="41"/>
         <source>Straight line</source>
         <translation>Prava Linija</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="41"/>
+        <location filename="../cropeditor/cropscene.cpp" line="42"/>
         <source>Text</source>
         <translation>Tekst</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="42"/>
+        <location filename="../cropeditor/cropscene.cpp" line="43"/>
         <source>Rectangle</source>
         <translation>Pravougaonik</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="43"/>
+        <location filename="../cropeditor/cropscene.cpp" line="44"/>
         <source>Ellipse</source>
         <translation>Krug i Elipsa</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="44"/>
+        <location filename="../cropeditor/cropscene.cpp" line="45"/>
         <source>Arrow</source>
         <translation>Strela</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="47"/>
+        <location filename="../cropeditor/cropscene.cpp" line="48"/>
         <source>Eraser</source>
         <translation>Brisač</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="49"/>
+        <location filename="../cropeditor/cropscene.cpp" line="50"/>
         <source>Clear all drawing</source>
         <translation>Očisti sliku</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="63"/>
+        <location filename="../cropeditor/cropscene.cpp" line="64"/>
         <source>Crop</source>
         <translation>Opseci</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="67"/>
+        <location filename="../cropeditor/cropscene.cpp" line="68"/>
         <source>Settings</source>
         <translation>Podešavanja</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="85"/>
+        <location filename="../cropeditor/cropscene.cpp" line="86"/>
         <source>Confirm</source>
         <translation>Potvrdi</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="91"/>
+        <location filename="../cropeditor/cropscene.cpp" line="92"/>
         <source>Cancel</source>
         <translation>Otkaži</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="211"/>
+        <location filename="../cropeditor/cropscene.cpp" line="225"/>
         <source>KShare Crop Editor</source>
         <translation>KShare Urednik Slika</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.hpp" line="88"/>
+        <location filename="../cropeditor/cropscene.hpp" line="107"/>
         <source>Press F1 to toggle this hint
 	Hold Shift to slow the cursor down
 	Ctrl+Drag a thing to move it around
