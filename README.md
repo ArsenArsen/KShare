@@ -3,7 +3,7 @@ A [ShareX](https://getsharex.com/) inspired cross platform utility written with 
 
 |Linux|Windows|OS X|
 |:---:|:-----:|:--:|
-|[![Build Status](https://nativeci.arsenarsen.com/buildStatus/icon?job=KShare%20(dev)/main=master)](https://nativeci.arsenarsen.com/job/KShare%20(dev)/main=master/)|[![Build status](https://ci.appveyor.com/api/projects/status/7wa4f0bl6u62lo6v?svg=true)](https://ci.appveyor.com/project/ArsenArsen/kshare)|[![Build Status](https://nativeci.arsenarsen.com/buildStatus/icon?job=KShare%20(dev)/main=osxslave)](https://nativeci.arsenarsen.com/job/KShare%20(dev)/main=osxslave)|
+|[![Build Status](https://nativeci.arsenarsen.com/buildStatus/icon?job=KShare%20(dev)/main=linux)](https://nativeci.arsenarsen.com/job/KShare%20(dev)/main=linux/)|[![Build status](https://ci.appveyor.com/api/projects/status/7wa4f0bl6u62lo6v?svg=true)](https://ci.appveyor.com/project/ArsenArsen/kshare)|[![Build Status](https://nativeci.arsenarsen.com/buildStatus/icon?job=KShare%20(dev)/main=osx)](https://nativeci.arsenarsen.com/job/KShare%20(dev)/main=osx)|
 ## Screenshot
 Made with KShare itself, of course :)
 ![](http://i.imgur.com/ffWvCun.png)
