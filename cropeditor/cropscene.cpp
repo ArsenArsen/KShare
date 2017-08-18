@@ -61,7 +61,7 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
         }
     });
 
-    addDrawingAction(menu, tr("Crop"), ":/icons/crop.png", [] { return nullptr; });
+    addDrawingAction(menu, tr("None"), ":/icons/crop.png", [] { return nullptr; });
 
     menu->addSeparator();
     QAction *settings = menu->addAction("");
@@ -217,8 +217,6 @@ void CropScene::setVisible(bool visible) {
         view->setVisible(visible);
         if (visible) {
             if (QApplication::screens().size() == 1) view->showFullScreen();
-            view->resize(_pixmap.width(), _pixmap.height());
-            view->setMinimumSize(_pixmap.size());
             QPoint p = screenshotutil::smallestScreenCoordinate() + QPoint(settings::settings().value("cropx", 0).toInt(),
                                                                            settings::settings().value("cropy", 0).toInt());
             view->move(p.x(), p.y());
