@@ -38,7 +38,8 @@ void requestlogging::addEntry(RequestContext context) {
     QTextStream(&requestFile) << ioutils::methodString(context.reply->operation()) << " " // $type
                               << context.reply->url().toString() << " "                   // $url
                               << context.reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() << " " // $status
-                              << timeNow.replace(" ", "_"); // $time
+                              << timeNow.replace(" ", "_") << endl
+                              << flush; // $time
     requestFile.close();
 }
 
