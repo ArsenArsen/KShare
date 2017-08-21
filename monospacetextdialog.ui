@@ -16,10 +16,16 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTextEdit" name="textEdit">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="font">
       <font>
        <family>Monospace</family>
       </font>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
