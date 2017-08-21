@@ -30,6 +30,7 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionActive_window_triggered();
     void on_actionAbort_triggered();
+    void on_history_clicked();
 
 public:
     static MainWindow *inst();

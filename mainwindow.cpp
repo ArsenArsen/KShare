@@ -10,6 +10,7 @@
 #include <colorpicker/colorpickerscene.hpp>
 #include <formats.hpp>
 #include <hotkeying.hpp>
+#include <logs/historydialog.h>
 #include <platformbackend.hpp>
 #include <recording/recordingformats.hpp>
 #include <settings.hpp>
@@ -180,4 +181,9 @@ void MainWindow::on_actionActive_window_triggered() {
 
 void MainWindow::on_actionAbort_triggered() {
     controller->abort();
+}
+
+void MainWindow::on_history_clicked() {
+    HistoryDialog *dialog = new HistoryDialog;
+    dialog->show();
 }

@@ -13,6 +13,7 @@
 QDir responses(settings::dir().absoluteFilePath("responses"));
 QString requestPath = settings::dir().absoluteFilePath("history");
 
+
 void requestlogging::addEntry(RequestContext context) {
     if (!responses.exists()) responses.mkpath(".");
     QString timeNow = QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd HH-mm-ss-zzz");
@@ -29,14 +30,15 @@ void requestlogging::addEntry(RequestContext context) {
         return;
     }
 
-    for (auto header : context.reply->rawHeaderList()) responseFile.write(header + "\n");
+    for (auto header : context.reply->rawHeaderList())
+        responseFile.write(header + ": " + context.reply->rawHeader(header) + "\n");
     responseFile.write("\n\n" + context.response);
     responseFile.close();
 
-    QTextStream(&requestFile) << ioutils::methodString(context.reply->operation()) << " "                   // $type
-                              << context.reply->url().toString() << " "                                     // $url
-                              << context.reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() // $status
-                              << timeNow;                                                                   // $time
+    QTextStream(&requestFile) << ioutils::methodString(context.reply->operation()) << " " // $type
+                              << context.reply->url().toString() << " "                   // $url
+                              << context.reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() << " " // $status
+                              << timeNow.replace(" ", "_"); // $time
     requestFile.close();
 }
 
@@ -46,6 +48,7 @@ QList<LoggedRequest> requestlogging::getRequests() {
     QList<LoggedRequest> ret;
 
     QFile requestFile(requestPath);
+    if (!requestFile.exists() || !requestFile.open(QIODevice::ReadOnly)) return ret;
 
     QByteArray line;
     while ((line = requestFile.readLine()).size() != 0) {
@@ -54,9 +57,8 @@ QList<LoggedRequest> requestlogging::getRequests() {
         stream >> r.type;
         stream >> r.url;
         stream >> r.responseCode;
-        QString time;
-        stream >> time;
-        r.time = QDateTime::fromString(time, "yyyy-MM-dd HH-mm-ss-zzz");
+        stream >> r.time;
+        r.time = r.time.replace("_", " ");
         ret.append(r);
     }
 

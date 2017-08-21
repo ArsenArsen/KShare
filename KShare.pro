@@ -64,7 +64,9 @@ SOURCES += main.cpp\
     uploaders/default/imgursettingsdialog.cpp \
     uploaders/default/imgplusuploader.cpp \
     filenamevalidator.cpp \
-    logs/requestlogging.cpp
+    logs/requestlogging.cpp \
+    logs/historydialog.cpp \
+    monospacetextdialog.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -109,7 +111,9 @@ HEADERS  += mainwindow.hpp \
     uploaders/default/imgursettingsdialog.hpp \
     uploaders/default/imgplusuploader.hpp \
     filenamevalidator.hpp \
-    logs/requestlogging.hpp
+    logs/requestlogging.hpp \
+    logs/historydialog.h \
+    monospacetextdialog.h
 
 nopkg {
 #    win32 {
@@ -161,7 +165,9 @@ FORMS    += mainwindow.ui \
     settingsdialog.ui \
     aboutbox.ui \
     hotkeyinputdialog.ui \
-    uploaders/default/imgursettingsdialog.ui
+    uploaders/default/imgursettingsdialog.ui \
+    logs/historydialog.ui \
+    monospacetextdialog.ui
 
 DISTFILES += \
     README.md \

@@ -3,8 +3,18 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <logs/requestlogging.hpp>
 
 QNetworkAccessManager ioutils::networkManager;
+
+void addLogEntry(QNetworkReply *reply, QByteArray data) {
+    requestlogging::RequestContext ctx;
+
+    ctx.reply = reply;
+    ctx.response = data;
+
+    requestlogging::addEntry(ctx);
+}
 
 void ioutils::postMultipart(QUrl target,
                             QList<QPair<QString, QString>> headers,
@@ -17,6 +27,7 @@ void ioutils::postMultipart(QUrl target,
     QNetworkReply *reply = networkManager.post(req, body);
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         QByteArray data = reply->readAll();
+        addLogEntry(reply, data);
         callback(QJsonDocument::fromJson(data), data, reply);
         delete reply;
     });
@@ -32,7 +43,9 @@ void ioutils::postMultipartData(QUrl target,
     }
     QNetworkReply *reply = networkManager.post(req, body);
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
-        callback(reply->readAll(), reply);
+        QByteArray data = reply->readAll();
+        addLogEntry(reply, data);
+        callback(data, reply);
         delete reply;
     });
 }
@@ -47,6 +60,7 @@ void ioutils::getJson(QUrl target,
     QNetworkReply *reply = networkManager.get(req);
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         QByteArray data = reply->readAll();
+        addLogEntry(reply, data);
         callback(QJsonDocument::fromJson(data), data, reply);
         reply->deleteLater();
     });
@@ -63,6 +77,7 @@ void ioutils::postJson(QUrl target,
     QNetworkReply *reply = networkManager.post(req, body);
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
         QByteArray data = reply->readAll();
+        addLogEntry(reply, data);
         callback(QJsonDocument::fromJson(data), data, reply);
         delete reply;
     });
@@ -75,7 +90,9 @@ void ioutils::getData(QUrl target, QList<QPair<QString, QString>> headers, std::
     }
     QNetworkReply *reply = networkManager.get(req);
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
-        callback(reply->readAll(), reply);
+        QByteArray data = reply->readAll();
+        addLogEntry(reply, data);
+        callback(data, reply);
         delete reply;
     });
 }
@@ -90,7 +107,9 @@ void ioutils::postData(QUrl target,
     }
     QNetworkReply *reply = networkManager.post(req, body);
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
-        callback(reply->readAll(), reply);
+        QByteArray data = reply->readAll();
+        addLogEntry(reply, data);
+        callback(data, reply);
         delete reply;
     });
 }

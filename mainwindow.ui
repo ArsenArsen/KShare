@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>352</width>
-    <height>220</height>
+    <width>340</width>
+    <height>239</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,13 +25,6 @@
     </sizepolicy>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0" colspan="2">
-     <widget class="QPushButton" name="settings">
-      <property name="text">
-       <string>Settings</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0">
      <widget class="QGroupBox" name="groupBox">
       <property name="title">
@@ -44,15 +37,30 @@
       </layout>
      </widget>
     </item>
+    <item row="1" column="0" colspan="2">
+     <widget class="QPushButton" name="settings">
+      <property name="text">
+       <string>Settings</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="history">
+      <property name="text">
+       <string>Open request history</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>352</width>
-     <height>25</height>
+     <width>340</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -91,7 +99,6 @@
    <addaction name="menuUtilities"/>
    <addaction name="menuRecording"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>
