@@ -28,9 +28,6 @@ Additionally, on Linux, you require:
 
 Despite the name implying so, this project does not depend on the KDE API at all.
 
-## Goals
-See the [projects](https://github.com/ArsenArsen/KShare/projects)
-
 ## Install
 |Distro|Link|
 |:----:|:--:|
