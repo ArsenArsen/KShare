@@ -292,8 +292,8 @@
     </message>
     <message>
         <location filename="../cropeditor/cropscene.cpp" line="64"/>
-        <source>Crop</source>
-        <translation>Opseci</translation>
+        <source>None</source>
+        <translation>Ništa</translation>
     </message>
     <message>
         <location filename="../cropeditor/cropscene.cpp" line="68"/>
@@ -311,7 +311,7 @@
         <translation>Otkaži</translation>
     </message>
     <message>
-        <location filename="../cropeditor/cropscene.cpp" line="225"/>
+        <location filename="../cropeditor/cropscene.cpp" line="223"/>
         <source>KShare Crop Editor</source>
         <translation>KShare Urednik Slika</translation>
     </message>
@@ -551,6 +551,34 @@
     </message>
 </context>
 <context>
+    <name>HistoryDialog</name>
+    <message>
+        <location filename="../logs/historydialog.ui" line="14"/>
+        <source>Request History</source>
+        <translation>Istorija slanja</translation>
+    </message>
+    <message>
+        <location filename="../logs/historydialog.ui" line="21"/>
+        <source>Type</source>
+        <translation>Tip</translation>
+    </message>
+    <message>
+        <location filename="../logs/historydialog.ui" line="26"/>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <location filename="../logs/historydialog.ui" line="31"/>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <location filename="../logs/historydialog.ui" line="36"/>
+        <source>Time</source>
+        <translation>Vreme</translation>
+    </message>
+</context>
+<context>
     <name>HotkeyInputDialog</name>
     <message>
         <location filename="../hotkeyinputdialog.ui" line="23"/>
@@ -686,128 +714,133 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.ui" line="31"/>
-        <location filename="../mainwindow.ui" line="130"/>
+        <location filename="../mainwindow.ui" line="43"/>
+        <location filename="../mainwindow.ui" line="137"/>
         <source>Settings</source>
         <translation>Podešavanja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="38"/>
+        <location filename="../mainwindow.ui" line="31"/>
         <source>Log</source>
         <translation>Zapis</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="60"/>
+        <location filename="../mainwindow.ui" line="50"/>
+        <source>Open request history</source>
+        <translation>Prikaži istoriju slanja</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="68"/>
         <source>Fi&amp;le</source>
         <translation>Faj&amp;l</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="69"/>
+        <location filename="../mainwindow.ui" line="77"/>
         <source>Scree&amp;nshot</source>
         <translation>Slika&amp;nje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="77"/>
+        <location filename="../mainwindow.ui" line="85"/>
         <source>&amp;Utilities</source>
         <translation>&amp;Alati</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="83"/>
+        <location filename="../mainwindow.ui" line="91"/>
         <source>&amp;Recording</source>
         <translation>&amp;Snjimanje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="97"/>
+        <location filename="../mainwindow.ui" line="104"/>
         <source>&amp;Quit</source>
         <translation>Iza&amp;đi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="105"/>
+        <location filename="../mainwindow.ui" line="112"/>
         <source>&amp;Fullscreen</source>
         <translation>&amp;Ceo Ekran</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="110"/>
+        <location filename="../mainwindow.ui" line="117"/>
         <source>&amp;Area</source>
         <translation>&amp;Prostor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="115"/>
+        <location filename="../mainwindow.ui" line="122"/>
         <source>&amp;Color Picker</source>
         <translation>&amp;Birač Boja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="120"/>
+        <location filename="../mainwindow.ui" line="127"/>
         <source>Start</source>
         <translation>Počni</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="125"/>
+        <location filename="../mainwindow.ui" line="132"/>
         <source>Stop</source>
         <translation>Zaustavi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="135"/>
+        <location filename="../mainwindow.ui" line="142"/>
         <source>About</source>
         <translation>O Programu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="140"/>
+        <location filename="../mainwindow.ui" line="147"/>
         <source>Active window</source>
         <translation>Aktivni prozor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="145"/>
+        <location filename="../mainwindow.ui" line="152"/>
         <source>Abort</source>
         <translation>Obustavi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="25"/>
+        <location filename="../mainwindow.cpp" line="26"/>
         <source>Recording format not set in settings. Aborting.</source>
         <translation>Format snjimanja nije podešen! Otkazujem.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="57"/>
+        <location filename="../mainwindow.cpp" line="58"/>
         <source>Quit</source>
         <translation>Izađi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="58"/>
+        <location filename="../mainwindow.cpp" line="59"/>
         <source>Show/Hide</source>
         <translation>Prikaži/Sakrij</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="59"/>
+        <location filename="../mainwindow.cpp" line="60"/>
         <source>Take fullscreen shot</source>
         <translation>Slikaj ceo ekran</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="60"/>
+        <location filename="../mainwindow.cpp" line="61"/>
         <source>Take area shot</source>
         <translation>Slikaj deo ekrana</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="63"/>
+        <location filename="../mainwindow.cpp" line="64"/>
         <source>Screenshot active window</source>
         <translation>Slikaj trenutni prozor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="66"/>
+        <location filename="../mainwindow.cpp" line="67"/>
         <source>Show color picker</source>
         <translation>Prikaži birač boja</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="67"/>
+        <location filename="../mainwindow.cpp" line="68"/>
         <source>Record screen</source>
         <translation>Snjimi ekran</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="68"/>
+        <location filename="../mainwindow.cpp" line="69"/>
         <source>Stop recording</source>
         <translation>Zaustavi snjimanje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="69"/>
+        <location filename="../mainwindow.cpp" line="70"/>
         <source>Abort recording</source>
         <translation>Obustavi snjimanje</translation>
     </message>
