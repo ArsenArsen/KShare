@@ -1,3 +1,8 @@
+---
+layout: layout
+---
+
+
 # **KShare**
 ## The free open source and cross platform screen sharing software
 
