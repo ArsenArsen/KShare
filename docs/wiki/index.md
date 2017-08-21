@@ -8,4 +8,4 @@ layout: wikipage
 The cross platform screenshotting utility
 
 # Usage
-See the [`Basic usage`](/wiki/Basic-Usage) page
+See the [`Basic usage`](/wiki/Basic-Usage.html) page

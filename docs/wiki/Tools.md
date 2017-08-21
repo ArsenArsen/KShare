@@ -20,7 +20,7 @@ Allows you to set a rectangle to blur out. You'll get a settings popup upon sele
 A line between where you start and end dragging
 ### Text
 Asks you to insert some text.
-**WARNING:** Avoid pressing return and enter
+**WARNING:** Avoid pressing esc
 ### Rectangle
 Drag to draw a rectangle
 ### Ellipse 

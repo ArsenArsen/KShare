@@ -39,4 +39,4 @@ Takes the active window and uploads it straight to your destination of choice
 ## Crop Editor
 Crop Editor is a window you can use to select the area of the screen to upload. It consists of a grey overlay and a re-sizable rectangle. The rectangle is resized by holding the mouse buttons. When you let go of the button, a new selection will start replacing the old one. On the first press the same thing happens.
 Press `Escape` to cancel, and `Return`, or `Enter` to submit.  
-Oh. And you can draw with right click.
+Oh. And you can draw with the bar that appears on the top.
