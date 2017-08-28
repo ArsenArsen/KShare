@@ -13,7 +13,7 @@ ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
     setFrameShape(QFrame::NoFrame); // Time taken to solve: A george99g and 38 minutes.
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setWindowFlags(windowFlags() | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    setWindowFlags(windowFlags() | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Dialog);
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
     setCursor(QCursor(Qt::CrossCursor));
     setMouseTracking(true);
@@ -75,9 +75,11 @@ void ColorPickerScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void ColorPickerScene::keyPressEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Return) QApplication::clipboard()->setText(color.name());
+    if (event->key() == Qt::Key_Return) {
+        QApplication::clipboard()->setText(color.name());
+        qInfo().noquote() << tr("Copied hex code to clipboard.");
+    }
     if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Escape) close();
-    qInfo().noquote() << tr("Copied hex code to clipboard.");
 }
 
 void ColorPickerScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *) {
