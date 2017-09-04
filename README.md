@@ -10,6 +10,7 @@ Made with KShare itself, of course :)
 
 ## Usage
 See the [wiki](https://github.com/ArsenArsen/KShare/wiki).
+Please note that KShare is not compatiable with Wayland due to some permission issues. Please use X.Org instead.
 
 ## Dependencies
 * Qt 5 Widgets
