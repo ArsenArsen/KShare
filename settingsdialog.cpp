@@ -83,6 +83,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
     ui->captureCursor->setEnabled(false);
     ui->captureCursor->setText(tr("Capture cursor (disabled: implementation missing)"));
 #endif
+    ui->fpsMax->setValue(settings::settings().value("recording/framerate", 30).toInt());
 }
 
 void SettingsDialog::setScheme(QString scheme) {
@@ -170,4 +171,8 @@ void SettingsDialog::on_cropX_valueChanged(int arg1) {
 
 void SettingsDialog::on_cropY_valueChanged(int arg1) {
     settings::settings().setValue("cropy", arg1);
+}
+
+void SettingsDialog::on_fpsMax_valueChanged(int arg1) {
+    settings::settings().setValue("recording/framerate", arg1);
 }

@@ -38,6 +38,8 @@ private slots:
 
     void on_cropY_valueChanged(int arg1);
 
+    void on_fpsMax_valueChanged(int arg1);
+
 private:
     Ui::SettingsDialog *ui;
 };
