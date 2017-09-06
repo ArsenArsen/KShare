@@ -1,7 +1,7 @@
-diff --git a/recording/encoders/encoder.cpp b/recording/encoders/encoder.cpp
+diff --git a/src/recording/encoders/encoder.cpp b/src/recording/encoders/encoder.cpp
 index 481ba40..c04d32b 100644
---- a/recording/encoders/encoder.cpp
-+++ b/recording/encoders/encoder.cpp
+--- a/src/recording/encoders/encoder.cpp
++++ b/src/recording/encoders/encoder.cpp
 @@ -64,8 +64,8 @@ Encoder::Encoder(QString &targetFile, QSize res, CodecSettings *settings) {
      if (ret < 0) throwAVErr(ret, "codec open");
      if (codec->capabilities & AV_CODEC_CAP_DR1) avcodec_align_dimensions(out->enc, &out->enc->width, &out->enc->height);

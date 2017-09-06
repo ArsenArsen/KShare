@@ -1,4 +1,4 @@
-#include "monospacetextdialog.h"
+#include "monospacetextdialog.hpp"
 #include "ui_monospacetextdialog.h"
 
 MonospaceTextDialog::MonospaceTextDialog(QString name, QByteArray data, QWidget *parent)

@@ -5,20 +5,20 @@
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsTextItem>
-#include <QGraphicsView>
 #include <QKeyEvent>
 #include <QTimer>
+#include <screenoverlayview.hpp>
 #include <screenshotutil.hpp>
 
-class ColorPickerScene : public QGraphicsScene, public QGraphicsView {
+class ColorPickerScene : public QGraphicsScene, public ScreenOverlayView {
     Q_DECLARE_TR_FUNCTIONS(ColorPickerScene)
 public:
-    ColorPickerScene(QPixmap pixmap, QWidget *parentWidget);
+    ColorPickerScene(QPixmap pixmap, QWidget *parent = nullptr);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *) override;
     static void showPicker() {
-        new ColorPickerScene(screenshotutil::fullscreen(), 0);
+        new ColorPickerScene(screenshotutil::fullscreen());
     }
 
 private:

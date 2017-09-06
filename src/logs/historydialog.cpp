@@ -1,8 +1,8 @@
-#include "historydialog.h"
+#include "historydialog.hpp"
 #include "requestlogging.hpp"
 #include "ui_historydialog.h"
 
-#include <monospacetextdialog.h>
+#include <monospacetextdialog.hpp>
 
 using requestlogging::LoggedRequest;
 

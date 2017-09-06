@@ -1,12 +1,13 @@
 #ifndef CROPVIEW_HPP
 #define CROPVIEW_HPP
 
-#include <QGraphicsView>
 #include <QKeyEvent>
+#include <screenoverlayview.hpp>
 
-class CropView : public QGraphicsView {
+class CropView : public ScreenOverlayView {
 public:
     CropView(QGraphicsScene *scene);
+    ~CropView();
 };
 
 #endif // CROPVIEW_HPP

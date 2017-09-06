@@ -10,6 +10,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <functional>
+#include <screenoverlayview.hpp>
 #include <screenshotutil.hpp>
 class CropScene;
 

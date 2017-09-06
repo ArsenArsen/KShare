@@ -6,10 +6,11 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsTextItem>
 #include <QTimer>
+#include <screenoverlayview.hpp>
 #include <settings.hpp>
 
 ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
-: QGraphicsScene(), QGraphicsView(this, parentWidget) {
+: QGraphicsScene(), ScreenOverlayView(this, parentWidget) {
     setFrameShape(QFrame::NoFrame); // Time taken to solve: A george99g and 38 minutes.
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
