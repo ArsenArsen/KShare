@@ -2,13 +2,13 @@
 #define CROPSCENE_HPP
 
 #include <QFont>
-#include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMenuBar>
+#include <cropeditor/selectionrectangle.hpp>
 #include <functional>
 #include <screenoverlayview.hpp>
 #include <screenshotutil.hpp>
@@ -84,7 +84,7 @@ private:
     std::function<DrawItem *()> drawingSelectionMaker;
     QFlags<Qt::MouseButton> prevButtons;
     QPixmap _pixmap;
-    QGraphicsRectItem *rect = nullptr;
+    SelectionRectangle *rect = nullptr;
     QGraphicsPixmapItem *magnifier = nullptr;
     QGraphicsRectItem *magnifierBox = nullptr;
     QGraphicsTextItem *magnifierHint = nullptr;

@@ -11,6 +11,7 @@ public:
         return "Blur";
     }
     ~BlurItem() {
+        return;
     }
 
     bool init(CropScene *) override;

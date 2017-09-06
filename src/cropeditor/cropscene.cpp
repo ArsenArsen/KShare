@@ -1,4 +1,5 @@
 #include "cropscene.hpp"
+#include "selectionrectangle.hpp"
 #include <QApplication>
 #include <QColorDialog>
 #include <QDebug>
@@ -193,7 +194,7 @@ void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> dr
     drawingName = name;
     display->setText(drawingName);
     if (drawingSelection)
-        if (!drawingSelection->init(this)) setDrawingSelection("None", [] { return nullptr; });
+        if (!drawingSelection->init(this)) setDrawingSelection(tr("None"), [] { return nullptr; });
 }
 
 QGraphicsItem *CropScene::whichItem(QPointF scenePos) {
@@ -245,6 +246,40 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
     cursorItem->setPos(cursorPos);
     updateMag();
 
+    if (rect) {
+        // qAbs(e->scenePos().<axis>() - rect->rect().<edge>()) < 10
+        bool close = false;
+        QRectF newRect = rect->rect();
+        if (qAbs(e->scenePos().x() - rect->rect().right()) < 10) {
+            if (qAbs(e->scenePos().y() - rect->rect().bottom()) < 10) {
+                close = true;
+                views()[0]->setCursor(Qt::SizeFDiagCursor);
+                if (e->buttons() & Qt::LeftButton && prevButtons != e->buttons()) newRect.setBottomLeft(cursorPos);
+            } else if (qAbs(e->scenePos().y() - rect->rect().top()) < 10) {
+                close = true;
+                views()[0]->setCursor(Qt::SizeBDiagCursor);
+                if (e->buttons() & Qt::LeftButton && prevButtons != e->buttons()) newRect.setTopRight(cursorPos);
+            }
+        } else if (qAbs(e->scenePos().x() - rect->rect().left()) < 10) {
+            if (qAbs(e->scenePos().y() - rect->rect().top()) < 10) {
+                close = true;
+                views()[0]->setCursor(Qt::SizeFDiagCursor);
+                if (e->buttons() & Qt::LeftButton && prevButtons != e->buttons()) newRect.setTopLeft(cursorPos);
+            } else if (qAbs(e->scenePos().y() - rect->rect().bottom()) < 10) {
+                close = true;
+                views()[0]->setCursor(Qt::SizeBDiagCursor);
+                if (e->buttons() & Qt::LeftButton && prevButtons != e->buttons()) newRect.setBottomLeft(cursorPos);
+            }
+        }
+        if (!close)
+            views()[0]->setCursor(Qt::BlankCursor);
+        else {
+            rect->setRect(newRect);
+            prevButtons = e->buttons();
+            return;
+        }
+    }
+
     auto buttons = e->buttons();
     if (e->modifiers() & Qt::ControlModifier && buttons == Qt::LeftButton) {
         auto item = whichItem(cursorPos);
@@ -257,7 +292,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
         } else {
             QPointF p = cursorPos;
             if (rect == nullptr) {
-                rect = new QGraphicsRectItem(p.x(), p.y(), 1, 1);
+                rect = new SelectionRectangle(p.x(), p.y(), 1, 1);
                 initPos = p;
                 QPen pen(Qt::NoBrush, 1);
                 pen.setColor(_highlight);
@@ -303,7 +338,7 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
         delete drawingSelection;
         drawingSelection = drawingSelectionMaker();
         if (drawingSelection)
-            if (!drawingSelection->init(this)) setDrawingSelection("None", [] { return nullptr; });
+            if (!drawingSelection->init(this)) setDrawingSelection(tr("None"), [] { return nullptr; });
     } else if (settings::settings().value("quickMode", false).toBool())
         done(true);
     prevButtons = Qt::NoButton;
@@ -414,15 +449,16 @@ void CropScene::initMagnifierGrid() {
 
 void CropScene::done(bool notEsc) {
     if (notEsc && rect) {
+        QRectF rect2 = rect->rect();
         hint->setVisible(false);
-        rect->setPen(QPen(Qt::NoPen));
+        rect->setRect(QRect(-100, -100, 0, 0));
         magnifier->setVisible(false);
         proxyMenu->setVisible(false);
         cursorItem->setVisible(false);
         magnifierBox->setVisible(false);
         magnifierHint->setVisible(false);
         magnifierHintBox->setVisible(false);
-        emit closedWithRect(rect->rect().toRect());
+        emit closedWithRect(rect2.toRect());
     } else
         emit closedWithRect(QRect());
 }
