@@ -254,7 +254,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
             if (qAbs(e->scenePos().y() - rect->rect().bottom()) < 10) {
                 close = true;
                 views()[0]->setCursor(Qt::SizeFDiagCursor);
-                if (e->buttons() & Qt::LeftButton && prevButtons != e->buttons()) newRect.setBottomLeft(cursorPos);
+                if (e->buttons() & Qt::LeftButton && prevButtons != e->buttons()) newRect.setBottomRight(cursorPos);
             } else if (qAbs(e->scenePos().y() - rect->rect().top()) < 10) {
                 close = true;
                 views()[0]->setCursor(Qt::SizeBDiagCursor);

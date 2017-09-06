@@ -11,7 +11,7 @@ static QString hintPattern(ScreenAreaSelector::tr("Set the recording region by r
 ScreenAreaSelector::ScreenAreaSelector() {
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_DeleteOnClose);
-    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
+    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     setStyleSheet("background-color: rgba(0, 0, 0, 0.5);");
     setWindowTitle(tr("KShare: Select Area (By resizing this window)"));
     setAutoFillBackground(true);
