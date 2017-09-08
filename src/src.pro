@@ -174,15 +174,6 @@ FORMS    += mainwindow.ui \
     logs/historydialog.ui \
     monospacetextdialog.ui
 
-DISTFILES += \
-    README.md \
-    LICENSE \
-    OlderSystemFix.patch \
-    AppVeyor/appveyor.yml \
-    AppVeyor/make_installer.sh \
-    .travis.yml \
-    install.sh
-
 RESOURCES += \
     icon.qrc \
     translations.qrc

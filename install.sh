@@ -19,7 +19,7 @@ resultfile="$(pwd)/KShare/build/KShare.app/"
 elif [[ "$uname" = "Linux" ]]; then
 echo "Please install Qt5 GUI, Widgets, Networking, and X11 Extras, qmake, ffmpeg development files, git, and pkgconfig"
 sh
-resultfile="$(pwd)/KShare/build/KShare"
+resultfile="$(pwd)/KShare/build/src/KShare"
 else echo "Unsupported OS!" && exit 1; fi
 
 git clone --recursive https://github.com/ArsenArsen/KShare.git || exit 2
