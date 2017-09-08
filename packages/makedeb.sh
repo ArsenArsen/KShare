@@ -13,7 +13,7 @@ qmake ../../KShare.pro
 if make
 then
 cd ..
-cp compiling/KShare work/usr/bin/kshare
+cp compiling/src/KShare work/usr/bin/kshare
 else
 	rm -rf compiling
 	echo "Failed to make!"
