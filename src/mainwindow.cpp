@@ -10,7 +10,7 @@
 #include <colorpicker/colorpickerscene.hpp>
 #include <formats.hpp>
 #include <hotkeying.hpp>
-#include <logs/historydialog.h>
+#include <logs/historydialog.hpp>
 #include <platformbackend.hpp>
 #include <recording/recordingformats.hpp>
 #include <settings.hpp>
