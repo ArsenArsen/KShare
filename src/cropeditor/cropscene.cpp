@@ -246,7 +246,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
     cursorItem->setPos(cursorPos);
     updateMag();
 
-    if (rect) {
+    if (rect && !drawingRect) {
         // qAbs(e->scenePos().<axis>() - rect->rect().<edge>()) < 10
         bool close = false;
         QRectF newRect = rect->rect();
@@ -254,21 +254,21 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
             if (qAbs(e->scenePos().y() - rect->rect().bottom()) < 10) {
                 close = true;
                 views()[0]->setCursor(Qt::SizeFDiagCursor);
-                if (e->buttons() & Qt::LeftButton && prevButtons != e->buttons()) newRect.setBottomRight(cursorPos);
+                if (e->buttons() & Qt::LeftButton) newRect.setBottomRight(cursorPos);
             } else if (qAbs(e->scenePos().y() - rect->rect().top()) < 10) {
                 close = true;
                 views()[0]->setCursor(Qt::SizeBDiagCursor);
-                if (e->buttons() & Qt::LeftButton && prevButtons != e->buttons()) newRect.setTopRight(cursorPos);
+                if (e->buttons() & Qt::LeftButton) newRect.setTopRight(cursorPos);
             }
         } else if (qAbs(e->scenePos().x() - rect->rect().left()) < 10) {
             if (qAbs(e->scenePos().y() - rect->rect().top()) < 10) {
                 close = true;
                 views()[0]->setCursor(Qt::SizeFDiagCursor);
-                if (e->buttons() & Qt::LeftButton && prevButtons != e->buttons()) newRect.setTopLeft(cursorPos);
+                if (e->buttons() & Qt::LeftButton) newRect.setTopLeft(cursorPos);
             } else if (qAbs(e->scenePos().y() - rect->rect().bottom()) < 10) {
                 close = true;
                 views()[0]->setCursor(Qt::SizeBDiagCursor);
-                if (e->buttons() & Qt::LeftButton && prevButtons != e->buttons()) newRect.setBottomLeft(cursorPos);
+                if (e->buttons() & Qt::LeftButton) newRect.setBottomLeft(cursorPos);
             }
         }
         if (!close)
@@ -276,6 +276,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
         else {
             rect->setRect(newRect);
             prevButtons = e->buttons();
+            updatePoly();
             return;
         }
     }
@@ -292,6 +293,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
         } else {
             QPointF p = cursorPos;
             if (rect == nullptr) {
+                drawingRect = true;
                 rect = new SelectionRectangle(p.x(), p.y(), 1, 1);
                 initPos = p;
                 QPen pen(Qt::NoBrush, 1);
@@ -308,22 +310,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
                                         qAbs(initPos.y() - p.y())));
                 }
             }
-            QPolygonF poly;
-            QPointF theMagicWikipediaPoint(rect->rect().right(), sceneRect().bottom());
-            poly << sceneRect().topLeft();
-            poly << sceneRect().topRight();
-            poly << sceneRect().bottomRight();
-            poly << theMagicWikipediaPoint;
-            poly << rect->rect().bottomRight();
-            poly << rect->rect().topRight();
-            poly << rect->rect().topLeft();
-            poly << rect->rect().bottomLeft();
-            poly << rect->rect().bottomRight();
-            poly << theMagicWikipediaPoint;
-            poly << sceneRect().bottomLeft();
-            poly << sceneRect().topLeft();
-
-            this->polyItem->setPolygon(poly);
+            updatePoly();
             e->accept();
         }
     }
@@ -333,6 +320,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
 }
 
 void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
+    drawingRect = false;
     if (drawingSelection) {
         drawingSelection->mouseDragEndEvent(e, this);
         delete drawingSelection;
@@ -422,6 +410,25 @@ void CropScene::updateMag() {
     if (bottomRight.y() > sceneRect().bottom())
         magnifierPos -= QPointF(0, 130 + magnifierHintBox->boundingRect().height());
     magnifier->setPos(magnifierPos);
+}
+
+void CropScene::updatePoly() {
+    QPolygonF poly;
+    QPointF theMagicWikipediaPoint(rect->rect().right(), sceneRect().bottom());
+    poly << sceneRect().topLeft();
+    poly << sceneRect().topRight();
+    poly << sceneRect().bottomRight();
+    poly << theMagicWikipediaPoint;
+    poly << rect->rect().bottomRight();
+    poly << rect->rect().topRight();
+    poly << rect->rect().topLeft();
+    poly << rect->rect().bottomLeft();
+    poly << rect->rect().bottomRight();
+    poly << theMagicWikipediaPoint;
+    poly << sceneRect().bottomLeft();
+    poly << sceneRect().topLeft();
+
+    this->polyItem->setPolygon(poly);
 }
 
 void CropScene::initMagnifierGrid() {

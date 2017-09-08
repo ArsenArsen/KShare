@@ -12,6 +12,10 @@ SelectionRectangle::SelectionRectangle(qreal x, qreal y, qreal w, qreal h, QGrap
 : QGraphicsRectItem(x, y, w, h, parent) {
 }
 
+SelectionRectangle::SelectionRectangle(QRectF rect, QGraphicsItem *parent)
+: SelectionRectangle(rect.left(), rect.top(), rect.width(), rect.height()) {
+}
+
 void SelectionRectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *options, QWidget *widget) {
     QRect rect = this->rect().toRect();
     if (rect.height() > 30 && rect.width() > 30) {

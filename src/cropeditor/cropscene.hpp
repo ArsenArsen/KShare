@@ -78,13 +78,15 @@ private slots:
 
 private:
     void updateMag();
+    void updatePoly();
     void initMagnifierGrid();
     void addDrawingAction(QMenuBar *menu, QString name, QString icon, std::function<DrawItem *()> item);
     QPointF cursorPos;
     std::function<DrawItem *()> drawingSelectionMaker;
     QFlags<Qt::MouseButton> prevButtons;
     QPixmap _pixmap;
-    SelectionRectangle *rect = nullptr;
+    QGraphicsRectItem *rect = nullptr;
+    bool drawingRect = true;
     QGraphicsPixmapItem *magnifier = nullptr;
     QGraphicsRectItem *magnifierBox = nullptr;
     QGraphicsTextItem *magnifierHint = nullptr;

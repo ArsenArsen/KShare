@@ -108,5 +108,6 @@ int main(int argc, char *argv[]) {
     a.connect(&a, &QApplication::aboutToQuit, [] { stillAlive = false; });
 
     if (!parser.isSet(h)) w.show();
+    qDebug() << "lol";
     return a.exec();
 }
