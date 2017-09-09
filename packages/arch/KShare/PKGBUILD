@@ -8,7 +8,7 @@ url="https://github.com/ArsenArsen/KShare"
 license=('MIT')
 provides=(kshare)
 conflicts=(kshare)
-depends=(qt5-base qt5-x11extras xcb-util-cursor ffmpeg libxfixes)
+depends=(qt5-base qt5-x11extras qt5-svg xcb-util-cursor ffmpeg libxfixes)
 makedepends=('git')
 source=(git+https://github.com/ArsenArsen/KShare.git#branch=dev)
 sha1sums=('SKIP')

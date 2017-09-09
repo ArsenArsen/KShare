@@ -13,7 +13,7 @@ SelectionRectangle::SelectionRectangle(qreal x, qreal y, qreal w, qreal h, QGrap
 }
 
 SelectionRectangle::SelectionRectangle(QRectF rect, QGraphicsItem *parent)
-: SelectionRectangle(rect.left(), rect.top(), rect.width(), rect.height()) {
+: SelectionRectangle(rect.left(), rect.top(), rect.width(), rect.height(), parent) {
 }
 
 void SelectionRectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *options, QWidget *widget) {
