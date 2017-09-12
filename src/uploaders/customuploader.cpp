@@ -9,6 +9,7 @@
 #include <QJsonDocument>
 #include <QNetworkReply>
 #include <formats.hpp>
+#include <formatter.hpp>
 #include <io/ioutils.hpp>
 #include <notifications.hpp>
 
@@ -209,7 +210,8 @@ QString parsePathspec(QJsonDocument &response, QString &pathspec) {
 
 void CustomUploader::parseResult(QJsonDocument result, QByteArray data, QString returnPathspec, QString name) {
     if (result.isObject()) {
-        QString url = urlPrepend + parsePathspec(result, returnPathspec) + urlAppend;
+        QString url
+        = formatter::format(urlPrepend, "") + parsePathspec(result, returnPathspec) + formatter::format(urlAppend, "");
         if (!url.isEmpty()) {
             QApplication::clipboard()->setText(url);
             notifications::notify(tr("KShare Custom Uploader ") + name, tr("Copied upload link to clipboard!"));
@@ -230,9 +232,9 @@ QByteArray substituteArgs(QByteArray arr, QString format, QByteArray imgData = Q
     if (arr.startsWith("/") && arr.endsWith("/")) {
         arr = arr.mid(1, arr.length() - 2);
 
-        arr = arr.replace("%contenttype", mime.toUtf8());
-        arr = arr.replace("%FORMAT", format.toUpper().toUtf8());
-        arr = arr.replace("%format", format.toLower().toUtf8());
+        arr = formatter::format(QString::fromUtf8(arr), format.toLower(),
+                                { { "format", format.toLower() }, { "FORMAT", format }, { "contenttype", mime } })
+              .toUtf8();
 
         if (imgData.isNull()) return arr;
         return arr.replace("%imagedata", imgData);
