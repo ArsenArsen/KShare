@@ -43,7 +43,7 @@ For other UNIX-like platforms, and MSYS2 (for Windows):
 
 You have to obtain the dependencies though.
 ```bash
-git clone https://github.com/ArsenArsen/KShare.git
+git clone --recursive https://github.com/ArsenArsen/KShare.git
 cd KShare
 qmake # Might be qmake-qt5 on your system
 make
