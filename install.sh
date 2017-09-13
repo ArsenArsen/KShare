@@ -15,6 +15,7 @@ installIfNeeded qt
 installIfNeeded ffmpeg
 installIfNeeded pkg-config
 installIfNeeded git
+brew link --force qt
 resultfile="$(pwd)/KShare/build/KShare.app/"
 elif [[ "$uname" = "Linux" ]]; then
 echo "Please install Qt5 GUI, Widgets, Networking, and X11 Extras, qmake, ffmpeg development files, git, and pkgconfig"
