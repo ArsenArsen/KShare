@@ -22,6 +22,7 @@ Please note that KShare is not compatiable with Wayland due to some permission i
 * libavcodec
 * libavutil
 * libswscale
+
 Additionally, on Linux, you require:
 * XCB
 * XCB xfixes
