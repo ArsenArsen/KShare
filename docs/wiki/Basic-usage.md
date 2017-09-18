@@ -18,7 +18,7 @@ There is a second menu, namely `Screenshot`. It has two options, area, and fulls
 
 The third, `Utility`, menu has the color picker in it.
 
-The third and final menu, `Recording`, has a start and stop recording button.
+The fourth and final menu, `Recording`, has a start and stop recording button.
 
 ## The tray
 ![](http://i.imgur.com/quVDzRN.png)
