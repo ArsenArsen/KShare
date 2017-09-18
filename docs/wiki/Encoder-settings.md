@@ -26,4 +26,4 @@ CRF is the constant rate factor of this video stream, and again I recommend leav
 VP9 is the WebP codec. Only option it has is lossless encoding, and you want it off, trust me.
 
 ### GIF
-GIF has no options.
+GIF has no options. It's terrible whatever you do to it.

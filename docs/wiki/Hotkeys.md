@@ -1,5 +1,5 @@
 ---
-title: Hotkeys           
+title: Hotkeys
 categories: [wiki]
 layout: wikipage
 ---

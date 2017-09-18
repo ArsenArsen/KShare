@@ -10,12 +10,10 @@ On-screen drawing is pretty simple. Right click in the crop editor to show a pen
 You can move drawings around by Ctrl+Dragging them
 
 ## Available pens:
-### Dot
-Draws dots as you move your mouse
-### Path
+### Free draw (pen icon)
 Makes a path where your mouse went.
-### Blur
-Allows you to set a rectangle to blur out. You'll get a settings popup upon selecting this pen.
+### Blur (badly made blurred rectangle icon)
+Allows you to set a rectangle to blur out. 
 ### Straight line
 A line between where you start and end dragging
 ### Text
@@ -23,8 +21,10 @@ Asks you to insert some text.
 **WARNING:** Avoid pressing esc
 ### Rectangle
 Drag to draw a rectangle
-### Ellipse 
+### Ellipse
 Drag to draw an ellipse
+### Arrow
+Draws an arrow from start to end of your drag
 ### Eraser[](https://www.youtube.com/watch?v=OjGrcJ4lZCc)
 Removes all items you drag your mouse over
 

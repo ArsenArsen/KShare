@@ -37,7 +37,8 @@ Multipart is obviously made out of multiple parts. The way you define a multipar
 [
     {
         "__HeaderName": "HeaderValue", // No limit here. Must start with __, which is removed later.
-        "body": { /* same way you define it for anything json */ } // Can be string. Strings matching `/.../` are processed same way as in a json field.
+        "body": { /* same way you define it for anything json */ }, // Can be string. Strings matching `/.../` are processed same way as in a json field.
+        "name": "files[]" // Info to add to Content-Disposition (eg part name, filename, ...)
     }
 ]
 ```

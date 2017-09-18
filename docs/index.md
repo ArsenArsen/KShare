@@ -22,13 +22,13 @@ It has many features, including:
 
 ## Enough talking, show us how it looks
 The main window is rather simple, with only a log, and a button in it:  
-![image1](http://i.imgur.com/QOebwEM.png)
+![image1](https://i.imgur.com/Tnrj90b.png)
 
 The settings have quite a bit more going on:  
-![image2](http://i.imgur.com/kZzQzGr.png)
+![image2](https://i.imgur.com/GFN2jCU.png)
 
 The area selection editor is simple:  
-![image3](http://i.imgur.com/kyWZk3p.jpg)
+![image3](https://i.imgur.com/Cbi8YsL.png)
 
 And the color picker is the simplest thing ever:  
 ![image4](http://i.imgur.com/VIeGbdQ.jpg)
