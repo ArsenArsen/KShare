@@ -30,5 +30,6 @@ void BlurItem::mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) {
 }
 
 void BlurItem::mouseDragEndEvent(QGraphicsSceneMouseEvent *, CropScene *) {
-    if (rect != nullptr) rect->setPen(Qt::NoPen);
+    delete rect;
+    rect = 0;
 }
