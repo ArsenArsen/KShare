@@ -12,4 +12,5 @@ ScreenOverlayView::ScreenOverlayView(QGraphicsScene *scene, QWidget *parent) : Q
 
 void ScreenOverlayView::showEvent(QShowEvent *) {
     move(0, 0);
+    activateWindow();
 }

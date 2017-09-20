@@ -146,7 +146,7 @@ mac {
     SOURCES += $$PWD/platformspecifics/mac/macbackend.cpp
     HEADERS += $$PWD/platformspecifics/mac/macbackend.hpp
     LIBS += -framework Carbon
-    QMAKE_INFO_PLIST = $$PWD/packages/macos/Info.plist
+    QMAKE_INFO_PLIST = $$PWD/../packages/macos/Info.plist
     warning(Mac is on TODO);
 } else:win32 {
     RC_FILE = $$PWD/icon.rc
