@@ -160,6 +160,11 @@ mac {
     HEADERS += $$PWD/platformspecifics/x11/x11backend.hpp
     QT += x11extras
     LIBS += -lxcb-cursor -lxcb-xfixes -lxcb
+
+    target.path = /usr/bin/kshare
+    icon.files = $$PWD/icons/icon.png
+    icon.target = /usr/share/pixmaps/KShare.png
+    INSTALLS += target icon
 } else {
     error(Unsupported platform);
 }
