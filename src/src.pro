@@ -6,7 +6,7 @@
 
 QT       += core gui network widgets svg
 
-TARGET = KShare
+TARGET = kshare
 TEMPLATE = app
 
 CONFIG += c++11 thread
@@ -160,6 +160,13 @@ mac {
     HEADERS += $$PWD/platformspecifics/x11/x11backend.hpp
     QT += x11extras
     LIBS += -lxcb-cursor -lxcb-xfixes -lxcb
+
+    target.path = bin/
+    icon.files = $$PWD/icons/KShare.png
+    icon.path = share/pixmaps/
+    desktop.files = $$PWD/../KShare.desktop
+    desktop.path = share/applications/
+    INSTALLS += target icon desktop
 } else {
     error(Unsupported platform);
 }
