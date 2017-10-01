@@ -180,17 +180,17 @@
     <message>
         <location filename="../src/cropeditor/settings/brushpenselection.ui" line="335"/>
         <source>Other editor settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Другие настройки редактора</translation>
     </message>
     <message>
         <location filename="../src/cropeditor/settings/brushpenselection.ui" line="341"/>
         <source>Enable grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить сетку</translation>
     </message>
     <message>
         <location filename="../src/cropeditor/settings/brushpenselection.ui" line="348"/>
         <source>Highligh color</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет подсвечивания</translation>
     </message>
     <message>
         <location filename="../src/cropeditor/settings/brushpenselection.cpp" line="44"/>
@@ -210,7 +210,7 @@
     <message>
         <location filename="../src/cropeditor/settings/brushpenselection.cpp" line="117"/>
         <source>Highlight color</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет подсвечивания</translation>
     </message>
 </context>
 <context>
@@ -232,7 +232,7 @@
         <location filename="../src/colorpicker/colorpickerscene.cpp" line="81"/>
         <location filename="../src/colorpicker/colorpickerscene.cpp" line="89"/>
         <source>Copied hex code to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Шестнадцатеричный код скотирован в буфер обмена.</translation>
     </message>
 </context>
 <context>
@@ -295,7 +295,7 @@
         <location filename="../src/cropeditor/cropscene.cpp" line="197"/>
         <location filename="../src/cropeditor/cropscene.cpp" line="329"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Ничего</translation>
     </message>
     <message>
         <location filename="../src/cropeditor/cropscene.cpp" line="69"/>
@@ -558,27 +558,27 @@
     <message>
         <location filename="../src/logs/historydialog.ui" line="14"/>
         <source>Request History</source>
-        <translation type="unfinished"></translation>
+        <translation>История запросов</translation>
     </message>
     <message>
         <location filename="../src/logs/historydialog.ui" line="21"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <location filename="../src/logs/historydialog.ui" line="26"/>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
         <location filename="../src/logs/historydialog.ui" line="31"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Статус</translation>
     </message>
     <message>
         <location filename="../src/logs/historydialog.ui" line="36"/>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Время</translation>
     </message>
 </context>
 <context>
@@ -729,7 +729,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/mainwindow.ui" line="50"/>
         <source>Open request history</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть историю запросов</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="68"/>
@@ -744,17 +744,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/mainwindow.ui" line="85"/>
         <source>&amp;Utilities</source>
-        <translation>&amp;Инструменты</translation>
+        <translation>Инстр&amp;ументы</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="91"/>
         <source>&amp;Recording</source>
-        <translation>&amp;Запись</translation>
+        <translation>З&amp;апись</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="104"/>
         <source>&amp;Quit</source>
-        <translation>&amp;Выход</translation>
+        <translation>В&amp;ыход</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="112"/>
@@ -764,7 +764,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/mainwindow.ui" line="117"/>
         <source>&amp;Area</source>
-        <translation>&amp;Область</translation>
+        <translation>Обла&amp;сть</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="122"/>
@@ -774,32 +774,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/mainwindow.ui" line="127"/>
         <source>&amp;Start</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Начать</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="132"/>
         <source>St&amp;op</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Остановить</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="137"/>
         <source>&amp;Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>На&amp;стройки</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="142"/>
         <source>&amp;About</source>
-        <translation type="unfinished"></translation>
+        <translation>О прогр&amp;амме</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="147"/>
         <source>Active &amp;window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Активное окно</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="152"/>
         <source>&amp;Abort</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Отменить</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="26"/>
@@ -809,47 +809,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/mainwindow.cpp" line="58"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Выход</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать/Спрятать</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="60"/>
         <source>Take fullscreen shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Сделать снимок всего экрана</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="61"/>
         <source>Take area shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Сделать снимок области экрана</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="64"/>
         <source>Screenshot active window</source>
-        <translation type="unfinished"></translation>
+        <translation>Снимок актиного окна</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="67"/>
         <source>Show color picker</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать пипетку</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="68"/>
         <source>Record screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Записать экран</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="69"/>
         <source>Stop recording</source>
-        <translation type="unfinished">Остановить запись</translation>
+        <translation>Остановить запись</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="70"/>
         <source>Abort recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Отменить запись</translation>
     </message>
 </context>
 <context>
@@ -1041,12 +1041,12 @@ Stop key: %3</source>
     <message>
         <location filename="../src/settingsdialog.ui" line="212"/>
         <source>FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>к/с</translation>
     </message>
     <message>
         <location filename="../src/settingsdialog.ui" line="222"/>
         <source>Frames Per Second For Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Кадров в секунду на записи</translation>
     </message>
     <message>
         <location filename="../src/settingsdialog.cpp" line="55"/>
