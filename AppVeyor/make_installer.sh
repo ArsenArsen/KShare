@@ -15,7 +15,7 @@ function addFileIn {
     echo $name
 }
 
-ver=$(cat main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVersion(\"//g" | sed "s/\");//g")
+ver=$(cat src/main.cpp | grep setApplicationVersion | sed "s/\\s*a.setApplicationVersion(\"//g" | sed "s/\");//g")
 
 cd packages/windows
 cp ../../KShare.exe . || exit 3

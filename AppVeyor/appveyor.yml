@@ -20,7 +20,7 @@ build_script:
   - xcopy QtAV-depends-windows-x86+x64\* %QTDIR% /e /i /Y
   - qmake CONFIG+=nopkg ../KShare.pro
   - mingw32-make.exe -j%NUMBER_OF_PROCESSORS%
-  - copy release\src\KShare.exe ..\KShare.exe
+  - copy src\release\kshare.exe ..\KShare.exe
   - cd ..
   - bash AppVeyor\make_installer.sh
 artifacts:
