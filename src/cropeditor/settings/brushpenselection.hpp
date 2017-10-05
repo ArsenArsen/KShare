@@ -5,7 +5,7 @@
 #include <cropeditor/cropscene.hpp>
 
 namespace Ui {
-class BrushPenSelection;
+    class BrushPenSelection;
 }
 
 class BrushPenSelection : public QDialog {

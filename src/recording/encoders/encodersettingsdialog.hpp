@@ -4,7 +4,7 @@
 #include <QDialog>
 
 namespace Ui {
-class EncoderSettingsDialog;
+    class EncoderSettingsDialog;
 }
 
 class EncoderSettingsDialog : public QDialog {

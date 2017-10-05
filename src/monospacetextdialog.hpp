@@ -4,7 +4,7 @@
 #include <QDialog>
 
 namespace Ui {
-class MonospaceTextDialog;
+    class MonospaceTextDialog;
 }
 
 class MonospaceTextDialog : public QDialog {

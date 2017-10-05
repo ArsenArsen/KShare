@@ -6,10 +6,10 @@
 #include <functional>
 
 namespace hotkeying {
-void hotkey(QString seqName, QKeySequence seq, std::function<void()> func);
-bool valid(QString seq);
-void load(QString seqName, std::function<void()> func, QString def = QString());
-QString sequence(QString seqName);
+    void hotkey(QString seqName, QKeySequence seq, std::function<void()> func);
+    bool valid(QString seq);
+    void load(QString seqName, std::function<void()> func, QString def = QString());
+    QString sequence(QString seqName);
 }
 
 #endif // HOTKEYING_HPP

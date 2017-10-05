@@ -5,8 +5,8 @@
 #include <QSettings>
 
 namespace settings {
-QSettings &settings();
-QDir dir();
+    QSettings &settings();
+    QDir dir();
 }
 
 #endif // SETTINGS_HPP

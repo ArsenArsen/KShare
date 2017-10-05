@@ -1,3 +1,4 @@
+# vim: set syntax=yaml :
 AccessModifierOffset: -4
 AlignEscapedNewlinesLeft: false
 AlignTrailingComments: true
@@ -24,7 +25,7 @@ IndentFunctionDeclarationAfterType: false
 IndentWidth: 4
 Language: Cpp
 MaxEmptyLinesToKeep: 2
-NamespaceIndentation: None
+NamespaceIndentation: All
 ObjCSpaceAfterProperty: true
 ObjCSpaceBeforeProtocolList: true
 PenaltyBreakBeforeFirstCallParameter: 100

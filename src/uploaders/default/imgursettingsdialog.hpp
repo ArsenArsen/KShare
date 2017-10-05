@@ -4,7 +4,7 @@
 #include <QDialog>
 
 namespace Ui {
-class ImgurSettingsDialog;
+    class ImgurSettingsDialog;
 }
 
 class ImgurSettingsDialog : public QDialog {

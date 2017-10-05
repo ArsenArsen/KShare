@@ -4,7 +4,7 @@
 #include <QDialog>
 
 namespace Ui {
-class HotkeyInputDialog;
+    class HotkeyInputDialog;
 }
 
 class HotkeyInputDialog : public QDialog {

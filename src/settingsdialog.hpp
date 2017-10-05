@@ -6,7 +6,7 @@
 #include <uploaders/uploader.hpp>
 
 namespace Ui {
-class SettingsDialog;
+    class SettingsDialog;
 }
 
 class SettingsDialog : public QDialog {

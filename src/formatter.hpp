@@ -6,7 +6,7 @@
 #include <QString>
 
 namespace formatter {
-QString format(QString toFormat, QString ext, QMap<QString, QString> variables = QMap<QString, QString>());
+    QString format(QString toFormat, QString ext, QMap<QString, QString> variables = QMap<QString, QString>());
 }
 
 #endif // FORMATTER_HPP
