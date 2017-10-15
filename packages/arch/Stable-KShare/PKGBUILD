@@ -13,20 +13,23 @@ makedepends=('git')
 source=(git+https://github.com/ArsenArsen/KShare.git)
 sha1sums=('SKIP')
 
+prepare() {
+  cd KShare
+  git submodule update --init --recursive
+}
+
 build() {
-  cd "${srcdir}/KShare"
-  git submodule update --init --recursive  
+  cd KShare
   qmake
   make
 }
 
 package() {
-  cd "${srcdir}/KShare"
-  mkdir -p "$pkgdir/usr/bin"
-  install src/KShare "$pkgdir/usr/bin/kshare"
-  mkdir -p "$pkgdir/usr/share/pixmaps"
-  install "${srcdir}/KShare/icons/icon.png" "$pkgdir/usr/share/pixmaps/KShare.png"
-  mkdir -p "$pkgdir/usr/share/applications"
-#  install KShare.desktop "$pkgdir/usr/share/applications"
+  cd KShare
+  install -Dm755 src/kshare "$pkgdir/usr/bin/kshare"
+  install -Dm644 icons/icon.png "$pkgdir/usr/share/pixmaps/KShare.png"
+  install -Dm644 KShare.desktop "$pkgdir/usr/share/applications/KShare.desktop"
+
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
 }
 
