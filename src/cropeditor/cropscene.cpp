@@ -188,6 +188,10 @@ void CropScene::setHighlight(QColor highlight) {
 }
 
 void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> drawAction) {
+    if (drawingSelection) {
+        delete drawingSelection;
+        drawingSelection = 0;
+    }
     this->setFocus();
     drawingSelectionMaker = drawAction;
     drawingSelection = drawAction();
@@ -195,6 +199,11 @@ void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> dr
     display->setText(drawingName);
     if (drawingSelection)
         if (!drawingSelection->init(this)) setDrawingSelection(tr("None"), [] { return nullptr; });
+    menu->adjustSize();
+        auto screen = QApplication::primaryScreen();
+        int w = screen->geometry().width();
+        proxyMenu->setPos(views()[0]->mapToScene(
+        QPoint(screen->geometry().x() + (w - proxyMenu->boundingRect().width()) / 2, screen->geometry().y() + 100)));
 }
 
 QGraphicsItem *CropScene::whichItem(QPointF scenePos) {
@@ -287,7 +296,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
         if (item) item->moveBy(delta.x(), delta.y());
         return;
     }
-    if (buttons == Qt::LeftButton || (prevButtons == Qt::NoButton && prevButtons != buttons)) {
+    if (buttons == Qt::LeftButton) {
         if (drawingSelection) {
             drawingSelection->mouseDragEvent(e, this);
         } else {
@@ -323,10 +332,7 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
     drawingRect = false;
     if (drawingSelection) {
         drawingSelection->mouseDragEndEvent(e, this);
-        delete drawingSelection;
-        drawingSelection = drawingSelectionMaker();
-        if (drawingSelection)
-            if (!drawingSelection->init(this)) setDrawingSelection(tr("None"), [] { return nullptr; });
+        setDrawingSelection(drawingName, drawingSelectionMaker);
     } else if (settings::settings().value("quickMode", false).toBool())
         done(true);
     prevButtons = Qt::NoButton;

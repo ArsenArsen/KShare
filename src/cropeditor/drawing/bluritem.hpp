@@ -11,7 +11,6 @@ public:
         return "Blur";
     }
     ~BlurItem() {
-        return;
     }
 
     bool init(CropScene *) override;
@@ -21,7 +20,7 @@ public:
 private:
     QGraphicsBlurEffect *effect;
     QPointF pos;
-    QGraphicsRectItem *rect;
+    QGraphicsRectItem *rect = 0;
     QGraphicsPixmapItem *pixmap;
 };
 
