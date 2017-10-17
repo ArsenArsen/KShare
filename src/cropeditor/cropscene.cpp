@@ -200,10 +200,10 @@ void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> dr
     if (drawingSelection)
         if (!drawingSelection->init(this)) setDrawingSelection(tr("None"), [] { return nullptr; });
     menu->adjustSize();
-        auto screen = QApplication::primaryScreen();
-        int w = screen->geometry().width();
-        proxyMenu->setPos(views()[0]->mapToScene(
-        QPoint(screen->geometry().x() + (w - proxyMenu->boundingRect().width()) / 2, screen->geometry().y() + 100)));
+    auto screen = QApplication::primaryScreen();
+    int w = screen->geometry().width();
+    proxyMenu->setPos(views()[0]->mapToScene(
+    QPoint(screen->geometry().x() + (w - proxyMenu->boundingRect().width()) / 2, screen->geometry().y() + 100)));
 }
 
 QGraphicsItem *CropScene::whichItem(QPointF scenePos) {
