@@ -333,7 +333,7 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
     if (drawingSelection) {
         drawingSelection->mouseDragEndEvent(e, this);
         setDrawingSelection(drawingName, drawingSelectionMaker);
-    } else if (settings::settings().value("quickMode", false).toBool())
+    } else if (settings::settings().value("quickMode", false).toBool() && !proxyMenu->sceneBoundingRect().contains(e->scenePos()))
         done(true);
     prevButtons = Qt::NoButton;
 
