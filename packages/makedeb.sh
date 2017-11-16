@@ -4,7 +4,7 @@ then
 	echo "Provide a version with arg1" >&2
 	exit 1
 fi
-[[ ! -d work ]] && cp deb work -r
+cp deb work -r
 sed "s/%ver/$1/g" deb/DEBIAN/control > work/DEBIAN/control
 mkdir -p work/usr/bin
 mkdir compiling
@@ -20,7 +20,7 @@ else
 	exit 2
 fi
 cd work
-md5sum usr/bin/kshare > DEBIAN/md5sums
+md5sum usr/bin/kshare usr/share/applications/KShare.desktop > DEBIAN/md5sums
 cd ..
 dpkg-deb -b work/
 rm -rf work
