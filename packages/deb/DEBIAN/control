@@ -4,6 +4,6 @@ Architecture: all
 Essential: no
 Section: contrib
 Priority: optional
-Depends: qt5-default (>=5.7.0), libqt5svg5-dev (>=5.7.0), libqt5x11extras5 (>=5.7.0), libavcodec57 (>=3.2.0), libavformat57 (>=3.2.0), libswscale4 (>=3.2.0), libavutil55 (>=3.2.0), libxcb-cursor0 (>=0.1.0), libxcb1 (>=1.11.0), libxcb-xfixes0 (>=1.11.0), libxcb-util0 (>=0.3.8), libxcb-xfixes0 (>=1.11.0)
+Depends: qt5-default (>=5.7.0), libqt5svg5-dev (>=5.7.0), libqt5x11extras5 (>=5.7.0), libavcodec57 (>=3.2.0), libavformat57 (>=3.2.0), libswscale4 (>=3.2.0), libavutil55 (>=3.2.0), libxcb-cursor0 (>=0.1.0), libxcb1 (>=1.11.0), libxcb-xfixes0 (>=1.11.0), libxcb-util0 (>=0.3.8)|libxcb-util1 (>=0.3.8), libxcb-xfixes0 (>=1.11.0)
 Maintainer: ArsenArsen <arsenarsentmc@outlook.com>
 Description: The free open source and cross platform screen sharing software
