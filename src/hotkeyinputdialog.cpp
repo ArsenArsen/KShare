@@ -35,4 +35,6 @@ void HotkeyInputDialog::keyPressEvent(QKeyEvent *e) {
 void HotkeyInputDialog::on_recordButton_clicked() {
     recording = !recording;
     ui->recordButton->setText(recording ? tr("Stop recording") : tr("Record"));
+    if (recording) grabKeyboard();
+    else releaseKeyboard();
 }
