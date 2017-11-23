@@ -43,7 +43,7 @@ ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
 
     activateWindow();
     setGeometry(pixmap.rect());
-    QPoint p = screenshotutil::smallestScreenCoordinate()
+    QPoint p = utils::smallestScreenCoordinate()
                + QPoint(settings::settings().value("cropx", 0).toInt(), settings::settings().value("cropy", 0).toInt());
     move(p.x(), p.y());
 }

@@ -5,10 +5,10 @@
 #include <iostream>
 #include <mainwindow.hpp>
 #include <screenareaselector/screenareaselector.hpp>
-#include <screenshotutil.hpp>
 #include <settings.hpp>
 #include <stdio.h>
 #include <uploaders/uploadersingleton.hpp>
+#include <utils.hpp>
 #include <worker/worker.hpp>
 
 RecordingController::RecordingController() : timer(this) {
@@ -102,8 +102,8 @@ void RecordingController::timeout() {
         time++;
         int localTime = time * timer.interval() - 3000;
         if (localTime > 0) {
-            QPixmap pp = screenshotutil::fullscreenArea(settings::settings().value("captureCursor", true).toBool(),
-                                                        area.x(), area.y(), area.width(), area.height());
+            QPixmap pp = utils::fullscreenArea(settings::settings().value("captureCursor", true).toBool(), area.x(),
+                                               area.y(), area.width(), area.height());
             WorkerContext *context = new WorkerContext;
             context->consumer = _context->consumer;
             context->targetFormat = _context->format;

@@ -1,20 +1,20 @@
 #include "screenshotter.hpp"
 #include "cropeditor/cropeditor.hpp"
 #include "mainwindow.hpp"
-#include "screenshotutil.hpp"
 #include "uploaders/uploadersingleton.hpp"
+#include "utils.hpp"
 #include <QDoubleSpinBox>
 #include <QTimer>
 #include <platformbackend.hpp>
 #include <settings.hpp>
 
 void screenshotter::area() {
-    CropEditor *editor = new CropEditor(screenshotutil::fullscreen(settings::settings().value("captureCursor", true).toBool()));
+    CropEditor *editor = new CropEditor(utils::fullscreen(settings::settings().value("captureCursor", true).toBool()));
     QObject::connect(editor, &CropEditor::cropped, [&](QPixmap pixmap) { UploaderSingleton::inst().upload(pixmap); });
 }
 
 void screenshotter::fullscreen() {
-    UploaderSingleton::inst().upload(screenshotutil::fullscreen(settings::settings().value("captureCursor", true).toBool()));
+    UploaderSingleton::inst().upload(utils::fullscreen(settings::settings().value("captureCursor", true).toBool()));
 }
 
 void screenshotter::areaDelayed() {
@@ -31,6 +31,6 @@ void screenshotter::activeDelayed() {
 
 void screenshotter::active() {
 #ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
-    UploaderSingleton::inst().upload(screenshotutil::window(PlatformBackend::inst().getActiveWID()));
+    UploaderSingleton::inst().upload(utils::window(PlatformBackend::inst().getActiveWID()));
 #endif
 }

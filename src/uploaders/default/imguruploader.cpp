@@ -8,8 +8,8 @@
 #include <formats.hpp>
 #include <io/ioutils.hpp>
 #include <notifications.hpp>
-#include <screenshotutil.hpp>
 #include <settings.hpp>
+#include <utils.hpp>
 
 struct SegfaultWorkaround { // I'm a scrub for doing this
     SegfaultWorkaround(QByteArray a, ImgurUploader *u, QString m) : byteArray(), dis(u), mime(m) {
@@ -49,7 +49,7 @@ private:
     QByteArray byteArray;
     ImgurUploader *dis;
     QString mime;
-};
+}; // I feel terrible for making this. I am sorry, reader
 
 void ImgurUploader::doUpload(QByteArray byteArray, QString format) {
     if (byteArray.size() > 1e+7) {
@@ -88,7 +88,7 @@ void ImgurUploader::handleSend(QString auth, QString mime, QByteArray byteArray)
                               return;
                           }
                           if (!result.isEmpty()) {
-                              screenshotutil::toClipboard(result);
+                              utils::toClipboard(result);
                               notifications::notify(tr("KShare imgur Uploader"), tr("Uploaded to imgur!"));
                           } else {
                               notifications::notify(tr("KShare imgur Uploader "),

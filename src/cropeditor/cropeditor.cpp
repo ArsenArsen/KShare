@@ -7,8 +7,8 @@
 #include <QGraphicsView>
 #include <QScreen>
 #include <QTimer>
-#include <screenshotutil.hpp>
 #include <settings.hpp>
+#include <utils.hpp>
 
 CropEditor::CropEditor(QPixmap image, QObject *parent) : QObject(parent) {
     scene = new CropScene(parent, image);
@@ -24,7 +24,7 @@ CropEditor::CropEditor(QPixmap image, QObject *parent) : QObject(parent) {
     scene->setSceneRect(image.rect());
     view->resize(image.width(), image.height());
     view->setMinimumSize(image.size());
-    QPoint p = screenshotutil::smallestScreenCoordinate()
+    QPoint p = utils::smallestScreenCoordinate()
                + QPoint(settings::settings().value("cropx", 0).toInt(), settings::settings().value("cropy", 0).toInt());
     view->move(p.x(), p.y());
     view->setWindowTitle(tr("KShare Crop Editor"));

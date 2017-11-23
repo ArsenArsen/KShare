@@ -30,7 +30,7 @@ SOURCES += main.cpp\
     cropeditor/cropscene.cpp \
     uploaders/uploadersingleton.cpp \
     screenshotter.cpp \
-    screenshotutil.cpp \
+    utils.cpp \
     uploaders/default/imguruploader.cpp \
     io/ioutils.cpp \
     settings.cpp \
@@ -77,7 +77,7 @@ HEADERS  += mainwindow.hpp \
     uploaders/uploader.hpp \
     uploaders/uploadersingleton.hpp \
     screenshotter.hpp \
-    screenshotutil.hpp \
+    utils.hpp \
     uploaders/default/imguruploader.hpp \
     io/ioutils.hpp \
     settings.hpp \

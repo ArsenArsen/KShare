@@ -1,3 +1,4 @@
+// vim: set sw=4 tw=4 :
 #include "cropscene.hpp"
 #include "selectionrectangle.hpp"
 #include <QApplication>
@@ -228,8 +229,8 @@ void CropScene::setVisible(bool visible) {
         view->setVisible(visible);
         if (visible) {
             if (QApplication::screens().size() == 1) view->showFullScreen();
-            QPoint p = screenshotutil::smallestScreenCoordinate() + QPoint(settings::settings().value("cropx", 0).toInt(),
-                                                                           settings::settings().value("cropy", 0).toInt());
+            QPoint p = utils::smallestScreenCoordinate() + QPoint(settings::settings().value("cropx", 0).toInt(),
+                                                                  settings::settings().value("cropy", 0).toInt());
             view->move(p.x(), p.y());
             view->setWindowTitle(tr("KShare Crop Editor"));
             view->activateWindow();
@@ -389,16 +390,6 @@ void CropScene::keyReleaseEvent(QKeyEvent *event) {
     if (!(event->modifiers() & Qt::ControlModifier)) QGraphicsScene::keyReleaseEvent(event);
 }
 
-QPixmap extend(QPixmap img, QColor hl) {
-    QPixmap newImg(img.width() + 42, img.height() + 42);
-    QColor filler(255 - hl.red(), 255 - hl.green(), 255 - hl.blue());
-    newImg.fill(filler);
-    QPainter ptr(&newImg);
-    ptr.drawPixmap(21, 21, img);
-    ptr.end();
-    return newImg;
-}
-
 void CropScene::updateMag() {
     QString rectStr("(-1, -1, 0, 0)");
     if (rect) {
@@ -414,7 +405,9 @@ void CropScene::updateMag() {
     QPointF magnifierPos = cursorPos + QPointF(5, 5);
 
     magnifier->setPos(magnifierPos);
-    magnifier->setPixmap(extend(_pixmap, highlight()).copy(magnifierTopLeft.x() + 22, magnifierTopLeft.y() + 22, pixCnt, pixCnt).scaled(110, 110));
+    magnifier->setPixmap(utils::extend(_pixmap, pixCnt, utils::invertColor(highlight()))
+                         .copy(magnifierTopLeft.x() + pixCnt, magnifierTopLeft.y() + pixCnt, pixCnt, pixCnt)
+                         .scaled(110, 110));
     QPointF bottomRight = magnifierHintBox->sceneBoundingRect().bottomRight();
     if (magnifier->sceneBoundingRect().bottom() > bottomRight.y())
         bottomRight.setY(magnifier->sceneBoundingRect().bottom());

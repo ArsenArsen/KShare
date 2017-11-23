@@ -1,5 +1,4 @@
 #include "mainwindow.hpp"
-#include "screenshotutil.hpp"
 #include "ui_mainwindow.h"
 #include <QApplication>
 #include <QCommandLineParser>

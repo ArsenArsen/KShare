@@ -1,9 +1,9 @@
 #include "mainwindow.hpp"
 #include "aboutbox.hpp"
 #include "screenshotter.hpp"
-#include "screenshotutil.hpp"
 #include "settingsdialog.hpp"
 #include "ui_mainwindow.h"
+#include "utils.hpp"
 #include <QDebug>
 #include <QMessageBox>
 #include <QShortcut>

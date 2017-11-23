@@ -8,7 +8,7 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include <screenoverlayview.hpp>
-#include <screenshotutil.hpp>
+#include <utils.hpp>
 
 class ColorPickerScene : public QGraphicsScene, public ScreenOverlayView {
     Q_DECLARE_TR_FUNCTIONS(ColorPickerScene)
@@ -18,7 +18,7 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *) override;
     static void showPicker() {
-        new ColorPickerScene(screenshotutil::fullscreen());
+        new ColorPickerScene(utils::fullscreen());
     }
 
 private:

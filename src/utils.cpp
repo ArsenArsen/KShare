@@ -1,4 +1,4 @@
-#include "screenshotutil.hpp"
+#include "utils.hpp"
 
 #include <QApplication>
 #include <QClipboard>
@@ -8,7 +8,21 @@
 #include <QScreen>
 #include <platformbackend.hpp>
 
-QPixmap screenshotutil::fullscreen(bool cursor) {
+
+QColor utils::invertColor(QColor color) {
+    return QColor(255 - color.red(), 255 - color.green(), 255 - color.blue());
+}
+
+QPixmap utils::extend(QPixmap img, int extraSize, QColor hl) {
+    QPixmap newImg(img.width() + extraSize * 2, img.height() + extraSize * 2);
+    newImg.fill(hl);
+    QPainter ptr(&newImg);
+    ptr.drawPixmap(extraSize, extraSize, img);
+    ptr.end();
+    return newImg;
+}
+
+QPixmap utils::fullscreen(bool cursor) {
     QPixmap image;
     QPainter painter;
     QPoint smallestCoordinate = smallestScreenCoordinate();
@@ -54,19 +68,19 @@ QPixmap screenshotutil::fullscreen(bool cursor) {
     return image;
 }
 
-QPixmap screenshotutil::window(WId wid, QScreen *w) {
+QPixmap utils::window(WId wid, QScreen *w) {
     return w->grabWindow(wid);
 }
 
-void screenshotutil::toClipboard(QString value) {
+void utils::toClipboard(QString value) {
     QApplication::clipboard()->setText(value);
 }
 
-QPixmap screenshotutil::fullscreenArea(bool cursor, qreal x, qreal y, qreal w, qreal h) {
+QPixmap utils::fullscreenArea(bool cursor, qreal x, qreal y, qreal w, qreal h) {
     return fullscreen(cursor).copy(x, y, w, h);
 }
 
-QPoint screenshotutil::smallestScreenCoordinate() {
+QPoint utils::smallestScreenCoordinate() {
     QPoint smallestCoordinate;
     for (QScreen *screen : QApplication::screens()) {
         smallestCoordinate.rx() = qMin(smallestCoordinate.x(), screen->geometry().left());
@@ -75,7 +89,7 @@ QPoint screenshotutil::smallestScreenCoordinate() {
     return smallestCoordinate;
 }
 
-QPixmap screenshotutil::renderText(QString toRender, int padding, QColor background, QColor pen, QFont font) {
+QPixmap utils::renderText(QString toRender, int padding, QColor background, QColor pen, QFont font) {
     QFontMetrics metric(font);
     QStringList lines = toRender.replace("\r", "").split('\n');
     QSize resultingSize(0, padding * 2);
