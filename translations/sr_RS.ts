@@ -246,74 +246,73 @@
 <context>
     <name>CropScene</name>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="40"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="41"/>
         <source>Free draw</source>
         <translation>Crtanje</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="41"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="42"/>
         <source>Blur</source>
         <translation>Mućenje slike</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="42"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="43"/>
         <source>Straight line</source>
         <translation>Prava Linija</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="43"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="44"/>
         <source>Text</source>
         <translation>Tekst</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="44"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="45"/>
         <source>Rectangle</source>
         <translation>Pravougaonik</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="45"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="46"/>
         <source>Ellipse</source>
         <translation>Krug i Elipsa</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="46"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="47"/>
         <source>Arrow</source>
         <translation>Strela</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="49"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="50"/>
         <source>Eraser</source>
         <translation>Brisač</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="51"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="52"/>
         <source>Clear all drawing</source>
         <translation>Očisti sliku</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="65"/>
-        <location filename="../src/cropeditor/cropscene.cpp" line="197"/>
-        <location filename="../src/cropeditor/cropscene.cpp" line="329"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="66"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="203"/>
         <source>None</source>
         <translation>Ništa</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="69"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="70"/>
         <source>Settings</source>
         <translation>Podešavanja</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="87"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="88"/>
         <source>Confirm</source>
         <translation>Potvrdi</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="93"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="94"/>
         <source>Cancel</source>
         <translation>Otkaži</translation>
     </message>
     <message>
-        <location filename="../src/cropeditor/cropscene.cpp" line="224"/>
+        <location filename="../src/cropeditor/cropscene.cpp" line="235"/>
         <source>KShare Crop Editor</source>
         <translation>KShare Urednik Slika</translation>
     </message>
@@ -773,32 +772,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/mainwindow.ui" line="127"/>
         <source>&amp;Start</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Započni</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="132"/>
         <source>St&amp;op</source>
-        <translation type="unfinished"></translation>
+        <translation>Zau&amp;stavi</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="137"/>
         <source>&amp;Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Podešavanja</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="142"/>
         <source>&amp;About</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;O Programu</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="147"/>
         <source>Active &amp;window</source>
-        <translation type="unfinished"></translation>
+        <translation>Tre&amp;nutni prozor</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="152"/>
         <source>&amp;Abort</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Obustavi</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="26"/>
@@ -1040,12 +1039,12 @@ Stop dugme: %3</translation>
     <message>
         <location filename="../src/settingsdialog.ui" line="212"/>
         <source>FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>FPS</translation>
     </message>
     <message>
         <location filename="../src/settingsdialog.ui" line="222"/>
         <source>Frames Per Second For Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Slika po sekundi za snjimanje</translation>
     </message>
     <message>
         <location filename="../src/settingsdialog.cpp" line="55"/>
