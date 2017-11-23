@@ -179,6 +179,7 @@ void CropScene::setHighlight(QColor highlight) {
     QColor c = highlight;
     c.setAlphaF(.4);
     magnifierHintBox->setBrush(c);
+    magnifierBox->setPen(c);
     if (grid()) setGrid(true);
     if (rect) rect->setPen(highlight);
     int i = settings::settings().value("magnifierPixelCount", 11).toInt() / 2;
@@ -388,6 +389,16 @@ void CropScene::keyReleaseEvent(QKeyEvent *event) {
     if (!(event->modifiers() & Qt::ControlModifier)) QGraphicsScene::keyReleaseEvent(event);
 }
 
+QPixmap extend(QPixmap img, QColor hl) {
+    QPixmap newImg(img.width() + 42, img.height() + 42);
+    QColor filler(255 - hl.red(), 255 - hl.green(), 255 - hl.blue());
+    newImg.fill(filler);
+    QPainter ptr(&newImg);
+    ptr.drawPixmap(21, 21, img);
+    ptr.end();
+    return newImg;
+}
+
 void CropScene::updateMag() {
     QString rectStr("(-1, -1, 0, 0)");
     if (rect) {
@@ -403,7 +414,7 @@ void CropScene::updateMag() {
     QPointF magnifierPos = cursorPos + QPointF(5, 5);
 
     magnifier->setPos(magnifierPos);
-    magnifier->setPixmap(_pixmap.copy(magnifierTopLeft.x(), magnifierTopLeft.y(), pixCnt, pixCnt).scaled(110, 110));
+    magnifier->setPixmap(extend(_pixmap, highlight()).copy(magnifierTopLeft.x() + 22, magnifierTopLeft.y() + 22, pixCnt, pixCnt).scaled(110, 110));
     QPointF bottomRight = magnifierHintBox->sceneBoundingRect().bottomRight();
     if (magnifier->sceneBoundingRect().bottom() > bottomRight.y())
         bottomRight.setY(magnifier->sceneBoundingRect().bottom());
