@@ -20,11 +20,8 @@ ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
     ScreenOverlay::show();
 }
 
-void ColorPickerScene::mouseMoved(QGraphicsSceneMouseEvent *, QPointF cursorPos, QPointF) {
-    color = image.pixelColor(cursorPos.toPoint());
-}
-
 void ColorPickerScene::keyPressEvent(QKeyEvent *event) {
+    color = image.pixelColor(cursorPos().toPoint());
     if (event->key() == Qt::Key_Return) {
         QApplication::clipboard()->setText(color.name());
         qInfo().noquote() << tr("Copied hex code to clipboard.");
@@ -33,11 +30,13 @@ void ColorPickerScene::keyPressEvent(QKeyEvent *event) {
 }
 
 void ColorPickerScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *) {
+    color = image.pixelColor(cursorPos().toPoint());
     QApplication::clipboard()->setText(color.name());
     close();
     qInfo().noquote() << tr("Copied hex code to clipboard.");
 }
 
 QString ColorPickerScene::generateHint() {
+    color = image.pixelColor(cursorPos().toPoint());
     return color.name();
 }

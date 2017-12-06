@@ -17,13 +17,12 @@ public:
     ColorPickerScene(QPixmap pixmap, QWidget *parent = nullptr);
     void keyPressEvent(QKeyEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *) override;
-    QString generateHint() override;
     static void showPicker() {
         new ColorPickerScene(utils::fullscreen());
     }
 
 protected:
-    void mouseMoved(QGraphicsSceneMouseEvent *, QPointF cursorPos, QPointF) override;
+    QString generateHint() override;
 
 private:
     QImage image;
