@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>442</width>
-    <height>550</height>
+    <height>493</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -17,157 +17,7 @@
    <string notr="true">Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Pen settings</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="0">
-       <widget class="QSlider" name="widthSlider">
-        <property name="maximum">
-         <number>2500</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="2">
-       <widget class="QPushButton" name="penColor">
-        <property name="text">
-         <string>Choose pen color</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QCheckBox" name="cosmetic">
-        <property name="text">
-         <string>Cosmetic</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Width</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Pen alpha</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="widthSpinner"/>
-      </item>
-      <item row="6" column="0">
-       <widget class="QSlider" name="penAlphaSlider">
-        <property name="maximum">
-         <number>255</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QSpinBox" name="penAlphaSpin">
-        <property name="maximum">
-         <number>255</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-     <property name="centerButtons">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" rowspan="3">
-    <widget class="QGroupBox" name="groupBox_3">
-     <property name="title">
-      <string>Blur settings</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="1" column="0" colspan="2">
-       <widget class="QSlider" name="radSlider">
-        <property name="maximum">
-         <number>3000</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" colspan="3">
-       <widget class="QCheckBox" name="performance">
-        <property name="text">
-         <string>Performance Hint</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="3">
-       <widget class="QCheckBox" name="animated">
-        <property name="text">
-         <string>Animated Hint</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QCheckBox" name="quality">
-        <property name="text">
-         <string>Quality Hint</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QLabel" name="label_2">
-        <property name="whatsThis">
-         <string notr="true">http://doc.qt.io/qt-5/qgraphicsblureffect.html#BlurHint-enum</string>
-        </property>
-        <property name="text">
-         <string>&lt;a href=&quot;http://doc.qt.io/qt-5/qgraphicsblureffect.html#BlurHint-enum&quot;&gt;Blur Hints</string>
-        </property>
-        <property name="openExternalLinks">
-         <bool>true</bool>
-        </property>
-        <property name="textInteractionFlags">
-         <set>Qt::TextBrowserInteraction</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="3">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Blur Radius</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QDoubleSpinBox" name="radSpinner">
-        <property name="suffix">
-         <string notr="true">px</string>
-        </property>
-        <property name="maximum">
-         <double>30.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="0" rowspan="5">
+   <item row="1" column="0" rowspan="4">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Brush settings</string>
@@ -293,7 +143,84 @@
      </layout>
     </widget>
    </item>
-   <item row="4" column="1" rowspan="2">
+   <item row="5" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Pen settings</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="0">
+       <widget class="QSlider" name="widthSlider">
+        <property name="maximum">
+         <number>2500</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QPushButton" name="penColor">
+        <property name="text">
+         <string>Choose pen color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="cosmetic">
+        <property name="text">
+         <string>Cosmetic</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Width</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Pen alpha</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="widthSpinner"/>
+      </item>
+      <item row="6" column="0">
+       <widget class="QSlider" name="penAlphaSlider">
+        <property name="maximum">
+         <number>255</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QSpinBox" name="penAlphaSpin">
+        <property name="maximum">
+         <number>255</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="1" rowspan="2">
     <widget class="QGroupBox" name="groupBox_4">
      <property name="title">
       <string>Arrow settings</string>
@@ -329,23 +256,73 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="QGroupBox" name="groupBox_5">
+   <item row="0" column="1" rowspan="3">
+    <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
-      <string>Other editor settings</string>
+      <string>Blur settings</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_6">
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="gridBox">
-        <property name="text">
-         <string>Enable grid</string>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="1" column="0" colspan="2">
+       <widget class="QSlider" name="radSlider">
+        <property name="maximum">
+         <number>3000</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="highlightColor">
+      <item row="3" column="0" colspan="3">
+       <widget class="QCheckBox" name="performance">
         <property name="text">
-         <string>Highligh color</string>
+         <string>Performance Hint</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="3">
+       <widget class="QCheckBox" name="animated">
+        <property name="text">
+         <string>Animated Hint</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QCheckBox" name="quality">
+        <property name="text">
+         <string>Quality Hint</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QLabel" name="label_2">
+        <property name="whatsThis">
+         <string notr="true">http://doc.qt.io/qt-5/qgraphicsblureffect.html#BlurHint-enum</string>
+        </property>
+        <property name="text">
+         <string>&lt;a href=&quot;http://doc.qt.io/qt-5/qgraphicsblureffect.html#BlurHint-enum&quot;&gt;Blur Hints</string>
+        </property>
+        <property name="openExternalLinks">
+         <bool>true</bool>
+        </property>
+        <property name="textInteractionFlags">
+         <set>Qt::TextBrowserInteraction</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Blur Radius</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QDoubleSpinBox" name="radSpinner">
+        <property name="suffix">
+         <string notr="true">px</string>
+        </property>
+        <property name="maximum">
+         <double>30.000000000000000</double>
         </property>
        </widget>
       </item>

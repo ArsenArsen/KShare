@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QPixmap>
 #include <QWidget>
+#include <QScreen>
 
 namespace utils {
     QColor invertColor(QColor color);

@@ -4,21 +4,21 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 
 class ScreenOverlay : public QGraphicsScene {
     Q_OBJECT
 public:
+    enum MovementPattern { MP_JKL, MP_HJKL, MP_ARROWS };
     explicit ScreenOverlay(QPixmap pixmap, QObject *parent = 0);
 
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
-    void wheelEvent(QGraphicsSceneWheelEvent *e) override;
-
-    virtual void mouseMoved(QGraphicsSceneMouseEvent *, QPointF, QPointF) {
+    void moveMouse(QPoint newPoint);
+    void moveMouseBy(QPoint delta);
+    MovementPattern movementPattern() {
+        return _movementPattern;
     }
-    virtual void highlightChanged(QColor) {
-    }
-    virtual QString generateHint() {
-        return QString();
+    void setMovementPattern(MovementPattern nmp) {
+        _movementPattern = nmp;
     }
 
     QPixmap &pixmap() {
@@ -52,7 +52,25 @@ public:
         return _cursorPos;
     }
     void setCursorPos(QPointF cursorPos) {
+        if (!pixmap().rect().contains(cursorPos.toPoint())) return;
         _cursorPos = cursorPos;
+    }
+    void showSettings();
+    void hide();
+    void show();
+    void loadSettings();
+
+protected:
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
+    void wheelEvent(QGraphicsSceneWheelEvent *e) override;
+    void keyPressEvent(QKeyEvent *e) override;
+
+    virtual void mouseMoved(QGraphicsSceneMouseEvent *, QPointF, QPointF) {
+    }
+    virtual void highlightChanged(QColor) {
+    }
+    virtual QString generateHint() {
+        return QString();
     }
 
 private:
@@ -67,6 +85,7 @@ private:
     QColor _highlight = Qt::cyan;
     bool _grid = true;
     QPixmap _pixmap;
+    MovementPattern _movementPattern = MP_ARROWS;
 };
 
 #endif /* SCREENOVERLAY_HPP */

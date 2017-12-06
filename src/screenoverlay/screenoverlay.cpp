@@ -1,8 +1,11 @@
 #include "screenoverlay.hpp"
 
+#include "screenoverlaysettings.hpp"
+#include <QApplication>
 #include <QCursor>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
+#include <QKeyEvent>
 #include <settings.hpp>
 #include <utils.hpp>
 
@@ -34,6 +37,7 @@ ScreenOverlay::ScreenOverlay(QPixmap pixmap, QObject *parent) : QGraphicsScene(p
     magnifierHintBox->setZValue(199);
     magnifierHint->setZValue(199);
     updateMag();
+    loadSettings();
 }
 
 void ScreenOverlay::wheelEvent(QGraphicsSceneWheelEvent *e) {
@@ -59,13 +63,25 @@ void ScreenOverlay::wheelEvent(QGraphicsSceneWheelEvent *e) {
 void ScreenOverlay::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
     QPointF delta = e->scenePos() - cursorPos();
     if (e->modifiers() & Qt::ShiftModifier) {
-        _cursorPos += delta / 2;
+        setCursorPos(cursorPos() + (delta / 2));
         QCursor::setPos(views()[0]->mapToGlobal(cursorPos().toPoint()));
     } else
         setCursorPos(e->scenePos());
     cursorItem->setPos(cursorPos());
     updateMag();
     mouseMoved(e, cursorPos(), delta);
+}
+
+void ScreenOverlay::moveMouse(QPoint newPos) {
+    QMouseEvent eve(QEvent::MouseMove, newPos, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    for (auto &v : views()) {
+        QCursor::setPos(v->mapToGlobal(newPos));
+        QApplication::sendEvent(v->viewport(), &eve);
+    }
+}
+
+void ScreenOverlay::moveMouseBy(QPoint delta) {
+    moveMouse(cursorPos().toPoint() + delta);
 }
 
 void ScreenOverlay::hideMag() {
@@ -143,4 +159,66 @@ void ScreenOverlay::setHighlight(QColor highlight) {
     gridRectsX[i]->setBrush(c);
     gridRectsY[i]->setBrush(c);
     highlightChanged(highlight);
+}
+
+void ScreenOverlay::keyPressEvent(QKeyEvent *e) {
+    switch (movementPattern()) {
+    case MP_JKL:
+        if (e->key() == Qt::Key_J)
+            moveMouseBy(QPoint(-1, 0));
+        else if (e->key() == Qt::Key_K)
+            moveMouseBy(QPoint(0, 1));
+        else if (e->key() == Qt::Key_L)
+            moveMouseBy(QPoint(0, -1));
+        else if (e->key() == Qt::Key_Semicolon)
+            moveMouseBy(QPoint(1, 0));
+        break;
+    case MP_HJKL:
+        if (e->key() == Qt::Key_H)
+            moveMouseBy(QPoint(-1, 0));
+        else if (e->key() == Qt::Key_J)
+            moveMouseBy(QPoint(0, 1));
+        else if (e->key() == Qt::Key_K)
+            moveMouseBy(QPoint(0, -1));
+        else if (e->key() == Qt::Key_L)
+            moveMouseBy(QPoint(1, 0));
+        break;
+    case MP_ARROWS:
+        if (e->key() == Qt::Key_Left)
+            moveMouseBy(QPoint(-1, 0));
+        else if (e->key() == Qt::Key_Down)
+            moveMouseBy(QPoint(0, 1));
+        else if (e->key() == Qt::Key_Up)
+            moveMouseBy(QPoint(0, -1));
+        else if (e->key() == Qt::Key_Right)
+            moveMouseBy(QPoint(1, 0));
+        break;
+    }
+}
+
+void ScreenOverlay::hide() {
+    for (auto &v : views()) {
+        v->hide();
+    }
+}
+
+void ScreenOverlay::show() {
+    for (auto &v : views()) {
+        if (QApplication::screens().size() > 1)
+            v->show();
+        else
+            v->showFullScreen();
+    }
+}
+
+void ScreenOverlay::showSettings() {
+    hide();
+    ScreenOverlaySettings(this).exec();
+    show();
+}
+
+void ScreenOverlay::loadSettings() {
+    setHighlight(settings::settings().value("highlightColor", QColor(Qt::cyan)).value<QColor>());
+    setMovementPattern(settings::settings().value("movementPattern", MP_HJKL).value<MovementPattern>());
+    setGrid(settings::settings().value("gridEnabled", true).toBool());
 }

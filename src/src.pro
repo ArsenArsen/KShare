@@ -67,9 +67,10 @@ SOURCES += main.cpp\
     logs/requestlogging.cpp \
     logs/historydialog.cpp \
     monospacetextdialog.cpp \
-    screenoverlayview.cpp \
     cropeditor/selectionrectangle.cpp \
-    screenoverlay.cpp
+    screenoverlay/screenoverlayview.cpp \
+    screenoverlay/screenoverlay.cpp \
+    screenoverlay/screenoverlaysettings.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -116,11 +117,11 @@ HEADERS  += mainwindow.hpp \
     filenamevalidator.hpp \
     logs/requestlogging.hpp \
     logs/historydialog.hpp \
-    screenoverlayview.hpp \
-    screenoverlayview.hpp \
     monospacetextdialog.hpp \
     cropeditor/selectionrectangle.hpp \
-    screenoverlay.hpp
+    screenoverlay/screenoverlayview.hpp \
+    screenoverlay/screenoverlay.hpp \
+    screenoverlay/screenoverlaysettings.hpp
 
 nopkg {
 #    win32 {
@@ -181,7 +182,8 @@ FORMS    += mainwindow.ui \
     hotkeyinputdialog.ui \
     uploaders/default/imgursettingsdialog.ui \
     logs/historydialog.ui \
-    monospacetextdialog.ui
+    monospacetextdialog.ui \
+    screenoverlay/screenoverlaysettings.ui
 
 RESOURCES += \
     icon.qrc \

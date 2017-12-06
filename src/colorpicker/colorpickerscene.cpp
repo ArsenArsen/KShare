@@ -6,7 +6,7 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsTextItem>
 #include <QTimer>
-#include <screenoverlayview.hpp>
+#include <screenoverlay/screenoverlayview.hpp>
 #include <settings.hpp>
 
 ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
@@ -17,23 +17,11 @@ ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
 
     activateWindow();
     setGeometry(pixmap.rect());
-    QPoint p = utils::smallestScreenCoordinate()
-               + QPoint(settings::settings().value("cropx", 0).toInt(), settings::settings().value("cropy", 0).toInt());
-    move(p.x(), p.y());
-    if (QApplication::screens().size() == 1)
-        showFullScreen();
-    else
-        show();
+    ScreenOverlay::show();
 }
 
-void ColorPickerScene::mouseMoved(QGraphicsSceneMouseEvent *event, QPointF cursor, QPointF delta) {
-    color = image.pixelColor(cursorPos().toPoint());
-    qreal bottom = rect().bottom(); // max y
-    qreal right = rect().right();   // max x
-
-    QPointF origPoint = cursorPos() + QPoint(25, 0);
-    QPointF scopePoint = cursorPos();
-    QPointF resPoint = origPoint;
+void ColorPickerScene::mouseMoved(QGraphicsSceneMouseEvent *, QPointF cursorPos, QPointF) {
+    color = image.pixelColor(cursorPos.toPoint());
 }
 
 void ColorPickerScene::keyPressEvent(QKeyEvent *event) {

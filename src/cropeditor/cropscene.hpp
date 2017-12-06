@@ -1,7 +1,6 @@
 #ifndef CROPSCENE_HPP
 #define CROPSCENE_HPP
 
-#include "../screenoverlay.hpp"
 #include <QFont>
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -11,7 +10,8 @@
 #include <QMenuBar>
 #include <cropeditor/selectionrectangle.hpp>
 #include <functional>
-#include <screenoverlayview.hpp>
+#include <screenoverlay/screenoverlay.hpp>
+#include <screenoverlay/screenoverlayview.hpp>
 #include <utils.hpp>
 class CropScene;
 
@@ -33,8 +33,6 @@ public:
         return rect;
     }
     QGraphicsItem *whichItem(QPointF scenePos);
-    void hide();
-    void show();
     void setVisible(bool visible);
 
 public slots:

@@ -13,10 +13,6 @@
 CropEditor::CropEditor(QPixmap image, QObject *parent) : QObject(parent) {
     scene = new CropScene(parent, image);
     view = new CropView(scene);
-    if (QApplication::screens().size() > 1)
-        view->show();
-    else
-        view->showFullScreen();
     view->raise();
     QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(image);
     pixmapItem->setZValue(-1);
@@ -29,7 +25,7 @@ CropEditor::CropEditor(QPixmap image, QObject *parent) : QObject(parent) {
     view->move(p.x(), p.y());
     view->setWindowTitle(tr("KShare Crop Editor"));
     view->activateWindow();
-
+    scene->show();
     connect(scene, &CropScene::closedWithRect, this, &CropEditor::crop);
 }
 

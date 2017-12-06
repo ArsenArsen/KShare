@@ -167,28 +167,6 @@ QGraphicsItem *CropScene::whichItem(QPointF scenePos) {
     return nullptr;
 }
 
-void CropScene::hide() {
-    setVisible(false);
-}
-
-void CropScene::show() {
-    setVisible(true);
-}
-
-void CropScene::setVisible(bool visible) {
-    for (auto view : views()) {
-        view->setVisible(visible);
-        if (visible) {
-            if (QApplication::screens().size() == 1) view->showFullScreen();
-            QPoint p = utils::smallestScreenCoordinate() + QPoint(settings::settings().value("cropx", 0).toInt(),
-                                                                  settings::settings().value("cropy", 0).toInt());
-            view->move(p.x(), p.y());
-            view->setWindowTitle(tr("KShare Crop Editor"));
-            view->activateWindow();
-        }
-    }
-}
-
 void CropScene::fontAsk() {
     hide();
     bool ok = false;
@@ -348,7 +326,10 @@ QString CropScene::generateHint() {
     QString rectStr("(-1, -1, 0, 0)");
     if (rect) {
         rectStr = "(%0, %1, %2, %3)";
-        rectStr = rectStr.arg(rect->rect().x()).arg(rect->rect().y()).arg(rect->rect().width()).arg(rect->rect().height());
+        rectStr = rectStr.arg(qRound(rect->rect().x()))
+                  .arg(qRound(rect->rect().y()))
+                  .arg(qRound(rect->rect().width()))
+                  .arg(qRound(rect->rect().height()));
     }
     return QString("ptr: (%0, %1)\nsel: %2").arg(qRound(cursorPos().x())).arg(qRound(cursorPos().y())).arg(rectStr);
 }
