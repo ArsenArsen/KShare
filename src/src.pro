@@ -68,7 +68,8 @@ SOURCES += main.cpp\
     logs/historydialog.cpp \
     monospacetextdialog.cpp \
     screenoverlayview.cpp \
-    cropeditor/selectionrectangle.cpp
+    cropeditor/selectionrectangle.cpp \
+    screenoverlay.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -118,7 +119,8 @@ HEADERS  += mainwindow.hpp \
     screenoverlayview.hpp \
     screenoverlayview.hpp \
     monospacetextdialog.hpp \
-    cropeditor/selectionrectangle.hpp
+    cropeditor/selectionrectangle.hpp \
+    screenoverlay.hpp
 
 nopkg {
 #    win32 {

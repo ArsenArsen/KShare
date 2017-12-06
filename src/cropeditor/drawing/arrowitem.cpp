@@ -4,7 +4,7 @@
 
 void ArrowItem::mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) {
     if (init.isNull()) {
-        init = scene->cursorPosition();
+        init = scene->cursorPos();
         line = scene->addLine(QLineF(init, init), scene->pen());
         QPainterPath poly;
         qreal w = settings::settings().value("arrow/width", 20).toDouble() / 2;
@@ -14,9 +14,9 @@ void ArrowItem::mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) {
         poly.lineTo(QPoint(w, h));
         head = scene->addPath(poly, scene->pen(), scene->brush());
     } else {
-        line->setLine(QLineF(init, scene->cursorPosition()));
+        line->setLine(QLineF(init, scene->cursorPos()));
         head->setRotation(
-        270 + qRadiansToDegrees(qAtan2((init.y() - scene->cursorPosition().y()), (init.x() - scene->cursorPosition().x()))));
+        270 + qRadiansToDegrees(qAtan2((init.y() - scene->cursorPos().y()), (init.x() - scene->cursorPos().x()))));
     }
-    head->setPos(scene->cursorPosition());
+    head->setPos(scene->cursorPos());
 }

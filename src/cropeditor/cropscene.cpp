@@ -26,16 +26,15 @@
 #include <settings.hpp>
 
 CropScene::CropScene(QObject *parent, QPixmap pixmap)
-: QGraphicsScene(parent), cursorPos(0, 0), drawingSelectionMaker([] { return nullptr; }), prevButtons(Qt::NoButton),
+: ScreenOverlay(pixmap, parent), drawingSelectionMaker([] { return nullptr; }), prevButtons(Qt::NoButton),
   _brush(Qt::SolidPattern), _font(settings::settings().value("font", QFont()).value<QFont>()) {
-    _pixmap = pixmap;
     pen().setColor(settings::settings().value("penColor", pen().color()).value<QColor>());
     pen().setCosmetic(settings::settings().value("penCosmetic", pen().isCosmetic()).toBool());
     pen().setWidthF(settings::settings().value("penWidth", pen().widthF()).toReal());
     brush().setColor(settings::settings().value("brushColor", brush().color()).value<QColor>());
     brush().setStyle(
     static_cast<Qt::BrushStyle>(settings::settings().value("brushStyle", static_cast<int>(Qt::SolidPattern)).toInt()));
-    _highlight = settings::settings().value("highlightColor", QColor(Qt::cyan)).value<QColor>();
+    setHighlight(settings::settings().value("highlightColor", QColor(Qt::cyan)).value<QColor>());
 
     menu = new QMenuBar;
     addDrawingAction(menu, tr("Free draw"), ":/icons/pencil.png", [] { return new PathItem; });
@@ -54,10 +53,7 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     connect(clear, &QAction::triggered, [&] {
         auto its = items();
         for (auto i : its) {
-            if (i != polyItem && i != rect && i != cursorItem && i->zValue() != -1 && i != proxyMenu && i != hint
-                && i != magnifier && i != magnifierBox && i != magnifierHint && i != magnifierHintBox
-                && gridRectsX.contains(dynamic_cast<QGraphicsRectItem *>(i))
-                && gridRectsY.contains(dynamic_cast<QGraphicsRectItem *>(i))) {
+            if (i != polyItem && i != rect && i->zValue() != -1 && i != proxyMenu && i != hint && i->zValue() != 199) {
                 removeItem(i);
             }
         }
@@ -96,33 +92,6 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     connect(cancel, &QAction::triggered, [this] { done(false); });
     menu->addAction(cancel);
 
-    QPolygonF cursorPoly;
-    cursorPoly << QPoint(-10, 0) //
-               << QPoint(10, 0)  //
-               << QPoint(0, 0)   //
-               << QPoint(0, 10)  //
-               << QPoint(0, -10) //
-               << QPoint(0, 0);
-
-    cursorItem = addPolygon(cursorPoly, QPen(Qt::white));
-    cursorItem->setZValue(3);
-
-    magnifier = addPixmap(QPixmap(110, 110));
-    magnifierBox = addRect(magnifier->boundingRect(), QPen(_highlight));
-    magnifier->setZValue(3);
-    magnifierBox->setZValue(1.1);
-    magnifierBox->setParentItem(magnifier);
-    magnifierHint = addText("ptr: (0, 0)\nsel: (-1, -1, 0, 0)");
-    magnifierHint->setParentItem(magnifier);
-    magnifierHint->setY(magnifier->boundingRect().height());
-    QColor c(_highlight);
-    c.setAlphaF(.25);
-    magnifierHintBox = addRect(magnifierHint->boundingRect(), Qt::NoPen, c);
-    magnifierHintBox->setParentItem(magnifierHint);
-    magnifierHintBox->setZValue(1);
-    magnifierHint->setZValue(1.1);
-    updateMag();
-
     addItem(hint);
     hint->setPos(5, 5);
     hint->setZValue(2);
@@ -147,10 +116,6 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     proxyMenu = widget;
 
     QTimer::singleShot(0, [&, widget] {
-        auto pf = views()[0]->mapFromGlobal(QCursor::pos());
-        cursorPos = QPoint(pf.x(), pf.y());
-        cursorItem->setPos(cursorPos);
-        updateMag();
         auto screen = QApplication::primaryScreen();
         int w = screen->geometry().width();
         widget->setPos(views()[0]->mapToScene(
@@ -175,20 +140,6 @@ QFont &CropScene::font() {
     return _font;
 }
 
-void CropScene::setHighlight(QColor highlight) {
-    _highlight = highlight;
-    QColor c = highlight;
-    c.setAlphaF(.4);
-    magnifierHintBox->setBrush(c);
-    magnifierBox->setPen(c);
-    if (grid()) setGrid(true);
-    if (rect) rect->setPen(highlight);
-    int i = settings::settings().value("magnifierPixelCount", 11).toInt() / 2;
-    if (gridRectsX.isEmpty() || gridRectsY.isEmpty()) return;
-    gridRectsX[i]->setBrush(c);
-    gridRectsY[i]->setBrush(c);
-}
-
 void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> drawAction) {
     if (drawingSelection) {
         delete drawingSelection;
@@ -211,7 +162,7 @@ void CropScene::setDrawingSelection(QString name, std::function<DrawItem *()> dr
 QGraphicsItem *CropScene::whichItem(QPointF scenePos) {
     for (auto item : items()) {
         if (item->sceneBoundingRect().contains(scenePos))
-            if (item != polyItem && item != rect && item != cursorItem && item->zValue() != -1) return item;
+            if (item != polyItem && item != rect && item->zValue() != 199 && item->zValue() != -1) return item;
     }
     return nullptr;
 }
@@ -246,17 +197,8 @@ void CropScene::fontAsk() {
     show();
 }
 
-void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
-    QPointF delta = e->scenePos() - cursorPos;
-    if (e->modifiers() & Qt::ShiftModifier) {
-        cursorPos += delta / 2;
-        QCursor::setPos(views()[0]->mapToGlobal(cursorPos.toPoint()));
-    } else
-        cursorPos = e->scenePos();
+void CropScene::mouseMoved(QGraphicsSceneMouseEvent *e, QPointF cursorPos, QPointF delta) {
     hint->setVisible(settings::settings().value("crophint").toBool() && !hint->sceneBoundingRect().contains(cursorPos));
-    cursorItem->setPos(cursorPos);
-    updateMag();
-
     if (rect && !drawingRect) {
         // qAbs(e->scenePos().<axis>() - rect->rect().<edge>()) < 10
         bool close = false;
@@ -308,7 +250,7 @@ void CropScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
                 rect = new SelectionRectangle(p.x(), p.y(), 1, 1);
                 initPos = p;
                 QPen pen(Qt::NoBrush, 1);
-                pen.setColor(_highlight);
+                pen.setColor(highlight());
                 rect->setPen(pen);
                 rect->setZValue(1);
                 addItem(rect);
@@ -344,31 +286,11 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
 
 void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
     if (e->modifiers() & Qt::AltModifier) {
-        auto item = whichItem(cursorItem->scenePos());
+        auto item = whichItem(cursorPos());
         if (item && item != proxyMenu) removeItem(item);
     }
 
     if (!(e->modifiers() & Qt::ControlModifier)) QGraphicsScene::mousePressEvent(e);
-}
-
-void CropScene::wheelEvent(QGraphicsSceneWheelEvent *event) {
-    int pixCnt = settings::settings().value("magnifierPixelCount", 11).toInt();
-    if (pixCnt % 2 == 0) pixCnt++;
-    if (pixCnt > 20) return;
-    if (event->delta() > 0 && pixCnt < 19)
-        settings::settings().setValue("magnifierPixelCount", pixCnt += 2);
-    else if (pixCnt > 1)
-        settings::settings().setValue("magnifierPixelCount", pixCnt -= 2);
-
-    for (auto item : gridRectsX) delete item;
-    gridRectsX.clear();
-    for (auto item : gridRectsY) delete item;
-    gridRectsY.clear();
-
-    if (grid()) initMagnifierGrid();
-    updateMag();
-
-    if (!(event->modifiers() & Qt::ControlModifier)) QGraphicsScene::wheelEvent(event);
 }
 
 void CropScene::addDrawingAction(QMenuBar *menu, QString name, QString icon, std::function<DrawItem *()> item) {
@@ -390,37 +312,6 @@ void CropScene::keyReleaseEvent(QKeyEvent *event) {
     if (!(event->modifiers() & Qt::ControlModifier)) QGraphicsScene::keyReleaseEvent(event);
 }
 
-void CropScene::updateMag() {
-    QString rectStr("(-1, -1, 0, 0)");
-    if (rect) {
-        rectStr = "(%0, %1, %2, %3)";
-        rectStr = rectStr.arg(rect->rect().x()).arg(rect->rect().y()).arg(rect->rect().width()).arg(rect->rect().height());
-    }
-    magnifierHint->setPlainText(QString("ptr: (%0, %1)\nsel: %2").arg(qRound(cursorPos.x())).arg(qRound(cursorPos.y())).arg(rectStr));
-    magnifierHintBox->setRect(magnifierHint->boundingRect());
-
-    int pixCnt = settings::settings().value("magnifierPixelCount", 11).toInt();
-    if (pixCnt % 2 == 0) pixCnt++;
-    QPointF magnifierTopLeft = cursorPos - QPointF(pixCnt / 2., pixCnt / 2.);
-    QPointF magnifierPos = cursorPos + QPointF(5, 5);
-
-    magnifier->setPos(magnifierPos);
-    magnifier->setPixmap(utils::extend(_pixmap, pixCnt, utils::invertColor(highlight()))
-                         .copy(magnifierTopLeft.x() + pixCnt, magnifierTopLeft.y() + pixCnt, pixCnt, pixCnt)
-                         .scaled(110, 110));
-    QPointF bottomRight = magnifierHintBox->sceneBoundingRect().bottomRight();
-    if (magnifier->sceneBoundingRect().bottom() > bottomRight.y())
-        bottomRight.setY(magnifier->sceneBoundingRect().bottom());
-
-    if (magnifier->sceneBoundingRect().right() > bottomRight.x())
-        bottomRight.setX(magnifier->sceneBoundingRect().right());
-
-    if (bottomRight.x() > sceneRect().right())
-        magnifierPos -= QPointF(qMax(130., magnifierHintBox->boundingRect().width()), 0);
-    if (bottomRight.y() > sceneRect().bottom())
-        magnifierPos -= QPointF(0, 130 + magnifierHintBox->boundingRect().height());
-    magnifier->setPos(magnifierPos);
-}
 
 void CropScene::updatePoly() {
     QPolygonF poly;
@@ -441,41 +332,23 @@ void CropScene::updatePoly() {
     this->polyItem->setPolygon(poly);
 }
 
-void CropScene::initMagnifierGrid() {
-    if (!gridRectsX.isEmpty() || !gridRectsY.isEmpty()) return;
-
-    QColor c(_highlight);
-    c.setAlphaF(.25);
-    int pixCnt = settings::settings().value("magnifierPixelCount", 11).toInt();
-    if (pixCnt % 2 == 0) pixCnt++;
-    for (int i = 0; i < pixCnt; i++) {
-        auto gridRectX = addRect(0, i * 110. / pixCnt, 110, 110. / pixCnt, QPen(Qt::black, 0.5));
-        auto gridRectY = addRect(i * 110. / pixCnt, 0, 110. / pixCnt, 110, QPen(Qt::black, 0.5));
-        gridRectX->setParentItem(magnifierBox);
-        gridRectY->setParentItem(magnifierBox);
-        gridRectX->setZValue(5);
-        gridRectY->setZValue(5);
-        gridRectsX.append(gridRectX);
-        gridRectsY.append(gridRectY);
-        if (i == (pixCnt / 2)) {
-            gridRectX->setBrush(c);
-            gridRectY->setBrush(c);
-        }
-    }
-}
-
 void CropScene::done(bool notEsc) {
     if (notEsc && rect) {
         QRectF rect2 = rect->rect();
         hint->setVisible(false);
         rect->setRect(QRect(-100, -100, 0, 0));
-        magnifier->setVisible(false);
         proxyMenu->setVisible(false);
-        cursorItem->setVisible(false);
-        magnifierBox->setVisible(false);
-        magnifierHint->setVisible(false);
-        magnifierHintBox->setVisible(false);
+        hideMag();
         emit closedWithRect(rect2.toRect());
     } else
         emit closedWithRect(QRect());
+}
+
+QString CropScene::generateHint() {
+    QString rectStr("(-1, -1, 0, 0)");
+    if (rect) {
+        rectStr = "(%0, %1, %2, %3)";
+        rectStr = rectStr.arg(rect->rect().x()).arg(rect->rect().y()).arg(rect->rect().width()).arg(rect->rect().height());
+    }
+    return QString("ptr: (%0, %1)\nsel: %2").arg(qRound(cursorPos().x())).arg(qRound(cursorPos().y())).arg(rectStr);
 }

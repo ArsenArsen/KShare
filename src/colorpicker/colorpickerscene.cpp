@@ -10,69 +10,30 @@
 #include <settings.hpp>
 
 ColorPickerScene::ColorPickerScene(QPixmap pixmap, QWidget *parentWidget)
-: QGraphicsScene(), ScreenOverlayView(this, parentWidget) {
-    setFrameShape(QFrame::NoFrame); // Time taken to solve: A george99g and 38 minutes.
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setWindowFlags(windowFlags() | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Dialog);
-    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
-    setCursor(QCursor(Qt::CrossCursor));
-    setMouseTracking(true);
+: ScreenOverlay(pixmap, parentWidget), ScreenOverlayView(this, parentWidget), image(pixmap.toImage()) {
     setWindowTitle(tr("KShare Color Picker"));
     setAttribute(Qt::WA_DeleteOnClose);
-
-    pItem = addPixmap(pixmap);
-    pItem->setZValue(-2);
-    ellipse = addEllipse(QRectF(QCursor::pos(), QSize(20, 20)), QPen(Qt::cyan), Qt::NoBrush);
-    QFont font("Monospace");
-    font.setStyleHint(QFont::Monospace);
-    text = addText("#hiyouu", font);
-    textBackground = addRect(text->boundingRect(), Qt::NoPen, QBrush(Qt::black));
-    text->setPos(QCursor::pos() + QPoint(25, 0));
-    textBackground->setPos(text->pos());
-    textBackground->setZValue(-1);
-    color = pItem->pixmap().toImage().pixelColor(QCursor::pos());
-    text->setPlainText(color.name());
-    ellipse->setBrush(color);
-    image = pixmap.toImage();
-
-    if (QApplication::screens().size() == 1)
-        showFullScreen();
-    else
-        show();
+    setCursor(Qt::BlankCursor);
 
     activateWindow();
     setGeometry(pixmap.rect());
     QPoint p = utils::smallestScreenCoordinate()
                + QPoint(settings::settings().value("cropx", 0).toInt(), settings::settings().value("cropy", 0).toInt());
     move(p.x(), p.y());
+    if (QApplication::screens().size() == 1)
+        showFullScreen();
+    else
+        show();
 }
 
-void ColorPickerScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-    color = image.pixelColor(event->scenePos().toPoint());
-    text->setPlainText(color.name());
-    ellipse->setBrush(color);
-
+void ColorPickerScene::mouseMoved(QGraphicsSceneMouseEvent *event, QPointF cursor, QPointF delta) {
+    color = image.pixelColor(cursorPos().toPoint());
     qreal bottom = rect().bottom(); // max y
     qreal right = rect().right();   // max x
-    qreal width = text->boundingRect().width();
-    qreal height = text->boundingRect().height();
 
-    QPointF origPoint = event->scenePos() + QPoint(25, 0);
-    QPointF scopePoint = event->scenePos();
+    QPointF origPoint = cursorPos() + QPoint(25, 0);
+    QPointF scopePoint = cursorPos();
     QPointF resPoint = origPoint;
-    if (origPoint.x() + width > right) {
-        scopePoint -= QPoint(20, 0);
-        resPoint -= QPoint(50 + width, 0);
-    }
-    if (origPoint.y() + height > bottom) {
-        scopePoint -= QPoint(0, 20);
-        resPoint -= QPoint(0, height);
-    }
-
-    ellipse->setRect(QRectF(scopePoint, QSize(20, 20)));
-    text->setPos(resPoint);
-    textBackground->setPos(text->pos());
 }
 
 void ColorPickerScene::keyPressEvent(QKeyEvent *event) {
@@ -87,4 +48,8 @@ void ColorPickerScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *) {
     QApplication::clipboard()->setText(color.name());
     close();
     qInfo().noquote() << tr("Copied hex code to clipboard.");
+}
+
+QString ColorPickerScene::generateHint() {
+    return color.name();
 }

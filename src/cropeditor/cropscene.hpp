@@ -1,6 +1,7 @@
 #ifndef CROPSCENE_HPP
 #define CROPSCENE_HPP
 
+#include "../screenoverlay.hpp"
 #include <QFont>
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -16,7 +17,7 @@ class CropScene;
 
 #include <cropeditor/drawing/drawitem.hpp>
 
-class CropScene : public QGraphicsScene {
+class CropScene : public ScreenOverlay {
     Q_OBJECT
 public:
     CropScene(QObject *parent, QPixmap pixmap);
@@ -24,28 +25,7 @@ public:
     QPen &pen();
     QBrush &brush();
     QFont &font();
-    QColor highlight() {
-        return _highlight;
-    }
-    void setHighlight(QColor highlight);
-    bool grid() {
-        return _grid;
-    }
-    void setGrid(bool grid) {
-        _grid = grid;
-        if (grid) {
-            initMagnifierGrid();
-        } else {
-            for (auto r : gridRectsX) delete r;
-            gridRectsX.clear();
-            for (auto r : gridRectsY) delete r;
-            gridRectsY.clear();
-        }
-    }
     void setDrawingSelection(QString name, std::function<DrawItem *()> drawAction);
-    QPixmap pixmap() {
-        return _pixmap;
-    }
     QGraphicsPolygonItem *polyItm() {
         return polyItem;
     }
@@ -56,9 +36,6 @@ public:
     void hide();
     void show();
     void setVisible(bool visible);
-    QPointF cursorPosition() {
-        return cursorPos;
-    }
 
 public slots:
     void fontAsk();
@@ -67,45 +44,32 @@ signals:
     void closedWithRect(QRect rect);
 
 protected:
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
+    void mouseMoved(QGraphicsSceneMouseEvent *e, QPointF cursorPos, QPointF delta) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *e) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *e) override;
-    void wheelEvent(QGraphicsSceneWheelEvent *event) override; // WHEEEEEEL
     void keyReleaseEvent(QKeyEvent *e) override;
+    QString generateHint() override;
 
 private slots:
     void done(bool notEsc = true);
 
 private:
-    void updateMag();
     void updatePoly();
-    void initMagnifierGrid();
     void addDrawingAction(QMenuBar *menu, QString name, QString icon, std::function<DrawItem *()> item);
-    QPointF cursorPos;
     std::function<DrawItem *()> drawingSelectionMaker;
     QFlags<Qt::MouseButton> prevButtons;
-    QPixmap _pixmap;
     QGraphicsRectItem *rect = nullptr;
     bool drawingRect = true;
-    QGraphicsPixmapItem *magnifier = nullptr;
-    QGraphicsRectItem *magnifierBox = nullptr;
-    QGraphicsTextItem *magnifierHint = nullptr;
-    QGraphicsRectItem *magnifierHintBox = nullptr;
     QPointF initPos;
     QPen _pen;
     QBrush _brush;
     QFont _font;
-    QColor _highlight;
-    bool _grid;
     QGraphicsPolygonItem *polyItem = nullptr;
     DrawItem *drawingSelection = nullptr;
     QMenuBar *menu = nullptr;
     QGraphicsProxyWidget *proxyMenu = nullptr;
     QString drawingName = "None";
     QAction *display;
-    QList<QGraphicsRectItem *> gridRectsX;
-    QList<QGraphicsRectItem *> gridRectsY;
-    QGraphicsPolygonItem *cursorItem = nullptr;
     QGraphicsPixmapItem *hint
     = new QGraphicsPixmapItem(utils::renderText(tr( //
                                                 "Press F1 to toggle this hint\n"

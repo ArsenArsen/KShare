@@ -15,13 +15,13 @@ bool BlurItem::init(CropScene *) {
 
 void BlurItem::mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) {
     if (pos.isNull()) {
-        pos = scene->cursorPosition();
-        rect = scene->addRect(QRect(scene->cursorPosition().toPoint(), QSize(1, 1)), QPen(scene->highlight()), Qt::NoBrush);
+        pos = scene->cursorPos();
+        rect = scene->addRect(QRect(scene->cursorPos().toPoint(), QSize(1, 1)), QPen(scene->highlight()), Qt::NoBrush);
         pixmap = scene->addPixmap(scene->pixmap().copy(rect->rect().toRect()));
-        pixmap->setPos(scene->cursorPosition());
+        pixmap->setPos(scene->cursorPos());
         pixmap->setGraphicsEffect(effect);
     } else {
-        QPointF p = scene->cursorPosition();
+        QPointF p = scene->cursorPos();
         rect->setRect(QRect(qMin(pos.x(), p.x()), qMin(pos.y(), p.y()), qAbs(pos.x() - p.x()), qAbs(pos.y() - p.y())));
         auto area = rect->rect();
         if (area.width() > 1 && area.height() > 1 && area.top() > 1 && area.left() > 1)

@@ -11,11 +11,11 @@ PathItem::~PathItem() {
 
 void PathItem::mouseDragEvent(QGraphicsSceneMouseEvent *, CropScene *scene) {
     if (path == nullptr) {
-        path = new QPainterPath(scene->cursorPosition());
+        path = new QPainterPath(scene->cursorPos());
         pathItem = scene->addPath(*path, scene->pen(),
                                   settings::settings().value("brushPath", false).toBool() ? scene->brush() : QBrush());
     } else {
-        path->quadTo(path->currentPosition(), scene->cursorPosition());
+        path->quadTo(path->currentPosition(), scene->cursorPos());
         pathItem->setPath(*path);
     }
 }
