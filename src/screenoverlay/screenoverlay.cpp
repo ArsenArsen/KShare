@@ -6,6 +6,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 #include <QKeyEvent>
+#include <QMenu>
 #include <settings.hpp>
 #include <utils.hpp>
 
@@ -221,4 +222,52 @@ void ScreenOverlay::loadSettings() {
     setHighlight(settings::settings().value("highlightColor", QColor(Qt::cyan)).value<QColor>());
     setMovementPattern(settings::settings().value("movementPattern", MP_HJKL).value<MovementPattern>());
     setGrid(settings::settings().value("gridEnabled", true).toBool());
+}
+
+void ScreenOverlay::contextMenuEvent(QGraphicsSceneContextMenuEvent *e) {
+    QMenu menu(e->widget());
+    connect(menu.addAction("Screen overlay settings"), &QAction::triggered, this, &ScreenOverlay::showSettings);
+    customizeContextMenu(e, &menu);
+    menu.exec(e->screenPos());
+}
+
+void ScreenOverlay::setCursorPos(QPointF cursorPos) {
+    if (!pixmap().rect().contains(cursorPos.toPoint())) return;
+    _cursorPos = cursorPos;
+}
+
+QPointF ScreenOverlay::cursorPos() {
+    return _cursorPos;
+}
+
+void ScreenOverlay::setGrid(bool grid) {
+    _grid = grid;
+    if (grid) {
+        updateMagnifierGrid();
+    } else {
+        for (auto r : gridRectsX) delete r;
+        gridRectsX.clear();
+        for (auto r : gridRectsY) delete r;
+        gridRectsY.clear();
+    }
+}
+
+bool ScreenOverlay::grid() {
+    return _grid;
+}
+
+QColor ScreenOverlay::highlight() {
+    return _highlight;
+}
+
+QPixmap &ScreenOverlay::pixmap() {
+    return _pixmap;
+}
+
+void ScreenOverlay::setMovementPattern(MovementPattern nmp) {
+    _movementPattern = nmp;
+}
+
+ScreenOverlay::MovementPattern ScreenOverlay::movementPattern() {
+    return _movementPattern;
 }

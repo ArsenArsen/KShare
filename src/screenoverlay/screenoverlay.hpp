@@ -5,65 +5,42 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QMetaType>
 
 class ScreenOverlay : public QGraphicsScene {
     Q_OBJECT
 public:
     enum MovementPattern { MP_JKL, MP_HJKL, MP_ARROWS };
+
     explicit ScreenOverlay(QPixmap pixmap, QObject *parent = 0);
 
-    void moveMouse(QPoint newPoint);
-    void moveMouseBy(QPoint delta);
-    MovementPattern movementPattern() {
-        return _movementPattern;
-    }
-    void setMovementPattern(MovementPattern nmp) {
-        _movementPattern = nmp;
-    }
+    MovementPattern movementPattern();
+    void setMovementPattern(MovementPattern nmp);
 
-    QPixmap &pixmap() {
-        return _pixmap;
-    }
-    void updateMag();
-    virtual QString generateMagHint() {
-        return QString();
-    };
-    void hideMag();
+    QPixmap &pixmap();
     void updateMagnifierGrid();
-    QColor highlight() {
-        return _highlight;
-    }
+    QColor highlight();
     void setHighlight(QColor highlight);
-    bool grid() {
-        return _grid;
-    }
-    void setGrid(bool grid) {
-        _grid = grid;
-        if (grid) {
-            updateMagnifierGrid();
-        } else {
-            for (auto r : gridRectsX) delete r;
-            gridRectsX.clear();
-            for (auto r : gridRectsY) delete r;
-            gridRectsY.clear();
-        }
-    }
-    QPointF cursorPos() {
-        return _cursorPos;
-    }
-    void setCursorPos(QPointF cursorPos) {
-        if (!pixmap().rect().contains(cursorPos.toPoint())) return;
-        _cursorPos = cursorPos;
-    }
+    bool grid();
+    void setGrid(bool grid);
+    QPointF cursorPos();
+    void setCursorPos(QPointF cursorPos);
+
+public slots:
     void showSettings();
     void hide();
     void show();
     void loadSettings();
+    void updateMag();
+    void hideMag();
+    void moveMouse(QPoint newPoint);
+    void moveMouseBy(QPoint delta);
 
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
     void wheelEvent(QGraphicsSceneWheelEvent *e) override;
     void keyPressEvent(QKeyEvent *e) override;
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *e) override;
 
     virtual void mouseMoved(QGraphicsSceneMouseEvent *, QPointF, QPointF) {
     }
@@ -71,6 +48,8 @@ protected:
     }
     virtual QString generateHint() {
         return QString();
+    }
+    virtual void customizeContextMenu(QGraphicsSceneContextMenuEvent *, QMenu *) {
     }
 
 private:
@@ -87,5 +66,7 @@ private:
     QPixmap _pixmap;
     MovementPattern _movementPattern = MP_ARROWS;
 };
+
+Q_DECLARE_METATYPE(ScreenOverlay::MovementPattern)
 
 #endif /* SCREENOVERLAY_HPP */
