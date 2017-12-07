@@ -35,10 +35,8 @@ Despite the name implying so, this project does not depend on the KDE API at all
 |:----:|:--:|
 |Arch Linux (development)|[kshare-git](https://aur.archlinux.org/packages/kshare-git/)|
 |Ubuntu/Debian (development)|[.deb](https://nativeci.arsenarsen.com/job/KShare%20\(dev\)/main=linux/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
-|OS X (development)|[.dmg](https://nativeci.arsenarsen.com/job/KShare%20\(dev\)/main=osx/lastSuccessfulBuild/artifact/build/KShare.dmg)|
 |Arch Linux |[kshare](https://aur.archlinux.org/packages/kshare/)|
 |Ubuntu/Debian |[.deb](https://nativeci.arsenarsen.com/job/KShare%20\(master\)/main=linux/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
-|OS X|[.dmg](https://nativeci.arsenarsen.com/job/KShare%20\(master\)/main=osx/lastSuccessfulBuild/artifact/build/KShare.dmg)|
 
 For other UNIX-like platforms, and MSYS2 (for Windows):
 
