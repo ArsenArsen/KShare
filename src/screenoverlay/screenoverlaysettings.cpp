@@ -5,7 +5,7 @@
 #include <QColorDialog>
 
 ScreenOverlaySettings::ScreenOverlaySettings(ScreenOverlay *overlay, QWidget *parent)
-: overlay(overlay), QDialog(parent), ui(new Ui::ScreenOverlaySettings) {
+: QDialog(parent), ui(new Ui::ScreenOverlaySettings), overlay(overlay) {
     ui->setupUi(this);
 
     ui->gridBox->setChecked(overlay->grid());
