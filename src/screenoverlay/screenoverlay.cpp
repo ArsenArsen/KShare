@@ -11,6 +11,7 @@
 #include <utils.hpp>
 
 ScreenOverlay::ScreenOverlay(QPixmap pixmap, QObject *parent) : QGraphicsScene(parent), _pixmap(pixmap) {
+    setCursorPos(QCursor::pos());
     addPixmap(pixmap)->setZValue(-1);
     QPolygonF cursorPoly;
     cursorPoly << QPoint(-10, 0) //
@@ -159,6 +160,7 @@ void ScreenOverlay::setHighlight(QColor highlight) {
     if (gridRectsX.isEmpty() || gridRectsY.isEmpty()) return;
     gridRectsX[i]->setBrush(c);
     gridRectsY[i]->setBrush(c);
+    updateMag();
     highlightChanged(highlight);
 }
 
