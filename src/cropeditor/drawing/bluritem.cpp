@@ -9,7 +9,7 @@ bool BlurItem::init(CropScene *) {
     blurHints.setFlag(QGraphicsBlurEffect::PerformanceHint, settings::settings().value("blur/performanceHint", true).toBool());
     blurHints.setFlag(QGraphicsBlurEffect::QualityHint, settings::settings().value("blur/qualityHint", false).toBool());
     effect->setBlurHints(blurHints);
-    effect->setBlurRadius(settings::settings().value("blurRadius", 5.).toDouble());
+    effect->setBlurRadius(settings::settings().value("blur/radius", 5.).toDouble());
     return true;
 }
 
