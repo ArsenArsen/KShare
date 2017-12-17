@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>485</width>
-    <height>655</height>
+    <width>650</width>
+    <height>759</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,19 +17,8 @@
    <item row="1" column="1">
     <widget class="QListWidget" name="uploaderList"/>
    </item>
-   <item row="8" column="1">
-    <widget class="QCheckBox" name="quickMode">
-     <property name="text">
-      <string>Quick mode (mouse release screenshots)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Delay before taking a screenshot</string>
-     </property>
-    </widget>
+   <item row="12" column="2">
+    <widget class="QComboBox" name="imageFormatBox"/>
    </item>
    <item row="7" column="1">
     <widget class="QDoubleSpinBox" name="delay">
@@ -44,11 +33,19 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2" rowspan="7">
-    <widget class="QListWidget" name="hotkeys"/>
+   <item row="8" column="1">
+    <widget class="QCheckBox" name="quickMode">
+     <property name="text">
+      <string>Quick mode (mouse release screenshots)</string>
+     </property>
+    </widget>
    </item>
-   <item row="12" column="2">
-    <widget class="QComboBox" name="imageFormatBox"/>
+   <item row="15" column="1">
+    <widget class="QLabel" name="label_10">
+     <property name="text">
+      <string>Fullscreen capture command (save to %FILE_PATH or print to stdout)</string>
+     </property>
+    </widget>
    </item>
    <item row="0" column="2">
     <widget class="QLabel" name="label_5">
@@ -61,6 +58,16 @@
     <widget class="QLabel" name="label_7">
      <property name="text">
       <string>Still image format</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2" rowspan="7">
+    <widget class="QListWidget" name="hotkeys"/>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Delay before taking a screenshot</string>
      </property>
     </widget>
    </item>
@@ -109,20 +116,6 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="2">
-    <widget class="QPushButton" name="settingsButton">
-     <property name="text">
-      <string>Open settings directory</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Destination:</string>
-     </property>
-    </widget>
-   </item>
    <item row="5" column="1">
     <widget class="QComboBox" name="saveLocation">
      <item>
@@ -137,7 +130,21 @@
      </item>
     </widget>
    </item>
-   <item row="15" column="1" colspan="2">
+   <item row="8" column="2">
+    <widget class="QPushButton" name="settingsButton">
+     <property name="text">
+      <string>Open settings directory</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Destination:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="1" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -154,7 +161,7 @@
      </property>
     </widget>
    </item>
-   <item row="14" column="1" colspan="2">
+   <item row="17" column="1" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Advanced</string>
@@ -222,6 +229,19 @@
       <string>Frames Per Second For Recording</string>
      </property>
     </widget>
+   </item>
+   <item row="15" column="2">
+    <widget class="QLineEdit" name="fullscreenCapture"/>
+   </item>
+   <item row="16" column="1">
+    <widget class="QLabel" name="label_11">
+     <property name="text">
+      <string>Focused capture command (save to %FILE_PATH or print to stdout)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="2">
+    <widget class="QLineEdit" name="focusedCapture"/>
    </item>
   </layout>
  </widget>

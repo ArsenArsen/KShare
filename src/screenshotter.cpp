@@ -8,9 +8,16 @@
 #include <platformbackend.hpp>
 #include <settings.hpp>
 
-void screenshotter::area() {
-    CropEditor *editor = new CropEditor(utils::fullscreen(settings::settings().value("captureCursor", true).toBool()));
+void areaScreenshotCallback(QPixmap p) {
+    CropEditor *editor = new CropEditor(p);
     QObject::connect(editor, &CropEditor::cropped, [&](QPixmap pixmap) { UploaderSingleton::inst().upload(pixmap); });
+}
+
+void screenshotter::area() {
+    if (!settings::settings().value("command/fullscreenCommand", "").toString().isEmpty())
+        utils::externalScreenshot(areaScreenshotCallback);
+    else
+        areaScreenshotCallback(utils::fullscreen(settings::settings().value("captureCursor", true).toBool()));
 }
 
 void screenshotter::fullscreen() {
@@ -31,6 +38,9 @@ void screenshotter::activeDelayed() {
 
 void screenshotter::active() {
 #ifdef PLATFORM_CAPABILITY_ACTIVEWINDOW
-    UploaderSingleton::inst().upload(utils::window(PlatformBackend::inst().getActiveWID()));
+    if (!settings::settings().value("command/activeCommand", "").toString().isEmpty())
+        utils::externalScreenshotActive([](QPixmap p) { UploaderSingleton::inst().upload(p); });
+    else
+        UploaderSingleton::inst().upload(utils::window(PlatformBackend::inst().getActiveWID()));
 #endif
 }

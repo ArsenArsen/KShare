@@ -5,9 +5,10 @@
 #include <QDebug>
 #include <QPainter>
 #include <QPixmap>
+#include <QProcess>
 #include <QScreen>
 #include <platformbackend.hpp>
-
+#include <settings.hpp>
 
 QColor utils::invertColor(QColor color) {
     return QColor(255 - color.red(), 255 - color.green(), 255 - color.blue());
@@ -112,4 +113,67 @@ QPixmap utils::renderText(QString toRender, int padding, QColor background, QCol
     }
     painter.end();
     return renderred;
+}
+
+QString utils::randomString(int length) {
+    QString str;
+    str.resize(length);
+    for (int s = 0; s < length; s++) str[s] = QChar('A' + char(qrand() % ('Z' - 'A')));
+    return str;
+}
+
+void utils::externalScreenshot(std::function<void(QPixmap)> callback) {
+    QString cmd = settings::settings().value("command/fullscreenCommand", "").toString();
+    QStringList args = cmd.split(' ');
+    QString tempPath;
+    for (QString &arg : args) {
+        if (arg == "%FILE_PATH") {
+            if (tempPath.isEmpty()) tempPath = "KShare-Ext-Screenshot." + randomString(5);
+            arg = tempPath;
+        }
+    }
+    QProcess *process = new QProcess;
+    QObject::connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+                     [callback, process, tempPath](int code, QProcess::ExitStatus) {
+                         if (code != 0) {
+                             qCritical().noquote() << "Failed to take external screenshot: \n"
+                                                   << process->readAllStandardError();
+                             return;
+                         }
+                         QPixmap pixmap;
+                         if (!tempPath.isEmpty())
+                             pixmap.load(tempPath);
+                         else
+                             pixmap.loadFromData(process->readAllStandardOutput());
+                         callback(pixmap);
+                     });
+    process->start(args.takeFirst(), args);
+}
+
+void utils::externalScreenshotActive(std::function<void(QPixmap)> callback) {
+    QString cmd = settings::settings().value("command/activeCommand", "").toString();
+    QStringList args = cmd.split(' ');
+    QString tempPath;
+    for (QString &arg : args) {
+        if (arg == "%FILE_PATH") {
+            if (tempPath.isEmpty()) tempPath = "KShare-Ext-Screenshot." + randomString(5);
+            arg = tempPath;
+        }
+    }
+    QProcess *process = new QProcess;
+    QObject::connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+                     [callback, process, tempPath](int code, QProcess::ExitStatus) {
+                         if (code != 0) {
+                             qCritical().noquote() << "Failed to take external screenshot: \n"
+                                                   << process->readAllStandardError();
+                             return;
+                         }
+                         QPixmap pixmap;
+                         if (!tempPath.isEmpty())
+                             pixmap.load(tempPath);
+                         else
+                             pixmap.loadFromData(process->readAllStandardOutput());
+                         callback(pixmap);
+                     });
+    process->start(args.takeFirst(), args);
 }

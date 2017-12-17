@@ -3,8 +3,9 @@
 
 #include <QApplication>
 #include <QPixmap>
-#include <QWidget>
 #include <QScreen>
+#include <QWidget>
+#include <functional>
 
 namespace utils {
     QColor invertColor(QColor color);
@@ -16,6 +17,9 @@ namespace utils {
     QPoint smallestScreenCoordinate();
     QPixmap
     renderText(QString toRender, int padding = 5, QColor background = Qt::transparent, QColor pen = Qt::white, QFont font = QFont());
+    void externalScreenshot(std::function<void(QPixmap)> callback);
+    void externalScreenshotActive(std::function<void(QPixmap)> callback);
+    QString randomString(int length);
 }
 
 #endif // UTILS_HPP
