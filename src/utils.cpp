@@ -138,14 +138,15 @@ void utils::externalScreenshot(std::function<void(QPixmap)> callback) {
                          if (code != 0) {
                              qCritical().noquote() << "Failed to take external screenshot: \n"
                                                    << process->readAllStandardError();
-                             return;
+                         } else {
+                             QPixmap pixmap;
+                             if (!tempPath.isEmpty())
+                                 pixmap.load(tempPath);
+                             else
+                                 pixmap.loadFromData(process->readAllStandardOutput());
+                             callback(pixmap);
                          }
-                         QPixmap pixmap;
-                         if (!tempPath.isEmpty())
-                             pixmap.load(tempPath);
-                         else
-                             pixmap.loadFromData(process->readAllStandardOutput());
-                         callback(pixmap);
+                         QFile(tempPath).remove();
                      });
     process->start(args.takeFirst(), args);
 }
@@ -166,14 +167,15 @@ void utils::externalScreenshotActive(std::function<void(QPixmap)> callback) {
                          if (code != 0) {
                              qCritical().noquote() << "Failed to take external screenshot: \n"
                                                    << process->readAllStandardError();
-                             return;
+                         } else {
+                             QPixmap pixmap;
+                             if (!tempPath.isEmpty())
+                                 pixmap.load(tempPath);
+                             else
+                                 pixmap.loadFromData(process->readAllStandardOutput());
+                             callback(pixmap);
                          }
-                         QPixmap pixmap;
-                         if (!tempPath.isEmpty())
-                             pixmap.load(tempPath);
-                         else
-                             pixmap.loadFromData(process->readAllStandardOutput());
-                         callback(pixmap);
+                         QFile(tempPath).remove();
                      });
     process->start(args.takeFirst(), args);
 }
