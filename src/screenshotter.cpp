@@ -21,7 +21,10 @@ void screenshotter::area() {
 }
 
 void screenshotter::fullscreen() {
-    UploaderSingleton::inst().upload(utils::fullscreen(settings::settings().value("captureCursor", true).toBool()));
+    if (!settings::settings().value("command/fullscreenCommand", "").toString().isEmpty())
+        utils::externalScreenshot([](QPixmap p) { UploaderSingleton::inst().upload(p); });
+    else
+        UploaderSingleton::inst().upload(utils::fullscreen(settings::settings().value("captureCursor", true).toBool()));
 }
 
 void screenshotter::areaDelayed() {
