@@ -84,9 +84,9 @@ int main(int argc, char *argv[]) {
     a.setApplicationVersion("4.1");
         
     QLockFile lockFile(QDir::temp().absoluteFilePath("com.arsenarsen.kshare.lock"));
-    if(!lockFile.tryLock(100)){
+    if(!lockFile.tryLock(100))
         return 1;
-    }
+    else lockFile.lock();
 
     QString locale = QLocale::system().name();
     if (locale != "en_US") loadTranslation(locale);
