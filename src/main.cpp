@@ -3,7 +3,6 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
-#include <QLockFile>
 #include <QDir>
 #include <QScreen>
 #include <QtGlobal>
@@ -82,11 +81,6 @@ int main(int argc, char *argv[]) {
     a.setApplicationName("KShare");
     a.setOrganizationName("ArsenArsen");
     a.setApplicationVersion("4.1");
-        
-    QLockFile lockFile(QDir::temp().absoluteFilePath("com.arsenarsen.kshare.lock"));
-    if(!lockFile.tryLock(100))
-        return 1;
-    else lockFile.lock();
 
     QString locale = QLocale::system().name();
     if (locale != "en_US") loadTranslation(locale);
