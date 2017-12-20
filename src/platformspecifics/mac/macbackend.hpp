@@ -4,6 +4,7 @@
 #include <QPixmap>
 
 #define PLATFORM_CAPABILITY_PID
+#define PLATFORM_CAPABILITY_CURRENT_USER
 
 class PlatformBackend {
 public:
@@ -14,6 +15,7 @@ public:
         return inst;
     }
     bool filenameValid(QString name);
+    QString getCurrentUser();
 };
 
 #endif // MACBACKEND_HPP

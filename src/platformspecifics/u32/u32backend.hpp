@@ -7,6 +7,7 @@
 #define PLATFORM_CAPABILITY_PID
 #define PLATFORM_CAPABILITY_ACTIVEWINDOW
 #define PLATFORM_CAPABILITY_CURSOR
+#define PLATFORM_CAPABILITY_CURRENT_USER
 
 class PlatformBackend {
 public:
@@ -18,6 +19,7 @@ public:
     }
     WId getActiveWID();
     bool filenameValid(QString name);
+    QString getCurrentUser();
 };
 
 #endif // U32BACKEND_HPP

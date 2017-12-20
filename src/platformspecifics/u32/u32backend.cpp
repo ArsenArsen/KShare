@@ -1,5 +1,6 @@
 #include "u32backend.hpp"
 
+#include <Lmcons.h>
 #include <QCursor>
 #include <QtWin>
 #include <windows.h>
@@ -42,4 +43,13 @@ bool PlatformBackend::filenameValid(QString name) {
     }
     if (periods == name.length()) return false;
     return !illegalNames.contains(name);
+}
+
+QString PlatformBackend::getCurrentUser() {
+    char username[UNLEN + 1];
+    DWORD username_len = UNLEN + 1;
+    GetUserName(username, &username_len);
+    QString userName = QString::fromLocal8Bit(username, username_len);
+    delete[] username;
+    return userName;
 }
