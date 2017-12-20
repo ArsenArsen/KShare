@@ -85,7 +85,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
 #endif
     ui->fpsMax->setValue(settings::settings().value("recording/framerate", 30).toInt());
     ui->focusedCapture->setText(settings::settings().value("command/activeCommand", "").toString());
-    ui->fullscreenCapture->setText(settings::settings().value("command/fullscreenCommand", 0).toString());
+    ui->fullscreenCapture->setText(settings::settings().value("command/fullscreenCommand", "").toString());
 }
 
 void SettingsDialog::setScheme(QString scheme) {

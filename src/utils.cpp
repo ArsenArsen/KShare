@@ -148,6 +148,9 @@ void utils::externalScreenshot(std::function<void(QPixmap)> callback) {
                          }
                          QFile(tempPath).remove();
                      });
+    QObject::connect(process, &QProcess::errorOccurred, [](QProcess::ProcessError err) {
+        if (err == QProcess::FailedToStart) settings::settings().remove("command/fullscreenCommand");
+    });
     process->start(args.takeFirst(), args);
 }
 
@@ -177,5 +180,8 @@ void utils::externalScreenshotActive(std::function<void(QPixmap)> callback) {
                          }
                          QFile(tempPath).remove();
                      });
+    QObject::connect(process, &QProcess::errorOccurred, [](QProcess::ProcessError err) {
+        if (err == QProcess::FailedToStart) settings::settings().remove("command/activeCommand");
+    });
     process->start(args.takeFirst(), args);
 }
