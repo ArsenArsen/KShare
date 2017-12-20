@@ -6,17 +6,18 @@
 #include <QDir>
 #include <QScreen>
 #include <QtGlobal>
+#include <QFile>
 #include <formatter.hpp>
 #include <iostream>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
+#include <libavdevice/avdevice.h>
 }
 #include <QListWidget>
 #include <QTranslator>
 #include <notifications.hpp>
 #include <platformbackend.hpp>
-#include <worker/worker.hpp>
 
 bool verbose = false;
 
@@ -75,6 +76,7 @@ void loadTranslation(QString locale) {
 
 int main(int argc, char *argv[]) {
     av_register_all();
+    avdevice_register_all();
     qInstallMessageHandler(handler);
     QApplication a(argc, argv);
     a.setQuitOnLastWindowClosed(false);
@@ -103,8 +105,6 @@ int main(int argc, char *argv[]) {
 
     verbose = parser.isSet(v);
     MainWindow w;
-    Worker::init();
-    a.connect(&a, &QApplication::aboutToQuit, Worker::end);
     a.connect(&a, &QApplication::aboutToQuit, [] { stillAlive = false; });
 
     if (!parser.isSet(h)) w.show();

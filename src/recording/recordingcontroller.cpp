@@ -1,4 +1,5 @@
 #include "recordingcontroller.hpp"
+#include "../platformbackend.hpp"
 #include <QImage>
 #include <QRect>
 #include <QTimer>
@@ -9,128 +10,37 @@
 #include <stdio.h>
 #include <uploaders/uploadersingleton.hpp>
 #include <utils.hpp>
-#include <worker/worker.hpp>
-
-RecordingController::RecordingController() : timer(this) {
-    connect(&timer, &QTimer::timeout, this, &RecordingController::timeout);
+extern "C" {
+#include <libavcodec/avcodec.h>
+#include <libavdevice/avdevice.h>
+#include <libavformat/avformat.h>
 }
 
-bool RecordingController::isRunning() {
-    return preview;
+_Worker::_Worker(QRect area, QString output, RecordingController *controller)
+: controller(controller), area(area), output(output) {
+    exec();
 }
 
-bool RecordingController::start(RecordingContext *context) {
-    if (isRunning()) return false;
-    if (_context) delete _context;
-    _context = context;
-    ScreenAreaSelector *sel = new ScreenAreaSelector;
-    connect(sel, &ScreenAreaSelector::selectedArea, this, &RecordingController::startWithArea);
-    connect(this, &RecordingController::ended, sel, &ScreenAreaSelector::deleteLater);
-    return true;
-}
-
-bool RecordingController::end() {
-    emit ended();
-    if (!isRunning()) return false;
-    area = QRect();
-    if (preview) {
-        preview->close();
-        preview->deleteLater();
-    }
-
-    preview = 0;
-    WorkerContext *c = new WorkerContext;
-    c->consumer = [&](QImage) {
-        _QueueContext contx;
-        contx.file = _context->finalizer();
-        contx.format = _context->anotherFormat;
-        contx.postUploadTask = _context->postUploadTask;
-        queue(contx);
-    };
-    c->targetFormat = QImage::Format_Alpha8;
-    c->pixmap = QPixmap(0, 0);
-    Worker::queue(c);
-
-    frame = 0;
-    time = 0;
-    return true;
-}
-
-bool RecordingController::abort() {
-    emit ended();
-    if (!isRunning()) return false;
-    area = QRect();
-    if (preview) {
-        preview->close();
-        preview->deleteLater();
-    }
-
-    preview = 0;
-    WorkerContext *c = new WorkerContext;
-    c->consumer = [&](QImage) {
-        _context->finalizer();
-        _context->postUploadTask();
-    };
-    c->targetFormat = QImage::Format_Alpha8;
-    c->pixmap = QPixmap(0, 0);
-    Worker::queue(c);
-
-    frame = 0;
-    time = 0;
-    return true;
-}
-
-void RecordingController::queue(_QueueContext arr) {
-    QMutexLocker l(&lock);
-    uploadQueue.enqueue(arr);
-}
-
-void RecordingController::timeout() {
-    if (isRunning()) {
-        if (!_context->validator(area.size())) {
-            if (preview) {
-                preview->close();
-                preview->deleteLater();
-            }
-            frame = 0;
-            time = 0;
-            preview = 0;
-            area = QRect();
-            timer.stop();
-            return;
-        }
-        time++;
-        int localTime = time * timer.interval() - 3000;
-        if (localTime > 0) {
-            QPixmap pp = utils::fullscreenArea(settings::settings().value("captureCursor", true).toBool(), area.x(),
-                                               area.y(), area.width(), area.height());
-            WorkerContext *context = new WorkerContext;
-            context->consumer = _context->consumer;
-            context->targetFormat = _context->format;
-            context->pixmap = pp;
-            frame++;
-            preview->setPixmap(pp);
-            Worker::queue(context);
-        }
-        long second = localTime / 1000 % 60;
-        long minute = localTime / 60000;
-        if (isRunning())
-            preview->setTime(QString("%1:%2").arg(QString::number(minute)).arg(QString::number(second)), frame);
-    } else {
-        QMutexLocker l(&lock);
-        if (!uploadQueue.isEmpty()) {
-            auto a = uploadQueue.dequeue();
-            if (!a.file.isEmpty()) {
-                QFile f(a.file);
-                UploaderSingleton::inst().upload(f, a.format);
-            }
-            if (a.postUploadTask) a.postUploadTask();
-        }
+void _Worker::run() {
+    try {
+        handler();
+    } catch (std::exception &e) {
+        QMetaObject::invokeMethod(controller, "error", Qt::QueuedConnection, Q_ARG(std::exception, e));
     }
 }
 
-void RecordingController::startWithArea(QRect newArea) {
-    area = newArea;
-    preview = new RecordingPreview(newArea);
-    timer.start(1000 / settings::settings().value("recording/framerate", 30).toInt());
+void _Worker::handler() {
+    AVFormatContext *iformat, *oformat;
+    int ret;
+    // open device input
+    PlatformBackend::inst().createFormatContext(&iformat, area);
+    if ((ret = avformat_find_stream_info(iformat, NULL)) < 0) throw utils::av_error("Cannot find stream info! ", ret);
+    for (int i = 0; i < iformat->nb_streams; i++) {
+        if (iformat->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
+            
+    }
+    if (!iformat->video_codec) throw std::runtime_error("No video stream found");
+}
+
+RecordingController::RecordingController() {
 }

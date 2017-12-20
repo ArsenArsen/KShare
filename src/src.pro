@@ -47,7 +47,6 @@ SOURCES += main.cpp\
     cropeditor/drawing/lineitem.cpp \
     cropeditor/drawing/textitem.cpp \
     colorpicker/colorpickerscene.cpp \
-    worker/worker.cpp \
     screenareaselector/screenareaselector.cpp \
     recording/recordingpreview.cpp \
     recording/recordingcontroller.cpp \
@@ -98,7 +97,6 @@ HEADERS  += mainwindow.hpp \
     cropeditor/drawing/textitem.hpp \
     colorpicker/colorpickerscene.hpp \
     platformbackend.hpp \
-    worker/worker.hpp \
     screenareaselector/screenareaselector.hpp \
     recording/recordingpreview.hpp \
     recording/recordingcontroller.hpp \

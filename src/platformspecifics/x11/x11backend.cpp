@@ -2,11 +2,14 @@
 
 #include <QPixmap>
 #include <QX11Info>
+#include <settings.hpp>
+#include <string>
 #include <unistd.h>
 #include <pwd.h>
 #include <xcb/xcb_cursor.h>
 #include <xcb/xcb_util.h>
 #include <xcb/xfixes.h>
+#include <utils.hpp>
 
 std::tuple<QPoint, QPixmap> PlatformBackend::getCursor() {
     xcb_connection_t *connection = QX11Info::connection();
@@ -69,4 +72,17 @@ QString PlatformBackend::getCurrentUser() {
     QString ret = QString::fromLocal8Bit(pwent->pw_name);
     endpwent();
     return ret;
+}
+
+void PlatformBackend::createFormatContext(AVFormatContext **ctx, QRect area) {
+    AVInputFormat *i = av_find_input_format("x11grab");
+    AVDictionary *opts = NULL;
+    av_dict_set(&opts, "framerate", std::to_string(settings::settings().value("recording/framerate", 30).toInt()).c_str(), 0);
+    QString size = QString("%1x%2").arg(area.width()).arg(area.height());
+    av_dict_set(&opts, "video_size", size.toLocal8Bit().constData(), 0);
+    av_dict_set(&opts, "draw_mouse", std::to_string(int(settings::settings().value("captureCursor", true).toBool())).c_str(), 0);
+    QString desc = QString(":%1+%2").arg(QX11Info::appScreen()).arg(size);
+    int ret;
+    if ((ret = avformat_open_input(ctx, desc.toLocal8Bit().constData(), i, NULL)) < 0)
+        throw utils::av_error("failed to open x11grab input: ", ret);
 }

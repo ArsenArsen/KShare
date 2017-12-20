@@ -9,6 +9,14 @@
 #include <QScreen>
 #include <platformbackend.hpp>
 #include <settings.hpp>
+#include <string>
+
+std::runtime_error utils::av_error(std::string msg, int ret) {
+    char err[AV_ERROR_MAX_STRING_SIZE];
+    av_make_error_string(err, AV_ERROR_MAX_STRING_SIZE, ret);
+    std::string newString(err);
+    return std::runtime_error(msg + newString);
+}
 
 QColor utils::invertColor(QColor color) {
     return QColor(255 - color.red(), 255 - color.green(), 255 - color.blue());

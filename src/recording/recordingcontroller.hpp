@@ -3,56 +3,46 @@
 
 #include "recordingpreview.hpp"
 
-#include <QFile>
-#include <QImage>
-#include <QMutex>
-#include <QQueue>
 #include <QRect>
-#include <QTimer>
-#include <functional>
-#include <memory>
+#include <QThread>
 
-struct RecordingContext {
-    QImage::Format format;
-    std::function<void(QImage)> consumer;
-    std::function<bool(QSize)> validator;
-    std::function<QString()> finalizer;
-    std::function<void()> postUploadTask;
-    QString anotherFormat;
-};
+class RecordingController;
 
-struct _QueueContext {
-    QString file;
-    QString format;
-    std::function<void()> postUploadTask;
-};
-
-class RecordingController : public QObject {
+class _Worker : public QThread {
     Q_OBJECT
+public:
+    // Sets variables, executes, starts immediately
+    _Worker(QRect recordingArea, QString output, RecordingController *c);
+    // Thread-safe controls
+
+    // Stops recording, writes header, closes devices.
+    void stop();
+    // Abruptly aborts recording, cleans up, deletes output
+    void abort();
+protected:
+    void run() override;
+private:
+    void handler();
+    RecordingController *controller;
+    QString output;
+    QRect area;
+};
+
+class RecordingController : public QThread {
 public:
     RecordingController();
     bool isRunning();
 public slots:
-    // Returns false if isRunning
-    bool start(RecordingContext *context);
-    // Returns false if not running
-    bool end();
-    void queue(_QueueContext arr);
-    bool abort();
-private slots:
-    void timeout();
     void startWithArea(QRect newArea);
+    void start();
+    void stop();
+    void abort();
+    void error(std::exception e);
 
 private:
-    QMutex lock;
-    QMutex timerl;
-    QQueue<_QueueContext> uploadQueue;
-    QRect area;
-    RecordingContext *_context = 0;
-    QTimer timer;
-    RecordingPreview *preview = nullptr;
-    unsigned int frame = 0;
-    unsigned int time = 0;
+    _Worker *worker;
+    quint64 frame = 0;
+    quint64 time = 0;
 signals:
     void ended();
 };
