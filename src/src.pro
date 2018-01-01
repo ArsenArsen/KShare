@@ -72,7 +72,8 @@ SOURCES += main.cpp\
     cropeditor/selectionrectangle.cpp \
     screenoverlay/screenoverlayview.cpp \
     screenoverlay/screenoverlay.cpp \
-    screenoverlay/screenoverlaysettings.cpp
+    screenoverlay/screenoverlaysettings.cpp \
+    logger.cpp
 
 HEADERS  += mainwindow.hpp \
     cropeditor/cropeditor.hpp \
@@ -123,7 +124,8 @@ HEADERS  += mainwindow.hpp \
     cropeditor/selectionrectangle.hpp \
     screenoverlay/screenoverlayview.hpp \
     screenoverlay/screenoverlay.hpp \
-    screenoverlay/screenoverlaysettings.hpp
+    screenoverlay/screenoverlaysettings.hpp \
+    logger.hpp
 
 nopkg {
 #    win32 {

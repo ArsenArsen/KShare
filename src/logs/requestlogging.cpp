@@ -1,7 +1,5 @@
 #include "requestlogging.hpp"
 #include <QDateTime>
-#include <QDebug>
-#include <Qt>
 #include <io/ioutils.hpp>
 
 // $type $url $status $time

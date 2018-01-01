@@ -4,7 +4,6 @@
 #include "settingsdialog.hpp"
 #include "ui_mainwindow.h"
 #include "utils.hpp"
-#include <QDebug>
 #include <QMessageBox>
 #include <QShortcut>
 #include <colorpicker/colorpickerscene.hpp>
@@ -15,6 +14,7 @@
 #include <recording/recordingformats.hpp>
 #include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
+#include <logger.hpp>
 
 MainWindow *MainWindow::instance;
 
@@ -23,7 +23,7 @@ void MainWindow::rec() {
     auto f = static_cast<formats::Recording>(
     settings::settings().value("recording/format", static_cast<int>(formats::Recording::None)).toInt());
     if (f >= formats::Recording::None) {
-        qWarning() << tr("Recording format not set in settings. Aborting.");
+        logger::warn(tr("Recording format not set in settings. Aborting."));
         return;
     }
     RecordingContext *ctx = new RecordingContext;

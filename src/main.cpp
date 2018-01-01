@@ -1,8 +1,7 @@
 #include "mainwindow.hpp"
-#include "ui_mainwindow.h"
+#include <ui_mainwindow.h>
 #include <QApplication>
 #include <QCommandLineParser>
-#include <QDebug>
 #include <QDir>
 #include <QScreen>
 #include <QtGlobal>
@@ -26,12 +25,7 @@ bool verbose = false;
 // still alive
 bool stillAlive = true;
 
-#define LOGACT(lvl)                                                                                                    \
-    std::cout << lvl << stdMsg << "\n" << std::flush;                                                                  \
-    if (stillAlive && MainWindow::inst() && MainWindow::inst()->valid()) {                                             \
-        MainWindow::inst()->ui->logBox->addItem(lvl + msg);                                                            \
-    }
-
+#define LOGACT(lvl) std::cout << lvl << stdMsg << "\n" << std::flush;
 void handler(QtMsgType type, const QMessageLogContext &, const QString &msg) {
     if (!verbose && msg.startsWith("QPixmap::fromWinHBITMAP")) return;
     std::string stdMsg = msg.toStdString();
@@ -43,19 +37,15 @@ void handler(QtMsgType type, const QMessageLogContext &, const QString &msg) {
         break;
     case QtInfoMsg:
         LOGACT("INFO: ")
-        if (stillAlive) notifications::notifyNolog("KShare", msg);
         break;
     case QtWarningMsg:
         LOGACT("WARN: ")
-        if (stillAlive) notifications::notifyNolog("KShare Warning", msg, QSystemTrayIcon::Warning);
         break;
     case QtCriticalMsg:
         LOGACT("CRIT: ")
-        if (stillAlive) notifications::notifyNolog("KShare Critical Error", msg, QSystemTrayIcon::Critical);
         break;
     case QtFatalMsg:
         LOGACT("FATAL: ")
-        if (stillAlive) notifications::notifyNolog("KShare Fatal Error", msg, QSystemTrayIcon::Critical);
         break;
     }
 }
@@ -108,6 +98,5 @@ int main(int argc, char *argv[]) {
     a.connect(&a, &QApplication::aboutToQuit, [] { stillAlive = false; });
 
     if (!parser.isSet(h)) w.show();
-    qDebug() << "lol";
     return a.exec();
 }

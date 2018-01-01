@@ -3,7 +3,7 @@
 #include "default/clipboarduploader.hpp"
 #include "default/imguruploader.hpp"
 #include <QBuffer>
-#include <QDebug>
+#include <logger.hpp>
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
@@ -44,7 +44,7 @@ UploaderSingleton::UploaderSingleton() : QObject() {
         try {
             registerUploader(new CustomUploader(configDir.absoluteFilePath(file)));
         } catch (std::runtime_error &e) {
-            qWarning() << e.what();
+            logger::warn(QString::fromStdString(e.what()));
             errs << e;
         }
     }
@@ -77,7 +77,7 @@ void UploaderSingleton::upload(QPixmap pixmap) {
     if (!u->validate()) {
         u = uploaders.value("imgur");
         set("imgur");
-        qWarning() << tr("Currently selected uploader is not set up properly! Falling back to imgur");
+        logger::warn(tr("Currently selected uploader is not set up properly! Falling back to imgur"));
     }
     QString format = settings::settings().value("captureformat", "PNG").toString();
     QFile file(saveDir.absoluteFilePath(

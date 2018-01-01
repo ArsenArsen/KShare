@@ -1,6 +1,5 @@
 #include "recordingpreview.hpp"
 #include <QApplication>
-#include <QDebug>
 #include <QGridLayout>
 #include <QLayout>
 #include <QScreen>

@@ -1,6 +1,6 @@
 #include "settings.hpp"
 
-#include <QDebug>
+#include <logger.hpp>
 #include <QStandardPaths>
 
 QSettings &settings::settings() {
@@ -13,7 +13,7 @@ QDir settings::dir() {
     if (configDir.dirName() != "KShare") {
         if (!configDir.cd("KShare")) {
             if (!configDir.mkdir("KShare")) {
-                qFatal("%s", QObject::tr("Could not make config directory").toLocal8Bit().constData());
+                logger::abort(QObject::tr("Could not make config directory"));
             } else {
                 configDir.cd("KShare");
             }
