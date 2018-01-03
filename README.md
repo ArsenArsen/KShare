@@ -34,9 +34,11 @@ Despite the name implying so, this project does not depend on the KDE API at all
 |Distro|Link|
 |:----:|:--:|
 |Arch Linux (development)|[kshare-git](https://aur.archlinux.org/packages/kshare-git/)|
-|Ubuntu/Debian (development)|[.deb](https://nativeci.arsenarsen.com/job/KShare%20\(dev\)/main=linux/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
+|Ubuntu (development)|[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
 |Arch Linux |[kshare](https://aur.archlinux.org/packages/kshare/)|
-|Ubuntu/Debian |[.deb](https://nativeci.arsenarsen.com/job/KShare%20\(master\)/main=linux/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
+|Ubuntu |[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare%20Stable/lastSuccessfulBuild/artifact/packages/simpleName.deb	)|
+
+I do plan to make a Debian packages.
 
 For other UNIX-like platforms, and MSYS2 (for Windows):
 
