@@ -85,4 +85,6 @@ void PlatformBackend::createFormatContext(AVFormatContext **ctx, QRect area) {
     int ret;
     if ((ret = avformat_open_input(ctx, desc.toLocal8Bit().constData(), i, NULL)) < 0)
         throw utils::av_error("failed to open x11grab input: ", ret);
+    if ((ret = avformat_find_stream_info(*ctx, NULL)) < 0)
+        throw utils::av_error("failed to find x11grab info: ", ret);
 }

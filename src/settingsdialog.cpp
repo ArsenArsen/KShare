@@ -58,7 +58,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Se
     addHotkeyItem(ui->hotkeys, tr("Active window"), "active", [&] { screenshotter::active(); });
 #endif
     addHotkeyItem(ui->hotkeys, tr("Color picker"), "picker", [] { ColorPickerScene::showPicker(); });
-    addHotkeyItem(ui->hotkeys, tr("Stop Recording"), "recordingstop", [&] { MainWindow::inst()->controller->end(); });
+    addHotkeyItem(ui->hotkeys, tr("Stop Recording"), "recordingstop", [&] { MainWindow::inst()->controller->stop(); });
     addHotkeyItem(ui->hotkeys, tr("Start Recording"), "recordingstart", [&] { MainWindow::inst()->rec(); });
 
     ui->quickMode->setChecked(settings::settings().value("quickMode", false).toBool());

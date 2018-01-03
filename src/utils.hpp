@@ -8,7 +8,7 @@
 #include <functional>
 
 namespace utils {
-    std::runtime_error av_error(std::string msg, int ret);
+    std::runtime_error av_error(std::string msg, int ret = 0);
     QColor invertColor(QColor color);
     QPixmap extend(QPixmap pixmap, int extraSize = 25, QColor hl = Qt::transparent);
     QPixmap fullscreen(bool cursor = true);

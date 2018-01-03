@@ -12,6 +12,7 @@
 #include <string>
 
 std::runtime_error utils::av_error(std::string msg, int ret) {
+    if (ret == 0) return std::runtime_error(msg);
     char err[AV_ERROR_MAX_STRING_SIZE];
     av_make_error_string(err, AV_ERROR_MAX_STRING_SIZE, ret);
     std::string newString(err);

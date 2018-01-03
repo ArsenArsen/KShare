@@ -26,15 +26,7 @@ void MainWindow::rec() {
         logger::warn(tr("Recording format not set in settings. Aborting."));
         return;
     }
-    RecordingContext *ctx = new RecordingContext;
-    RecordingFormats *format = new RecordingFormats(f);
-    ctx->consumer = format->getConsumer();
-    ctx->finalizer = format->getFinalizer();
-    ctx->validator = format->getValidator();
-    ctx->format = format->getFormat();
-    ctx->postUploadTask = format->getPostUploadTask();
-    ctx->anotherFormat = format->getAnotherFormat();
-    controller->start(ctx);
+    controller->start(f);
 }
 
 #define ACTION(english, menu)                                                                                          \
@@ -86,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(fullscreen, &QAction::triggered, this, [] { screenshotter::fullscreenDelayed(); });
     connect(area, &QAction::triggered, this, [] { screenshotter::areaDelayed(); });
     connect(rec, &QAction::triggered, this, &MainWindow::rec);
-    connect(recoff, &QAction::triggered, controller, &RecordingController::end);
+    connect(recoff, &QAction::triggered, controller, &RecordingController::stop);
     connect(recabort, &QAction::triggered, controller, &RecordingController::abort);
     connect(ui->settings, &QPushButton::clicked, this, &MainWindow::on_actionSettings_triggered);
 
@@ -96,7 +88,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     addHotkey("area", [] { screenshotter::area(); });
     addHotkey("active", [] { screenshotter::active(); });
     addHotkey("picker", [] { ColorPickerScene::showPicker(); });
-    addHotkey("recordingstop", [&] { controller->end(); });
+    addHotkey("recordingstop", [&] { controller->stop(); });
     addHotkey("recordingabort", [&] { controller->abort(); });
     addHotkey("recordingstart", [&] { this->rec(); });
 
@@ -156,7 +148,7 @@ void MainWindow::on_actionStart_triggered() {
 }
 
 void MainWindow::on_actionStop_triggered() {
-    controller->end();
+    controller->stop();
 }
 
 void MainWindow::on_actionColor_Picker_triggered() {

@@ -1,10 +1,12 @@
 #ifndef RECORDINGCONTROLLER_HPP
 #define RECORDINGCONTROLLER_HPP
 
-#include "recordingpreview.hpp"
 
+#include <QMutex>
+#include <QMutexLocker>
 #include <QRect>
 #include <QThread>
+#include <formats.hpp>
 
 class RecordingController;
 
@@ -17,34 +19,38 @@ public:
 
     // Stops recording, writes header, closes devices.
     void stop();
+    bool isStopped();
     // Abruptly aborts recording, cleans up, deletes output
     void abort();
+
 protected:
     void run() override;
+
 private:
     void handler();
     RecordingController *controller;
     QString output;
     QRect area;
+    bool interrupt;
+    QMutex interruptMutex;
 };
 
-class RecordingController : public QThread {
+class RecordingController : public QObject {
+    Q_OBJECT
 public:
     RecordingController();
     bool isRunning();
 public slots:
+    void start(formats::Recording format);
     void startWithArea(QRect newArea);
-    void start();
     void stop();
     void abort();
     void error(std::exception e);
 
 private:
-    _Worker *worker;
-    quint64 frame = 0;
-    quint64 time = 0;
-signals:
-    void ended();
+    _Worker *worker = nullptr;
+    QString output;
+    formats::Recording format;
 };
 
 #endif // RECORDINGCONTROLLER_HPP

@@ -139,11 +139,11 @@ nopkg {
 #        LIBS += -L$$(FFMPEG_DEV_PATH)\lib
 #        message(Set the library and include paths);
 #    }
-    LIBS += -lavcodec -lavformat -lavutil -lswscale
+    LIBS += -lavcodec -lavformat -lavutil -lswscale -lavdevice
     message(nopkg);
 } else {
     CONFIG += link_pkgconfig
-    PKGCONFIG += libavformat libavcodec libswscale libavutil
+    PKGCONFIG += libavformat libavcodec libswscale libavutil libavdevice
 }
 
 mac {
