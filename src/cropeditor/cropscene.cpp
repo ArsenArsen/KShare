@@ -3,7 +3,6 @@
 #include "selectionrectangle.hpp"
 #include <QApplication>
 #include <QColorDialog>
-#include <QDebug>
 #include <QFontDialog>
 #include <QGraphicsPolygonItem>
 #include <QGraphicsProxyWidget>

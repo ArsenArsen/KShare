@@ -1,7 +1,5 @@
 #include "requestlogging.hpp"
 #include <QDateTime>
-#include <QDebug>
-#include <Qt>
 #include <io/ioutils.hpp>
 
 // $type $url $status $time
@@ -35,8 +33,8 @@ void requestlogging::addEntry(RequestContext context) {
     responseFile.write("\n\n" + context.response);
     responseFile.close();
 
-    QTextStream(&requestFile) << ioutils::methodString(context.reply->operation()) << " " // $type
-                              << context.reply->url().toString() << " "                   // $url
+    QTextStream(&requestFile) << ioutils::methodString(context.reply->operation()) << " "   // $type
+                              << context.reply->url().toString().replace(" ", "%20") << " " // $url
                               << context.reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() << " " // $status
                               << timeNow.replace(" ", "_") << endl
                               << flush; // $time

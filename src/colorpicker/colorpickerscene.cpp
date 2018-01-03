@@ -1,7 +1,7 @@
 #include "colorpickerscene.hpp"
 #include <QApplication>
 #include <QClipboard>
-#include <QDebug>
+#include <logger.hpp>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsTextItem>
@@ -24,7 +24,7 @@ void ColorPickerScene::keyPressEvent(QKeyEvent *event) {
     color = image.pixelColor(cursorPos().toPoint());
     if (event->key() == Qt::Key_Return) {
         QApplication::clipboard()->setText(color.name());
-        qInfo().noquote() << tr("Copied hex code to clipboard.");
+    logger::info(tr("Copied hex code to clipboard."));
     }
     if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Escape) close();
 }
@@ -33,7 +33,7 @@ void ColorPickerScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *) {
     color = image.pixelColor(cursorPos().toPoint());
     QApplication::clipboard()->setText(color.name());
     close();
-    qInfo().noquote() << tr("Copied hex code to clipboard.");
+    logger::info(tr("Copied hex code to clipboard."));
 }
 
 QString ColorPickerScene::generateHint() {

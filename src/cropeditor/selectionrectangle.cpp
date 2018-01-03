@@ -1,6 +1,5 @@
 #include "selectionrectangle.hpp"
 
-#include <QDebug>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>

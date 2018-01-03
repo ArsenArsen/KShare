@@ -1,15 +1,15 @@
 [Desktop Entry]
 Name=KShare
-Comment=A ShareX inspired cross platform screen capture utility written with Qt.
+Comment=The free and open source and cross platform screen sharing software. 
 GenericName=Screenshot Capture Utility
 Exec=/usr/bin/kshare
 Icon=/usr/share/pixmaps/KShare.png
 Type=Application
 StartupNotify=false
 Categories=Qt;Utility;
-StartupWMClass=KSharee
+StartupWMClass=KShare
 Actions=StartInBackground
 
 [Desktop Action StartInBackground]
 Name=Start without showing the window
-Exec=kshare -b
+Exec=/usr/bin/kshare -b
