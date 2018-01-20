@@ -33,7 +33,9 @@ See the [projects](https://github.com/ArsenArsen/KShare/projects)
 |Arch Linux (development)|[kshare-git](https://aur.archlinux.org/packages/kshare-git/)|
 |Ubuntu (development)|[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
 |Arch Linux |[kshare](https://aur.archlinux.org/packages/kshare/)|
-|Ubuntu |[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare%20Stable/lastSuccessfulBuild/artifact/packages/simpleName.deb	)|
+|Ubuntu |[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare%20Stable/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
+
+**NOTE:** These links are temporalely down and will be taken back with the next release. Current development builds are available on [this location](https://nativeci.arsenarsen.com/job/KShare%20(dev\))
 
 I do plan to make a Debian packages.
 
@@ -49,5 +51,11 @@ make
 
 On systems with FFMpeg pre-3.1 you need to apply `OlderSystemFix.patch` to `recording/encoders/encoder.cpp`.
 On systems with Qt pre-5.7 you need to install the Qt version from their website.
+
+## Support (and contact)
+There's a few ways to get support, you can:
+* join `#kshare` on [Freenode](https://freenode.net/)
+* open an issue
+If someone can answer, they probably will.
 
 ###### Started on 19th of April 2017 to bring some attention and improvement to Linux screenshotting.
