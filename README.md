@@ -56,8 +56,9 @@ You can find more details [here](https://blog.arsenarsen.com/posts/compiling-ksh
 
 ## Support (and contact)
 There's a few ways to get support, you can:
-* join `#kshare` on [Freenode](https://freenode.net/)
+* join `#kshare` on [Freenode](https://webchat.freenode.net/?channels=kshare)
 * open an issue
+
 If someone can answer, they probably will.
 
 ###### Started on 19th of April 2017 to bring some attention and improvement to Linux screenshotting.
