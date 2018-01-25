@@ -28,14 +28,15 @@ Despite the name implying so, this project does not depend on the KDE API at all
 See the [projects](https://github.com/ArsenArsen/KShare/projects)
 
 ## Install
+
+### **NOTE:** These links are temporarily down and will be fixed with the next release. Current (potentially unstable) development builds are available at [this location](https://nativeci.arsenarsen.com/job/KShare%20(dev))
+
 |Distro|Link|
 |:----:|:--:|
 |Arch Linux (development)|[kshare-git](https://aur.archlinux.org/packages/kshare-git/)|
 |Ubuntu (development)|[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
 |Arch Linux |[kshare](https://aur.archlinux.org/packages/kshare/)|
 |Ubuntu |[Ubuntu .deb](https://nativeci.arsenarsen.com/job/KShare%20Stable/lastSuccessfulBuild/artifact/packages/simpleName.deb)|
-
-**NOTE:** These links are temporalely down and will be taken back with the next release. Current development builds are available on [this location](https://nativeci.arsenarsen.com/job/KShare%20(dev) )
 
 I do plan to make a Debian packages.
 
