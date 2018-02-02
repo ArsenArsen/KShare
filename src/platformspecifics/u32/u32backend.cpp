@@ -46,10 +46,12 @@ bool PlatformBackend::filenameValid(QString name) {
 }
 
 QString PlatformBackend::getCurrentUser() {
-    char username[UNLEN + 1];
+    LPWSTR username[UNLEN + 1];
     DWORD username_len = UNLEN + 1;
-    GetUserName(username, &username_len);
-    QString userName = QString::fromLocal8Bit(username, username_len);
+    QString userName;
+    if (GetUserName(username, &username_len)) {
+        userName = QString::fromLocal8Bit(username, username_len);
+    }
     delete[] username;
     return userName;
 }
