@@ -241,12 +241,11 @@ void CropScene::mouseMoved(QGraphicsSceneMouseEvent *e, QPointF cursorPos, QPoin
                 }
             }
             updatePoly();
-            e->accept();
         }
     }
     prevButtons = buttons;
 
-    QGraphicsScene::mouseMoveEvent(e);
+    setMagVisibility(!proxyMenu->sceneBoundingRect().contains(cursorPos));
 }
 
 void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
@@ -258,7 +257,7 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
         done(true);
     prevButtons = Qt::NoButton;
 
-    if (!(e->modifiers() & Qt::ControlModifier)) QGraphicsScene::mouseReleaseEvent(e);
+    if (e->modifiers() & Qt::ControlModifier) e->accept();
 }
 
 void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
@@ -267,7 +266,7 @@ void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
         if (item && item != proxyMenu) removeItem(item);
     }
 
-    if (!(e->modifiers() & Qt::ControlModifier)) QGraphicsScene::mousePressEvent(e);
+    if (e->modifiers() & Qt::ControlModifier) e->accept();
 }
 
 void CropScene::addDrawingAction(QMenuBar *menu, QString name, QString icon, std::function<DrawItem *()> item) {
@@ -286,7 +285,7 @@ void CropScene::keyReleaseEvent(QKeyEvent *event) {
         settings::settings().setValue("crophint", enabled);
     }
 
-    if (!(event->modifiers() & Qt::ControlModifier)) QGraphicsScene::keyReleaseEvent(event);
+    if (event->modifiers() & Qt::ControlModifier) event->accept();
 }
 
 

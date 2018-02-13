@@ -33,6 +33,8 @@ public slots:
     void loadSettings();
     void updateMag();
     void hideMag();
+    void showMag();
+    void setMagVisibility(bool visible);
     void moveMouse(QPoint newPoint);
     void moveMouseBy(QPoint delta);
 

@@ -69,7 +69,6 @@ void ScreenOverlay::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
         QCursor::setPos(views()[0]->mapToGlobal(cursorPos().toPoint()));
     } else
         setCursorPos(e->scenePos());
-    cursorItem->setPos(cursorPos());
     updateMag();
     mouseMoved(e, cursorPos(), delta);
 }
@@ -87,11 +86,21 @@ void ScreenOverlay::moveMouseBy(QPoint delta) {
 }
 
 void ScreenOverlay::hideMag() {
-    magnifier->setVisible(false);
-    cursorItem->setVisible(false);
-    magnifierBox->setVisible(false);
-    magnifierHint->setVisible(false);
-    magnifierHintBox->setVisible(false);
+    setMagVisibility(false);
+}
+
+void ScreenOverlay::setMagVisibility(bool visible) {
+    magnifier->setVisible(visible);
+    cursorItem->setVisible(visible);
+    magnifierBox->setVisible(visible);
+    magnifierHint->setVisible(visible);
+    magnifierHintBox->setVisible(visible);
+    for (auto *view : views())
+        view->setCursor(visible ? Qt::BlankCursor : Qt::ArrowCursor);
+}
+
+void ScreenOverlay::showMag() {
+    setMagVisibility(true);
 }
 
 void ScreenOverlay::updateMagnifierGrid() {
@@ -147,6 +156,7 @@ void ScreenOverlay::updateMag() {
     if (bottomRight.y() > sceneRect().bottom())
         magnifierPos -= QPointF(0, 130 + magnifierHintBox->boundingRect().height());
     magnifier->setPos(magnifierPos);
+    cursorItem->setPos(cursorPos());
 }
 
 void ScreenOverlay::setHighlight(QColor highlight) {
