@@ -6,6 +6,7 @@ A [ShareX](https://getsharex.com/) inspired cross platform utility written with 
 |[![Build Status](https://nativeci.arsenarsen.com/job/KShare/badge/icon)](https://nativeci.arsenarsen.com/job/KShare)| [![Build Status](https://nativeci.arsenarsen.com/job/KShare%20Windows%20x86_64/badge/icon)](https://nativeci.arsenarsen.com/job/KShare%20Windows%20x86_64/)| Soon |
 ## Screenshot
 Made with KShare itself, of course :)
+
 ![](http://i.imgur.com/ffWvCun.png)
 
 ## Usage
