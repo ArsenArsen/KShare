@@ -16,6 +16,7 @@
 #include <cropeditor/drawing/bluritem.hpp>
 #include <cropeditor/drawing/ellipseitem.hpp>
 #include <cropeditor/drawing/eraseritem.hpp>
+#include <cropeditor/drawing/highlighter.hpp>
 #include <cropeditor/drawing/lineitem.hpp>
 #include <cropeditor/drawing/pathitem.hpp>
 #include <cropeditor/drawing/rectitem.hpp>
@@ -41,6 +42,7 @@ CropScene::CropScene(QObject *parent, QPixmap pixmap)
     addDrawingAction(menu, tr("Straight line"), ":/icons/line.png", [] { return new LineItem; });
     addDrawingAction(menu, tr("Text"), ":/icons/text.png", [] { return new TextItem; });
     addDrawingAction(menu, tr("Rectangle"), ":/icons/rectangle.png", [] { return new RectItem; });
+    addDrawingAction(menu, tr("Highlighter"), ":/icons/highlighter.png", [] { return new Highlighter; });
     addDrawingAction(menu, tr("Ellipse"), ":/icons/circle.png", [] { return new EllipseItem; });
     addDrawingAction(menu, tr("Arrow"), ":/icons/arrow.png", [] { return new ArrowItem; });
 

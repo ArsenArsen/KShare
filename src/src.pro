@@ -61,6 +61,7 @@ SOURCES += main.cpp\
     cropeditor/drawing/eraseritem.cpp \
     cropeditor/drawing/rectitem.cpp \
     cropeditor/drawing/ellipseitem.cpp \
+    cropeditor/drawing/highlighter.cpp \
     hotkeyinputdialog.cpp \
     cropeditor/drawing/arrowitem.cpp \
     uploaders/default/imgursettingsdialog.cpp \
@@ -113,6 +114,7 @@ HEADERS  += mainwindow.hpp \
     cropeditor/drawing/eraseritem.hpp \
     cropeditor/drawing/rectitem.hpp \
     cropeditor/drawing/ellipseitem.hpp \
+    cropeditor/drawing/highlighter.hpp \
     hotkeyinputdialog.hpp \
     cropeditor/drawing/arrowitem.hpp \
     uploaders/default/imgursettingsdialog.hpp \

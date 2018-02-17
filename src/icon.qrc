@@ -17,5 +17,6 @@
         <file>icons/cancel.png</file>
         <file>icons/crop.png</file>
         <file>icons/circle.png</file>
+        <file>icons/highlighter.png</file>
     </qresource>
 </RCC>
