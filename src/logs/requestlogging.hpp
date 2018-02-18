@@ -41,6 +41,6 @@ namespace requestlogging {
 
     QList<LoggedRequest> getRequests();
     void addEntry(RequestContext context);
-}
+} // namespace requestlogging
 
 #endif // REQUESTLOGGING_HPP

@@ -27,6 +27,6 @@ namespace ioutils {
                            QHttpMultiPart *body,
                            std::function<void(QByteArray, QNetworkReply *)> callback);
     QString methodString(QNetworkAccessManager::Operation operation);
-}
+} // namespace ioutils
 
 #endif // IOUTILS_HPP

@@ -31,9 +31,8 @@ void ImgplusUploader::doUpload(QByteArray byteArray, QString format) {
     keyPart.setBody(settings::settings().value("imgplus/apikey").toString().toUtf8());
     multipart->append(keyPart);
 
-    ioutils::postMultipartData(QUrl("http://imgpl.us/api/upload"),
-                               { QPair<QString, QString>("Accept", "application/json") }, multipart,
-                               [](QByteArray link, QNetworkReply *) {
+    ioutils::postMultipartData(QUrl("http://imgpl.us/api/upload"), { QPair<QString, QString>("Accept", "application/json") },
+                               multipart, [](QByteArray link, QNetworkReply *) {
                                    QApplication::clipboard()->setText(QString::fromUtf8(link));
                                    if (!link.startsWith("http"))
                                        qCritical() << QObject::tr("Failed to upload! Copied the response to clipboard");

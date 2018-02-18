@@ -20,6 +20,6 @@ namespace utils {
     void externalScreenshot(std::function<void(QPixmap)> callback);
     void externalScreenshotActive(std::function<void(QPixmap)> callback);
     QString randomString(int length);
-}
+} // namespace utils
 
 #endif // UTILS_HPP

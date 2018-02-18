@@ -2,8 +2,8 @@
 
 #include <QPixmap>
 #include <QX11Info>
-#include <unistd.h>
 #include <pwd.h>
+#include <unistd.h>
 #include <xcb/xcb_cursor.h>
 #include <xcb/xcb_util.h>
 #include <xcb/xfixes.h>
@@ -61,10 +61,11 @@ bool PlatformBackend::filenameValid(QString name) {
 
 QString PlatformBackend::getCurrentUser() {
     auto pwent = getpwent();
-    if(!pwent) {
+    if (!pwent) {
         if (qEnvironmentVariableIsSet("USER"))
             return QString::fromLocal8Bit(qgetenv("USER"));
-        else return QString();
+        else
+            return QString();
     }
     QString ret = QString::fromLocal8Bit(pwent->pw_name);
     endpwent();

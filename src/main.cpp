@@ -1,5 +1,4 @@
 #include "mainwindow.hpp"
-#include <ui_mainwindow.h>
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDir>
@@ -7,6 +6,7 @@
 #include <QtGlobal>
 #include <formatter.hpp>
 #include <iostream>
+#include <ui_mainwindow.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>

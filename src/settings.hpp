@@ -7,6 +7,6 @@
 namespace settings {
     QSettings &settings();
     QDir dir();
-}
+} // namespace settings
 
 #endif // SETTINGS_HPP

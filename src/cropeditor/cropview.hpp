@@ -1,8 +1,8 @@
 #ifndef CROPVIEW_HPP
 #define CROPVIEW_HPP
 
-#include <QKeyEvent>
 #include <QCoreApplication>
+#include <QKeyEvent>
 #include <screenoverlay/screenoverlayview.hpp>
 
 class CropView : public ScreenOverlayView {
@@ -10,6 +10,7 @@ class CropView : public ScreenOverlayView {
 public:
     CropView(QGraphicsScene *scene);
     ~CropView();
+
 protected:
     void showEvent(QShowEvent *e) override;
 };

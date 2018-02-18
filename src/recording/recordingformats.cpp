@@ -2,12 +2,12 @@
 
 #include <QBuffer>
 #include <QDateTime>
-#include <logger.hpp>
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
 #include <QTimer>
 #include <formats.hpp>
+#include <logger.hpp>
 #include <notifications.hpp>
 #include <platformbackend.hpp>
 #include <settings.hpp>

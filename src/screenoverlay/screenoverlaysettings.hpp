@@ -1,15 +1,14 @@
 #ifndef SCREENOVERLAYSETTINGS_H
 #define SCREENOVERLAYSETTINGS_H
 
-#include <QDialog>
 #include "screenoverlay.hpp"
+#include <QDialog>
 
 namespace Ui {
-class ScreenOverlaySettings;
+    class ScreenOverlaySettings;
 }
 
-class ScreenOverlaySettings : public QDialog
-{
+class ScreenOverlaySettings : public QDialog {
     Q_OBJECT
 
 public:

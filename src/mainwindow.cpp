@@ -9,12 +9,12 @@
 #include <colorpicker/colorpickerscene.hpp>
 #include <formats.hpp>
 #include <hotkeying.hpp>
+#include <logger.hpp>
 #include <logs/historydialog.hpp>
 #include <platformbackend.hpp>
 #include <recording/recordingformats.hpp>
 #include <settings.hpp>
 #include <uploaders/uploadersingleton.hpp>
-#include <logger.hpp>
 
 MainWindow *MainWindow::instance;
 

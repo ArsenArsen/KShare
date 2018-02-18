@@ -136,7 +136,7 @@ void utils::externalScreenshot(std::function<void(QPixmap)> callback) {
     QObject::connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
                      [callback, process, tempPath](int code, QProcess::ExitStatus) {
                          if (code != 0) {
-                            logger::fatal(QObject::tr("Failed to take external screenshot: \n") +  process->readAllStandardError());
+                             logger::fatal(QObject::tr("Failed to take external screenshot: \n") + process->readAllStandardError());
                          } else {
                              QPixmap pixmap;
                              if (!tempPath.isEmpty())
@@ -167,7 +167,7 @@ void utils::externalScreenshotActive(std::function<void(QPixmap)> callback) {
     QObject::connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
                      [callback, process, tempPath](int code, QProcess::ExitStatus) {
                          if (code != 0) {
-                            logger::fatal(QObject::tr("Failed to take external screenshot: \n") +  process->readAllStandardError());
+                             logger::fatal(QObject::tr("Failed to take external screenshot: \n") + process->readAllStandardError());
                          } else {
                              QPixmap pixmap;
                              if (!tempPath.isEmpty())

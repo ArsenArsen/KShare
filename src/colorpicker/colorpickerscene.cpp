@@ -1,11 +1,11 @@
 #include "colorpickerscene.hpp"
 #include <QApplication>
 #include <QClipboard>
-#include <logger.hpp>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsTextItem>
 #include <QTimer>
+#include <logger.hpp>
 #include <screenoverlay/screenoverlayview.hpp>
 #include <settings.hpp>
 
@@ -24,7 +24,7 @@ void ColorPickerScene::keyPressEvent(QKeyEvent *event) {
     color = image.pixelColor(cursorPos().toPoint());
     if (event->key() == Qt::Key_Return) {
         QApplication::clipboard()->setText(color.name());
-    logger::info(tr("Copied hex code to clipboard."));
+        logger::info(tr("Copied hex code to clipboard."));
     }
     if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Escape) close();
 }

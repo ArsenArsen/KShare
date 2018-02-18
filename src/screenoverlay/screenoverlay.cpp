@@ -95,8 +95,9 @@ void ScreenOverlay::setMagVisibility(bool visible) {
     magnifierBox->setVisible(visible);
     magnifierHint->setVisible(visible);
     magnifierHintBox->setVisible(visible);
-    for (auto *view : views())
+    for (auto *view : views()) {
         view->setCursor(visible ? Qt::BlankCursor : Qt::ArrowCursor);
+    }
 }
 
 void ScreenOverlay::showMag() {

@@ -1,8 +1,8 @@
 #include "screenoverlaysettings.hpp"
 #include "ui_screenoverlaysettings.h"
 
-#include <settings.hpp>
 #include <QColorDialog>
+#include <settings.hpp>
 
 ScreenOverlaySettings::ScreenOverlaySettings(ScreenOverlay *overlay, QWidget *parent)
 : QDialog(parent), ui(new Ui::ScreenOverlaySettings), overlay(overlay) {

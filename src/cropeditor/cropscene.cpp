@@ -203,9 +203,9 @@ void CropScene::mouseMoved(QGraphicsSceneMouseEvent *e, QPointF cursorPos, QPoin
                 if (e->buttons() & Qt::LeftButton) newRect.setBottomLeft(cursorPos);
             }
         }
-        if (!close)
+        if (!close) {
             views()[0]->setCursor(Qt::BlankCursor);
-        else {
+        } else {
             rect->setRect(newRect);
             prevButtons = e->buttons();
             updatePoly();
@@ -220,29 +220,31 @@ void CropScene::mouseMoved(QGraphicsSceneMouseEvent *e, QPointF cursorPos, QPoin
         return;
     }
     if (buttons == Qt::LeftButton) {
-        if (drawingSelection) {
-            drawingSelection->mouseDragEvent(e, this);
-        } else {
-            QPointF p = cursorPos;
-            if (rect == nullptr) {
-                drawingRect = true;
-                rect = new SelectionRectangle(p.x(), p.y(), 1, 1);
-                initPos = p;
-                QPen pen(Qt::NoBrush, 1);
-                pen.setColor(highlight());
-                rect->setPen(pen);
-                rect->setZValue(1);
-                addItem(rect);
+        if (!proxyMenu->sceneBoundingRect().contains(cursorPos)) {
+            if (drawingSelection) {
+                drawingSelection->mouseDragEvent(e, this);
             } else {
-                if (prevButtons == Qt::NoButton) {
+                QPointF p = cursorPos;
+                if (rect == nullptr) {
+                    drawingRect = true;
+                    rect = new SelectionRectangle(p.x(), p.y(), 1, 1);
                     initPos = p;
-                    rect->setRect(p.x(), p.y(), 1, 1);
+                    QPen pen(Qt::NoBrush, 1);
+                    pen.setColor(highlight());
+                    rect->setPen(pen);
+                    rect->setZValue(1);
+                    addItem(rect);
                 } else {
-                    rect->setRect(QRect(qMin(initPos.x(), p.x()), qMin(initPos.y(), p.y()), qAbs(initPos.x() - p.x()),
-                                        qAbs(initPos.y() - p.y())));
+                    if (prevButtons == Qt::NoButton) {
+                        initPos = p;
+                        rect->setRect(p.x(), p.y(), 1, 1);
+                    } else {
+                        rect->setRect(QRect(qMin(initPos.x(), p.x()), qMin(initPos.y(), p.y()),
+                                            qAbs(initPos.x() - p.x()), qAbs(initPos.y() - p.y())));
+                    }
                 }
+                updatePoly();
             }
-            updatePoly();
         }
     }
     prevButtons = buttons;
@@ -259,7 +261,10 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
         done(true);
     prevButtons = Qt::NoButton;
 
-    if (e->modifiers() & Qt::ControlModifier) e->accept();
+    if (e->modifiers() & Qt::ControlModifier)
+        e->accept();
+    else
+        QGraphicsScene::mouseReleaseEvent(e);
 }
 
 void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
@@ -268,14 +273,17 @@ void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
         if (item && item != proxyMenu) removeItem(item);
     }
 
-    if (e->modifiers() & Qt::ControlModifier) e->accept();
+    if (e->modifiers() & Qt::ControlModifier)
+        e->accept();
+    else
+        QGraphicsScene::mousePressEvent(e);
 }
 
 void CropScene::addDrawingAction(QMenuBar *menu, QString name, QString icon, std::function<DrawItem *()> item) {
     QAction *action = menu->addAction("");
     action->setToolTip(name);
     action->setIcon(QIcon(icon));
-    connect(action, &QAction::triggered, [this, menu, action, item, name](bool) { setDrawingSelection(name, item); });
+    connect(action, &QAction::triggered, [this, item, name](bool) { setDrawingSelection(name, item); });
 }
 
 void CropScene::keyReleaseEvent(QKeyEvent *event) {

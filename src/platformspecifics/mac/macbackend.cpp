@@ -1,7 +1,7 @@
 #include "macbackend.hpp"
 
-#include <unistd.h>
 #include <pwd.h>
+#include <unistd.h>
 
 std::tuple<QPoint, QPixmap> PlatformBackend::getCursor() {
 #warning "TODO: Mac backend"
@@ -21,13 +21,13 @@ bool PlatformBackend::filenameValid(QString name) {
 
 QString PlatformBackend::getCurrentUser() {
     auto pwent = getpwent();
-    if(!pwent) {
+    if (!pwent) {
         if (qEnvironmentVariableIsSet("USER"))
             return QString::fromLocal8Bit(qgetenv("USER"));
-        else return QString();
+        else
+            return QString();
     }
     QString ret = QString::fromLocal8Bit(pwent->pw_name);
     endpwent();
     return ret;
 }
-

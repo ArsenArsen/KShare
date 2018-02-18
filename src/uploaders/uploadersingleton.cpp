@@ -3,12 +3,12 @@
 #include "default/clipboarduploader.hpp"
 #include "default/imguruploader.hpp"
 #include <QBuffer>
-#include <logger.hpp>
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
 #include <formats.hpp>
 #include <formatter.hpp>
+#include <logger.hpp>
 #include <notifications.hpp>
 #include <settings.hpp>
 #include <uploaders/default/imgplusuploader.hpp>

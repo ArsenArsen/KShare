@@ -13,5 +13,5 @@ namespace formats {
     QString recordingFormatName(Recording format);
     Recording recordingFormatFromName(QString format);
     QString recordingFormatMIME(Recording format);
-}
+} // namespace formats
 #endif // FORMATS_HPP

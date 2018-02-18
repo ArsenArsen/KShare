@@ -10,6 +10,6 @@ namespace screenshotter {
 
     void activeDelayed();
     void active();
-}
+} // namespace screenshotter
 
 #endif // SCREENSHOTTER_HPP

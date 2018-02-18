@@ -57,6 +57,5 @@ void RecordingPreview::setPixmap(QPixmap map) {
 }
 void RecordingPreview::setTime(QString time, int frame) {
     if (isVisible())
-        hintLabel->setText(
-        tr("Time: %1\nFrame: %2\nStop key: %3").arg(time).arg(frame).arg(hotkeying::sequence("recordingstop")));
+        hintLabel->setText(tr("Time: %1\nFrame: %2\nStop key: %3").arg(time).arg(frame).arg(hotkeying::sequence("recordingstop")));
 }

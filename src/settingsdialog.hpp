@@ -38,6 +38,7 @@ private slots:
     void on_fpsMax_valueChanged(int arg1);
     void on_fullscreenCapture_textChanged(QString newVal);
     void on_focusedCapture_textChanged(QString newVal);
+
 private:
     Ui::SettingsDialog *ui;
 };

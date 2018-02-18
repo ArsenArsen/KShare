@@ -1,7 +1,7 @@
 #include "settings.hpp"
 
-#include <logger.hpp>
 #include <QStandardPaths>
+#include <logger.hpp>
 
 QSettings &settings::settings() {
     static QSettings settings(dir().absoluteFilePath("settings.ini"), QSettings::IniFormat);

@@ -9,6 +9,6 @@ namespace logger {
     void error(QString info); // Oh no - it errored, but is recoverable, and still important enough to notify
     void fatal(QString info); // Unrecoverable error, procedure aborts and notifies the user
     void abort(QString info); // tell the user that it gonna ded
-}
+} // namespace logger
 
 #endif /* LOGGER_HPP */

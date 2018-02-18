@@ -16,8 +16,8 @@ HistoryDialog::HistoryDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Hist
 
     QList<LoggedRequest> requests = requestlogging::getRequests();
     for (LoggedRequest req : requests) {
-        ui->treeWidget->addTopLevelItem(new QTreeWidgetItem(
-        { req.getType(), req.getUrl(), QString::number(req.getResponseCode()), req.getTime() + " UTC" }));
+        ui->treeWidget->addTopLevelItem(
+        new QTreeWidgetItem({ req.getType(), req.getUrl(), QString::number(req.getResponseCode()), req.getTime() + " UTC" }));
     }
 }
 
