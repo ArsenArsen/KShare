@@ -216,7 +216,7 @@ void CropScene::mouseMoved(QGraphicsSceneMouseEvent *e, QPointF cursorPos, QPoin
     auto buttons = e->buttons();
     if (e->modifiers() & Qt::ControlModifier && buttons == Qt::LeftButton) {
         auto item = whichItem(cursorPos);
-        if (item) item->moveBy(delta.x(), delta.y());
+        if (item) item->moveBy(cursorPos);
         return;
     }
     if (buttons == Qt::LeftButton) {
@@ -225,7 +225,11 @@ void CropScene::mouseMoved(QGraphicsSceneMouseEvent *e, QPointF cursorPos, QPoin
                 drawingSelection->mouseDragEvent(e, this);
             } else {
                 QPointF p = cursorPos;
-                if (rect == nullptr) {
+                if (!drawingRect || rect == nullptr) {
+                    if (rect) {
+                        delete rect;
+                        rect = nullptr;
+                    }
                     drawingRect = true;
                     rect = new SelectionRectangle(p.x(), p.y(), 1, 1);
                     initPos = p;
@@ -235,7 +239,7 @@ void CropScene::mouseMoved(QGraphicsSceneMouseEvent *e, QPointF cursorPos, QPoin
                     rect->setZValue(1);
                     addItem(rect);
                 } else {
-                    if (prevButtons == Qt::NoButton) {
+                    if (prevButtons == Qt::NoButton && !keyboardActiveSelection()) {
                         initPos = p;
                         rect->setRect(p.x(), p.y(), 1, 1);
                     } else {
@@ -257,14 +261,12 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
     if (drawingSelection) {
         drawingSelection->mouseDragEndEvent(e, this);
         setDrawingSelection(drawingName, drawingSelectionMaker);
-    } else if (settings::settings().value("quickMode", false).toBool() && !proxyMenu->sceneBoundingRect().contains(e->scenePos()))
+    } else if (!proxyMenu->sceneBoundingRect().contains(e->scenePos()) && settings::settings().value("quickMode", false).toBool()) {
         done(true);
+    }
     prevButtons = Qt::NoButton;
 
-    if (e->modifiers() & Qt::ControlModifier)
-        e->accept();
-    else
-        QGraphicsScene::mouseReleaseEvent(e);
+    if (e->modifiers() & Qt::ControlModifier) e->accept();
 }
 
 void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
@@ -273,10 +275,7 @@ void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
         if (item && item != proxyMenu) removeItem(item);
     }
 
-    if (e->modifiers() & Qt::ControlModifier)
-        e->accept();
-    else
-        QGraphicsScene::mousePressEvent(e);
+    if (e->modifiers() & Qt::ControlModifier) e->accept();
 }
 
 void CropScene::addDrawingAction(QMenuBar *menu, QString name, QString icon, std::function<DrawItem *()> item) {

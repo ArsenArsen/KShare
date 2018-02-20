@@ -35,10 +35,11 @@ public slots:
     void hideMag();
     void showMag();
     void setMagVisibility(bool visible);
-    void moveMouse(QPoint newPoint);
-    void moveMouseBy(QPoint delta);
+    void moveMouse(QPoint newPoint, bool spaceHeld = false);
+    void moveMouseBy(QPoint delta, bool spaceHeld = false);
 
 protected:
+    bool keyboardActiveSelection();
     void mouseMoveEvent(QGraphicsSceneMouseEvent *e) override;
     void wheelEvent(QGraphicsSceneWheelEvent *e) override;
     void keyPressEvent(QKeyEvent *e) override;
@@ -65,6 +66,7 @@ private:
     QList<QGraphicsRectItem *> gridRectsY;
     QColor _highlight = Qt::cyan;
     bool _grid = true;
+    bool selectActive = false;
     QPixmap _pixmap;
     MovementPattern _movementPattern = MP_ARROWS;
 };

@@ -73,16 +73,17 @@ void ScreenOverlay::mouseMoveEvent(QGraphicsSceneMouseEvent *e) {
     mouseMoved(e, cursorPos(), delta);
 }
 
-void ScreenOverlay::moveMouse(QPoint newPos) {
-    QMouseEvent eve(QEvent::MouseMove, newPos, Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+void ScreenOverlay::moveMouse(QPoint newPos, bool spaceHeld) {
+    QMouseEvent eve(QEvent::MouseMove, newPos, spaceHeld ? Qt::LeftButton : Qt::NoButton,
+                    spaceHeld ? Qt::LeftButton : Qt::NoButton, Qt::NoModifier);
     for (auto &v : views()) {
         QCursor::setPos(v->mapToGlobal(newPos));
         QApplication::sendEvent(v->viewport(), &eve);
     }
 }
 
-void ScreenOverlay::moveMouseBy(QPoint delta) {
-    moveMouse(cursorPos().toPoint() + delta);
+void ScreenOverlay::moveMouseBy(QPoint delta, bool spaceHeld) {
+    moveMouse(cursorPos().toPoint() + delta, spaceHeld);
 }
 
 void ScreenOverlay::hideMag() {
@@ -176,38 +177,48 @@ void ScreenOverlay::setHighlight(QColor highlight) {
 }
 
 void ScreenOverlay::keyPressEvent(QKeyEvent *e) {
+    if (e->key() == Qt::Key_Space) {
+        selectActive = !selectActive;
+        if (!selectActive) {
+            for (auto *v : views()) {
+                QMouseEvent eve(QEvent::MouseButtonRelease, cursorPos(), Qt::LeftButton, Qt::LeftButton, e->modifiers());
+                QApplication::sendEvent(v->viewport(), &eve);
+            }
+        }
+    }
     switch (movementPattern()) {
     case MP_JKL:
         if (e->key() == Qt::Key_J)
-            moveMouseBy(QPoint(-1, 0));
+            moveMouseBy(QPoint(-1, 0), selectActive);
         else if (e->key() == Qt::Key_K)
-            moveMouseBy(QPoint(0, 1));
+            moveMouseBy(QPoint(0, 1), selectActive);
         else if (e->key() == Qt::Key_L)
-            moveMouseBy(QPoint(0, -1));
+            moveMouseBy(QPoint(0, -1), selectActive);
         else if (e->key() == Qt::Key_Semicolon)
-            moveMouseBy(QPoint(1, 0));
+            moveMouseBy(QPoint(1, 0), selectActive);
         break;
     case MP_HJKL:
         if (e->key() == Qt::Key_H)
-            moveMouseBy(QPoint(-1, 0));
+            moveMouseBy(QPoint(-1, 0), selectActive);
         else if (e->key() == Qt::Key_J)
-            moveMouseBy(QPoint(0, 1));
+            moveMouseBy(QPoint(0, 1), selectActive);
         else if (e->key() == Qt::Key_K)
-            moveMouseBy(QPoint(0, -1));
+            moveMouseBy(QPoint(0, -1), selectActive);
         else if (e->key() == Qt::Key_L)
-            moveMouseBy(QPoint(1, 0));
+            moveMouseBy(QPoint(1, 0), selectActive);
         break;
     case MP_ARROWS:
         if (e->key() == Qt::Key_Left)
-            moveMouseBy(QPoint(-1, 0));
+            moveMouseBy(QPoint(-1, 0), selectActive);
         else if (e->key() == Qt::Key_Down)
-            moveMouseBy(QPoint(0, 1));
+            moveMouseBy(QPoint(0, 1), selectActive);
         else if (e->key() == Qt::Key_Up)
-            moveMouseBy(QPoint(0, -1));
+            moveMouseBy(QPoint(0, -1), selectActive);
         else if (e->key() == Qt::Key_Right)
-            moveMouseBy(QPoint(1, 0));
+            moveMouseBy(QPoint(1, 0), selectActive);
         break;
     }
+    e->accept();
 }
 
 void ScreenOverlay::hide() {
@@ -283,4 +294,8 @@ void ScreenOverlay::setMovementPattern(MovementPattern nmp) {
 
 ScreenOverlay::MovementPattern ScreenOverlay::movementPattern() {
     return _movementPattern;
+}
+
+bool ScreenOverlay::keyboardActiveSelection() {
+    return selectActive;
 }
