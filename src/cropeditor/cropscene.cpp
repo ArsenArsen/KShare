@@ -216,7 +216,7 @@ void CropScene::mouseMoved(QGraphicsSceneMouseEvent *e, QPointF cursorPos, QPoin
     auto buttons = e->buttons();
     if (e->modifiers() & Qt::ControlModifier && buttons == Qt::LeftButton) {
         auto item = whichItem(cursorPos);
-        if (item) item->moveBy(cursorPos);
+        if (item) item->moveBy(cursorPos.x(), cursorPos.y());
         return;
     }
     if (buttons == Qt::LeftButton) {
