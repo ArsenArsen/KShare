@@ -267,6 +267,7 @@ void CropScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
     prevButtons = Qt::NoButton;
 
     if (e->modifiers() & Qt::ControlModifier) e->accept();
+    QGraphicsScene::mouseReleaseEvent(e);
 }
 
 void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
@@ -276,6 +277,7 @@ void CropScene::mousePressEvent(QGraphicsSceneMouseEvent *e) {
     }
 
     if (e->modifiers() & Qt::ControlModifier) e->accept();
+    QGraphicsScene::mousePressEvent(e);
 }
 
 void CropScene::addDrawingAction(QMenuBar *menu, QString name, QString icon, std::function<DrawItem *()> item) {
