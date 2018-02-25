@@ -50,7 +50,7 @@ QString PlatformBackend::getCurrentUser() {
     DWORD username_len = UNLEN + 1;
     QString userName;
     if (GetUserName(username, &username_len)) {
-        userName = QString::fromWCharArray(username, username_len);
+        userName = QString::fromWCharArray(username, username_len - 1);
     }
     delete[] username;
     return userName;

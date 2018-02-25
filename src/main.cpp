@@ -14,7 +14,6 @@ extern "C" {
 #include <QListWidget>
 #include <QTranslator>
 #include <notifications.hpp>
-#include <platformbackend.hpp>
 #include <worker/worker.hpp>
 
 bool verbose = false;

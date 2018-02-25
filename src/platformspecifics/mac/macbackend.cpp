@@ -20,7 +20,7 @@ bool PlatformBackend::filenameValid(QString name) {
 }
 
 QString PlatformBackend::getCurrentUser() {
-    auto pwent = getpwent();
+    auto pwent = getpwuid(getuid());
     if (!pwent) {
         if (qEnvironmentVariableIsSet("USER"))
             return QString::fromLocal8Bit(qgetenv("USER"));
