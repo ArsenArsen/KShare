@@ -265,7 +265,7 @@ QJsonObject recurseAndReplace(QJsonObject &body, QByteArray &data, QString forma
 void CustomUploader::doUpload(QByteArray imgData, QString format) {
     auto h = getHeaders(headers, format, this->rFormat);
     QByteArray data;
-    if (base64) imgData = imgData.toBase64();
+    if (base64) imgData = imgData.toBase64(QByteArray::Base64UrlEncoding);
 
     switch (this->rFormat) {
     case RequestFormat::PLAIN: {
