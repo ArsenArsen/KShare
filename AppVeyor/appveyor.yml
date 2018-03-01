@@ -13,7 +13,7 @@ build_script:
   - curl -kLO https://ffmpeg.zeranoe.com/builds/win64/shared/ffmpeg-3.3.2-win64-shared.zip
   - 7z x ffmpeg-3.3.2-win64-shared.zip
   - set FFMPEG_SHARED_PATH=%cd%\ffmpeg-3.3.2-win64-shared
-  - ps: Start-FileDownload https://downloads.sourceforge.net/project/qtav/depends/QtAV-depends-windows-x86%2Bx64.7z av.7z
+  - curl -L https://downloads.sourceforge.net/project/qtav/depends/QtAV-depends-windows-x86%2Bx64.7z -o av.7z
   - 7z x av.7z > NUL
   - xcopy ffmpeg-3.3.2-win64-shared\* %QTDIR% /e /i /Y
   - xcopy ffmpeg-3.3.2-win64-dev\* %QTDIR% /e /i /Y
