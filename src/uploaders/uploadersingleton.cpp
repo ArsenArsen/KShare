@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
+#include <QTemporaryFile>
 #include <formats.hpp>
 #include <formatter.hpp>
 #include <logger.hpp>
@@ -14,28 +15,7 @@
 #include <uploaders/default/imgplusuploader.hpp>
 
 UploaderSingleton::UploaderSingleton() : QObject() {
-    switch (settings::settings().value("saveLocation", 1).toInt()) {
-    case 0:
-        saveDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-        if (QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).isEmpty()) {
-            qFatal("%s", tr("Cannot determine location for pictures").toLocal8Bit().constData());
-        }
-        break;
-    case 1:
-        if (QStandardPaths::writableLocation(QStandardPaths::HomeLocation).isEmpty()) {
-            qFatal("%s", tr("Cannot determine location of your home directory").toLocal8Bit().constData());
-        }
-        saveDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Screenshots";
-        break;
-    default:
-        qFatal("%s", tr("Invalid config [saveLocation not int or is not in range]").toLocal8Bit().constData());
-    }
-
-    if (!saveDir.exists()) {
-        if (!saveDir.mkpath(".")) {
-            qFatal("Could not create the path %s to store images in!", saveDir.absolutePath().toLocal8Bit().constData());
-        }
-    }
+    updateSaveSettings();
     QDir configDir(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation));
     configDir.mkpath("KShare/uploaders");
     configDir.cd("KShare/uploaders");
@@ -73,6 +53,7 @@ void UploaderSingleton::registerUploader(Uploader *uploader) {
 }
 
 void UploaderSingleton::upload(QPixmap pixmap) {
+    updateSaveSettings();
     auto u = uploaders.value(uploader);
     if (!u->validate()) {
         u = uploaders.value("imgur");
@@ -80,33 +61,46 @@ void UploaderSingleton::upload(QPixmap pixmap) {
         logger::warn(tr("Currently selected uploader is not set up properly! Falling back to imgur"));
     }
     QString format = settings::settings().value("captureformat", "PNG").toString();
-    QFile file(saveDir.absoluteFilePath(
-    formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
-                      format.toLower())));
-
-    if (file.open(QFile::ReadWrite)) {
-        pixmap.save(&file, format.toLocal8Bit().constData(), settings::settings().value("imageQuality", -1).toInt());
-        file.seek(0);
-        u->doUpload(file.readAll(), format);
+    QFile *file = nullptr;
+    if (saveImages) {
+        file = new QFile(saveDir.absoluteFilePath(
+        formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
+                          format.toLower())));
+    } else {
+        file = new QTemporaryFile();
+    }
+    if (file->open(QFile::ReadWrite)) {
+        pixmap.save(file, format.toLocal8Bit().constData(), settings::settings().value("imageQuality", -1).toInt());
+        file->seek(0);
+        u->doUpload(file->readAll(), format);
     } else
-        notifications::notify(tr("KShare - Failed to save picture"), file.errorString(), QSystemTrayIcon::Warning);
+        notifications::notify(tr("KShare - Failed to save picture"), file->errorString(), QSystemTrayIcon::Warning);
+    delete file;
 }
 
 void UploaderSingleton::upload(QByteArray img, QString format) {
+    updateSaveSettings();
     if (img.isEmpty()) return;
-    QFile file(saveDir.absoluteFilePath(
-    formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
-                      format.toLower())));
-    if (file.open(QFile::WriteOnly)) {
-        file.write(img);
-        file.close();
+    QFile *file = nullptr;
+    if (saveImages) {
+        file = new QFile(saveDir.absoluteFilePath(
+        formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
+                          format.toLower())));
+    } else {
+        file = new QTemporaryFile();
     }
+    if (file->open(QFile::WriteOnly)) {
+        file->write(img);
+        file->close();
+    }
+    delete file;
     uploaders.value(uploader)->doUpload(img, format);
 }
 
 void UploaderSingleton::upload(QFile &img, QString format) {
+    updateSaveSettings();
     if (img.size() <= 0) return;
-    if (img.rename(saveDir.absoluteFilePath(
+    if (!saveImages || img.rename(saveDir.absoluteFilePath(
         formatter::format(settings::settings().value("fileFormat", "Screenshot %(yyyy-MM-dd HH-mm-ss)date.%ext").toString(),
                           format.toLower())))) {
         if (img.open(QFile::ReadWrite))
@@ -147,4 +141,32 @@ QList<std::runtime_error> UploaderSingleton::errors() {
 
 QString UploaderSingleton::currentUploader() {
     return uploader;
+}
+
+void UploaderSingleton::updateSaveSettings() {
+    switch (settings::settings().value("saveLocation", 1).toInt()) {
+    case 0:
+        saveDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+        if (QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).isEmpty()) {
+            qFatal("%s", tr("Cannot determine location for pictures").toLocal8Bit().constData());
+        }
+        break;
+    case 1:
+        if (QStandardPaths::writableLocation(QStandardPaths::HomeLocation).isEmpty()) {
+            qFatal("%s", tr("Cannot determine location of your home directory").toLocal8Bit().constData());
+        }
+        saveDir = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Screenshots";
+        break;
+    default:
+        qFatal("%s", tr("Invalid config [saveLocation not int or is not in range]").toLocal8Bit().constData());
+    case 2:
+        saveImages = false;
+        break;
+    }
+
+    if (!saveDir.exists()) {
+        if (!saveDir.mkpath(".")) {
+            qFatal("Could not create the path %s to store images in!", saveDir.absolutePath().toLocal8Bit().constData());
+        }
+    }
 }

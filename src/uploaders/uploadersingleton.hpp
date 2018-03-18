@@ -29,7 +29,9 @@ signals:
     void uploaderChanged(QString newName);
 
 private:
+    void updateSaveSettings();
     QDir saveDir;
+    bool saveImages = true;
     QMap<QString, Uploader *> uploaders;
     QString uploader = "imgur";
     QList<std::runtime_error> errs;

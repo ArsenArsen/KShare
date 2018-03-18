@@ -128,6 +128,11 @@
        <string>Screenshots folder (In your user folder)</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>Do not save</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item row="8" column="2">
