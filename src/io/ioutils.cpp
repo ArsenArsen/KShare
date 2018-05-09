@@ -3,6 +3,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <thread>
 #include <logs/requestlogging.hpp>
 
 QNetworkAccessManager ioutils::networkManager;
@@ -16,6 +17,16 @@ void addLogEntry(QNetworkReply *reply, QByteArray data) {
     requestlogging::addEntry(ctx);
 }
 
+int tasks = 0;
+
+void addTask() {
+    requestlogging::indicator::show(++tasks);
+}
+
+void removeTask() {
+    requestlogging::indicator::show(--tasks);
+}
+
 void ioutils::postMultipart(QUrl target,
                             QList<QPair<QString, QString>> headers,
                             QHttpMultiPart *body,
@@ -25,7 +36,9 @@ void ioutils::postMultipart(QUrl target,
         if (header.first.toLower() != "content-type") req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
     QNetworkReply *reply = networkManager.post(req, body);
+    addTask();
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
+        removeTask();
         QByteArray data = reply->readAll();
         addLogEntry(reply, data);
         callback(QJsonDocument::fromJson(data), data, reply);
@@ -42,7 +55,9 @@ void ioutils::postMultipartData(QUrl target,
         if (header.first.toLower() != "content-type") req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
     QNetworkReply *reply = networkManager.post(req, body);
+    addTask();
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
+        removeTask();
         QByteArray data = reply->readAll();
         addLogEntry(reply, data);
         callback(data, reply);
@@ -58,7 +73,9 @@ void ioutils::getJson(QUrl target,
         req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
     QNetworkReply *reply = networkManager.get(req);
+    addTask();
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
+        removeTask();
         QByteArray data = reply->readAll();
         addLogEntry(reply, data);
         callback(QJsonDocument::fromJson(data), data, reply);
@@ -75,7 +92,9 @@ void ioutils::postJson(QUrl target,
         req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
     QNetworkReply *reply = networkManager.post(req, body);
+    addTask();
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
+        removeTask();
         QByteArray data = reply->readAll();
         addLogEntry(reply, data);
         callback(QJsonDocument::fromJson(data), data, reply);
@@ -89,7 +108,9 @@ void ioutils::getData(QUrl target, QList<QPair<QString, QString>> headers, std::
         req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
     QNetworkReply *reply = networkManager.get(req);
+    addTask();
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
+        removeTask();
         QByteArray data = reply->readAll();
         addLogEntry(reply, data);
         callback(data, reply);
@@ -106,7 +127,9 @@ void ioutils::postData(QUrl target,
         req.setRawHeader(header.first.toUtf8(), header.second.toUtf8());
     }
     QNetworkReply *reply = networkManager.post(req, body);
+    addTask();
     QObject::connect(reply, &QNetworkReply::finished, [reply, callback] {
+        removeTask();
         QByteArray data = reply->readAll();
         addLogEntry(reply, data);
         callback(data, reply);
@@ -128,7 +151,6 @@ QString ioutils::methodString(QNetworkAccessManager::Operation operation) {
     case QNetworkAccessManager::HeadOperation:
         return "HEAD";
     default:
-        //        return "Dunno";
         return "Unknown";
     }
 }

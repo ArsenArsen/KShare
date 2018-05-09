@@ -187,3 +187,7 @@ void MainWindow::on_history_clicked() {
     HistoryDialog *dialog = new HistoryDialog;
     dialog->show();
 }
+
+void MainWindow::setTrayIcon(QIcon icon) {
+    tray->setIcon(icon);
+}

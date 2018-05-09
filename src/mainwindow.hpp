@@ -37,10 +37,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     bool valid();
-    Ui::MainWindow *ui;
+    void setTrayIcon(QIcon icon);
     RecordingController *controller = new RecordingController;
 
     QSystemTrayIcon *tray;
+    Ui::MainWindow *ui;
 public slots:
     void rec();
 

@@ -1,6 +1,8 @@
 #include "requestlogging.hpp"
 #include <QDateTime>
+#include <mainwindow.hpp>
 #include <io/ioutils.hpp>
+#include <utils.hpp>
 
 // $type $url $status $time
 // $type = GET POST PATCH DELETE etc
@@ -62,4 +64,8 @@ QList<LoggedRequest> requestlogging::getRequests() {
     }
 
     return ret;
+}
+
+void requestlogging::indicator::show(int count) {
+    MainWindow::inst()->setTrayIcon(utils::getTrayIcon(count));
 }

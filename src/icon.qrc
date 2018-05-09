@@ -18,5 +18,6 @@
         <file>icons/crop.png</file>
         <file>icons/circle.png</file>
         <file>icons/highlighter.png</file>
+        <file>icons/infinity.png</file>
     </qresource>
 </RCC>

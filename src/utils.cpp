@@ -183,3 +183,30 @@ void utils::externalScreenshotActive(std::function<void(QPixmap)> callback) {
     });
     process->start(args.takeFirst(), args);
 }
+
+QIcon defaultIcon() {
+    static QIcon icon = QIcon(":/icons/icon.png");
+    return icon;
+}
+
+QIcon infinity() {
+    static QIcon icon = QIcon(":/icons/infinity.png");
+    return icon;
+}
+
+QIcon utils::getTrayIcon(int num) {
+    if (!num) {
+        return defaultIcon();
+    } else if (num < 100) {
+        QPixmap unscaled = utils::renderText(QString::number(num), 0, Qt::lightGray, Qt::black);
+        int dim = qMax(unscaled.width(), unscaled.height());
+        QPixmap scaled(dim, dim);
+        scaled.fill(Qt::lightGray);
+        QPainter *painter = new QPainter(&scaled);
+        painter->drawPixmap((dim / 2) - (unscaled.width() / 2), 0, unscaled);
+        delete painter;
+        return scaled;
+    } else {
+        return infinity();
+    }
+}

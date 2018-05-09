@@ -65,7 +65,6 @@ SOURCES += main.cpp\
     hotkeyinputdialog.cpp \
     cropeditor/drawing/arrowitem.cpp \
     uploaders/default/imgursettingsdialog.cpp \
-    uploaders/default/imgplusuploader.cpp \
     filenamevalidator.cpp \
     logs/requestlogging.cpp \
     logs/historydialog.cpp \
@@ -118,7 +117,6 @@ HEADERS  += mainwindow.hpp \
     hotkeyinputdialog.hpp \
     cropeditor/drawing/arrowitem.hpp \
     uploaders/default/imgursettingsdialog.hpp \
-    uploaders/default/imgplusuploader.hpp \
     filenamevalidator.hpp \
     logs/requestlogging.hpp \
     logs/historydialog.hpp \

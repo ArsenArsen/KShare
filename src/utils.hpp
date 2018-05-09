@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QPixmap>
+#include <QIcon>
 #include <QScreen>
 #include <QWidget>
 #include <functional>
@@ -20,6 +21,7 @@ namespace utils {
     void externalScreenshot(std::function<void(QPixmap)> callback);
     void externalScreenshotActive(std::function<void(QPixmap)> callback);
     QString randomString(int length);
+    QIcon getTrayIcon(int num);
 } // namespace utils
 
 #endif // UTILS_HPP

@@ -12,7 +12,6 @@
 #include <logger.hpp>
 #include <notifications.hpp>
 #include <settings.hpp>
-#include <uploaders/default/imgplusuploader.hpp>
 
 UploaderSingleton::UploaderSingleton() : QObject() {
     updateSaveSettings();
@@ -31,7 +30,6 @@ UploaderSingleton::UploaderSingleton() : QObject() {
 
     // UPLOADERS
     registerUploader(new ImgurUploader);
-    registerUploader(new ImgplusUploader);
     registerUploader(new ClipboardUploader);
     // ---------
 
