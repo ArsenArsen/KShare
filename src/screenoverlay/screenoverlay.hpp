@@ -21,6 +21,8 @@ public:
     void updateMagnifierGrid();
     QColor highlight();
     void setHighlight(QColor highlight);
+    QColor foreground();
+    void setForeground(QColor foreground);
     bool grid();
     void setGrid(bool grid);
     QPointF cursorPos();
@@ -64,7 +66,7 @@ private:
     QGraphicsPolygonItem *cursorItem = nullptr;
     QList<QGraphicsRectItem *> gridRectsX;
     QList<QGraphicsRectItem *> gridRectsY;
-    QColor _highlight = Qt::cyan;
+    QColor _highlight = Qt::cyan, _foreground = Qt::white;
     bool _grid = true;
     bool selectActive = false;
     QPixmap _pixmap;

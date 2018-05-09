@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>208</width>
-    <height>179</height>
+    <width>214</width>
+    <height>282</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,10 +48,36 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="setHighlight">
-     <property name="text">
-      <string>Set highlight color</string>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Colors</string>
      </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QPushButton" name="setHighlight">
+        <property name="text">
+         <string>Set highlight color</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="fgColor">
+        <property name="text">
+         <string>Set foreground color</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="preview">
+        <property name="text">
+         <string>Preview</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>

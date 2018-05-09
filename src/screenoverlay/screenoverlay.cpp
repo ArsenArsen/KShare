@@ -143,7 +143,7 @@ void ScreenOverlay::updateMag() {
     QPointF magnifierPos = cursorPos() + QPointF(5, 5);
 
     magnifier->setPos(magnifierPos);
-    magnifier->setPixmap(utils::extend(pixmap(), pixCnt, utils::invertColor(highlight()))
+    magnifier->setPixmap(utils::extend(pixmap(), pixCnt, foreground())
                          .copy(magnifierTopLeft.x() + pixCnt, magnifierTopLeft.y() + pixCnt, pixCnt, pixCnt)
                          .scaled(110, 110));
     QPointF bottomRight = magnifierHintBox->sceneBoundingRect().bottomRight();
@@ -246,6 +246,7 @@ void ScreenOverlay::loadSettings() {
     setHighlight(settings::settings().value("highlightColor", QColor(Qt::cyan)).value<QColor>());
     setMovementPattern(settings::settings().value("movementPattern", MP_HJKL).value<MovementPattern>());
     setGrid(settings::settings().value("gridEnabled", true).toBool());
+    setForeground(settings::settings().value("foregroundColor", QColor(Qt::white)).value<QColor>());
 }
 
 void ScreenOverlay::contextMenuEvent(QGraphicsSceneContextMenuEvent *e) {
@@ -298,4 +299,13 @@ ScreenOverlay::MovementPattern ScreenOverlay::movementPattern() {
 
 bool ScreenOverlay::keyboardActiveSelection() {
     return selectActive;
+}
+
+QColor ScreenOverlay::foreground() {
+    return _foreground;
+}
+
+void ScreenOverlay::setForeground(QColor fg) {
+    _foreground = fg;
+    magnifierHint->setDefaultTextColor(fg);
 }

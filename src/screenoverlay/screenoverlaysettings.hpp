@@ -18,10 +18,11 @@ public:
 private slots:
     void on_buttonBox_accepted();
     void on_setHighlight_pressed();
+    void on_fgColor_pressed();
 
 private:
     Ui::ScreenOverlaySettings *ui;
-    QColor highlight;
+    QColor fg, highlight;
     ScreenOverlay *overlay;
 };
 
