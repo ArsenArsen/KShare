@@ -38,6 +38,9 @@
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://doc.qt.io/qt-5/qpixmap.html#save&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Quality&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
+        <property name="openExternalLinks">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="2" column="1" colspan="2">
@@ -62,7 +65,7 @@
       <item row="4" column="0">
        <widget class="QTabWidget" name="videoTabs">
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="hTab">
          <property name="layoutDirection">
@@ -76,6 +79,9 @@
            <widget class="QLabel" name="label">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://trac.ffmpeg.org/wiki/Encode/H.264#crf&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Preset&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -144,6 +150,9 @@
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://trac.ffmpeg.org/wiki/Encode/H.264#crf&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;CRF&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item row="1" column="1">
@@ -182,6 +191,9 @@
             <property name="text">
              <string>TODO: Find whatever configuration GIF can have in ffmpeg's libav</string>
             </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
          </layout>
@@ -192,6 +204,9 @@
        <widget class="QLabel" name="label_4">
         <property name="text">
          <string>Bitrate</string>
+        </property>
+        <property name="openExternalLinks">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -215,6 +230,9 @@
         </property>
         <property name="text">
          <string>GOP size</string>
+        </property>
+        <property name="openExternalLinks">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
