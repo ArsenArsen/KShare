@@ -1,3 +1,6 @@
+# The entire project has been moved to GitLab. https://gitlab.com/ArsenArsen/KShare
+# The current state of the project can be considered on hold for the time being. When I am back on working there will be a pretty big new release and a new wiki.
+
 # KShare
 A [ShareX](https://getsharex.com/) inspired cross platform utility written with Qt.
 
